@@ -112,6 +112,13 @@ const AsyncCustomTableComponent = Loadable({
    loading:() => <HulkPageLoader />,
 	delay: 3000,
 });
+
+// directors Table
+const AsyncFamilyDoctorsComponent = Loadable({
+	loader:() => import("routes/Tables/FamilyDoctors"),
+	loading:() => <HulkPageLoader />,
+	 delay: 3000,
+ });
 // Blog Detail Page
 const AsyncBlogDetailComponent = Loadable({
    loader: () => import("routes/Blog/BlogDetail"),
@@ -277,6 +284,7 @@ export {
    AsyncBottomNavigationsComponent,
    AsyncSearchTableComponent,
    AsyncCustomTableComponent,
+   AsyncFamilyDoctorsComponent,
    AsyncChipComponent,
    AsyncListComponent,
    AsyncModalsComponent,

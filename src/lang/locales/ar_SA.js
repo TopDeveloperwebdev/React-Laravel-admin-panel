@@ -51,7 +51,7 @@ export default {
    "sidebar.basicTable": "الجدول الأساسي",
    "sidebar.agGrid": "أججريد",
    "sidebar.searchTable": "جدول البحث",
-   "sidebar.customTable": "جدول مخصص",
+   "sidebar.patients": "جدول مخصص",
 	"sidebar.sessions": "الجلسات",
 	"sidebar.layout1":"التخطيط 1",
 	"sidebar.layout2":"التخطيط 2",

@@ -53,7 +53,7 @@ export default {
    "sidebar.basicTable": "基本表",
    "sidebar.agGrid": "农业网格",
    "sidebar.searchTable" : "搜索表",
-   "sidebar.customTable": "定制表",
+   "sidebar.patients": "定制表",
    "sidebar.sessions" : "届会",
 	"sidebar.layout1":"版式1",
 	"sidebar.layout2":"版式2",

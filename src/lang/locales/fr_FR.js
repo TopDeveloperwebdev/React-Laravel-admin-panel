@@ -50,7 +50,7 @@ export default {
    "sidebar.basicTable": "Table de base",
    "sidebar.agGrid": "AgGrid",
    "sidebar.searchTable": "table personnalisée",
-   "sidebar.customTable": "Tableau personnalisé",
+   "sidebar.patients": "Tableau personnalisé",
    "sidebar.sessions": "Séances",
 	"sidebar.layout1":"Disposition 1",
 	"sidebar.layout2":"Disposition 2",

@@ -3,6 +3,7 @@ import {
 	LOGIN_USER_SUCCESS,
 	LOGIN_USER_FAILURE,
 	LOGIN_EMAIL_CHANGED,
+	LOGIN_USERNAME_CHANGED,
 	LOGIN_PASSWORD_CHANGED,
 	SIGNUP_USER,
 	SIGNUP_USER_SUCCESS,
@@ -18,6 +19,8 @@ import {
  */
 const INIT_STATE = {
 	user: localStorage.getItem("user_id"),
+	instance_id: localStorage.getItem("instance_id"),
+	username: '',
 	loading: false,
 	email: 'hulktestuser@hulk.com',
 	password: '12345678',
@@ -30,14 +33,15 @@ export default (state = INIT_STATE, action) => {
 			return { ...state, loading: true };
 
 		case LOGIN_USER_SUCCESS:
-			return { ...state,  loading: false, user: action.payload };
+			return { ...state, loading: false, user: action.payload };
 
 		case LOGIN_USER_FAILURE:
 			return { ...state, loading: false, password: '', error: action.payload };
 
 		case LOGIN_EMAIL_CHANGED:
 			return { ...state, email: action.payload };
-
+		case LOGIN_USERNAME_CHANGED:
+			return { ...state, username: action.payload };
 		case LOGIN_PASSWORD_CHANGED:
 			return { ...state, password: action.payload };
 
@@ -51,13 +55,13 @@ export default (state = INIT_STATE, action) => {
 			return { ...state, loading: false, error: action.payload };
 
 		case JWT_LOGIN_REQUEST:
-            return { ...state, loading: true, loggingIn: true, user: action.payload };
+			return { ...state, loading: true, loggingIn: true, user: action.payload };
 
-        case JWT_LOGIN_SUCCESS:
-            return { ...state, loading: false, loggingIn: true, user: action.payload };
+		case JWT_LOGIN_SUCCESS:
+			return { ...state, loading: false, loggingIn: true, user: action.payload };
 
-        case JWT_LOGIN_FAILURE:
-            return { ...state, loading: false, loggingIn: true, user: action.payload };
+		case JWT_LOGIN_FAILURE:
+			return { ...state, loading: false, loggingIn: true, user: action.payload };
 
 		case LOGOUT_USER:
 			return { ...state, user: null }

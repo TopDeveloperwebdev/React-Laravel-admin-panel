@@ -53,7 +53,7 @@ export default {
    "sidebar.basicTable": "基本テーブル",
    "sidebar.agGrid": "AgGrid",
    "sidebar.searchTable" : "検索テーブル",
-   "sidebar.customTable": "カスタムテーブル",
+   "sidebar.patients": "カスタムテーブル",
    "sidebar.sessions" : "セッション",
 	"sidebar.layout1":"レイアウト1",
 	"sidebar.layout2":"レイアウト2",

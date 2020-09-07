@@ -110,9 +110,9 @@ class UserSettings extends React.Component {
 										scrollButtons="on"
 										aria-label="scrollable auto tabs example"
 									>
-                              <Tab label={<><Box component="span" fontSize="20px" className="material-icons-outlined" mr={1} >settings</Box><IntlMessages id="component.general" /></>} {...a11yProps(0)} />
-                              <Tab label={<><Box component="span" fontSize="20px" className="material-icons-outlined" mr={1} >lock</Box><IntlMessages id="component.account" /></>} {...a11yProps(1)} />
-                              <Tab label={<><Box component="span" fontSize="20px" className="material-icons-outlined" mr={1} >email</Box><IntlMessages id="component.email" /></>} {...a11yProps(2)} />
+                              <Tab label={<><Box component="span" fontSize="20px" className="material-icons-outlined" mr={1} >Settings </Box><IntlMessages id="component.general" /></>} {...a11yProps(0)} />
+                              <Tab label={<><Box component="span" fontSize="20px" className="material-icons-outlined" mr={1} >Lock</Box><IntlMessages id="component.account" /></>} {...a11yProps(1)} />
+                              <Tab label={<><Box component="span" fontSize="20px" className="material-icons-outlined" mr={1} >Allow functions</Box></>} {...a11yProps(2)} />
 									</Tabs>
 								</AppBar>
 								<SwipeableViews

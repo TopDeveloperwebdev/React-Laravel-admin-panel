@@ -11,7 +11,7 @@ import { LicenseManager } from "ag-grid-enterprise";
 LicenseManager.setLicenseKey("ca0a73e09ea3f32cd1cf9d175d2ec91c");
 
 class agGridTable extends Component {
-	constructor(props) {
+   constructor(props) {
       super(props);
       this.state = {
          // set the columns to use inside the grid
@@ -76,8 +76,8 @@ class agGridTable extends Component {
             },
          ],
          // set the row data to use inside the grid
-			rowData: SampleRowDataFactory,
-			rowsPerPage:10
+         rowData: SampleRowDataFactory,
+         rowsPerPage: 10
       };
 
       this.onGridReady = this.onGridReady.bind(this);
@@ -87,13 +87,13 @@ class agGridTable extends Component {
             filter: false
          },
          floatingFilter: true,
-			pagination:true,
-			rowHeight: 60,
-			headerHeight:50,
-			floatingFiltersHeight:60,
+         pagination: true,
+         rowHeight: 60,
+         headerHeight: 50,
+         floatingFiltersHeight: 60,
       };
-	}
-	onGridReady(params) {
+   }
+   onGridReady(params) {
       this.api = params.api;
       this.columnApi = params.columnApi;
    }
@@ -102,65 +102,76 @@ class agGridTable extends Component {
       var params = getParams();
       this.api.exportDataAsCsv(params);
    }
-   searchtext(){
+   searchtext() {
       this.onFilterTextBoxChanged();
    }
-   onFilterTextBoxChanged(){
+   onFilterTextBoxChanged() {
       this.api.setQuickFilter(document.getElementById('filter-text-box').value);
    }
-   onPageSizeChanged(newPageSize){
-		this.setState({rowsPerPage:newPageSize.target.value})
+   onPageSizeChanged(newPageSize) {
+      this.setState({ rowsPerPage: newPageSize.target.value })
       this.api.paginationSetPageSize(Number(newPageSize.target.value));
    }
-   onBtnUpdate(){
+   onBtnUpdate() {
       document.querySelector("#csvResult").value = this.api.getDataAsCsv(getParams());
-	}
-	
-	render() {
-		return (
-			<Box pb={7}>
-				<div className="ag-theme-balham" style={{height: '670px', width: '100%'}}>
+   }
+
+   render() {
+      return (
+         <Box pb={7}>
+            <div className="ag-theme-balham" style={{ height: '670px', width: '100%' }}>
                <Box display="flex" className="ag-main-filter" justifyContent="space-between" alignItems="center" mb={2}>
-						<div className="test-header">
-							<FormControl className="selection-wrap">
-								<InputLabel id="page-size">Page Size :</InputLabel>
-								<Select
-									labelId="page-size"
-									id="page-size"
-									value={this.state.rowsPerPage}
-									onChange={this.onPageSizeChanged.bind(this)}
-								>
-									<MenuItem value={10}>Ten</MenuItem>
-									<MenuItem value={20}>Twenty</MenuItem>
-									<MenuItem value={30}>Thirty</MenuItem>
-								</Select>
-							</FormControl>
-						</div>
-						<Box display="flex" className="ag-main-filter--right" justifyContent="space-between" alignItems="center">
-							<input className="filter-text-input" type="text" id="filter-text-box" placeholder="Filter..." onInput={this.searchtext.bind(this)} />
-							<Button variant="contained" color="primary" onClick={this.onBtnExport.bind(this)}>
-								Export CSV
+                  <div className="test-header">
+                     <FormControl className="selection-wrap">
+                        <InputLabel id="page-size">Page Size :</InputLabel>
+                        <Select
+                           labelId="page-size"
+                           id="page-size"
+                           value={this.state.rowsPerPage}
+                           onChange={this.onPageSizeChanged.bind(this)}
+                        >
+                           <MenuItem value={10}>Ten</MenuItem>
+                           <MenuItem value={20}>Twenty</MenuItem>
+                           <MenuItem value={30}>Thirty</MenuItem>
+                        </Select>
+                     </FormControl>
+                  </div>
+                  <Box display="flex" className="ag-main-filter--right" justifyContent="space-between" alignItems="center">
+                     <input className="filter-text-input" type="text" id="filter-text-box" placeholder="Filter..." onInput={this.searchtext.bind(this)} />
+                     <Button variant="contained" color="primary" onClick={this.onBtnExport.bind(this)}>
+                        Export CSV
 							</Button>
-						</Box>
-					</Box>
-					<div style={{ height: '100%', width: '100%' }} className="ag-fresh">
-						<AgGridReact
-							gridOptions={this.gridOptions}
-							onGridReady={this.onGridReady}
-							columnDefs={this.state.columnDefs}
-							rowData={this.state.rowData} 
-							                
-						/>
-					</div>
-				</div>
-			</Box>
-		);
-	}
+                  </Box>
+               </Box>
+               <div style={{ height: '100%', width: '100%' }} className="ag-fresh">
+                  <AgGridReact
+                     gridOptions={this.gridOptions}
+                     onGridReady={this.onGridReady}
+                     columnDefs={this.state.columnDefs}
+                     rowData={this.state.rowData}
+                     editable={{
+                        onRowAdd: newData =>
+                           new Promise(resolve => {
+                              setTimeout(() => {
+                                 resolve();
+                                 console.log('newData', newData);
+
+                              });
+
+                           }, 600)
+                     }}
+
+                  />
+               </div>
+            </div>
+         </Box>
+      );
+   }
 }
 
 function getParams() {
    return {
-      suppressQuotes:undefined,
+      suppressQuotes: undefined,
       columnSeparator: undefined,
       customHeader: 'none',
       customFooter: 'none'

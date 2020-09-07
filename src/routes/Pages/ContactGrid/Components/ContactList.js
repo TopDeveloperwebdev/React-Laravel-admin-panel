@@ -9,7 +9,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-
+import { Link } from 'react-router-dom';
 const useStyles = makeStyles(theme => ({
 	thumb: {
 		width: 100,

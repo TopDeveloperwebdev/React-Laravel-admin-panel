@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/styles';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import SwipeableViews from 'react-swipeable-views';                                                          
+import SwipeableViews from 'react-swipeable-views';
 import {
 	AppBar, Tabs, Tab, Typography, Button, Icon, IconButton, Box, Input, FormControl, InputAdornment, Container
 } from '@material-ui/core';
@@ -71,6 +71,9 @@ const styles = theme => ({
 		'& .MuiSvgIcon-root': {
 			fill: theme.palette.common.white,
 		}
+	},
+	visibleHidden : {
+		visibility: 'hidden'
 	}
 });
 
@@ -197,11 +200,11 @@ class ContactGrid extends Component {
 		const { recentContacts, favContacts, isUpdated, data, message, gridView } = this.state;
 		return (
 			<div className="contact-grid">
-            <SmallTitleBar title={<IntlMessages id="component.contactGrid" />} />
+				<SmallTitleBar title={<IntlMessages id="component.contactGrid" />} />
 				<Box className={`title-contact-block ${classes.searchBarWrap}`} pt={0} bgcolor="background.paper" px={{ xs: '12px', md: 0 }} pb={3} >
 					<Container>
-						<Box  textAlign={{ xs: 'center', sm: 'right' }} display={{ xs: 'block', sm: 'flex' }} alignItems="center" justifyContent="space-between">
-                     <Button variant="outlined" color="default"><IntlMessages id="component.addContact" /></Button>
+						<Box textAlign={{ xs: 'center', sm: 'right' }} display={{ xs: 'block', sm: 'flex' }} alignItems="center" justifyContent="space-between">
+							<Button variant="outlined" color="default"><IntlMessages id="component.addContact" /></Button>
 							<Box>
 								<FormControl fullWidth >
 									<Input
@@ -233,8 +236,8 @@ class ContactGrid extends Component {
 								aria-label="scrollable auto tabs example"
 								className={`${classes.toolbar} contact-grid-tabs`}
 							>
-                        <Tab label={<IntlMessages id="component.allContacts" />} {...a11yProps(0)} />
-                        <Tab label={<IntlMessages id="component.recentlyAdded" />} {...a11yProps(1)} />
+								<Tab label={<IntlMessages id="component.allContacts" />} {...a11yProps(0)} />
+								<Tab label={<IntlMessages id="component.recentlyAdded" />} {...a11yProps(1)} />
 								<Tab label={<IntlMessages id="component.favourite" />} {...a11yProps(2)} />
 							</Tabs>
 						</AppBar>
@@ -247,14 +250,17 @@ class ContactGrid extends Component {
 								<UpdateContact data={data} onCloseDialog={this.onCloseDialog} />
 							}
 							<div>
-								<Box textAlign="right" py={3}>
-									<IconButton className={gridView === true ? "active": ""} onClick={() => this.setState({ gridView: true })}>
-										<Icon>apps</Icon>
-									</IconButton>
-									<IconButton className={gridView === false ? "active": ""} onClick={() => this.setState({ gridView: false })}>
-										<Icon>view_list</Icon>
-									</IconButton>
-								</Box>
+								<div className={classes.visibleHidden} >
+									<Box textAlign="right" py={3}>
+										<IconButton className={gridView === true ? "active" : ""} onClick={() => this.setState({ gridView: true })}>
+											<Icon>apps</Icon>
+										</IconButton>
+										<IconButton className={gridView === false ? "active" : ""} onClick={() => this.setState({ gridView: false })}>
+											<Icon>view_list</Icon>
+										</IconButton>
+									</Box>
+								</div>
+
 								<SwipeableViews
 									axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
 									index={this.state.value}

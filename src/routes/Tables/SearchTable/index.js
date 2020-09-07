@@ -4,38 +4,45 @@
 import React from 'react';
 import MaterialTable from 'material-table';
 import { Container, Box } from '@material-ui/core';
-
+import { userService } from '../../../_services';
 //Components
 import { SmallTitleBar } from 'components/GlobalComponents';
 import IntlMessages from 'util/IntlMessages';
-export default function SearchTable() {
+
+export default function SearchTable() { 
 	const [state, setState] = React.useState({
 		columns: [
-			{ title: 'Name', field: 'name' },
-			{ title: 'Surname', field: 'surname' },
-			{ title: 'Birth Year', field: 'birthYear', type: 'numeric' },
-			{ title: 'Birth Place', field: 'birthCity', lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' } },
+			{ title: 'Practice name', field: 'practiceName' },
+			{ title: 'Doctor name', field: 'doctorName' },
+			{ title: 'Street Nr', field: 'streetNr' },
+			{ title: 'zip code', field: 'zipcode', type: 'numeric' },
+			{ title: 'City', field: 'city' },
+			{ title: 'Phone', field: 'phone', type: 'string' },
+			{ title: 'Fax', field: 'fax' },
+			{ title: 'Email', field: 'email' },
+			{ title: 'Password', field: 'password', type: 'string' },
+			{ title: 'Notifications', field: 'notifications'},
 		],
-		data: [
-			{ name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
-			{ name: 'Zerya Betül', surname: 'Baran', birthYear: 2017, birthCity: 34 },
-			{ name: 'John', surname: 'Doe', birthYear: 1983, birthCity: 34 },
-			{ name: 'Marry', surname: 'Johnson', birthYear: 2015, birthCity: 63 },
-			{ name: 'Henry', surname: 'Rower', birthYear: 1997, birthCity: 34 },
-			{ name: 'Felecia', surname: 'Morgano', birthYear: 2020, birthCity: 63 },
-		],
+		// data: [
+		// 	{ practiceName: 'Mehmet', doctorName: 'Baran', streetNr: 'streetNr', zipDode: 63 ,city: 'Mehmet', phone: 'Baran', fax: 'streetNr' ,email : 'test@admin.com' ,password : 'password' ,notifications  : true  },
+		// 	{ practiceName: 'Mehmet', doctorName: 'Baran', streetNr: 'streetNr', zipDode: 63 ,city: 'Mehmet', phone: 'Baran', fax: 'streetNr' ,email : 'test@admin.com' ,password : 'password' ,notifications  : true  },
+		// 	{ practiceName: 'Mehmet', doctorName: 'Baran', streetNr: 'streetNr', zipDode: 63 ,city: 'Mehmet', phone: 'Baran', fax: 'streetNr' ,email : 'test@admin.com' ,password : 'password' ,notifications  : true  },
+		// 	{ practiceName: 'Mehmet', doctorName: 'Baran', streetNr: 'streetNr', zipDode: 63 ,city: 'Mehmet', phone: 'Baran', fax: 'streetNr' ,email : 'test@admin.com' ,password : 'password' ,notifications  : true  },
+		// ],
+		data : userService.showFamilyDirectors({instance_id : 1 , pagination : 1})
 	});
+
 
 	return (
 		<div className="tables-wrapper search-table-wrap">
 			<SmallTitleBar
-            title={<IntlMessages id="sidebar.searchTable" />}
+				title={<IntlMessages id="sidebar.familiy-directors" />}
 				center
-			/>
+			/>  
 			<Container maxWidth="lg">
 				<Box px={{ xs: '12px', lg: 0 }} className="page-space">
 					<MaterialTable
-                  title={<IntlMessages id="sidebar.searchTable" />}
+						title={<IntlMessages id="sidebar.familiy-directors" />}
 						columns={state.columns}
 						data={state.data}
 						editable={{
@@ -43,11 +50,16 @@ export default function SearchTable() {
 								new Promise(resolve => {
 									setTimeout(() => {
 										resolve();
-										setState(prevState => {
-											const data = [...prevState.data];
-											data.push(newData);
-											return { ...prevState, data };
+										console.log('newData',newData);
+										userService.addFamilyDirectors(newData).then(res => {
+											console.log('res' ,res);
+											setState(prevState => {											
+												const data = [...prevState.data];
+												data.push(newData);
+												return { ...prevState, data };
+											});
 										});
+									
 									}, 600);
 								}),
 							onRowUpdate: (newData, oldData) =>

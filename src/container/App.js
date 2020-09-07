@@ -61,7 +61,7 @@ class App extends Component {
 			if (user === null) {
 				return (<Redirect to="/signin" />);
 			} else {
-				return (<Redirect to="/app/dashboard/dashboard1" />);
+				return (<Redirect to="app/fullpagemenu" />);
 			}
 		}
 		return (

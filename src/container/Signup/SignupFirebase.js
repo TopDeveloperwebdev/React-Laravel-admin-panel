@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { TextField, Button, Box, Typography, Checkbox,AppBar,Tabs, Tab } from "@material-ui/core";
+import { TextField, Button, Box, Typography, Checkbox, AppBar, Tabs, Tab } from "@material-ui/core";
 import { CustomCard } from 'components/GlobalComponents';
 
 // redux action
@@ -8,6 +8,7 @@ import {
 	signinUserWithFirebase,
 	onEmailChanged,
 	onPasswordChanged,
+	onUsernameChanged,
 	signinUserWithGoogle,
 	signinUserWithFacebook,
 	signinUserWithTwitter,
@@ -16,27 +17,27 @@ import {
 } from 'actions';
 
 function TabPanel(props) {
-  const { children, value, index, ...other } = props;
+	const { children, value, index, ...other } = props;
 
-  return (
-    <Typography
-      component="div"
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box p={3}>{children}</Box>}
-    </Typography>
-  );
+	return (
+		<Typography
+			component="div"
+			role="tabpanel"
+			hidden={value !== index}
+			id={`simple-tabpanel-${index}`}
+			aria-labelledby={`simple-tab-${index}`}
+			{...other}
+		>
+			{value === index && <Box p={3}>{children}</Box>}
+		</Typography>
+	);
 }
 
 function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
+	return {
+		id: `simple-tab-${index}`,
+		'aria-controls': `simple-tabpanel-${index}`,
+	};
 }
 
 class SignupFirebase extends Component {
@@ -69,7 +70,11 @@ class SignupFirebase extends Component {
 			this.props.signupUserWithFirebase(userDetails, this.props.history);
 		}
 	}
-
+	onUsernameChanged(e) {
+		let fieldValidationErrors = this.state.formErrors;		
+		this.setState({ formErrors: fieldValidationErrors })
+		this.props.onUsernameChanged(e.target.value);
+	}
 	/**
 	 * Function to detect email changes
 	 */
@@ -80,7 +85,10 @@ class SignupFirebase extends Component {
 		this.setState({ formErrors: fieldValidationErrors })
 		this.props.onEmailChanged(e.target.value);
 	}
-
+/**
+	 * Function to detect name changes
+	 */
+	
 	/**
 	 * Function to detect password changes
 	 */
@@ -107,18 +115,18 @@ class SignupFirebase extends Component {
 	}
 
 	onJwtSignUp() {
-      const { email, password } = this.props;
-      if (email !== '' && password !== '') {
-         this.props.signupUserWithJwt({ email, password }, this.props.history);
-      }
-   }
+		const {username , email, password } = this.props;
+		if (username !=='' && email !== '' && password !== '') {
+			this.props.signupUserWithJwt({name : username, email : email, password : password , instance_id : 0  }, this.props.history);
+		}
+	}
 
-    handleChange = (event, value) => {
+	handleChange = (event, value) => {
 		this.setState({ value });
 	};
 	render() {
 		const { blankEmail, blankPassword, validEmail } = this.state.formErrors;
-		const { email, password, isDarkModeActive } = this.props;
+		const {username , email, password, isDarkModeActive } = this.props;
 		return (
 			<div className="session-wrapper session-wrapper-v2">
 				<Box mx="auto" className="sign-box-wrap" >
@@ -131,13 +139,13 @@ class SignupFirebase extends Component {
 					</Box>
 					<Box className="sign-box" display="flex" justifyContent="center" alignItems="center">
 						<div className="left-content log-tab">
-							<AppBar position="static">
+							{/* <AppBar position="static">
 								<Tabs value={this.state.value} onChange={this.handleChange} aria-label="simple tabs example">
 									<Tab label="Firebase" {...a11yProps(0)} />
 									<Tab label="JWT" {...a11yProps(1)} />
 								</Tabs>
-					      </AppBar>
-					      <TabPanel value={this.state.value} index={0} className="log-box">
+							</AppBar>
+							<TabPanel value={this.state.value} index={0} className="log-box">
 								<Box width="100%">
 									<CustomCard>
 										<form className="signup-form text-center">
@@ -218,8 +226,8 @@ class SignupFirebase extends Component {
 									</CustomCard>
 								</Box>
 							</TabPanel>
-							<TabPanel value={this.state.value} index={1} className="log-box">		
-								<Box width="100%">
+							 */}
+							<Box width="100%">
 									<CustomCard>
 										<form className="signup-form text-center">
 											<Typography variant="subtitle2" >Sign up to continue to :</Typography>
@@ -232,8 +240,10 @@ class SignupFirebase extends Component {
 													className="outlined-input"
 													id="fname"
 													type="text"
-													name="email"
+													name="username"
 													placeholder="John Doe"
+													value={username}
+													onChange={(username) => this.onUsernameChanged(username)}													
 												/>
 											</Box>
 											<Box mb={3}>
@@ -298,20 +308,19 @@ class SignupFirebase extends Component {
 										</form>
 									</CustomCard>
 								</Box>
-							</TabPanel>	
 						</div>
 						<div className="right-content bg-fix" style={{ backgroundImage: "url(" + require('assets/Images/sign-up.jpg') + ")", backgroundSize: 'cover' }} >
-						
-								{/* <Box className="thumb-wrap">
+
+							{/* <Box className="thumb-wrap">
 									<img className="img-fluid" alt="img" width="330" src={require(`assets/Images/sign-up.jpg`)} />
 								</Box> */}
-								<div className="overlay-content">
-									<div className="content-holder">
-										<Typography variant="h6" >You’re in good company</Typography>
-										<Typography variant="body2">Over 1,000 customers, in more than 175 countries.</Typography>
-									</div>
+							<div className="overlay-content">
+								<div className="content-holder">
+									<Typography variant="h6" >You’re in good company</Typography>
+									<Typography variant="body2">Over 1,000 customers, in more than 175 countries.</Typography>
 								</div>
-							
+							</div>
+
 						</div>
 					</Box>
 				</Box>
@@ -321,15 +330,16 @@ class SignupFirebase extends Component {
 }
 
 const mapStateToProps = ({ authUser, settings }) => {
-	const { loading, email, password, error } = authUser;
+	const { loading, username , email, password, error } = authUser;
 	const { isDarkModeActive } = settings;
-	return { loading, email, password, error, isDarkModeActive };
+	return { loading, username, email, password, error, isDarkModeActive };
 };
 
 export default connect(mapStateToProps, {
 	signinUserWithFirebase,
 	onEmailChanged,
 	onPasswordChanged,
+	onUsernameChanged,
 	signinUserWithGoogle,
 	signinUserWithFacebook,
 	signinUserWithTwitter,

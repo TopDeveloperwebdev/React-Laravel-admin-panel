@@ -52,7 +52,7 @@ export default {
    "sidebar.basicTable": "기본 테이블",
    "sidebar.agGrid": "AgGrid",
    "sidebar.searchTable" : "검색 테이블",
-   "sidebar.customTable": "맞춤 표",
+   "sidebar.patients": "맞춤 표",
    "sidebar.sessions" : "세션",
 	"sidebar.layout1":"레이아웃 1",
 	"sidebar.layout2":"레이아웃 2",

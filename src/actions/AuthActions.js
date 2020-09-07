@@ -16,6 +16,7 @@ import {
 	LOGIN_USER_FAILURE,
 	SIGNUP_USER,
 	LOGIN_EMAIL_CHANGED,
+	LOGIN_USERNAME_CHANGED,
 	LOGIN_PASSWORD_CHANGED,
 	SIGNUP_USER_SUCCESS,
 	SIGNUP_USER_FAILURE,
@@ -26,51 +27,63 @@ import {
 } from './Types';
 export const signupUserWithJwt = (user, history) => (dispatch) => {
 	// return dispatch => {
-		dispatch({ type: JWT_LOGIN_REQUEST, payload: user });
-		
-		userService.signup(user.email, user.password)
+	dispatch({ type: JWT_LOGIN_REQUEST, payload: user });
+
+	userService.signup(user)
 		.then(
-			user => { 
-				dispatch({type: JWT_LOGIN_SUCCESS, payload: user});
-				history.push('/');
-				NotificationManager.success('Account Created');	
+			user => {
+				if (user.result == 'success') {
+					dispatch({ type: JWT_LOGIN_SUCCESS, payload: user });
+					history.push('/');
+					NotificationManager.success('Account Created');
+				}
+				else {
+					dispatch({ type: JWT_LOGIN_FAILURE, payload: user.result });
+					NotificationManager.success(user.result);
+				}
 			},
 			error => {
-				dispatch({type: JWT_LOGIN_FAILURE, payload: error});
-				// dispatch(alertActions.error(error));
+				dispatch({ type: JWT_LOGIN_FAILURE, payload: user.result });
+				NotificationManager.success(user.result);
 			}
 		);
 }
 
 export const signinUserWithJwt = (user, history) => (dispatch) => {
 	// return dispatch => {
-		console.log(user.email,user.password,'user')
-		console.log('userService ',userService )
-		dispatch({ type: JWT_LOGIN_REQUEST, payload: user });
-		
-		userService.login(user.email, user.password)
+	console.log(user.email, user.password, 'user')
+	console.log('userService ', userService)
+	dispatch({ type: JWT_LOGIN_REQUEST, payload: user });
+
+	userService.login(user.email, user.password)
 		.then(
-			user => { 
-				dispatch({type: JWT_LOGIN_SUCCESS, payload: user});
-				history.push('/');
-				NotificationManager.success('User Logged In Successfully');
+			user => {
+				if (user.result == 'success') {
+					dispatch({ type: JWT_LOGIN_SUCCESS, payload: user });
+					history.push('/');
+					NotificationManager.success('User Logged In Successfully');
+				}
+				else {
+					dispatch({ type: JWT_LOGIN_FAILURE, payload: user.result });
+					NotificationManager.success(user.result);
+				}
 			},
 			error => {
-				dispatch({type: JWT_LOGIN_FAILURE, payload: error});
+				dispatch({ type: JWT_LOGIN_FAILURE, payload: error });
 				// dispatch(alertActions.error(error));
 			}
 		);
 }
 export const refreshToken = (history) => (dispatch) => {
-   userService.refreshToken()
-      .then(
-         user => {
-            console.log('user',user)
-         },
-         error => {
-            console.log('error',error)
-         }
-      );
+	userService.refreshToken()
+		.then(
+			user => {
+				console.log('user', user)
+			},
+			error => {
+				console.log('error', error)
+			}
+		);
 }
 /**
  * Function to signin using firebase
@@ -172,7 +185,12 @@ export function onPasswordChanged(password) {
 		payload: password
 	}
 }
-
+export function onUsernameChanged(username) {
+	return {
+		type: LOGIN_USERNAME_CHANGED,
+		payload: username
+	}
+}
 /**
  * Redux Action To Signin User In Firebase With Facebook
  */
