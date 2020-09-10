@@ -15,7 +15,7 @@ export const userService = {
    deletePharmacies,
 
 };
-const serverUrl = 'http://localhost:8000/api/';
+const serverUrl = 'http://base.mastermedi-1.vautronserver.de/backend_latest/api/';
 function signup(data) {
    console.log('data', data);
    const requestOptions = {
