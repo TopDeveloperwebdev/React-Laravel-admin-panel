@@ -1,180 +1,86 @@
-/*
- * agGrid Widget
- */
-import React, { Component } from 'react';
-import { AgGridReact } from 'ag-grid-react';
-import { Box, Button, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
-import 'ag-grid-community/dist/styles/ag-grid.css';
-import 'ag-grid-community/dist/styles/ag-theme-balham.css';
-import SampleRowDataFactory from "assets/Data/AgGridData.json";
-import { LicenseManager } from "ag-grid-enterprise";
-LicenseManager.setLicenseKey("ca0a73e09ea3f32cd1cf9d175d2ec91c");
+import React, { useState, Component } from "react";
+import { AgGridReact } from "ag-grid-react";
+import "ag-grid-enterprise";
+import "ag-grid-community/dist/styles/ag-grid.css";
+import "ag-grid-community/dist/styles/ag-theme-alpine.css";
+
+import GridComponents from "./Components";
+import { columnDefs, defaultColDef } from "../../assets/Data/columns";
+import { uuid } from "uuidv4";
+
+
+
+
 
 class agGridTable extends Component {
    constructor(props) {
       super(props);
       this.state = {
-         // set the columns to use inside the grid
-         columnDefs: [
-            {
-               headerName: 'ID',
-               field: 'Id',
-               width: 175,
-               filter: 'agNumberColumnFilter',
-               checkboxSelection: true,
-               headerCheckboxSelectionFilteredOnly: true,
-               headerCheckboxSelection: true,
-            },
-            {
-               headerName: 'First Name',
-               field: 'First Name',
-               filter: 'agTextColumnFilter',
-               width: 175,
-            },
-            {
-               headerName: 'Last Name',
-               field: 'Last Name',
-               filter: 'agTextColumnFilter',
-               width: 175,
-            },
-            {
-               headerName: 'Email',
-               field: 'Email',
-               filter: 'agTextColumnFilter',
-               width: 250,
-               pinned: 'left'
-            },
-            {
-               headerName: 'Address',
-               field: 'Address',
-               filter: 'agTextColumnFilter',
-               width: 250,
-            },
-            {
-               headerName: 'City',
-               field: 'City',
-               filter: 'agTextColumnFilter',
-               width: 150,
-            },
-            {
-               headerName: 'Country',
-               field: 'Country',
-               filter: 'agTextColumnFilter',
-               width: 150,
-            },
-            {
-               headerName: 'Province',
-               field: 'Province',
-               filter: 'agTextColumnFilter',
-               width: 100,
-            },
-            {
-               headerName: 'Contact Number',
-               field: 'Contact Number',
-               filter: 'agNumberColumnFilter',
-               width: 100,
-            },
-         ],
-         // set the row data to use inside the grid
-         rowData: SampleRowDataFactory,
-         rowsPerPage: 10
-      };
-
-      this.onGridReady = this.onGridReady.bind(this);
-      this.gridOptions = {
-         defaultColDef: {
-            sortable: true,
-            filter: false
-         },
-         floatingFilter: true,
-         pagination: true,
-         rowHeight: 60,
-         headerHeight: 50,
-         floatingFiltersHeight: 60,
-      };
-   }
-   onGridReady(params) {
-      this.api = params.api;
-      this.columnApi = params.columnApi;
+         gridApi: null,
+         columnApi: null,
+         rowData: []
+      }
+    
    }
 
-   onBtnExport() {
-      var params = getParams();
-      this.api.exportDataAsCsv(params);
-   }
-   searchtext() {
-      this.onFilterTextBoxChanged();
-   }
-   onFilterTextBoxChanged() {
-      this.api.setQuickFilter(document.getElementById('filter-text-box').value);
-   }
-   onPageSizeChanged(newPageSize) {
-      this.setState({ rowsPerPage: newPageSize.target.value })
-      this.api.paginationSetPageSize(Number(newPageSize.target.value));
-   }
-   onBtnUpdate() {
-      document.querySelector("#csvResult").value = this.api.getDataAsCsv(getParams());
-   }
+   onGridReady = (params) => {
+      // this.setState(gridApi , params.api);
+      // this.setState(columnApi , params.columnApi); 
+      this.setState({
+         gridApi:  params.api,
+         columnApi : params.columnApi
+      });
+      fetch(
+         "https://raw.githubusercontent.com/ag-grid/ag-grid/master/packages/ag-grid-docs/src/olympicWinnersSmall.json"
+      )
+         .then(res => res.json())
+         .then(data => {
+            data.forEach(row => (row.id = uuid()));
+            console.log('data' , data.slice(0,100));
+            let temp = data.slice(0,100);
+           
+            this.setState({
+               rowData: temp,
+            });
 
+         });
+      params.api.sizeColumnsToFit();
+   }
    render() {
+      const frameworkComponents = {
+         simpleEditor: GridComponents.SimpleEditor,
+         asyncValidationEditor: GridComponents.AsyncValidationEditor,
+         autoCompleteEditor: GridComponents.AutoCompleteEditor,
+         agDateInput: GridComponents.MyDatePicker,
+         dateEditor: GridComponents.DateEditor,
+         actionsRenderer: GridComponents.ActionsRenderer,
+         addRowStatusBar: GridComponents.AddRowStatusBar
+      };
       return (
-         <Box pb={7}>
-            <div className="ag-theme-balham" style={{ height: '670px', width: '100%' }}>
-               <Box display="flex" className="ag-main-filter" justifyContent="space-between" alignItems="center" mb={2}>
-                  <div className="test-header">
-                     <FormControl className="selection-wrap">
-                        <InputLabel id="page-size">Page Size :</InputLabel>
-                        <Select
-                           labelId="page-size"
-                           id="page-size"
-                           value={this.state.rowsPerPage}
-                           onChange={this.onPageSizeChanged.bind(this)}
-                        >
-                           <MenuItem value={10}>Ten</MenuItem>
-                           <MenuItem value={20}>Twenty</MenuItem>
-                           <MenuItem value={30}>Thirty</MenuItem>
-                        </Select>
-                     </FormControl>
-                  </div>
-                  <Box display="flex" className="ag-main-filter--right" justifyContent="space-between" alignItems="center">
-                     <input className="filter-text-input" type="text" id="filter-text-box" placeholder="Filter..." onInput={this.searchtext.bind(this)} />
-                     <Button variant="contained" color="primary" onClick={this.onBtnExport.bind(this)}>
-                        Export CSV
-							</Button>
-                  </Box>
-               </Box>
-               <div style={{ height: '100%', width: '100%' }} className="ag-fresh">
-                  <AgGridReact
-                     gridOptions={this.gridOptions}
-                     onGridReady={this.onGridReady}
-                     columnDefs={this.state.columnDefs}
-                     rowData={this.state.rowData}
-                     editable={{
-                        onRowAdd: newData =>
-                           new Promise(resolve => {
-                              setTimeout(() => {
-                                 resolve();
-                                 console.log('newData', newData);
-
-                              });
-
-                           }, 600)
-                     }}
-
-                  />
-               </div>
+         <div className="grid-table">
+            <div
+               id="myGrid"
+               style={{ height: "100%", width: "100%" }}
+               className="ag-theme-alpine"
+            >
+               <AgGridReact
+                  columnDefs={columnDefs}
+                  defaultColDef={defaultColDef}
+                  rowData={this.state.rowData}
+                  getRowNodeId={data => data.id}
+                  onGridReady={this.onGridReady}
+                  frameworkComponents={frameworkComponents}
+                  editType="fullRow"
+                  suppressClickEdit
+                  statusBar={{
+                     statusPanels: [{ statusPanel: "addRowStatusBar" }]
+                  }}
+               />
             </div>
-         </Box>
+         </div>
       );
    }
+
 }
 
-function getParams() {
-   return {
-      suppressQuotes: undefined,
-      columnSeparator: undefined,
-      customHeader: 'none',
-      customFooter: 'none'
-   };
-}
 export default agGridTable;

@@ -14,7 +14,7 @@ class SearchTable extends Component {
 		super(props)
 		this.state = {
 			columns: [
-				{ title: 'Practice name', field: 'practiceName' },
+				{ title: 'Practice name', field: 'practiceName',	   filter: 'agNumberColumnFilter', },
 				{ title: 'Doctor name', field: 'doctorName' },
 				{ title: 'Street Nr', field: 'streetNr' },
 				{ title: 'zip code', field: 'zipcode', type: 'numeric' },
@@ -24,12 +24,13 @@ class SearchTable extends Component {
 				{ title: 'Email', field: 'email' },
 				{ title: 'Password', field: 'password', type: 'string' },
 				{ title: 'Notifications', field: 'notifications'   },
-			],
+			 ], 
+			
 			// data: [
-			// 	{ practiceName: 'Mehmet', doctorName: 'Baran', streetNr: 'streetNr', zipDode: 63 ,city: 'Mehmet', phone: 'Baran', fax: 'streetNr' ,email : 'test@admin.com' ,password : 'password' ,notifications  : true  },
-			// 	{ practiceName: 'Mehmet', doctorName: 'Baran', streetNr: 'streetNr', zipDode: 63 ,city: 'Mehmet', phone: 'Baran', fax: 'streetNr' ,email : 'test@admin.com' ,password : 'password' ,notifications  : true  },
-			// 	{ practiceName: 'Mehmet', doctorName: 'Baran', streetNr: 'streetNr', zipDode: 63 ,city: 'Mehmet', phone: 'Baran', fax: 'streetNr' ,email : 'test@admin.com' ,password : 'password' ,notifications  : true  },
-			// 	{ practiceName: 'Mehmet', doctorName: 'Baran', streetNr: 'streetNr', zipDode: 63 ,city: 'Mehmet', phone: 'Baran', fax: 'streetNr' ,email : 'test@admin.com' ,password : 'password' ,notifications  : true  },
+			// 	{ practiceName: 'Mehmet', doctorName: 'Baran', streetNr: 'streetNr', zipCode: 63 ,city: 'Mehmet', phone: 'Baran', fax: 'streetNr' ,email : 'test@admin.com' ,password : 'password' ,notifications  : true  },
+			// 	{ practiceName: 'Mehmet', doctorName: 'Baran', streetNr: 'streetNr', zipCode: 63 ,city: 'Mehmet', phone: 'Baran', fax: 'streetNr' ,email : 'test@admin.com' ,password : 'password' ,notifications  : true  },
+			// 	{ practiceName: 'Mehmet', doctorName: 'Baran', streetNr: 'streetNr', zipCode: 63 ,city: 'Mehmet', phone: 'Baran', fax: 'streetNr' ,email : 'test@admin.com' ,password : 'password' ,notifications  : true  },
+			// 	{ practiceName: 'Mehmet', doctorName: 'Baran', streetNr: 'streetNr', zipCode: 63 ,city: 'Mehmet', phone: 'Baran', fax: 'streetNr' ,email : 'test@admin.com' ,password : 'password' ,notifications  : true  },
 			// ],
 			data: [],
 			
