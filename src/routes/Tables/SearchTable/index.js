@@ -1,9 +1,9 @@
 /**
  * Search Table
 */
-import React ,{Component} from 'react';
+import React, { Component } from 'react';
 import MaterialTable from 'material-table';
-import { Container, Box } from '@material-ui/core';
+import { Container, Box, Switch } from '@material-ui/core';
 import { userService } from '../../../_services';
 //Components
 import { SmallTitleBar } from 'components/GlobalComponents';
@@ -14,18 +14,27 @@ class SearchTable extends Component {
 		super(props)
 		this.state = {
 			columns: [
-				{ title: 'Practice name', field: 'practiceName',	   filter: 'agNumberColumnFilter', },
+				{ title: 'Practice name', field: 'practiceName', filter: 'agNumberColumnFilter', },
 				{ title: 'Doctor name', field: 'doctorName' },
 				{ title: 'Street Nr', field: 'streetNr' },
 				{ title: 'zip code', field: 'zipcode', type: 'numeric' },
 				{ title: 'City', field: 'city' },
-				{ title: 'Phone', field: 'phone', type: 'string' ,required : true},
+				{ title: 'Phone', field: 'phone', type: 'string', required: true },
 				{ title: 'Fax', field: 'fax' },
 				{ title: 'Email', field: 'email' },
 				{ title: 'Password', field: 'password', type: 'string' },
-				{ title: 'Notifications', field: 'notifications'   },
-			 ], 
-			
+				{
+					title: 'Notifications', field: 'notifications', render: rowData => <Switch
+						size="small"
+						color="primary"
+					/>,
+					editComponent: rowData => <Switch
+						size="small"
+						color="primary"
+					/>
+				},
+			],
+
 			// data: [
 			// 	{ practiceName: 'Mehmet', doctorName: 'Baran', streetNr: 'streetNr', zipCode: 63 ,city: 'Mehmet', phone: 'Baran', fax: 'streetNr' ,email : 'test@admin.com' ,password : 'password' ,notifications  : true  },
 			// 	{ practiceName: 'Mehmet', doctorName: 'Baran', streetNr: 'streetNr', zipCode: 63 ,city: 'Mehmet', phone: 'Baran', fax: 'streetNr' ,email : 'test@admin.com' ,password : 'password' ,notifications  : true  },
@@ -33,19 +42,18 @@ class SearchTable extends Component {
 			// 	{ practiceName: 'Mehmet', doctorName: 'Baran', streetNr: 'streetNr', zipCode: 63 ,city: 'Mehmet', phone: 'Baran', fax: 'streetNr' ,email : 'test@admin.com' ,password : 'password' ,notifications  : true  },
 			// ],
 			data: [],
-			
+
 		};
-   
+
 	}
-	
-	componentDidMount()
-	{
+
+	componentDidMount() {
 		let user = JSON.parse(localStorage.getItem('user_id'));
-		 this.instance_id = user.instance_id;
+		this.instance_id = user.instance_id;
 		userService.showFamilyDirectors({ instance_id: this.instance_id, pagination: 1 }).then(res => {
 			console.log('res', res);
 			this.setState(prevState => {
-				const data = res;				
+				const data = res;
 				return { ...prevState, data };
 			});
 
@@ -54,7 +62,7 @@ class SearchTable extends Component {
 	}
 
 	render() {
-		
+
 		return (
 			<div className="tables-wrapper search-table-wrap">
 				<SmallTitleBar
@@ -94,7 +102,7 @@ class SearchTable extends Component {
 												if (oldData) {
 													this.setState(prevState => {
 														const data = [...prevState.data];
-														data[data.indexOf(oldData)] = res;
+														data[data.indexOf(oldData)] = newData;
 														return { ...prevState, data };
 													});
 												}
@@ -105,15 +113,15 @@ class SearchTable extends Component {
 									new Promise(resolve => {
 										setTimeout(() => {
 											resolve();
-											console.log(';oldData',oldData.id);
-											userService.deleteFamilyDirectors({id : oldData.id}).then(res => {
-												console.log('res' , res);
+											console.log(';oldData', oldData.id);
+											userService.deleteFamilyDirectors({ id: oldData.id }).then(res => {
+												console.log('res', res);
 												this.setState(prevState => {
 													const data = [...prevState.data];
 													data.splice(data.indexOf(oldData), 1);
 													return { ...prevState, data };
 												});
-											})											
+											})
 										}, 600);
 									}),
 							}}

@@ -9,11 +9,11 @@ export const userService = {
    showFamilyDirectors,
    editFamilyDirectors,
    deleteFamilyDirectors,
-  addPharmacies,
+   addPharmacies,
    showPharmacies,
    editPharmacies,
    deletePharmacies,
-   
+
 };
 const serverUrl = 'http://localhost:8000/api/';
 function signup(data) {
@@ -68,7 +68,7 @@ function addFamilyDirectors(data) {
       });
 }
 function showFamilyDirectors(info) {
- 
+
    const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -77,18 +77,18 @@ function showFamilyDirectors(info) {
 
    return fetch(serverUrl + 'showFamilyDirectors', requestOptions)
       .then(res => res.json())
-      .then(res => {     
+      .then(res => {
          return res
       });
 }
 function editFamilyDirectors(data) {
- 
+
    const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
    };
-  
+
    return fetch(serverUrl + 'editFamilyDirectors', requestOptions)
       .then(res => res.json())
       .then(res => {
@@ -97,16 +97,16 @@ function editFamilyDirectors(data) {
       });
 }
 function deleteFamilyDirectors(id) {
- 
+
    const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(id)
    };
-  
+
    return fetch(serverUrl + 'deleteFamilyDirectors', requestOptions)
       .then(res => res.json())
-      .then(res => {       
+      .then(res => {
          return res
       });
 }
@@ -127,7 +127,7 @@ function addPharmacies(data) {
       });
 }
 function showPharmacies(info) {
- 
+
    const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -136,18 +136,18 @@ function showPharmacies(info) {
 
    return fetch(serverUrl + 'showPharmacies', requestOptions)
       .then(res => res.json())
-      .then(res => {     
+      .then(res => {
          return res
       });
 }
 function editPharmacies(data) {
- 
+
    const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
    };
-  
+
    return fetch(serverUrl + 'editPharmacies', requestOptions)
       .then(res => res.json())
       .then(res => {
@@ -156,16 +156,16 @@ function editPharmacies(data) {
       });
 }
 function deletePharmacies(id) {
- 
+
    const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(id)
    };
-  
+
    return fetch(serverUrl + 'deletePharmacies', requestOptions)
       .then(res => res.json())
-      .then(res => {       
+      .then(res => {
          return res
       });
 }

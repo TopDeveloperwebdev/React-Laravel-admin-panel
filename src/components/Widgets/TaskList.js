@@ -4,12 +4,14 @@
 import React, { Component, Fragment } from 'react';
 import clsx from 'clsx';
 import { withStyles } from '@material-ui/styles';
-import { Checkbox, Box, FormControlLabel, List, ListItem, Snackbar, Avatar, IconButton, Button, Dialog,
-DialogActions, DialogContent, DialogTitle, TextField } from '@material-ui/core';
+import {
+	Checkbox, Box, FormControlLabel, List, ListItem, Snackbar, Avatar, IconButton, Button, Dialog,
+	DialogActions, DialogContent, DialogTitle, TextField, TextareaAutosize
+} from '@material-ui/core';
 import update from 'react-addons-update';
 import Dragula from 'react-dragula';
 import { Scrollbars } from 'react-custom-scrollbars';
-
+import { Link } from 'react-router-dom';
 // Data
 import TaskListData from 'assets/Data/Tasks.json';
 
@@ -24,7 +26,7 @@ const styles = theme => ({
 	drag: {
 		width: 25,
 		paddingLeft: 3,
-		textAlign:'center',
+		textAlign: 'center',
 		fontSize: 16,
 		opacity: 0,
 		transition: 'all 0.3s ease-out',
@@ -33,32 +35,32 @@ const styles = theme => ({
 	navList: {
 		borderBottom: `1px Solid ${theme.palette.divider}`,
 		transition: 'all 0.3s ease-out',
-		'& .content-wrap':{
-			position:'relative',
-			width:'calc(100% - 40px)',
+		'& .content-wrap': {
+			position: 'relative',
+			width: 'calc(100% - 40px)',
 		},
-		'& .content-text':{
-			width:'calc(100% - 130px)',
-			
+		'& .content-text': {
+			width: 'calc(100% - 130px)',
+
 		},
-		'& .task-meta':{
-			width:130,
-			
+		'& .task-meta': {
+			width: 130,
+
 		},
-		'& .task-action':{
-			position:'absolute',
-			right:0,
-			opacity:0
+		'& .task-action': {
+			position: 'absolute',
+			right: 0,
+			opacity: 0
 		},
 		'&:hover': {
 			'& .icon-wrap': {
 				opacity: 1
 			},
-			'& .task-meta':{
-				opacity:0
+			'& .task-meta': {
+				opacity: 0
 			},
-			'& .task-action':{
-				opacity:1,
+			'& .task-action': {
+				opacity: 1,
 			},
 		}
 	},
@@ -71,7 +73,7 @@ const styles = theme => ({
 		width: 36,
 		height: 36,
 	},
-	taskMeta:{
+	taskMeta: {
 		transition: 'all 0.3s ease-in',
 	},
 });
@@ -178,25 +180,25 @@ class TaskListWidget extends Component {
 		}, 1000)
 	}
 
-	addNew(){
-		this.setState({ 
-			dialog: true, 
+	addNew() {
+		this.setState({
+			dialog: true,
 			updateBtn: false,
 			newTask: {
 				...this.state.newTask,
 				taskName: "",
-				assignedTo:"",
+				assignedTo: "",
 				deadline: new Date()
 			}
 		})
 	}
 	render() {
-		
+
 		const { classes } = this.props;
 		const { updateBtn } = this.state;
 		return (
 			<Box position="relative" className="task-list-wrap">
-				<Box position="absolute" className="add-new-btn" top={{ xs:'-40px', sm:'-48px' }} right="0">
+				<Box position="absolute" className="add-new-btn" top={{ xs: '-40px', sm: '-48px' }} right="0">
 					<Button className={`${classes.addBtn} primary-bg-btn`} variant="outlined" color="primary" onClick={() => this.addNew()}>
 						Add New
 					</Button>
@@ -208,47 +210,50 @@ class TaskListWidget extends Component {
 					ref="taskListScroll"
 				>
 					<List component="nav" className={clsx(`${classes.padY} container todo-list-ul`)} ref={this.dragulaDecorator}>
-						{this.state.toDoListData.length > 0 ? 
+						{this.state.toDoListData.length > 0 ?
 							<Fragment>
 								{
 									this.state.toDoListData.slice(-this.props.startIndex, this.state.toDoListData.length).map((data, index) => (
-										<ListItem key={index} disableRipple className={classes.navList} button>
-											<div className="w-100">
-												<Box display="flex" justifyContent="flex-start" alignItems="center">
-													<Box width="40px" className="checkbox-wrap" display="flex" justifyContent="flex-start" alignItems="center">
-														<Box className={clsx(`${classes.drag} icon-wrap fas fa-grip-vertical`)} component="span" display="inline-block" color="text.disabled"></Box>
-														<FormControlLabel
-															className={classes.checkRoot}
-															control={
-																<Checkbox
-																	className={classes.checkBox}
-																	icon={<Box component="span" className="far fa-check-circle" />}
-																	checkedIcon={<Box component="span" className="fas fa-check-circle" />}
-																	checked={data.completed}
-																	color="primary"
-																	onChange={(event) => this.handleChange(event.target.checked, data)}
-																/>
-															}
-														/>
-													</Box>
-													<Box className="content-wrap" display={{ xs:'block', sm:'flex' }} justifyContent="space-between" alignItems="center">
-														<Box className="content-text" >{data.taskName}</Box>
-														<Box className="task-meta" pl={2} display="flex" justifyContent="flex-end" alignItems="center">
-															{data.deadline && <Box color={data.deadlineColor} pr={1} fontSize="body1.fontSize">{data.deadline}</Box>}
-															<Avatar className={clsx(`${classes.avatr} ${data.avatarBG}`)}>{this.getfirstcharacters(data.assignedTo)}</Avatar>
+										<Link to="/app/ecommerce/invoice">
+											<ListItem key={index} disableRipple className={classes.navList} button>
+												<div className="w-100">
+													<Box display="flex" justifyContent="flex-start" alignItems="center">
+														<Box width="40px" className="checkbox-wrap" display="flex" justifyContent="flex-start" alignItems="center">
+															<Box className={clsx(`${classes.drag} icon-wrap fas fa-grip-vertical`)} component="span" display="inline-block" color="text.disabled"></Box>
+															<FormControlLabel
+																className={classes.checkRoot}
+																control={
+																	<Checkbox
+																		className={classes.checkBox}
+																		checked={data.completed}
+																		color="primary"
+																		onChange={(event) => this.handleChange(event.target.checked, data)}
+																	/>
+																}
+															/>
 														</Box>
-														<Box className="task-action" display="flex" justifyContent="flex-end" alignItems="center">
-															<IconButton size="small" onClick={() => this.editTask(data)}>
-																<Box component="span" fontSize={{ xs:14, sm:20 }} color="primary.main" className="material-icons">edit</Box>
-															</IconButton>
-															<IconButton size="small" onClick={() => this.deleteTask(data)}>
-																<Box component="span" fontSize={{ xs:14, sm:20 }} color="secondary.main" className="material-icons-outlined">delete</Box>
-															</IconButton>
+														<Box className="content-wrap" display={{ xs: 'block', sm: 'flex' }} justifyContent="space-between" alignItems="center">
+															<Box className="medication-content">
+																<h4>{data.taskName}</h4>
+																<Box  >{data.assignedTo}</Box>
+															</Box>
+															<Box className="task-meta" pl={2} display="flex" justifyContent="flex-end" alignItems="center">
+																{data.deadline && <Box color={data.deadlineColor} pr={1} fontSize="body1.fontSize">{data.deadline}</Box>}
+																<Avatar className={clsx(`${classes.avatr} ${data.avatarBG}`)}>{this.getfirstcharacters(data.assignedTo)}</Avatar>
+															</Box>
+															<Box className="task-action" display="flex" justifyContent="flex-end" alignItems="center">
+																<IconButton size="small" onClick={() => this.editTask(data)}>
+																	<Box component="span" fontSize={{ xs: 14, sm: 20 }} color="primary.main" className="material-icons">edit</Box>
+																</IconButton>
+																<IconButton size="small" onClick={() => this.deleteTask(data)}>
+																	<Box component="span" fontSize={{ xs: 14, sm: 20 }} color="secondary.main" className="material-icons-outlined">delete</Box>
+																</IconButton>
+															</Box>
 														</Box>
 													</Box>
-												</Box>
-											</div>
-										</ListItem>
+												</div>
+											</ListItem>
+										</Link>
 									))
 								}
 							</Fragment>
@@ -259,7 +264,7 @@ class TaskListWidget extends Component {
 						}
 
 					</List>
-				</Scrollbars>	
+				</Scrollbars>
 				<Snackbar
 					className="snackbar-wrap"
 					anchorOrigin={{
@@ -280,7 +285,7 @@ class TaskListWidget extends Component {
 					aria-labelledby="alert-dialog-title"
 					aria-describedby="alert-dialog-description"
 				>
-					<DialogTitle className="dialog-header" id="alert-dialog-title">{"Add New Task"}</DialogTitle>
+					<DialogTitle className="dialog-header" id="alert-dialog-title">{"Add New Medication"}</DialogTitle>
 					<DialogContent className="dialog-content">
 						<TextField
 							margin="dense"
@@ -291,14 +296,14 @@ class TaskListWidget extends Component {
 							fullWidth
 							value={this.state.newTask.taskName} className="mb-1"
 						/>
-						<TextField
+						<TextareaAutosize
 							margin="dense"
 							id="name"
 							onChange={(e) => this.setState({ newTask: { ...this.state.newTask, assignedTo: e.target.value } })}
 							label="Assign to"
 							type="text"
-							fullWidth
-							value={this.state.newTask.assignedTo} className="mb-1"
+							rowsMin='4'
+							value={this.state.newTask.assignedTo} className="mb-1 textArea"
 						/>
 
 						<TextField

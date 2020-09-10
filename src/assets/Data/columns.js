@@ -4,28 +4,93 @@ export const columnDefs = [
   {
     headerName: "Avatar",
     field: "imageUrl",
-    cellEditor: "imgEditor"
+    cellEditor: "simpleEditor"
   },
   {
-    headerName: "Sport (Validation)",
-    field: "sport",
-    cellEditor: "asyncValidationEditor",
+    headerName: "First Name",
+    field: "firstName",
+    cellEditor: "simpleEditor"
+  },
+  {
+    headerName: "Last Name",
+    field: "lastName",
+    cellEditor: "simpleEditor"
+  },
+  {
+    headerName: "Salutation",
+    field: "salutation",
+    cellEditor: "simpleEditor"
+  },
+  {
+    headerName: "Resources",
+    field: "resources",
+    cellEditor: "autoCompleteEditor",
     cellEditorParams: {
-      condition: value => OLYMPIC_SPORTS.includes(value)
+      options: OLYMPIC_COUNTRIES
     }
   },
+
   {
-    headerName: "Country (autoComplete)",
-    field: "country",
+    headerName: "Insurance",
+    field: "insurance",
+    cellEditor: "autoCompleteEditor",
+    cellEditorParams: {
+      options: OLYMPIC_COUNTRIES
+    }
+  },
+  
+{
+    headerName: "Services",
+    field: "services",
+    cellEditor: "autoCompleteEditor",
+    cellEditorParams: {
+      options: OLYMPIC_COUNTRIES
+    }
+  },
+    
+{
+    headerName: "Family doctor",
+    field: "familyDoctor",
     cellEditor: "autoCompleteEditor",
     cellEditorParams: {
       options: OLYMPIC_COUNTRIES
     }
   },
   {
-    headerName: "Country (autoComplete)",
-    field: "country",
+    headerName: "Key number",
+    field: "keyNumber",
+    cellEditor: "simpleEditor"
+  },
+  {
+    headerName: "Floor",
+    field: "floor",
+    cellEditor: "simpleEditor"
+  },
+  {
+    headerName: "Degree of care",
+    field: "familyDoctor",
+    cellEditor: "autoCompleteEditor",    
+  },
+{
+    headerName: "Pharmacy",
+    field: "pharmacy",
     cellEditor: "autoCompleteEditor",
+    cellEditorParams: {
+      options: OLYMPIC_COUNTRIES
+    }
+  },
+{
+    headerName: "User group",
+    field: "userGroup",
+    cellEditor: "autoCompleteEditor",
+    cellEditorParams: {
+      options: OLYMPIC_COUNTRIES
+    }
+  },
+  {
+    headerName: "Status",
+    field: "status",
+    cellEditor: "statusEditor",
     cellEditorParams: {
       options: OLYMPIC_COUNTRIES
     }
@@ -37,7 +102,7 @@ export const columnDefs = [
     editable: false,
     filter: false,
     minWidth: 220
-  }
+  },
 ];
 
 export const defaultColDef = {

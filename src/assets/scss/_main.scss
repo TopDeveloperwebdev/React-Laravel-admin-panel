@@ -5,6 +5,20 @@
     float: right;
 }
 .grid-table{
-    width: 98vw;
-    height: 80vh;
+    width: 100%;
+    height: calc(100vh - 300px);
   }
+  .medication-content{
+      display: flex;
+      flex-direction: column;
+      justify-self: start;
+      padding-left: 15px;
+      >div {
+          width: 100%;
+          font-size: 12px;
+      }
+  }
+.textArea {
+    width: 100%;
+    height: auto;
+}

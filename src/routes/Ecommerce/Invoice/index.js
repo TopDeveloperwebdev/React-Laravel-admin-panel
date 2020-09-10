@@ -52,9 +52,9 @@ export default function Invoice() {
 		<div className="invoice-page">
 			<Box className="white-btn-color">
 				<SmallTitleBar
-					title={<IntlMessages id="component.invoice" />}
-					buttonText={<IntlMessages id="component.backToProducts" />}
-					buttonLink="/app/ecommerce/shop"
+					title={<IntlMessages id="component.medication_detail" />}
+					buttonText={<IntlMessages id="component.backToMedications" />}
+					buttonLink="/app/tables/medication"
 				/>
 			</Box>
 			<div className="page-space">
