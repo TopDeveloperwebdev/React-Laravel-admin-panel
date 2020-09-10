@@ -9,7 +9,7 @@ import { userService } from '../../../_services';
 import { SmallTitleBar } from 'components/GlobalComponents';
 import IntlMessages from 'util/IntlMessages';
 
-class SearchTable extends Component {
+class Pharmacies extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -24,13 +24,7 @@ class SearchTable extends Component {
 				{ title: 'Email', field: 'email' },
 				{ title: 'Password', field: 'password', type: 'string' },
 				{ title: 'Notifications', field: 'notifications'   },
-			],
-			// data: [
-			// 	{ practiceName: 'Mehmet', doctorName: 'Baran', streetNr: 'streetNr', zipDode: 63 ,city: 'Mehmet', phone: 'Baran', fax: 'streetNr' ,email : 'test@admin.com' ,password : 'password' ,notifications  : true  },
-			// 	{ practiceName: 'Mehmet', doctorName: 'Baran', streetNr: 'streetNr', zipDode: 63 ,city: 'Mehmet', phone: 'Baran', fax: 'streetNr' ,email : 'test@admin.com' ,password : 'password' ,notifications  : true  },
-			// 	{ practiceName: 'Mehmet', doctorName: 'Baran', streetNr: 'streetNr', zipDode: 63 ,city: 'Mehmet', phone: 'Baran', fax: 'streetNr' ,email : 'test@admin.com' ,password : 'password' ,notifications  : true  },
-			// 	{ practiceName: 'Mehmet', doctorName: 'Baran', streetNr: 'streetNr', zipDode: 63 ,city: 'Mehmet', phone: 'Baran', fax: 'streetNr' ,email : 'test@admin.com' ,password : 'password' ,notifications  : true  },
-			// ],
+			],			
 			data: [],
 			
 		};
@@ -41,7 +35,7 @@ class SearchTable extends Component {
 	{
 		let user = JSON.parse(localStorage.getItem('user_id'));
 		 this.instance_id = user.instance_id;
-		userService.showFamilyDirectors({ instance_id: this.instance_id, pagination: 1 }).then(res => {
+		userService.showPharmacies({ instance_id: this.instance_id, pagination: 1 }).then(res => {
 			console.log('res', res);
 			this.setState(prevState => {
 				const data = res;				
@@ -73,7 +67,7 @@ class SearchTable extends Component {
 											resolve();
 											console.log('newData', newData);
 											newData.instance_id = this.instance_id;
-											userService.addFamilyDirectors(newData).then(res => {
+											userService.addPharmacies(newData).then(res => {
 												console.log('res', res);
 												this.setState(prevState => {
 													const data = [...prevState.data];
@@ -89,7 +83,7 @@ class SearchTable extends Component {
 										setTimeout(() => {
 											resolve();
 											console.log('newdata', newData.id);
-											userService.editFamilyDirectors(newData).then(res => {
+											userService.editPharmacies(newData).then(res => {
 												if (oldData) {
 													this.setState(prevState => {
 														const data = [...prevState.data];
@@ -105,7 +99,7 @@ class SearchTable extends Component {
 										setTimeout(() => {
 											resolve();
 											console.log(';oldData',oldData.id);
-											userService.deleteFamilyDirectors({id : oldData.id}).then(res => {
+											userService.deletePharmacies({id : oldData.id}).then(res => {
 												console.log('res' , res);
 												this.setState(prevState => {
 													const data = [...prevState.data];
@@ -123,6 +117,4 @@ class SearchTable extends Component {
 		);
 	}
 }
-export default SearchTable;
-
-
+export default Pharmacies;

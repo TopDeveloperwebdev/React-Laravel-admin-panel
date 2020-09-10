@@ -6,8 +6,7 @@ import { Box, Container } from '@material-ui/core';
 
 // Component
 import { SmallTitleBar, CustomCard } from 'components/GlobalComponents';
-import AgGridTable from 'components/Widgets/agGridTable';
-
+import AgGridTable from 'components/Widgets/agGridTable'
 import IntlMessages from 'util/IntlMessages';
 class AgGrid extends Component {
    render() {

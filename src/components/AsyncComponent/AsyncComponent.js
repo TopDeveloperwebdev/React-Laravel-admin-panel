@@ -106,6 +106,18 @@ const AsyncSearchTableComponent = Loadable({
    loading:() => <HulkPageLoader />,
 	delay: 3000,
 });
+// Search Table
+const AsyncMedicationComponent = Loadable({
+   loader:() => import("routes/Tables/Medication"),
+   loading:() => <HulkPageLoader />,
+	delay: 3000,
+});
+// Search Table
+const AsyncPharmaciesComponent = Loadable({
+   loader:() => import("routes/Tables/Pharmacies"),
+   loading:() => <HulkPageLoader />,
+	delay: 3000,
+});
 // Custom Table
 const AsyncCustomTableComponent = Loadable({
    loader:() => import("routes/Tables/CustomTable"),
@@ -283,6 +295,8 @@ export {
    AsyncButtonsComponent,
    AsyncBottomNavigationsComponent,
    AsyncSearchTableComponent,
+   AsyncMedicationComponent,
+   AsyncPharmaciesComponent,
    AsyncCustomTableComponent,
    AsyncFamilyDoctorsComponent,
    AsyncChipComponent,

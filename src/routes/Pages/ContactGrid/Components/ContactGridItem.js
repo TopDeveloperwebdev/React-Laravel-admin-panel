@@ -38,14 +38,6 @@ export default function ContactGridItem(props) {
 							</div>
 						</CardContent>
 						<CardActions disableSpacing className="footer-icon">
-							<Link to='/app/tables/patients-table'> <IconButton size="small">
-								Patients
-							</IconButton>
-							</Link>
-							<Link to='/app/tables/search-table'> <IconButton size="small">
-								Directors
-							</IconButton>
-							</Link>
 							<Link to='/app/user-settings'> <IconButton size="small">
 								Manager
 							</IconButton>

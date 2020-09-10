@@ -6,12 +6,19 @@ export const userService = {
    getAll,
    refreshToken,
    addFamilyDirectors,
-   showFamilyDirectors
+   showFamilyDirectors,
+   editFamilyDirectors,
+   deleteFamilyDirectors,
+  addPharmacies,
+   showPharmacies,
+   editPharmacies,
+   deletePharmacies,
+   
 };
 const serverUrl = 'http://localhost:8000/api/';
 function signup(data) {
-    console.log('data',data);
-   const requestOptions = {    
+   console.log('data', data);
+   const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
@@ -20,7 +27,7 @@ function signup(data) {
    return fetch(serverUrl + 'addUser', requestOptions)
       .then(handleResponse)
       .then(user => {
-         console.log('user' , user);
+         console.log('user', user);
          // store user details and jwt token in local storage to keep user logged in between page refreshes
          localStorage.setItem('user_id', JSON.stringify(user));
 
@@ -39,11 +46,13 @@ function login(username, password) {
       .then(user => user.json())
       .then(user => {
          // store user details and jwt token in local storage to keep user logged in between page refreshes
-         localStorage.setItem('user_id', JSON.stringify(user.name));
+         localStorage.setItem('user_id', JSON.stringify(user));
+
 
          return user;
       });
 }
+// familydoctors CRUD
 function addFamilyDirectors(data) {
 
    const requestOptions = {
@@ -59,18 +68,109 @@ function addFamilyDirectors(data) {
       });
 }
 function showFamilyDirectors(info) {
+ 
    const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(info)
    };
-   return [];
-   // return fetch(serverUrl + 'addFamilyDirectors', requestOptions)
-   //    .then(res => res.json())
-   //    .then(res => {  
-   //       return res;
-   //    });
+
+   return fetch(serverUrl + 'showFamilyDirectors', requestOptions)
+      .then(res => res.json())
+      .then(res => {     
+         return res
+      });
 }
+function editFamilyDirectors(data) {
+ 
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+  
+   return fetch(serverUrl + 'editFamilyDirectors', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         console.log('res', res);
+         return res
+      });
+}
+function deleteFamilyDirectors(id) {
+ 
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(id)
+   };
+  
+   return fetch(serverUrl + 'deleteFamilyDirectors', requestOptions)
+      .then(res => res.json())
+      .then(res => {       
+         return res
+      });
+}
+
+// pharmaciespharmacies CRUD
+function addPharmacies(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'addPharmacies', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res;
+      });
+}
+function showPharmacies(info) {
+ 
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(info)
+   };
+
+   return fetch(serverUrl + 'showPharmacies', requestOptions)
+      .then(res => res.json())
+      .then(res => {     
+         return res
+      });
+}
+function editPharmacies(data) {
+ 
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+  
+   return fetch(serverUrl + 'editPharmacies', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         console.log('res', res);
+         return res
+      });
+}
+function deletePharmacies(id) {
+ 
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(id)
+   };
+  
+   return fetch(serverUrl + 'deletePharmacies', requestOptions)
+      .then(res => res.json())
+      .then(res => {       
+         return res
+      });
+}
+
+
 
 function refreshToken() {
    const requestOptions = {
