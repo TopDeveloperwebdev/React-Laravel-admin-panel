@@ -151,7 +151,7 @@
 		},	
 		{
          "menu_title": "sidebar.patients",
-         "path": "/app/tables/ag-grid",
+         "path": "/app/tables/patients",
          "icon": "table_chart",
 		 "category":"components",
          "isMenuOpen": false,
@@ -164,7 +164,7 @@
 	,	
 		{
          "menu_title": "sidebar.familiy-directors",
-         "path": "/app/tables/search-table",
+         "path": "/app/tables/familiy-directors",
          "icon": "table_chart",
 		 "category":"components",
          "isMenuOpen": false,

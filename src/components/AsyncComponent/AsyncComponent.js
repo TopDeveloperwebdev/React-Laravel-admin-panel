@@ -118,9 +118,9 @@ const AsyncPharmaciesComponent = Loadable({
    loading:() => <HulkPageLoader />,
 	delay: 3000,
 });
-// Custom Table
-const AsyncCustomTableComponent = Loadable({
-   loader:() => import("routes/Tables/CustomTable"),
+// Patients Table
+const AsyncPatientsTableComponent = Loadable({
+   loader:() => import("routes/Tables/PatientsTable"),
    loading:() => <HulkPageLoader />,
 	delay: 3000,
 });
@@ -297,7 +297,7 @@ export {
    AsyncSearchTableComponent,
    AsyncMedicationComponent,
    AsyncPharmaciesComponent,
-   AsyncCustomTableComponent,
+   AsyncPatientsTableComponent,
    AsyncFamilyDoctorsComponent,
    AsyncChipComponent,
    AsyncListComponent,

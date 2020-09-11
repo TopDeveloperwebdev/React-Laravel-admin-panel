@@ -108,7 +108,7 @@ const AsyncSearchTableComponent = Loadable({
 });
 // Custom Table
 const AsyncCustomTableComponent = Loadable({
-   loader:() => import("routes/Tables/CustomTable"),
+   loader:() => import("routes/Tables/PatientsTable"),
    loading:() => <HulkPageLoader />,
 	delay: 3000,
 });

@@ -14,8 +14,14 @@ export const userService = {
    editPharmacies,
    deletePharmacies,
 
+   addPatients,
+   showPatients,
+   editPatients,
+   deletePatients,
+
+
 };
-const serverUrl = 'http://base.mastermedi-1.vautronserver.de/backend_latest/api/';
+const serverUrl = 'http://localhost:8000/api/';
 function signup(data) {
    console.log('data', data);
    const requestOptions = {
@@ -112,14 +118,13 @@ function deleteFamilyDirectors(id) {
 }
 
 // pharmaciespharmacies CRUD
-function addPharmacies(data) {
+function addPharmacies(formData) {
 
    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
+      method: 'POST',     
+      body: formData
    };
-
+ 
    return fetch(serverUrl + 'addPharmacies', requestOptions)
       .then(res => res.json())
       .then(res => {
@@ -143,11 +148,9 @@ function showPharmacies(info) {
 function editPharmacies(data) {
 
    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
+      method: 'POST',    
+      body: data
    };
-
    return fetch(serverUrl + 'editPharmacies', requestOptions)
       .then(res => res.json())
       .then(res => {
@@ -171,6 +174,64 @@ function deletePharmacies(id) {
 }
 
 
+// Pharmacies CRUD
+function addPatients(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'addPatients', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res;
+      });
+}
+function showPatients(info) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(info)
+   };
+
+   return fetch(serverUrl + 'showPatients', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
+function editPatients(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'editPatients', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         console.log('res', res);
+         return res
+      });
+}
+function deletePatients(id) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(id)
+   };
+
+   return fetch(serverUrl + 'deletePatients', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
 
 function refreshToken() {
    const requestOptions = {

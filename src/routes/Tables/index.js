@@ -8,7 +8,7 @@ import {
    AsyncBasicTableComponent,
    AsyncSearchTableComponent,
    AsyncPharmaciesComponent,
-   AsyncCustomTableComponent,
+   AsyncPatientsTableComponent,
    AsyncFullPageUrlsComponent,
    AsyncFamilyDoctorsComponent,
    AsyncMedicationComponent
@@ -22,7 +22,7 @@ const Tables = ({ match }) => (
       <Route path={`${match.url}/search-table`} component={AsyncSearchTableComponent}></Route>
       <Route path={`${match.url}/pharmacies`} component={AsyncPharmaciesComponent}></Route>
       <Route path={`${match.url}/medication`} component={AsyncMedicationComponent}></Route>
-      <Route path={`${match.url}/patients-table`} component={AsyncCustomTableComponent}></Route>
+      <Route path={`${match.url}/patients`} component={AsyncPatientsTableComponent}></Route>
       <Route path={`${match.url}/familiy-directors`} component={AsyncFamilyDoctorsComponent}></Route>
       <Route path={`${match.url}/`} component={AsyncFullPageUrlsComponent}></Route>
    </Switch>

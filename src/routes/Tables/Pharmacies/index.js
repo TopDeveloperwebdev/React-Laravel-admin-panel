@@ -15,13 +15,17 @@ class Pharmacies extends Component {
 		this.state = {
 			columns: [
 				{
-					title: 'Pharmacy logo', field: 'pharmacyLogo', render: rowData => <img  src={rowData.pharmacyLogo ? rowData.pharmacyLogo : this.defaultUrl} className="logo-td bdr-rad-50" />,
-					editComponent: tableData => (
-						<input
-							type="file"
+					title: 'Pharmacy logo', field: 'pharmacyLogo', render: rowData => <img src={rowData.pharmacyLogo ? rowData.pharmacyLogo : this.defaultUrl} className="logo-td bdr-rad-50" />,
+					editComponent: props => {
+						return (
+							<input
+								type='file'
 
-						/>
-					),
+								onChange={e => props.onChange(e.target.files[0])}
+							/>
+						)
+
+					}
 				},
 				{ title: 'Pharmacy name', field: 'pharmacyName' },
 				{ title: 'Street Nr', field: 'streetNr' },
@@ -42,7 +46,9 @@ class Pharmacies extends Component {
 					/>
 				},
 			],
-
+			selectedData: {
+				logo: '',
+			},
 			data: [
 				{ pharmacyLogo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSTbZrzTIuXAe01k5wgrhWGzPRPRliQygmBCA&usqp=CAU', pharmacyName: 'Baran1', streetNr: 'streetNr', zipCode: 63, city: 'Mehmet', phone: 'Baran', fax: 'streetNr', email: 'test@admin.com', password: 'password', notifications: true },
 				{ pharmacyLogo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSTbZrzTIuXAe01k5wgrhWGzPRPRliQygmBCA&usqp=CAU', pharmacyName: 'Baran2', streetNr: 'streetNr', zipCode: 63, city: 'Mehmet', phone: 'Baran', fax: 'streetNr', email: 'test@admin.com', password: 'password', notifications: true },
@@ -53,12 +59,14 @@ class Pharmacies extends Component {
 		};
 
 	}
-
+	onChange(file) {
+		console.log('file', file);
+	}
 	componentDidMount() {
 		this.defaultUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSTbZrzTIuXAe01k5wgrhWGzPRPRliQygmBCA&usqp=CAU";
 		let user = JSON.parse(localStorage.getItem('user_id'));
 		this.instance_id = user.instance_id;
-	
+
 		userService.showPharmacies({ instance_id: this.instance_id, pagination: 1 }).then(res => {
 			console.log('res', res);
 			this.setState(prevState => {
@@ -89,9 +97,13 @@ class Pharmacies extends Component {
 									new Promise(resolve => {
 										setTimeout(() => {
 											resolve();
-											console.log('newData', newData);
+										
 											newData.instance_id = this.instance_id;
-											userService.addPharmacies(newData).then(res => {
+											const formData = new FormData()
+											formData.append('file', newData.pharmacyLogo);
+											newData.pharmacyLogo = '';									
+											formData.append('data', JSON.stringify(newData) );
+											userService.addPharmacies(formData).then(res => {
 												console.log('res', res);
 												this.setState(prevState => {
 													const data = [...prevState.data];
@@ -105,9 +117,13 @@ class Pharmacies extends Component {
 								onRowUpdate: (newData, oldData) =>
 									new Promise(resolve => {
 										setTimeout(() => {
-											resolve();
-											console.log('newdata', newData.id);
-											userService.editPharmacies(newData).then(res => {
+											resolve();										
+											const formData = new FormData()
+											formData.append('file', newData.pharmacyLogo);											
+											newData.pharmacyLogo = '';									
+											formData.append('data', JSON.stringify(newData));	
+                                             console.log('newData',newData);
+											userService.editPharmacies(formData).then(res => {
 												if (oldData) {
 													this.setState(prevState => {
 														const data = [...prevState.data];
