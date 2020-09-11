@@ -14,6 +14,18 @@ class PatientsTable extends Component {
       super(props)
       this.state = {
          columns: [
+            {
+               title: 'Picture', field: 'picture', render: rowData => <img src={rowData.picture ? rowData.picture : this.defaultUrl} className="logo-td bdr-rad-50" />,
+               editComponent: props => {
+                  return (
+                     <input
+                        type='file'
+                        onChange={e => props.onChange(e.target.files[0])}
+                     />
+                  )
+
+               }
+            },
             { title: 'Salutation', field: 'salutation' },
             { title: 'First Name', field: 'firstName' },
             { title: 'Last Name', field: 'lastName' },
@@ -24,19 +36,19 @@ class PatientsTable extends Component {
             { title: 'Phone 1', field: 'phone1' },
             { title: 'Phone 2', field: 'phone2' },
             { title: 'E-Mail', field: 'email' },
-            { title: 'Picture', field: 'picture' },
+
             {
-               title: 'Resources', field: 'familyDoctor',
-              
-               editComponent: rowData => (
-                  <FormControl >                 
+               title: 'Resources', field: 'resources',
+               editComponent: props => (
+                  <FormControl >
                      <Select
                         native
                         inputProps={{
-                           name: 'age',
-                           id: 'age-native-simple',
+                           name: 'resources1',
+                           id: 'resources1-native-simple',
                         }}
-                     >                       
+                        onChange={e => props.onChange(e.target.value)}
+                     >
                         <option value={10}>Ten</option>
                         <option value={20}>Twenty</option>
                         <option value={30}>Thirty</option>
@@ -44,9 +56,42 @@ class PatientsTable extends Component {
                   </FormControl>),
 
             },
-            { title: 'Insurance', field: 'insurance' },
-            { title: 'Services', field: 'services' },
-            { title: 'Family Doctor', field: 'familyDoctor' },
+
+            {
+               title: 'Insurance', field: 'insurance', editComponent: props => (
+                  <FormControl >
+                     <Select
+                        native
+                        inputProps={{
+                           name: 'insurance1',
+                           id: 'insurance1-native-simple',
+                        }}
+                        onChange={e => props.onChange(e.target.value)}
+                     >
+                        <option value={10}>insurance1</option>
+                        <option value={20}>insurance2</option>
+                        <option value={30}>insurance3</option>
+                     </Select>
+                  </FormControl>),
+            },
+            {
+               title: 'Services', field: 'services', editComponent: props => (
+                  <FormControl >
+                     <Select
+                        native
+                        inputProps={{
+                           name: 'services',
+                           id: 'services-native-simple',
+                        }}
+                        onChange={e => props.onChange(e.target.value)}
+                     >
+                        <option value={10}>services1</option>
+                        <option value={20}>services2</option>
+                        <option value={30}>services3</option>
+                     </Select>
+                  </FormControl>),
+            },
+            { title: 'Family Doctor', field: 'familyDoctor', },
             { title: 'Key number', field: 'keyNumber' },
             { title: 'Floor', field: 'floor' },
             { title: 'Degree of care', field: 'degreeCare' },
@@ -61,6 +106,7 @@ class PatientsTable extends Component {
    }
 
    componentDidMount() {
+      this.defaultUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSTbZrzTIuXAe01k5wgrhWGzPRPRliQygmBCA&usqp=CAU";
       let user = JSON.parse(localStorage.getItem('user_id'));
       this.instance_id = user.instance_id;
       console.log('res', this.instance_id);
@@ -94,9 +140,13 @@ class PatientsTable extends Component {
                            new Promise(resolve => {
                               setTimeout(() => {
                                  resolve();
-                                 console.log('newData', newData);
+
                                  newData.instance_id = this.instance_id;
-                                 userService.addPatients(newData).then(res => {
+                                 const formData = new FormData()
+                                 formData.append('file', newData.picture);
+                                 newData.picture = '';
+                                 formData.append('data', JSON.stringify(newData));
+                                 userService.addPatients(formData).then(res => {
                                     console.log('res', res);
                                     this.setState(prevState => {
                                        const data = [...prevState.data];
@@ -111,12 +161,19 @@ class PatientsTable extends Component {
                            new Promise(resolve => {
                               setTimeout(() => {
                                  resolve();
-                                 console.log('newdata', newData.id);
-                                 userService.editPatients(newData).then(res => {
+                                 const formData = new FormData()
+                                 if (typeof newData.picture == 'object') {                                   
+                                    formData.append('file', newData.picture);
+                                    newData.picture = '';
+                                 }
+
+                                 formData.append('data', JSON.stringify(newData));
+                                 console.log('newData', newData);
+                                 userService.editPatients(formData).then(res => {
                                     if (oldData) {
                                        this.setState(prevState => {
                                           const data = [...prevState.data];
-                                          data[data.indexOf(oldData)] = newData;
+                                          data[data.indexOf(oldData)] = res;
                                           return { ...prevState, data };
                                        });
                                     }

@@ -13,13 +13,15 @@ export const userService = {
    showPharmacies,
    editPharmacies,
    deletePharmacies,
-
    addPatients,
    showPatients,
    editPatients,
    deletePatients,
 
-
+addMedications,
+   showMedications,
+   editMedications,
+   deleteMedications,
 };
 const serverUrl = 'http://localhost:8000/api/';
 function signup(data) {
@@ -117,14 +119,73 @@ function deleteFamilyDirectors(id) {
       });
 }
 
+// Medications CRUD
+function addMedications(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'addMedications', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res;
+      });
+}
+function showMedications(info) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(info)
+   };
+
+   return fetch(serverUrl + 'showMedications', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
+function editMedications(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'editMedications', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         console.log('res', res);
+         return res
+      });
+}
+function deleteMedications(id) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(id)
+   };
+
+   return fetch(serverUrl + 'deleteMedications', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
+
 // pharmaciespharmacies CRUD
 function addPharmacies(formData) {
 
    const requestOptions = {
-      method: 'POST',     
+      method: 'POST',
       body: formData
    };
- 
+
    return fetch(serverUrl + 'addPharmacies', requestOptions)
       .then(res => res.json())
       .then(res => {
@@ -148,7 +209,7 @@ function showPharmacies(info) {
 function editPharmacies(data) {
 
    const requestOptions = {
-      method: 'POST',    
+      method: 'POST',
       body: data
    };
    return fetch(serverUrl + 'editPharmacies', requestOptions)
@@ -174,13 +235,12 @@ function deletePharmacies(id) {
 }
 
 
-// Pharmacies CRUD
-function addPatients(data) {
+// Patients CRUD
+function addPatients(formData) {
 
    const requestOptions = {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
+      body: formData
    };
 
    return fetch(serverUrl + 'addPatients', requestOptions)
@@ -196,7 +256,7 @@ function showPatients(info) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(info)
    };
-
+ console.log('info' , info);
    return fetch(serverUrl + 'showPatients', requestOptions)
       .then(res => res.json())
       .then(res => {
@@ -207,10 +267,8 @@ function editPatients(data) {
 
    const requestOptions = {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
+      body: data
    };
-
    return fetch(serverUrl + 'editPatients', requestOptions)
       .then(res => res.json())
       .then(res => {
@@ -232,6 +290,7 @@ function deletePatients(id) {
          return res
       });
 }
+
 
 function refreshToken() {
    const requestOptions = {

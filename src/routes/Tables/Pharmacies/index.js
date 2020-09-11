@@ -19,8 +19,7 @@ class Pharmacies extends Component {
 					editComponent: props => {
 						return (
 							<input
-								type='file'
-
+								type='file'							
 								onChange={e => props.onChange(e.target.files[0])}
 							/>
 						)
@@ -49,19 +48,11 @@ class Pharmacies extends Component {
 			selectedData: {
 				logo: '',
 			},
-			data: [
-				{ pharmacyLogo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSTbZrzTIuXAe01k5wgrhWGzPRPRliQygmBCA&usqp=CAU', pharmacyName: 'Baran1', streetNr: 'streetNr', zipCode: 63, city: 'Mehmet', phone: 'Baran', fax: 'streetNr', email: 'test@admin.com', password: 'password', notifications: true },
-				{ pharmacyLogo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSTbZrzTIuXAe01k5wgrhWGzPRPRliQygmBCA&usqp=CAU', pharmacyName: 'Baran2', streetNr: 'streetNr', zipCode: 63, city: 'Mehmet', phone: 'Baran', fax: 'streetNr', email: 'test@admin.com', password: 'password', notifications: true },
-				{ pharmacyLogo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSTbZrzTIuXAe01k5wgrhWGzPRPRliQygmBCA&usqp=CAU', pharmacyName: 'Baran3', streetNr: 'streetNr', zipCode: 63, city: 'Mehmet', phone: 'Baran', fax: 'streetNr', email: 'test@admin.com', password: 'password', notifications: true },
-				{ pharmacyLogo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSTbZrzTIuXAe01k5wgrhWGzPRPRliQygmBCA&usqp=CAU', pharmacyName: 'Baran4', streetNr: 'streetNr', zipCode: 63, city: 'Mehmet', phone: 'Baran', fax: 'streetNr', email: 'test@admin.com', password: 'password', notifications: true },
-			],
-
+			data: []
 		};
 
 	}
-	onChange(file) {
-		console.log('file', file);
-	}
+	
 	componentDidMount() {
 		this.defaultUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSTbZrzTIuXAe01k5wgrhWGzPRPRliQygmBCA&usqp=CAU";
 		let user = JSON.parse(localStorage.getItem('user_id'));
@@ -117,10 +108,12 @@ class Pharmacies extends Component {
 								onRowUpdate: (newData, oldData) =>
 									new Promise(resolve => {
 										setTimeout(() => {
-											resolve();										
+											resolve();	
 											const formData = new FormData()
-											formData.append('file', newData.pharmacyLogo);											
-											newData.pharmacyLogo = '';									
+											if (typeof newData.pharmacyLogo == 'object') {                                   
+											   formData.append('file', newData.pharmacyLogo);
+											   newData.pharmacyLogo = '';
+											}									   
 											formData.append('data', JSON.stringify(newData));	
                                              console.log('newData',newData);
 											userService.editPharmacies(formData).then(res => {
