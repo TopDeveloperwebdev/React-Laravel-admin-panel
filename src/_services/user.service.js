@@ -32,12 +32,19 @@ export const userService = {
    showInsurances,
    editInsurances,
    deleteInsurances,
+
    addServices,
    showServices,
    editServices,
    deleteServices,
+
+ addIngredients,
+   showIngredients,
+   editIngredients,
+   deleteIngredients,
+   
 };
-const serverUrl = 'http://base.mastermedi-1.vautronserver.de/backend_latest/api/';
+const serverUrl = 'http://localhost:8000/api/';
 function signup(data) {
    console.log('data', data);
    const requestOptions = {
@@ -367,6 +374,66 @@ function deleteServices(id) {
          return res
       });
 }
+
+// Ingredients CRUD
+function addIngredients(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'addIngredients', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res;
+      });
+}
+function showIngredients(info) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(info)
+   };
+
+   return fetch(serverUrl + 'showIngredients', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
+function editIngredients(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'editIngredients', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         console.log('res', res);
+         return res
+      });
+}
+function deleteIngredients(id) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(id)
+   };
+
+   return fetch(serverUrl + 'deleteIngredients', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
+
 // pharmaciespharmacies CRUD
 function addPharmacies(formData) {
 

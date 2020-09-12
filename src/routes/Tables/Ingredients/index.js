@@ -8,21 +8,13 @@ import { userService } from '../../../_services';
 //Components
 import { SmallTitleBar } from 'components/GlobalComponents';
 import IntlMessages from 'util/IntlMessages';
-let ingredientsList = {};
-class Medication extends Component {
+
+class Ingredients extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
 			columns: [
-				{ title: 'Medication name', field: 'medicationName' },
-				{
-					title: 'Ingredients ', field: 'ingredients', lookup: ingredientsList
-
-				},
-				{ title: 'Packaging ', field: 'packaging' },
-				{ title: 'Relation to order', field: 'orders' },
-				{ title: 'Relation to patient', field: 'patients' },
-
+				{ title: 'Ingredients', field: 'ingredients' },	
 			],
 
 			data: [],
@@ -35,15 +27,13 @@ class Medication extends Component {
 		let user = JSON.parse(localStorage.getItem('user_id'));
 		this.instance_id = user.instance_id;
 		console.log('res', this.instance_id);
-		userService.showMedications({ instance_id: this.instance_id, pagination: 1 }).then(res => {
+		userService.showIngredients({ instance_id: this.instance_id, pagination: 1 }).then(res => {
 
 			this.setState(prevState => {
-				const data = res.medications;
+				const data = res;
 				return { ...prevState, data };
 			});
-			res.ingredients.map(ele => {
-				ingredientsList[ele.ingredients] = ele.ingredients;
-			})
+
 		})
 
 	}
@@ -53,13 +43,13 @@ class Medication extends Component {
 		return (
 			<div className="tables-wrapper search-table-wrap">
 				<SmallTitleBar
-					title={<IntlMessages id="sidebar.familiy-directors" />}
+					title={<IntlMessages id="sidebar.Ingredients" />}
 					center
 				/>
 				<Container maxWidth="lg">
 					<Box px={{ xs: '12px', lg: 0 }} className="page-space">
 						<MaterialTable
-							title={<IntlMessages id="sidebar.familiy-directors" />}
+							title={<IntlMessages id="sidebar.Ingredients" />}
 							columns={this.state.columns}
 							data={this.state.data}
 							editable={{
@@ -69,7 +59,7 @@ class Medication extends Component {
 											resolve();
 											console.log('newData', newData);
 											newData.instance_id = this.instance_id;
-											userService.addMedications(newData).then(res => {
+											userService.addIngredients(newData).then(res => {
 												console.log('res', res);
 												this.setState(prevState => {
 													const data = [...prevState.data];
@@ -85,7 +75,7 @@ class Medication extends Component {
 										setTimeout(() => {
 											resolve();
 											console.log('newdata', newData.id);
-											userService.editMedications(newData).then(res => {
+											userService.editIngredients(newData).then(res => {
 												if (oldData) {
 													this.setState(prevState => {
 														const data = [...prevState.data];
@@ -101,7 +91,7 @@ class Medication extends Component {
 										setTimeout(() => {
 											resolve();
 											console.log(';oldData', oldData.id);
-											userService.deleteMedications({ id: oldData.id }).then(res => {
+											userService.deleteIngredients({ id: oldData.id }).then(res => {
 												console.log('res', res);
 												this.setState(prevState => {
 													const data = [...prevState.data];
@@ -119,6 +109,6 @@ class Medication extends Component {
 		);
 	}
 }
-export default Medication;
+export default Ingredients;
 
 

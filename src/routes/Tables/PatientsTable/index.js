@@ -13,7 +13,6 @@ import IntlMessages from 'util/IntlMessages';
 let insuranceList = {};
 let pharmaciesList = {};
 let family_doctorsList = {};
-
 let resourcesList = [];
 let servicesList = [];
 
@@ -165,14 +164,16 @@ class PatientsTable extends Component {
          })
 
          res.family_doctors.map(ele => {
-            family_doctorsList[ele.family_doctors] = ele.family_doctors;
+            family_doctorsList[ele.doctorName] = ele.doctorName;
          })
-
+    
          res.insurances.map(ele => {
             insuranceList[ele.insurances] = ele.insurances;
          })
+          
+         
          res.pharmacies.map(ele => {
-            pharmaciesList[ele.pharmacies] = ele.pharmacies;
+            pharmaciesList[ele.pharmacyName] = ele.pharmacyName;
          })
          // console.log('this.insta' , this.insurances);  
 

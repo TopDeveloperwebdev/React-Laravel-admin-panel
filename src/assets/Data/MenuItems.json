@@ -228,6 +228,14 @@
 					"isMenuOpen": false,
 					"fullPageMenu": false,
 					"third_child_routes": null
+				},
+				{
+					"path": "/app/tables/ingredients",
+					"menu_title": "sidebar.ingredients",
+					"icon": "contact_support",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
 				}
 			]
 		},

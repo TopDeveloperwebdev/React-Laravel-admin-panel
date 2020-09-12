@@ -37,6 +37,7 @@ export default {
   "sidebar.userSettings": "User Settings",
   "sidebar.pages": "Pages",
   "sidebar.services": "services",
+  "sidebar.ingredients" : "Ingredients",
   "sidebar.faq": "FAQ",
   "sidebar.pricing": "Pricing",
   "sidebar.pricingv1": "Pricing V1",

@@ -8,7 +8,7 @@ import { HulkPageLoader } from '../GlobalComponents';
 
 // Dasboard Urls
 const AsyncFullPageUrlsComponent = Loadable({
-   loader: () => import("routes/FullPageUrls"),
+	loader: () => import("routes/FullPageUrls"),
 	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
@@ -58,8 +58,8 @@ const AsyncCheckoutComponent = Loadable({
 });
 // Invoice Page
 const AsyncInvoiceComponent = Loadable({
-   loader: () => import("routes/Ecommerce/Invoice"),
-   loading: () => <HulkPageLoader />,
+	loader: () => import("routes/Ecommerce/Invoice"),
+	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
 // SignIn Page
@@ -77,192 +77,199 @@ const AsyncMailComponent = Loadable({
 
 // Chat Page
 const AsyncChatComponent = Loadable({
-   loader: () => import("routes/Chat"),
-   loading: () => <HulkPageLoader />,
+	loader: () => import("routes/Chat"),
+	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
 // Blog Page
 const AsyncBlogGridComponent = Loadable({
-   loader: () => import("routes/Blog/BlogGrid"),
-   loading: () => <HulkPageLoader />,
+	loader: () => import("routes/Blog/BlogGrid"),
+	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
 // Tables Page
 const AsyncAgGridComponent = Loadable({
-   loader: () => import("routes/Tables/AgGrid"),
-   loading: () => <HulkPageLoader />,
+	loader: () => import("routes/Tables/AgGrid"),
+	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
 // Basic Table
 const AsyncBasicTableComponent = Loadable({
-   loader: () => import("routes/Tables/BasicTable"),
-   loading:() => <HulkPageLoader />,
+	loader: () => import("routes/Tables/BasicTable"),
+	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
 //
 // Search Table
 const AsyncSearchTableComponent = Loadable({
-   loader:() => import("routes/Tables/SearchTable"),
-   loading:() => <HulkPageLoader />,
+	loader: () => import("routes/Tables/SearchTable"),
+	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
 // Search Table
 const AsyncMedicationComponent = Loadable({
-   loader:() => import("routes/Tables/Medication"),
-   loading:() => <HulkPageLoader />,
+	loader: () => import("routes/Tables/Medication"),
+	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
 // Search Table
 const AsyncPharmaciesComponent = Loadable({
-   loader:() => import("routes/Tables/Pharmacies"),
-   loading:() => <HulkPageLoader />,
+	loader: () => import("routes/Tables/Pharmacies"),
+	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
 // Patients Table
 const AsyncPatientsTableComponent = Loadable({
-   loader:() => import("routes/Tables/PatientsTable"),
-   loading:() => <HulkPageLoader />,
+	loader: () => import("routes/Tables/PatientsTable"),
+	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
 
 // directors Table
 const AsyncFamilyDoctorsComponent = Loadable({
-	loader:() => import("routes/Tables/FamilyDoctors"),
-	loading:() => <HulkPageLoader />,
-	 delay: 3000,
- });
- // AsyncResourcesComponent Table
+	loader: () => import("routes/Tables/FamilyDoctors"),
+	loading: () => <HulkPageLoader />,
+	delay: 3000,
+});
+// AsyncResourcesComponent Table
 const AsyncResourcesComponent = Loadable({
-	loader:() => import("routes/Tables/Resources"),
-	loading:() => <HulkPageLoader />,
-	 delay: 3000,
- });
-  // AsyncInsurancesComponent Table
+	loader: () => import("routes/Tables/Resources"),
+	loading: () => <HulkPageLoader />,
+	delay: 3000,
+});
+// AsyncInsurancesComponent Table
 const AsyncInsurancesComponent = Loadable({
-	loader:() => import("routes/Tables/Insurances"),
-	loading:() => <HulkPageLoader />,
-	 delay: 3000,
- });
- 
-   // AsyncServicesComponent Table
+	loader: () => import("routes/Tables/Insurances"),
+	loading: () => <HulkPageLoader />,
+	delay: 3000,
+});
+
+// AsyncServicesComponent Table
 const AsyncServicesComponent = Loadable({
-	loader:() => import("routes/Tables/Services"),
-	loading:() => <HulkPageLoader />,
-	 delay: 3000,
- });
- 
+	loader: () => import("routes/Tables/Services"),
+	loading: () => <HulkPageLoader />,
+	delay: 3000,
+});
+
+// AsyncIngredientsComponent Table
+const AsyncIngredientsComponent = Loadable({
+	loader: () => import("routes/Tables/Ingredients"),
+	loading: () => <HulkPageLoader />,
+	delay: 3000,
+});
+
 // Blog Detail Page
 const AsyncBlogDetailComponent = Loadable({
-   loader: () => import("routes/Blog/BlogDetail"),
-   loading: () => <HulkPageLoader />,
+	loader: () => import("routes/Blog/BlogDetail"),
+	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
 // Standard Profile Page
 const AsyncStandardComponent = Loadable({
-   loader: () => import("routes/Pages/Profile/Standard"),
-   loading: () => <HulkPageLoader />,
+	loader: () => import("routes/Pages/Profile/Standard"),
+	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
 // Modern Feeds
 const AsyncModernComponent = Loadable({
-   loader: () => import("routes/Pages/Profile/Modern"),
-   loading: () => <HulkPageLoader />,
+	loader: () => import("routes/Pages/Profile/Modern"),
+	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
 // Contact Page
 const AsyncContactGridComponent = Loadable({
-   loader:  () => import("routes/Pages/ContactGrid"),
-   loading: () => <HulkPageLoader />,
+	loader: () => import("routes/Pages/ContactGrid"),
+	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
 // Faq Page
 const AsyncFaqComponent = Loadable({
-   loader: () => import("routes/Pages/Faq"),
-   loading: () => <HulkPageLoader />,
+	loader: () => import("routes/Pages/Faq"),
+	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
 // Pricing V1 Page
 const AsyncPricingV1Component = Loadable({
-   loader: () => import("routes/Pages/Pricing/Style1"),
-   loading: () => <HulkPageLoader />,
+	loader: () => import("routes/Pages/Pricing/Style1"),
+	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
 // pricing V2 Page
 const AsyncPricingV2Component = Loadable({
-   loader: () => import("routes/Pages/Pricing/Style2"),
-   loading: () => <HulkPageLoader />,
+	loader: () => import("routes/Pages/Pricing/Style2"),
+	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
 // Pricing Upgrade
 const AsyncPricingUpgradeComponent = Loadable({
-   loader: () => import("routes/Pages/Pricing/PricingUpgrade"),
-   loading: () => <HulkPageLoader />,
+	loader: () => import("routes/Pages/Pricing/PricingUpgrade"),
+	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
 // Vertical Timeline
 const AsyncVerticalTimelineComponent = Loadable({
-   loader: () => import("routes/Pages/Timeline/VerticalTimeline"),
-   loading: () => <HulkPageLoader />,
+	loader: () => import("routes/Pages/Timeline/VerticalTimeline"),
+	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
 // Horizontal Timeline
 const AsyncHorizontalTimelineComponent = Loadable({
-   loader: () => import("routes/Pages/Timeline/HorizontalTimeline"),
-   loading: () => <HulkPageLoader />,
+	loader: () => import("routes/Pages/Timeline/HorizontalTimeline"),
+	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
 // Horizontal Stepper
 const AsyncHorizontalStepperComponent = Loadable({
-   loader: () => import("routes/Pages/Stepper/HorizontalStepper"),
-   loading: () => <HulkPageLoader />,
+	loader: () => import("routes/Pages/Stepper/HorizontalStepper"),
+	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
 // Vertical Stepper
 const AsyncVerticalStepperComponent = Loadable({
-   loader: () => import("routes/Pages/Pricing/PricingUpgrade"),
-   loading: () => <HulkPageLoader />,
+	loader: () => import("routes/Pages/Pricing/PricingUpgrade"),
+	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
 // Ui Components
 const AsyncAppbarComponent = Loadable({
-   loader: () => import("routes/UiComponents/AppBar"),
-   loading: () => <HulkPageLoader />,
+	loader: () => import("routes/UiComponents/AppBar"),
+	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
 const AsyncAvatarsComponent = Loadable({
-   loader: () => import("routes/UiComponents/Avatars"),
-   loading: () => <HulkPageLoader />,
+	loader: () => import("routes/UiComponents/Avatars"),
+	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
 const AsyncButtonsComponent = Loadable({
-   loader: () => import("routes/UiComponents/Buttons"),
-   loading: () => <HulkPageLoader />,
+	loader: () => import("routes/UiComponents/Buttons"),
+	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
 const AsyncBottomNavigationsComponent = Loadable({
-   loader: () => import("routes/UiComponents/BottomNavigations"),
-   loading: () => <HulkPageLoader />,
+	loader: () => import("routes/UiComponents/BottomNavigations"),
+	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
 const AsyncChipComponent = Loadable({
-   loader: () => import("routes/UiComponents/Chip"),
-   loading: () => <HulkPageLoader />,
+	loader: () => import("routes/UiComponents/Chip"),
+	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
 const AsyncListComponent = Loadable({
-   loader: () => import("routes/UiComponents/List"),
-   loading: () => <HulkPageLoader />,
+	loader: () => import("routes/UiComponents/List"),
+	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
 const AsyncModalsComponent = Loadable({
-   loader: () => import("routes/UiComponents/Modals"),
-   loading: () => <HulkPageLoader />,
+	loader: () => import("routes/UiComponents/Modals"),
+	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
 // Calendar Page
 const AsyncCalendarComponent = Loadable({
-   loader: () => import("routes/Calendar"),
-   loading: () => <HulkPageLoader />,
+	loader: () => import("routes/Calendar"),
+	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
 // User Settings
@@ -273,8 +280,8 @@ const AsyncUserSettingsComponent = Loadable({
 });
 // Vedio Player
 const AsyncVideoPlayerComponent = Loadable({
-   loader: () => import("routes/VideoPlayer"),
-   loading:() => <HulkPageLoader />,
+	loader: () => import("routes/VideoPlayer"),
+	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
 // Error Page 404
@@ -291,7 +298,7 @@ const AsyncErrorPage500Component = Loadable({
 });
 
 export {
-   AsyncFullPageUrlsComponent,
+	AsyncFullPageUrlsComponent,
 	AsyncDashboard1Component,
 	AsyncDashboard2Component,
 	AsyncDashboard3Component,
@@ -300,42 +307,43 @@ export {
 	AsyncCartComponent,
 	AsyncCheckoutComponent,
 	AsyncSignInComponent,
-   AsyncMailComponent,
-   AsyncContactGridComponent,
+	AsyncMailComponent,
+	AsyncContactGridComponent,
 	AsyncStandardComponent,
 	AsyncModernComponent,
-   AsyncChatComponent,
+	AsyncChatComponent,
 	AsyncBlogGridComponent,
 	AsyncBlogDetailComponent,
-   AsyncFaqComponent,
-   AsyncPricingV1Component,
-   AsyncPricingV2Component,
-   AsyncAppbarComponent,
-   AsyncAvatarsComponent,
-   AsyncButtonsComponent,
-   AsyncBottomNavigationsComponent,
-   AsyncSearchTableComponent,
-   AsyncMedicationComponent,
-   AsyncPharmaciesComponent,
-   AsyncPatientsTableComponent,
-   AsyncFamilyDoctorsComponent,
-   AsyncChipComponent,
-   AsyncListComponent,
-   AsyncModalsComponent,
-   AsyncAgGridComponent,
-   AsyncBasicTableComponent,
+	AsyncFaqComponent,
+	AsyncPricingV1Component,
+	AsyncPricingV2Component,
+	AsyncAppbarComponent,
+	AsyncAvatarsComponent,
+	AsyncButtonsComponent,
+	AsyncBottomNavigationsComponent,
+	AsyncSearchTableComponent,
+	AsyncMedicationComponent,
+	AsyncPharmaciesComponent,
+	AsyncPatientsTableComponent,
+	AsyncFamilyDoctorsComponent,
+	AsyncChipComponent,
+	AsyncListComponent,
+	AsyncModalsComponent,
+	AsyncAgGridComponent,
+	AsyncBasicTableComponent,
 	AsyncPricingUpgradeComponent,
 	AsyncVerticalTimelineComponent,
-   AsyncHorizontalTimelineComponent,
-   AsyncHorizontalStepperComponent,
-   AsyncVerticalStepperComponent,
+	AsyncHorizontalTimelineComponent,
+	AsyncHorizontalStepperComponent,
+	AsyncVerticalStepperComponent,
 	AsyncInvoiceComponent,
 	AsyncCalendarComponent,
 	AsyncUserSettingsComponent,
 	AsyncErrorPage404Component,
 	AsyncErrorPage500Component,
-   AsyncVideoPlayerComponent,
-   AsyncResourcesComponent,
-   AsyncInsurancesComponent,
-   AsyncServicesComponent
+	AsyncVideoPlayerComponent,
+	AsyncResourcesComponent,
+	AsyncInsurancesComponent,
+	AsyncServicesComponent,
+	AsyncIngredientsComponent
 };
