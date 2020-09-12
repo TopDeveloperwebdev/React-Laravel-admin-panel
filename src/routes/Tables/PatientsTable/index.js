@@ -3,12 +3,19 @@
 */
 import React, { Component } from 'react';
 import MaterialTable from 'material-table';
-import { Container, Box, Switch, FormControl, InputLabel, Select  ,MenuItem, Input} from '@material-ui/core';
-
+import { Container, Box, Switch, FormControl, InputLabel, Select } from '@material-ui/core';
+import MultiSelect from "@khanacademy/react-multi-select";
 import { userService } from '../../../_services';
 //Components
 import { SmallTitleBar } from 'components/GlobalComponents';
 import IntlMessages from 'util/IntlMessages';
+
+let insuranceList = {};
+let pharmaciesList = {};
+let family_doctorsList = {};
+
+let resourcesList = [];
+let servicesList = [];
 
 class PatientsTable extends Component {
    constructor(props) {
@@ -39,134 +46,84 @@ class PatientsTable extends Component {
             { title: 'E-Mail', field: 'email' },
 
             {
-               title: 'Resources', field: 'resources',
-               editComponent: props => (
-                  <FormControl >
-                     <Select
-                        native
-                        inputProps={{
-                           name: 'resources1',
-                           id: 'resources1-native-simple',
-                        }}
-                        onChange={e => props.onChange(e.target.value)}
-                     >
-                        {
-                           this.resources.map(ele => (
-                              <option value={ele.resources}>{ele.resources}</option>
-                           ))}
-                     </Select>
-                  </FormControl>
-               ),
+               title: 'Resources', field: 'resources', render: props => {
+                  let selectedResources = JSON.parse(props.resources);
+                  if (!selectedResources) {
+                     selectedResources = [];
+                  }
+                  return (
+                     <MultiSelect
+                        options={resourcesList}
+                        selected={selectedResources}
+                     />
+                  )
+
+               },
+               editComponent: props => {
+
+                  return (
+                     <MultiSelect
+                        options={resourcesList}
+                        selected={this.state.selected}
+                        onSelectedChanged={selected => this.setState({ selected })}
+                     />
+                  )
+
+               }
 
             },
 
             {
-               title: 'Insurance', field: 'insurance', editComponent: props => (
-                  <FormControl >
-                     <Select
-                        native
-                        inputProps={{
-                           name: 'insurance1',
-                           id: 'insurance1-native-simple',
-                        }}
-                        onChange={e => props.onChange(e.target.value)}
-                     >
-                        {
-                           this.insurances.map(ele => (
-                              <option value={ele.insurances}>{ele.insurances}</option>
-                           ))}
-                     </Select>
-                  </FormControl>),
+               title: 'Insurance', field: 'insurance', lookup: insuranceList
             },
             {
-               title: 'Services', field: 'services', editComponent: props => (
-                  <FormControl >
-                     <Select
-                        native
-                        inputProps={{
-                           name: 'services',
-                           id: 'services-native-simple',
-                        }}
-                        onChange={e => props.onChange(e.target.value)}
-                     >
-                        {
-                           this.services.map(ele => (
-                              <option value={ele.services}>{ele.services}</option>
-                           ))}
+               title: 'Services', field: 'services', render: props => {
+                  let selectedServices = JSON.parse(props.services);
+                  if (!selectedServices) {
+                     selectedServices = [];
+                  }
+                  return (
+                     <MultiSelect
+                        options={servicesList}
+                        selected={selectedServices}
+                     />
+                  )
+               },
+               editComponent: props => {
+                  return (
+                     <MultiSelect
+                        options={servicesList}
+                        selected={this.state.selectedservice}
+                        onSelectedChanged={selectedservice => this.setState({ selectedservice })}
+                     />
+                  )
 
-                     </Select>
-                  </FormControl>),
+               }
             },
             {
-               title: 'Family Doctor', field: 'familyDoctor', editComponent: props => (
-                  <FormControl >
-                     <Select
-                        native
-                        inputProps={{
-                           name: 'familyDoctor',
-                           id: 'familyDoctor-native-simple',
-                        }}
-                        onChange={e => props.onChange(e.target.value)}
-                     >
-                        {
-                           this.family_doctors.map(ele => (
-                              <option value={ele.family_doctors}>{ele.family_doctors}</option>
-                           ))}
-                     </Select>
-                  </FormControl>),
+               title: 'Family Doctor', field: 'familyDoctor', lookup: family_doctorsList
             },
             { title: 'Key number', field: 'keyNumber' },
             { title: 'Floor', field: 'floor' },
             {
-               title: 'Degree of care', field: 'degreeCare', editComponent: props => (
-                  <Select
-                     labelId="demo-mutiple-name-label"
-                     id="demo-mutiple-name"
-                     multiple  
-                     input={<Input />}                   
-                  >
-                     {  this.names.map((name) => (
-                        <MenuItem key={name} value={name} >
-                           {name}
-                        </MenuItem>
-                     ))}
-                  </Select>
-               )
+               title: 'Degree of care', field: 'degreeCare'
             },
             {
-               title: 'Pharmacy', field: 'pharmacy', editComponent: props => (
-                  <FormControl >
-                     <Select
-                        native
-                        inputProps={{
-                           name: 'pharmacy1',
-                           id: 'pharmacy-native-simple',
-                        }}
-                        onChange={e => props.onChange(e.target.value)}
-                     >
-                        {
-                           this.pharmacies.map(ele => (
-                              <option value={ele.pharmacies}>{ele.pharmacies}</option>
-                           ))}
-                     </Select>
-                  </FormControl>),
+               title: 'Pharmacy', field: 'pharmacy', lookup: pharmaciesList
             },
             { title: 'User group', field: 'userGroup' },
             { title: 'Status', field: 'status' },
          ],
          data: [],
+         selected: [],
+         selectedservice: []
 
       };
 
+
    }
 
-    handleChange = (event) => {
-   
-      this.setState({
-         degree : event.target.value
 
-      })
-    };
    componentDidMount() {
       this.names = [
          'Oliver Hansen',
@@ -179,18 +136,32 @@ class PatientsTable extends Component {
          'Bradley Wilkerson',
          'Virginia Andrews',
          'Kelly Snyder',
-       ];
+      ];
       this.defaultUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSTbZrzTIuXAe01k5wgrhWGzPRPRliQygmBCA&usqp=CAU";
       let user = JSON.parse(localStorage.getItem('user_id'));
       this.instance_id = user.instance_id;
       console.log('res', this.instance_id);
       userService.showPatients({ instance_id: this.instance_id, pagination: 1 }).then(res => {
-         console.log(';res', res);
-         this.services = res.services;
-         this.family_doctors = res.family_doctors;
-         this.resources = res.resources;
-         this.insurances = res.insurances;
-         this.pharmacies = res.pharmacies;
+         res.services.map(ele => {
+            servicesList.push({ label: ele.services, value: ele.services });
+         })
+         res.resources.map(ele => {
+            resourcesList.push({ label: ele.resources, value: ele.resources });
+         })
+
+         res.family_doctors.map(ele => {
+            family_doctorsList[ele.family_doctors] = ele.family_doctors;
+         })
+
+         res.insurances.map(ele => {
+            insuranceList[ele.insurances] = ele.insurances;
+         })
+         res.pharmacies.map(ele => {
+            pharmaciesList[ele.pharmacies] = ele.pharmacies;
+         })
+         // console.log('this.insta' , this.insurances);  
+
+
          this.setState(prevState => {
             const data = res.patients;
             return { ...prevState, data };
@@ -221,6 +192,7 @@ class PatientsTable extends Component {
                                  resolve();
 
                                  newData.instance_id = this.instance_id;
+                                 newData.resources = JSON.stringify(this.state.selected);
                                  const formData = new FormData()
                                  formData.append('file', newData.picture);
                                  newData.picture = '';
@@ -245,9 +217,9 @@ class PatientsTable extends Component {
                                     formData.append('file', newData.picture);
                                     newData.picture = '';
                                  }
-
+                                 newData.resources = JSON.stringify(this.state.selected);
                                  formData.append('data', JSON.stringify(newData));
-                                 console.log('newData', newData);
+
                                  userService.editPatients(formData).then(res => {
                                     if (oldData) {
                                        this.setState(prevState => {
