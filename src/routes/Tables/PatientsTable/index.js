@@ -59,13 +59,24 @@ class PatientsTable extends Component {
                   )
 
                },
-               editComponent: props => {
+               editComponent: rowData => {
+                  if (rowData.rowData.id) {
+                     let selected = JSON.parse(rowData.rowData.resources);
+                     if (!selected) {
+                        selected = [];
+                     }
+                     if (this.state.isEditResources) {
+                        this.setState({ selected: selected, isEditResources: false })
+                     }
+                  }
 
                   return (
                      <MultiSelect
+
                         options={resourcesList}
                         selected={this.state.selected}
                         onSelectedChanged={selected => this.setState({ selected })}
+
                      />
                   )
 
@@ -84,17 +95,29 @@ class PatientsTable extends Component {
                   }
                   return (
                      <MultiSelect
+                        name="services"
                         options={servicesList}
                         selected={selectedServices}
                      />
                   )
                },
-               editComponent: props => {
+               editComponent: rowData => {
+                  console.log('rowData.rowData.id', rowData.rowData.id);
+                  if (rowData.rowData.id) {
+                     let currentService = JSON.parse(rowData.rowData.services);
+                     console.log('currentService', currentService);
+                     if (!currentService) {
+                        currentService = [];
+                     }
+                     if (this.state.isEditServices) {
+                        this.setState({ selectedservice: currentService, isEditServices: false })
+                     }
+                  }
                   return (
                      <MultiSelect
                         options={servicesList}
                         selected={this.state.selectedservice}
-                        onSelectedChanged={selectedservice => this.setState({ selectedservice })}
+                        onSelectedChanged={selectedservice => { console.log("selectedservice", selectedservice); this.setState({ selectedservice }) }}
                      />
                   )
 
@@ -103,8 +126,8 @@ class PatientsTable extends Component {
             {
                title: 'Family Doctor', field: 'familyDoctor', lookup: family_doctorsList
             },
-            { title: 'Key number', field: 'keyNumber' },
-            { title: 'Floor', field: 'floor' },
+            { title: 'Key number', field: 'keyNumber', type: 'numeric' },
+            { title: 'Floor', field: 'floor', type: 'numeric' },
             {
                title: 'Degree of care', field: 'degreeCare'
             },
@@ -116,7 +139,9 @@ class PatientsTable extends Component {
          ],
          data: [],
          selected: [],
-         selectedservice: []
+         selectedservice: [],
+         isEditServices: true,
+         isEditResources: true,
 
       };
 
@@ -125,23 +150,13 @@ class PatientsTable extends Component {
 
 
    componentDidMount() {
-      this.names = [
-         'Oliver Hansen',
-         'Van Henry',
-         'April Tucker',
-         'Ralph Hubbard',
-         'Omar Alexander',
-         'Carlos Abbott',
-         'Miriam Wagner',
-         'Bradley Wilkerson',
-         'Virginia Andrews',
-         'Kelly Snyder',
-      ];
       this.defaultUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSTbZrzTIuXAe01k5wgrhWGzPRPRliQygmBCA&usqp=CAU";
       let user = JSON.parse(localStorage.getItem('user_id'));
       this.instance_id = user.instance_id;
       console.log('res', this.instance_id);
       userService.showPatients({ instance_id: this.instance_id, pagination: 1 }).then(res => {
+         resourcesList = [];
+         servicesList = [];
          res.services.map(ele => {
             servicesList.push({ label: ele.services, value: ele.services });
          })
@@ -185,6 +200,7 @@ class PatientsTable extends Component {
                      title={<IntlMessages id="sidebar.familiy-directors" />}
                      columns={this.state.columns}
                      data={this.state.data}
+
                      editable={{
                         onRowAdd: newData =>
                            new Promise(resolve => {
@@ -193,17 +209,20 @@ class PatientsTable extends Component {
 
                                  newData.instance_id = this.instance_id;
                                  newData.resources = JSON.stringify(this.state.selected);
+                                 newData.services = JSON.stringify(this.state.selectedservice);
                                  const formData = new FormData()
                                  formData.append('file', newData.picture);
                                  newData.picture = '';
                                  formData.append('data', JSON.stringify(newData));
                                  userService.addPatients(formData).then(res => {
-                                    console.log('res', res);
+                                    const selected = [];
+                                    const selectedservice = [];
                                     this.setState(prevState => {
                                        const data = [...prevState.data];
                                        data.push(res);
                                        return { ...prevState, data };
                                     });
+                                    this.setState({ selected: selected, selectedservice: selectedservice, isEditServices: true, isEditResources: true });
                                  });
 
                               }, 600);
@@ -218,6 +237,7 @@ class PatientsTable extends Component {
                                     newData.picture = '';
                                  }
                                  newData.resources = JSON.stringify(this.state.selected);
+                                 newData.services = JSON.stringify(this.state.selectedservice);
                                  formData.append('data', JSON.stringify(newData));
 
                                  userService.editPatients(formData).then(res => {
@@ -227,6 +247,9 @@ class PatientsTable extends Component {
                                           data[data.indexOf(oldData)] = res;
                                           return { ...prevState, data };
                                        });
+                                       const selected = [];
+                                       const selectedservice = [];
+                                       this.setState({ selected: selected, selectedservice: selectedservice, isEditServices: true, isEditResources: true });
                                     }
                                  })
                               }, 600);
