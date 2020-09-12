@@ -3,7 +3,8 @@
 */
 import React, { Component } from 'react';
 import MaterialTable from 'material-table';
-import { Container, Box, Switch, FormControl, InputLabel, Select } from '@material-ui/core';
+import { Container, Box, Switch, FormControl, InputLabel, Select  ,MenuItem, Input} from '@material-ui/core';
+
 import { userService } from '../../../_services';
 //Components
 import { SmallTitleBar } from 'components/GlobalComponents';
@@ -49,11 +50,13 @@ class PatientsTable extends Component {
                         }}
                         onChange={e => props.onChange(e.target.value)}
                      >
-                        <option value={10}>Ten</option>
-                        <option value={20}>Twenty</option>
-                        <option value={30}>Thirty</option>
+                        {
+                           this.resources.map(ele => (
+                              <option value={ele.resources}>{ele.resources}</option>
+                           ))}
                      </Select>
-                  </FormControl>),
+                  </FormControl>
+               ),
 
             },
 
@@ -68,9 +71,10 @@ class PatientsTable extends Component {
                         }}
                         onChange={e => props.onChange(e.target.value)}
                      >
-                        <option value={10}>insurance1</option>
-                        <option value={20}>insurance2</option>
-                        <option value={30}>insurance3</option>
+                        {
+                           this.insurances.map(ele => (
+                              <option value={ele.insurances}>{ele.insurances}</option>
+                           ))}
                      </Select>
                   </FormControl>),
             },
@@ -85,35 +89,110 @@ class PatientsTable extends Component {
                         }}
                         onChange={e => props.onChange(e.target.value)}
                      >
-                        <option value={10}>services1</option>
-                        <option value={20}>services2</option>
-                        <option value={30}>services3</option>
+                        {
+                           this.services.map(ele => (
+                              <option value={ele.services}>{ele.services}</option>
+                           ))}
+
                      </Select>
                   </FormControl>),
             },
-            { title: 'Family Doctor', field: 'familyDoctor', },
+            {
+               title: 'Family Doctor', field: 'familyDoctor', editComponent: props => (
+                  <FormControl >
+                     <Select
+                        native
+                        inputProps={{
+                           name: 'familyDoctor',
+                           id: 'familyDoctor-native-simple',
+                        }}
+                        onChange={e => props.onChange(e.target.value)}
+                     >
+                        {
+                           this.family_doctors.map(ele => (
+                              <option value={ele.family_doctors}>{ele.family_doctors}</option>
+                           ))}
+                     </Select>
+                  </FormControl>),
+            },
             { title: 'Key number', field: 'keyNumber' },
             { title: 'Floor', field: 'floor' },
-            { title: 'Degree of care', field: 'degreeCare' },
-            { title: 'Pharmacy', field: 'pharmacy' },
+            {
+               title: 'Degree of care', field: 'degreeCare', editComponent: props => (
+                  <Select
+                     labelId="demo-mutiple-name-label"
+                     id="demo-mutiple-name"
+                     multiple  
+                     input={<Input />}                   
+                  >
+                     {  this.names.map((name) => (
+                        <MenuItem key={name} value={name} >
+                           {name}
+                        </MenuItem>
+                     ))}
+                  </Select>
+               )
+            },
+            {
+               title: 'Pharmacy', field: 'pharmacy', editComponent: props => (
+                  <FormControl >
+                     <Select
+                        native
+                        inputProps={{
+                           name: 'pharmacy1',
+                           id: 'pharmacy-native-simple',
+                        }}
+                        onChange={e => props.onChange(e.target.value)}
+                     >
+                        {
+                           this.pharmacies.map(ele => (
+                              <option value={ele.pharmacies}>{ele.pharmacies}</option>
+                           ))}
+                     </Select>
+                  </FormControl>),
+            },
             { title: 'User group', field: 'userGroup' },
             { title: 'Status', field: 'status' },
          ],
-         data: []
+         data: [],
 
       };
 
    }
 
+    handleChange = (event) => {
+   
+      this.setState({
+         degree : event.target.value
+
+      })
+    };
    componentDidMount() {
+      this.names = [
+         'Oliver Hansen',
+         'Van Henry',
+         'April Tucker',
+         'Ralph Hubbard',
+         'Omar Alexander',
+         'Carlos Abbott',
+         'Miriam Wagner',
+         'Bradley Wilkerson',
+         'Virginia Andrews',
+         'Kelly Snyder',
+       ];
       this.defaultUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSTbZrzTIuXAe01k5wgrhWGzPRPRliQygmBCA&usqp=CAU";
       let user = JSON.parse(localStorage.getItem('user_id'));
       this.instance_id = user.instance_id;
       console.log('res', this.instance_id);
       userService.showPatients({ instance_id: this.instance_id, pagination: 1 }).then(res => {
-
+         console.log(';res', res);
+         this.services = res.services;
+         this.family_doctors = res.family_doctors;
+         this.resources = res.resources;
+         this.insurances = res.insurances;
+         this.pharmacies = res.pharmacies;
          this.setState(prevState => {
-            const data = res;
+            const data = res.patients;
             return { ...prevState, data };
          });
 
@@ -162,7 +241,7 @@ class PatientsTable extends Component {
                               setTimeout(() => {
                                  resolve();
                                  const formData = new FormData()
-                                 if (typeof newData.picture == 'object') {                                   
+                                 if (typeof newData.picture == 'object') {
                                     formData.append('file', newData.picture);
                                     newData.picture = '';
                                  }

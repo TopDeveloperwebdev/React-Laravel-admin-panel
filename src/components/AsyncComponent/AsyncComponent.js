@@ -131,6 +131,26 @@ const AsyncFamilyDoctorsComponent = Loadable({
 	loading:() => <HulkPageLoader />,
 	 delay: 3000,
  });
+ // AsyncResourcesComponent Table
+const AsyncResourcesComponent = Loadable({
+	loader:() => import("routes/Tables/Resources"),
+	loading:() => <HulkPageLoader />,
+	 delay: 3000,
+ });
+  // AsyncInsurancesComponent Table
+const AsyncInsurancesComponent = Loadable({
+	loader:() => import("routes/Tables/Insurances"),
+	loading:() => <HulkPageLoader />,
+	 delay: 3000,
+ });
+ 
+   // AsyncServicesComponent Table
+const AsyncServicesComponent = Loadable({
+	loader:() => import("routes/Tables/Services"),
+	loading:() => <HulkPageLoader />,
+	 delay: 3000,
+ });
+ 
 // Blog Detail Page
 const AsyncBlogDetailComponent = Loadable({
    loader: () => import("routes/Blog/BlogDetail"),
@@ -314,5 +334,8 @@ export {
 	AsyncUserSettingsComponent,
 	AsyncErrorPage404Component,
 	AsyncErrorPage500Component,
-   AsyncVideoPlayerComponent
+   AsyncVideoPlayerComponent,
+   AsyncResourcesComponent,
+   AsyncInsurancesComponent,
+   AsyncServicesComponent
 };

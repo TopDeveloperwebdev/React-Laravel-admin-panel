@@ -18,10 +18,24 @@ export const userService = {
    editPatients,
    deletePatients,
 
-addMedications,
+   addMedications,
    showMedications,
    editMedications,
    deleteMedications,
+
+   addResources,
+   showResources,
+   editResources,
+   deleteResources,
+
+   addInsurances,
+   showInsurances,
+   editInsurances,
+   deleteInsurances,
+   addServices,
+   showServices,
+   editServices,
+   deleteServices,
 };
 const serverUrl = 'http://localhost:8000/api/';
 function signup(data) {
@@ -177,7 +191,182 @@ function deleteMedications(id) {
          return res
       });
 }
+// Resources CRUD
+function addResources(data) {
 
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'addResources', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res;
+      });
+}
+function showResources(info) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(info)
+   };
+
+   return fetch(serverUrl + 'showResources', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
+function editResources(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'editResources', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         console.log('res', res);
+         return res
+      });
+}
+function deleteResources(id) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(id)
+   };
+
+   return fetch(serverUrl + 'deleteResources', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
+
+// Insurances CRUD
+function addInsurances(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'addInsurances', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res;
+      });
+}
+function showInsurances(info) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(info)
+   };
+
+   return fetch(serverUrl + 'showInsurances', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
+function editInsurances(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'editInsurances', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         console.log('res', res);
+         return res
+      });
+}
+function deleteInsurances(id) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(id)
+   };
+
+   return fetch(serverUrl + 'deleteInsurances', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
+
+// Services CRUD
+function addServices(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'addServices', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res;
+      });
+}
+function showServices(info) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(info)
+   };
+
+   return fetch(serverUrl + 'showServices', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
+function editServices(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'editServices', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         console.log('res', res);
+         return res
+      });
+}
+function deleteServices(id) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(id)
+   };
+
+   return fetch(serverUrl + 'deleteServices', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
 // pharmaciespharmacies CRUD
 function addPharmacies(formData) {
 
@@ -256,7 +445,7 @@ function showPatients(info) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(info)
    };
- console.log('info' , info);
+   console.log('info', info);
    return fetch(serverUrl + 'showPatients', requestOptions)
       .then(res => res.json())
       .then(res => {

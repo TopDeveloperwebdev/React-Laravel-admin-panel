@@ -1,215 +1,247 @@
 {
-	"data": [	
+	"data": [
 		{
 			"menu_title": "sidebar.fullpagemenu",
 			"path": "/app/fullpagemenu",
 			"icon": "label",
-			"category":"general",
-         "menu":"fullpagemenu",
-			"isMenuOpen":true,
-			"isMultiple":false,
+			"category": "general",
+			"menu": "fullpagemenu",
+			"isMenuOpen": true,
+			"isMultiple": false,
 			"fullPageMenu": true,
-			"desc":true,
-			"content":"Lorem ipsum dolor sit amet",
+			"desc": true,
+			"content": "Lorem ipsum dolor sit amet",
 			"child_routes": [
 				{
 					"path": "/app/dashboard/dashboard1",
 					"menu_title": "sidebar.dashboard1",
 					"icon": "equalizer",
-					"f_desc":"View dashboard and Widgets replated to web analytics",
-               "isMenuOpen":false,
-               "fullPageMenu": false,
-					"third_child_routes":null
+					"f_desc": "View dashboard and Widgets replated to web analytics",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
 				},
 				{
 					"path": "/app/dashboard/dashboard2",
 					"menu_title": "sidebar.dashboard2",
 					"icon": "dashboard",
-					"f_desc":"Checkout the SAAS dashboard and Widgets like chat and Task List",
-               "isMenuOpen":false,
-               "fullPageMenu": false,
-					"third_child_routes":null
+					"f_desc": "Checkout the SAAS dashboard and Widgets like chat and Task List",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
 				},
 				{
 					"path": "/app/dashboard/dashboard3",
 					"menu_title": "sidebar.dashboard3",
 					"icon": "ballot",
-					"f_desc":"Manage your eCommerce dashboard and check out other activities",
-               "isMenuOpen":false,
-               "fullPageMenu": false,
-					"third_child_routes":null
+					"f_desc": "Manage your eCommerce dashboard and check out other activities",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
 				},
 				{
 					"path": "/app/chat",
 					"menu_title": "sidebar.chat",
 					"icon": "question_answer",
-					"f_desc":"Get connected with your friends and clients",
-               "isMenuOpen":false,
-               "fullPageMenu": false,
-					"third_child_routes":null
+					"f_desc": "Get connected with your friends and clients",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
 				},
 				{
 					"path": "/app/email",
 					"menu_title": "sidebar.email",
 					"icon": "mail_outline",
-					"f_desc":"Check out your daily emails with our integrated email component",
-               "isMenuOpen":false,
-               "fullPageMenu": false,
-					"third_child_routes":null
+					"f_desc": "Check out your daily emails with our integrated email component",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
 				},
 				{
 					"path": "/app/calendar",
 					"menu_title": "sidebar.calendar",
 					"icon": "calendar_today",
-					"f_desc":"Manage your day to day schedule for staff and clients",
-               "isMenuOpen":false,
-               "fullPageMenu": false,
-					"third_child_routes":null
+					"f_desc": "Manage your day to day schedule for staff and clients",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
 				},
 				{
 					"path": "/app/pages/profile/standard",
 					"menu_title": "sidebar.profile",
 					"icon": "perm_identity",
-					"f_desc":"Check your standard profile page with useful widgets",
-               "isMenuOpen":false,
-               "fullPageMenu": false,
-					"third_child_routes":null
+					"f_desc": "Check your standard profile page with useful widgets",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
 				},
 				{
 					"path": "/app/pages/stepper/horizontal-stepper",
 					"menu_title": "sidebar.stepper",
 					"icon": "shopping_cart",
-					"f_desc":"Go and check the horizontal stepper form design",
-               "isMenuOpen":false,
-               "fullPageMenu": false,
-					"third_child_routes":null
+					"f_desc": "Go and check the horizontal stepper form design",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
 				},
 				{
 					"path": "/app/tables/custom-table",
 					"menu_title": "sidebar.patients",
 					"icon": "table_chart",
-					"f_desc":"Check the new table for preview basic info for every row",
-               "isMenuOpen":false,
-               "fullPageMenu": false,
-					"third_child_routes":null
+					"f_desc": "Check the new table for preview basic info for every row",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
 				},
 				{
 					"path": "/app/user-settings",
 					"menu_title": "sidebar.userSettings",
 					"icon": "perm_data_setting",
-					"f_desc":"View and manage your account information, email and more",
-               "isMenuOpen":false,
-               "fullPageMenu": false,
-					"third_child_routes":null
+					"f_desc": "View and manage your account information, email and more",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
 				},
 				{
 					"path": "/app/blog/blog-grid",
 					"menu_title": "sidebar.blogGrid",
 					"icon": "web",
-					"f_desc":"Check, Read and edit and write a new blog post from here.",
-               "isMenuOpen":false,
-               "fullPageMenu": false,
-					"third_child_routes":null
+					"f_desc": "Check, Read and edit and write a new blog post from here.",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
 				},
 				{
 					"path": "/app/ecommerce/shop",
 					"menu_title": "sidebar.shop",
 					"icon": "shopping_cart",
-					"f_desc":"Shop the new and existing product and also manage all",
-               "isMenuOpen":false,
-               "fullPageMenu": false,
-					"third_child_routes":null
+					"f_desc": "Shop the new and existing product and also manage all",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
 				},
 				{
 					"path": "/app/pages/signature-pad",
 					"menu_title": "sidebar.signaturePad",
 					"icon": "contact_support",
-					"f_desc":"Edit forms with the digital signature and save or send them as pdf",
-               "isMenuOpen":false,
-               "fullPageMenu": false,
-					"third_child_routes":null
+					"f_desc": "Edit forms with the digital signature and save or send them as pdf",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
 				},
 				{
 					"path": "/app/pages/payment",
-               "menu_title": "sidebar.payment",
+					"menu_title": "sidebar.payment",
 					"icon": "access_time",
-					"f_desc":"Enter Payments keys to enable payment gateways in the theme",
-               "isMenuOpen":false,
-               "fullPageMenu": false,
-					"third_child_routes":null
+					"f_desc": "Enter Payments keys to enable payment gateways in the theme",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
 				},
 				{
 					"path": "/signup",
-               "menu_title": "sidebar.signUp",
-               "icon": "access_time",
-					"f_desc":"Register your account with us for more info. ",
-               "isMenuOpen":false,
-               "fullPageMenu": false,
-					"third_child_routes":null
+					"menu_title": "sidebar.signUp",
+					"icon": "access_time",
+					"f_desc": "Register your account with us for more info. ",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
 				}
 			]
-		},	
+		},
 		{
-         "menu_title": "sidebar.patients",
-         "path": "/app/tables/patients",
-         "icon": "table_chart",
-		 "category":"components",
-         "isMenuOpen": false,
-         "menu": "tables",
-         "fullPageMenu": false,
-         "desc": true,
-		 "content": ""  ,
-		 "child_routes": null       
-      }
-	,	
+			"menu_title": "sidebar.Manages",
+			"path": "/app/tables",
+			"icon": "table_chart",
+			"category": "general",
+			"isMenuOpen": false,
+			"menu": "pages",
+			"fullPageMenu": false,
+			"desc": true,
+			"content": "",
+			"child_routes": [
+				{
+					"menu_title": "sidebar.patients",
+					"path": "/app/tables/patients",
+					"icon": "contacts",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
+				},
+				{
+					"menu_title": "sidebar.familiy-directors",
+					"path": "/app/tables/familiy-directors",
+					"icon": "contacts",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
+				},
+				{
+					"menu_title": "sidebar.pharmacies",
+					"path": "/app/tables/pharmacies",
+					"icon": "contacts",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
+				},
+				{
+					"menu_title": "sidebar.medication",
+					"path": "/app/tables/medication",
+					"icon": "contacts",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
+				}
+			]
+		},
 		{
-         "menu_title": "sidebar.familiy-directors",
-         "path": "/app/tables/familiy-directors",
-         "icon": "table_chart",
-		 "category":"components",
-         "isMenuOpen": false,
-         "menu": "tables",
-         "fullPageMenu": false,
-         "desc": true,
-		 "content": ""  ,
-		 "child_routes": null       
-	  },
-	  {
-         "menu_title": "sidebar.pharmacies",
-         "path": "/app/tables/pharmacies",
-         "icon": "table_chart",
-		 "category":"components",
-         "isMenuOpen": false,
-         "menu": "tables",
-         "fullPageMenu": false,
-         "desc": true,
-		 "content": ""  ,
-		 "child_routes": null       
-	  },
-	  {
-         "menu_title": "sidebar.medication",
-         "path": "/app/tables/medication",
-         "icon": "table_chart",
-		 "category":"components",
-         "isMenuOpen": false,
-         "menu": "tables",
-         "fullPageMenu": false,
-         "desc": true,
-		 "content": ""  ,
-		 "child_routes": null       
-	  },
-	  	{
-         "menu_title": "sidebar.Instance",
-         "path": "/app/pages/contact-grid",
-         "icon": "table_chart",
-		 "category":"components",
-         "isMenuOpen": false,
-         "menu": "tables",
-         "fullPageMenu": false,
-         "desc": true,
-		 "content": ""  ,
-		 "child_routes": null       
-	  }
-	 
+			"menu_title": "sidebar.services",
+			"path": "/app/tables/search-table",
+			"icon": "insert_drive_file",
+			"category": "general",
+			"isMenuOpen": false,
+			"menu": "pages",
+			"fullPageMenu": false,
+			"desc": true,
+			"content": "",
+			"child_routes": [
+				{
+					"path": "/app/tables/resources",
+					"menu_title": "sidebar.Resources",
+					"icon": "contacts",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
+				},
+				{
+					"path": "/app/tables/insurances",
+					"menu_title": "sidebar.Insurance",
+					"icon": "contact_support",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
+				},
+				{
+					"path": "/app/tables/services",
+					"menu_title": "sidebar.Services",
+					"icon": "contact_support",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
+				}
+			]
+		},
+		{
+			"menu_title": "sidebar.Instance",
+			"path": "/app/pages/contact-grid",
+			"icon": "perm_data_setting",
+			"category": "components",
+			"isMenuOpen": false,
+			"menu": "tables",
+			"fullPageMenu": false,
+			"desc": true,
+			"content": "",
+			"child_routes": null
+		}
 	]
 }

@@ -11,7 +11,10 @@ import {
    AsyncPatientsTableComponent,
    AsyncFullPageUrlsComponent,
    AsyncFamilyDoctorsComponent,
-   AsyncMedicationComponent
+   AsyncMedicationComponent,
+   AsyncResourcesComponent,
+   AsyncInsurancesComponent,
+   AsyncServicesComponent
 } from 'components/AsyncComponent/AsyncComponent';
 
 const Tables = ({ match }) => (
@@ -24,6 +27,9 @@ const Tables = ({ match }) => (
       <Route path={`${match.url}/medication`} component={AsyncMedicationComponent}></Route>
       <Route path={`${match.url}/patients`} component={AsyncPatientsTableComponent}></Route>
       <Route path={`${match.url}/familiy-directors`} component={AsyncFamilyDoctorsComponent}></Route>
+      <Route path={`${match.url}/resources`} component={AsyncResourcesComponent}></Route>
+      <Route path={`${match.url}/insurances`} component={AsyncInsurancesComponent}></Route>
+       <Route path={`${match.url}/services`} component={AsyncServicesComponent}></Route>
       <Route path={`${match.url}/`} component={AsyncFullPageUrlsComponent}></Route>
    </Switch>
 )
