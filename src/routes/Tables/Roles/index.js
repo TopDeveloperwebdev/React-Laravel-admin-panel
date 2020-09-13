@@ -8,7 +8,8 @@ import { userService } from '../../../_services';
 //Components
 import { SmallTitleBar } from 'components/GlobalComponents';
 import IntlMessages from 'util/IntlMessages';
-
+import { MultiSelect } from '@progress/kendo-react-dropdowns';
+let colors = ['orange', 'red', 'blue', 'purple'];
 class Roles extends Component {
 	constructor(props) {
 		super(props)
@@ -20,15 +21,31 @@ class Roles extends Component {
 					</div>
 				},
 				{ title: 'Role', field: 'user' },
-				{ title: 'Permissions', field: 'permissions' },
+				{
+					title: 'Permissions', field: 'permissions', editComponent: rowData => {
+						return (
+							<MultiSelect
+								data={colors}
+								onChange={this.onChange}
+								value={this.state.value}
+							/>
+						)
+
+					}
+				},
 			],
 
 			data: [],
+			value: []
 
 		};
 
 	}
-
+	onChange = (event) => {
+		this.setState({
+			value: [...event.target.value]
+		});
+	}
 	componentDidMount() {
 		let user = JSON.parse(localStorage.getItem('user_id'));
 		this.instance_id = user.instance_id;
