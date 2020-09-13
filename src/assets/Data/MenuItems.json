@@ -85,7 +85,7 @@
 					"third_child_routes": null
 				},
 				{
-					"path": "/app/tables/custom-table",
+					"path": "/app/custom-table",
 					"menu_title": "sidebar.patients",
 					"icon": "table_chart",
 					"f_desc": "Check the new table for preview basic info for every row",
@@ -151,7 +151,7 @@
 		},
 		{
 			"menu_title": "sidebar.Manages",
-			"path": "/app/tables",
+			"path": "/app/",
 			"icon": "table_chart",
 			"category": "general",
 			"isMenuOpen": false,
@@ -162,7 +162,7 @@
 			"child_routes": [
 				{
 					"menu_title": "sidebar.patients",
-					"path": "/app/tables/patients",
+					"path": "/app/patients",
 					"icon": "contacts",
 					"isMenuOpen": false,
 					"fullPageMenu": false,
@@ -170,7 +170,7 @@
 				},
 				{
 					"menu_title": "sidebar.familiy-directors",
-					"path": "/app/tables/familiy-directors",
+					"path": "/app/familiy-directors",
 					"icon": "contacts",
 					"isMenuOpen": false,
 					"fullPageMenu": false,
@@ -178,7 +178,7 @@
 				},
 				{
 					"menu_title": "sidebar.pharmacies",
-					"path": "/app/tables/pharmacies",
+					"path": "/app/pharmacies",
 					"icon": "contacts",
 					"isMenuOpen": false,
 					"fullPageMenu": false,
@@ -186,7 +186,7 @@
 				},
 				{
 					"menu_title": "sidebar.medication",
-					"path": "/app/tables/medication",
+					"path": "/app/medication",
 					"icon": "contacts",
 					"isMenuOpen": false,
 					"fullPageMenu": false,
@@ -196,7 +196,7 @@
 		},
 		{
 			"menu_title": "sidebar.services",
-			"path": "/app/tables/search-table",
+			"path": "/app/search-table",
 			"icon": "insert_drive_file",
 			"category": "general",
 			"isMenuOpen": false,
@@ -206,7 +206,7 @@
 			"content": "",
 			"child_routes": [
 				{
-					"path": "/app/tables/resources",
+					"path": "/app/resources",
 					"menu_title": "sidebar.Resources",
 					"icon": "contacts",
 					"isMenuOpen": false,
@@ -214,7 +214,7 @@
 					"third_child_routes": null
 				},
 				{
-					"path": "/app/tables/insurances",
+					"path": "/app/insurances",
 					"menu_title": "sidebar.Insurance",
 					"icon": "contact_support",
 					"isMenuOpen": false,
@@ -222,7 +222,7 @@
 					"third_child_routes": null
 				},
 				{
-					"path": "/app/tables/services",
+					"path": "/app/services",
 					"menu_title": "sidebar.Services",
 					"icon": "contact_support",
 					"isMenuOpen": false,
@@ -230,7 +230,7 @@
 					"third_child_routes": null
 				},
 				{
-					"path": "/app/tables/ingredients",
+					"path": "/app/ingredients",
 					"menu_title": "sidebar.ingredients",
 					"icon": "contact_support",
 					"isMenuOpen": false,

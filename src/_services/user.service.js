@@ -38,13 +38,17 @@ export const userService = {
    editServices,
    deleteServices,
 
- addIngredients,
+   addIngredients,
    showIngredients,
    editIngredients,
    deleteIngredients,
-   
+
+   addInstances,
+   showInstances,
+   editInstances,
+   deleteInstances,
 };
-const serverUrl = 'http://localhost:8000/api/';
+const serverUrl = 'https://betpool.tech/adminserver/api/';
 function signup(data) {
    console.log('data', data);
    const requestOptions = {
@@ -484,6 +488,62 @@ function deletePharmacies(id) {
    };
 
    return fetch(serverUrl + 'deletePharmacies', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
+
+// Instances CRUD
+function addInstances(formData) {
+
+   const requestOptions = {
+      method: 'POST',
+      body: formData
+   };
+
+   return fetch(serverUrl + 'addInstances', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res;
+      });
+}
+function showInstances(info) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(info)
+   };
+
+   return fetch(serverUrl + 'showInstances', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
+function editInstances(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      body: data
+   };
+   return fetch(serverUrl + 'editInstances', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         console.log('res', res);
+         return res
+      });
+}
+function deleteInstances(id) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(id)
+   };
+
+   return fetch(serverUrl + 'deleteInstances', requestOptions)
       .then(res => res.json())
       .then(res => {
          return res

@@ -5,7 +5,8 @@
 import {
    ADD_NEW_CONTACT,
    DELETE_CONTACT,
-   UPDATE_CONTACT
+   UPDATE_CONTACT,
+   INITIAL_CONTACTS
 } from 'actions/Types';
 
 import contacts from 'assets/Data/Contacts.json';
@@ -16,6 +17,13 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
    switch (action.type) {
+        // init products to cart 
+        case INITIAL_CONTACTS:
+         let contacts = action.payload;        
+         return {
+            ...state,
+            contactsData: contacts
+         }
       // add product to cart 
       case ADD_NEW_CONTACT:
          let contact = action.payload;
@@ -30,6 +38,7 @@ export default (state = INITIAL_STATE, action) => {
             ...state,
             contactsData: [...state.contactsData, newcontact]
          }
+
       // remove contact to cart	
       case DELETE_CONTACT:
          let removecontact = action.payload;

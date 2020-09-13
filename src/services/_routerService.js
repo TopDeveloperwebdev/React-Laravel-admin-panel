@@ -65,7 +65,7 @@ export default [
       component:AsyncUserSettingsComponent
 	},
 	{
-		path: 'tables',
+		path: '',
       component: Tables		
 	},
    {

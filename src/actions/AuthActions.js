@@ -51,8 +51,7 @@ export const signupUserWithJwt = (user, history) => (dispatch) => {
 
 export const signinUserWithJwt = (user, history) => (dispatch) => {
 	// return dispatch => {
-	console.log(user.email, user.password, 'user')
-	console.log('userService ', userService)
+
 	dispatch({ type: JWT_LOGIN_REQUEST, payload: user });
 
 	userService.login(user.email, user.password)
