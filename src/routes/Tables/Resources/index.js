@@ -14,7 +14,12 @@ class Resources extends Component {
 		super(props)
 		this.state = {
 			columns: [
-				{ title: 'Resources', field: 'resources' },	
+				{
+					title: 'ID', field: 'id', editComponent: rowData => <div>
+						{rowData.id}
+					</div>
+				},
+				{ title: 'Resources', field: 'resources' },
 			],
 
 			data: [],

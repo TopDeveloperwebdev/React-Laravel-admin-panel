@@ -135,12 +135,37 @@ class PatientsTable extends Component {
             },
             { title: 'User group', field: 'userGroup' },
             { title: 'Status', field: 'status' },
+            {
+					title: 'Serviceplan', field: 'serviceplan', render: rowData => {
+						return (<Switch
+							size="small"
+							color="primary"
+							checked={rowData.serviceplan ? true : false}
+						/>)
+
+					},
+					editComponent: rowData => {
+					
+						if (this.state.isEditServiceplan && rowData.rowData.id) {
+							this.setState({ serviceplan: rowData.rowData.serviceplan ? true : false, isEditServiceplan: false });
+						}
+						return (<Switch
+							size="small"
+							color="primary"
+							checked={this.state.serviceplan}
+							onChange={e => this.setState({ serviceplan: e.target.checked })}
+						/>)
+
+					}
+				},
          ],
          data: [],
          selected: [],
          selectedservice: [],
          isEditServices: true,
          isEditResources: true,
+         isEditServiceplan : true,
+         serviceplan : true
 
       };
 
@@ -223,7 +248,7 @@ class PatientsTable extends Component {
                                        data.push(res);
                                        return { ...prevState, data };
                                     });
-                                    this.setState({ selected: selected, selectedservice: selectedservice, isEditServices: true, isEditResources: true });
+                                    this.setState({ selected: selected, selectedservice: selectedservice, isEditServices: true, isEditResources: true , isEditServiceplan : true });
                                  });
 
                               }, 600);
@@ -250,7 +275,7 @@ class PatientsTable extends Component {
                                        });
                                        const selected = [];
                                        const selectedservice = [];
-                                       this.setState({ selected: selected, selectedservice: selectedservice, isEditServices: true, isEditResources: true });
+                                       this.setState({ selected: selected, selectedservice: selectedservice, isEditServices: true, isEditResources: true ,isEditServiceplan : true });
                                     }
                                  })
                               }, 600);

@@ -241,8 +241,8 @@
 		},
 		{
 			"menu_title": "sidebar.Instance",
-			"path": "/app/pages/contact-grid",
-			"icon": "perm_data_setting",
+			"path": "/app/instances",
+			"icon": "apps",
 			"category": "components",
 			"isMenuOpen": false,
 			"menu": "tables",
@@ -250,6 +250,35 @@
 			"desc": true,
 			"content": "",
 			"child_routes": null
+		},
+		{
+			"menu_title": "sidebar.permission",
+			"path": "/app/search-table",
+			"icon": "perm_data_setting",
+			"category": "general",
+			"isMenuOpen": false,
+			"menu": "pages",
+			"fullPageMenu": false,
+			"desc": true,
+			"content": "",
+			"child_routes": [
+				{
+					"path": "/app/permissions",
+					"menu_title": "sidebar.permissionslist",
+					"icon": "contacts",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
+				},
+				{
+					"path": "/app/roles",
+					"menu_title": "sidebar.roles",
+					"icon": "contact_support",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
+				}				
+			]
 		}
 	]
 }

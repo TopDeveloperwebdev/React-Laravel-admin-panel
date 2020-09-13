@@ -42,11 +42,21 @@ export const userService = {
    showIngredients,
    editIngredients,
    deleteIngredients,
-
+   
    addInstances,
    showInstances,
    editInstances,
    deleteInstances,
+   addPermissions,
+   showPermissions,
+   editPermissions,
+   deletePermissions,
+
+   addRoles,
+   showRoles,
+   editRoles,
+   deleteRoles,
+   
 };
 const serverUrl = 'https://betpool.tech/adminserver/api/';
 function signup(data) {
@@ -261,6 +271,123 @@ function deleteResources(id) {
       });
 }
 
+// Permissions CRUD
+function addPermissions(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'addPermissions', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res;
+      });
+}
+function showPermissions(info) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(info)
+   };
+
+   return fetch(serverUrl + 'showPermissions', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
+function editPermissions(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'editPermissions', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         console.log('res', res);
+         return res
+      });
+}
+function deletePermissions(id) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(id)
+   };
+
+   return fetch(serverUrl + 'deletePermissions', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
+
+// Roles CRUD
+function addRoles(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'addRoles', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res;
+      });
+}
+function showRoles(info) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(info)
+   };
+
+   return fetch(serverUrl + 'showRoles', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
+function editRoles(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'editRoles', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         console.log('res', res);
+         return res
+      });
+}
+function deleteRoles(id) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(id)
+   };
+
+   return fetch(serverUrl + 'deleteRoles', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
 // Insurances CRUD
 function addInsurances(data) {
 
@@ -494,12 +621,15 @@ function deletePharmacies(id) {
       });
 }
 
+
+
 // Instances CRUD
-function addInstances(formData) {
+function addInstances(data) {
 
    const requestOptions = {
       method: 'POST',
-      body: formData
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
    };
 
    return fetch(serverUrl + 'addInstances', requestOptions)
@@ -526,8 +656,10 @@ function editInstances(data) {
 
    const requestOptions = {
       method: 'POST',
-      body: data
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
    };
+
    return fetch(serverUrl + 'editInstances', requestOptions)
       .then(res => res.json())
       .then(res => {
@@ -549,8 +681,6 @@ function deleteInstances(id) {
          return res
       });
 }
-
-
 // Patients CRUD
 function addPatients(formData) {
 

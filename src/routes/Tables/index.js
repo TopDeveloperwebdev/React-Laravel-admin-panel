@@ -15,7 +15,10 @@ import {
    AsyncResourcesComponent,
    AsyncInsurancesComponent,
    AsyncServicesComponent,
-   AsyncIngredientsComponent
+   AsyncIngredientsComponent,
+   AsyncInstancesComponent,
+   AsyncPermissionsComponent,
+   AsyncRolesComponent
 } from 'components/AsyncComponent/AsyncComponent';
 
 const Tables = ({ match }) => (
@@ -29,9 +32,13 @@ const Tables = ({ match }) => (
       <Route path={`${match.url}/patients`} component={AsyncPatientsTableComponent}></Route>
       <Route path={`${match.url}/familiy-directors`} component={AsyncFamilyDoctorsComponent}></Route>
       <Route path={`${match.url}/resources`} component={AsyncResourcesComponent}></Route>
+      <Route path={`${match.url}/permissions`} component={AsyncPermissionsComponent}></Route>
+      <Route path={`${match.url}/roles`} component={AsyncRolesComponent}></Route>
+
       <Route path={`${match.url}/insurances`} component={AsyncInsurancesComponent}></Route>
        <Route path={`${match.url}/services`} component={AsyncServicesComponent}></Route>
        <Route path={`${match.url}/Ingredients`} component={AsyncIngredientsComponent}></Route>
+         <Route path={`${match.url}/instances`} component={AsyncInstancesComponent}></Route>
       <Route path={`${match.url}/`} component={AsyncFullPageUrlsComponent}></Route>
    </Switch>
 )

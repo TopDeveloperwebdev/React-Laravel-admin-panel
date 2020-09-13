@@ -1,25 +1,43 @@
-import React from 'react';
-import MultiSelect from "@khanacademy/react-multi-select";
+import React, { Component } from 'react';
 
-const options = [
-  {label: "One", value: 1},
-  {label: "Two", value: 2},
-  {label: "Three", value: 3},
-];
+import Multiselect from 'multiselect-dropdown-react';
 
-class SearchTable extends React.Component {
-  state = {
-    selected: [],
+const data = [{
+  name: 'one',
+  value: 'one'
+},
+{
+    name: 'two',
+    value: 'two'
+  },
+  {
+    name: 'three',
+    value: 'three'
+  },
+  {
+    name: 'four',
+    value: 'four'
+  },
+  {
+    name: 'five',
+    value: 'five'
+  },
+  {
+    name: 'six',
+    value: 'six'
+  }];
+class SearchTable extends Component {
+  result(params) {
+    console.log(params);
   }
-
   render() {
-    const {selected} = this.state;
-
-    return <MultiSelect
-      options={options}
-      selected={selected}
-      onSelectedChanged={selected => this.setState({selected})}
-    />
+    return (
+      <div className="App">
+        <Multiselect options={data} onSelectOptions={this.result} />
+      </div>
+    );
   }
 }
+
 export default SearchTable;
+

@@ -14,6 +14,11 @@ class Ingredients extends Component {
 		super(props)
 		this.state = {
 			columns: [
+				{
+					title: 'ID', field: 'id', editComponent: rowData => <div>
+						{rowData.id}
+					</div>
+				},
 				{ title: 'Ingredients', field: 'ingredients' },	
 			],
 

@@ -137,6 +137,20 @@ const AsyncResourcesComponent = Loadable({
 	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
+
+// AsyncPermissionsComponent Table
+const AsyncPermissionsComponent = Loadable({
+	loader: () => import("routes/Tables/Permissions"),
+	loading: () => <HulkPageLoader />,
+	delay: 3000,
+});
+// AsyncRolesComponent Table
+const AsyncRolesComponent = Loadable({
+	loader: () => import("routes/Tables/Roles"),
+	loading: () => <HulkPageLoader />,
+	delay: 3000,
+});
+
 // AsyncInsurancesComponent Table
 const AsyncInsurancesComponent = Loadable({
 	loader: () => import("routes/Tables/Insurances"),
@@ -154,6 +168,13 @@ const AsyncServicesComponent = Loadable({
 // AsyncIngredientsComponent Table
 const AsyncIngredientsComponent = Loadable({
 	loader: () => import("routes/Tables/Ingredients"),
+	loading: () => <HulkPageLoader />,
+	delay: 3000,
+});
+
+// AsyncinstancesComponent Table
+const AsyncInstancesComponent = Loadable({
+	loader: () => import("routes/Tables/Instances"),
 	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
@@ -345,5 +366,8 @@ export {
 	AsyncResourcesComponent,
 	AsyncInsurancesComponent,
 	AsyncServicesComponent,
-	AsyncIngredientsComponent
+	AsyncIngredientsComponent,
+	AsyncInstancesComponent,
+	AsyncPermissionsComponent,
+	AsyncRolesComponent
 };
