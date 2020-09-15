@@ -14,7 +14,7 @@ class SidebarContent extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-         navLinks: this.props.navLinks
+			navLinks: this.props.menuListReducer.navLinks
 		}
 	}
 
@@ -23,87 +23,116 @@ class SidebarContent extends Component {
 		return newName
 	}
 
-   componentDidMount(){
-      let currentURL = window.location.href
-      let currentIndex 
-      for (let i = 0; i < this.state.navLinks.length; i++) {
-         if (this.state.navLinks[i].menu == currentURL.split('/')[4]) {
-            currentIndex = i;
-         }
-      }
+	componentDidMount() {
+		let currentURL = window.location.href
+		let currentIndex
+		for (let i = 0; i < this.state.navLinks.length; i++) {
+			if (this.state.navLinks[i].menu == currentURL.split('/')[4]) {
+				currentIndex = i;
+			}
+		}
 		this.onLoadToggleMenu(currentIndex);
-   }
+	}
 
 	onLoadToggleMenu(index) {
 		this.props.onLoadToggleMenu(index)
-      this.setState({
-         navLinks: this.props.navLinks
-      })
+		this.setState({
+			navLinks: this.props.menuListReducer.navLinks
+		})
 	}
 
 	toggleMenu(index) {
 		this.props.toggleMenu(index)
-      this.setState({
-         navLinks: this.props.navLinks
-      })
+		this.setState({
+			navLinks: this.props.menuListReducer.navLinks
+		})
 	}
-	toggleThirdMenuAndCloseSidebar(index){
+	toggleThirdMenuAndCloseSidebar(index) {
 		this.props.toggleThirdMenu(index)
-      this.setState({
-         navLinks: this.props.navLinks
-      })
-      if(this.props.closeSidebar){
+		this.setState({
+			navLinks: this.props.menuListReducer.navLinks
+		})
+		if (this.props.closeSidebar) {
 			this.props.closeSidebar()
 		}
 	}
-	toggleThirdMenu(index){
-      this.props.toggleThirdMenu(index)
-      this.setState({
-         navLinks: this.props.navLinks
-      })
-   }
-   
-   toggleFourthMenu(fourthindex) {
-      this.props.toggleFourthMenu(fourthindex)
-      this.setState({
-         navLinks: this.props.navLinks
-      })
-      if(this.props.closeSidebar){
+	toggleThirdMenu(index) {
+		this.props.toggleThirdMenu(index)
+		this.setState({
+			navLinks: this.props.menuListReducer.navLinks
+		})
+	}
+
+	toggleFourthMenu(fourthindex) {
+		this.props.toggleFourthMenu(fourthindex)
+		this.setState({
+			navLinks: this.props.menuListReducer.navLinks
+		})
+		if (this.props.closeSidebar) {
 			this.props.closeSidebar()
 		}
-   }
+	}
 
 
 	render() {
 		const { closeSidebar } = this.props;
+		let { permissions, instance_id } = this.props.authUser;
+		permissions = JSON.parse(permissions);
+		console.log('permissions---', instance_id);
+		let links = this.state.navLinks;
+		let navItems = [];
+		if (instance_id) {
+			links && links.map((Navlink, index) => {
+				if (permissions.indexOf(Navlink.menu_title.split('.')[1] + '_access') > -1) {
+					navItems.push(Navlink);
+				}
+				else if (Navlink.child_routes) {
+					let child_routes = [];
+					Navlink.child_routes.map((child_route) => {
+						if (permissions.indexOf(child_route.menu_title.split('.')[1] + '_access') > -1) {
+							child_routes.push(child_route);
+						}
+					})
+					Navlink.child_routes = child_routes;
+					if (child_routes.length) navItems.push(Navlink);
+				}
+			});
+		}
+		else {
+			navItems = this.state.navLinks;
+		}
+
+		// console.log('permissions', navItems);
 		return (
 			<div>
 				<List className="menu-wrap" style={{ padding: 0, }}>
-               {this.state.navLinks && this.state.navLinks.map((Navlink, index) => {
+					{navItems && navItems.map((Navlink, index) => {
 						return (
 							<NavListItem
 								menu={Navlink} key={index}
-                        toggleMenu={() => this.toggleMenu(index)}
-                        toggleFourthMenu={(e) => this.toggleFourthMenu(e)}
+								toggleMenu={() => this.toggleMenu(index)}
+								toggleFourthMenu={(e) => this.toggleFourthMenu(e)}
 								toggleThirdMenu={(e) => this.toggleThirdMenu(e)}
 								toggleThirdMenuAndCloseSidebar={(e) => this.toggleThirdMenuAndCloseSidebar(e)}
 								closeSidebar={closeSidebar}
 							/>
 						)
+
 					})}
 				</List>
 			</div>
 		);
+
 	}
 }
 
-const mapStateToProps = ({ menuListReducer }) => {	
-	return menuListReducer;
+const mapStateToProps = ({ menuListReducer, authUser }) => {
+	return { menuListReducer, authUser };
 };
 
 export default withRouter(connect(mapStateToProps, {
 	toggleThirdMenu,
-   toggleMenu,
+	toggleMenu,
 	toggleFourthMenu,
 	onLoadToggleMenu
 })(SidebarContent));

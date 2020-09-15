@@ -17,16 +17,34 @@ import {
 /**
  * Initial auth user
  */
-const INIT_STATE = {
-	user: localStorage.getItem("user_id"),
-	instance_id: localStorage.getItem("instance_id"),
-	username: '',
+
+// console.log('init' , INIT_STATE);
+let INIT_STATE = {
+	user: null,
+	instance_id: 0,
 	loading: false,
 	email: 'hulktestuser@hulk.com',
 	password: '12345678',
+	instance_id: 1,
+	isOwner: 1,
+	name: "test",
+	permissions: '["directors_access","patients_access","medication_access"]',
+	remember_token: null,
+	role: "admin",
+	status: 1,
 	error: ''
 }
 
+let User = JSON.parse(localStorage.getItem('user'));
+if (User) {
+	console.log('USer' , User)
+	INIT_STATE = User;
+	INIT_STATE.user = User.name;
+	INIT_STATE.loading = false;
+	INIT_STATE.error = '';
+}
+
+console.log('User',User);
 export default (state = INIT_STATE, action) => {
 	switch (action.type) {
 		case LOGIN_USER:
@@ -58,7 +76,7 @@ export default (state = INIT_STATE, action) => {
 			return { ...state, loading: true, loggingIn: true, user: action.payload };
 
 		case JWT_LOGIN_SUCCESS:
-			return { ...state, loading: false, loggingIn: true, user: action.payload };
+			return { ...state, loading: false, loggingIn: true, ...action.payload};
 
 		case JWT_LOGIN_FAILURE:
 			return { ...state, loading: false, loggingIn: true, user: action.payload };

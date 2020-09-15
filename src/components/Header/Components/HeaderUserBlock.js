@@ -77,6 +77,8 @@ class HeaderUserBlock extends Component {
 		const { anchorEl } = this.state;
 		const open = Boolean(anchorEl);
 		const { classes } = this.props;
+		const { email, name, role ,instance_id} = this.props;
+		console.log('emial' , email , name , role);
 		return (
 			<div>
 				<Tooltip title="User Profile" placement="bottom">
@@ -108,8 +110,8 @@ class HeaderUserBlock extends Component {
 								<ListSubheader component="div" id="nested-list-subheader">
 									<div className="dropdown-header user-info  text-center">
 										<Avatar alt="user-thumb" className={classes.large} src={require('assets/Images/avatars/user-4.jpg')} />
-										<Typography variant="body2">Abigail Doe</Typography>
-										<Typography variant="subtitle2">Associate Manager</Typography>
+							<Typography variant="body2">  {name}</Typography>
+							<Typography variant="subtitle2">   {instance_id ? role : "super administrator"}</Typography>
 										<Button className="btn primary-bg-btn" component={Link} to="/app/user-settings" variant="outlined" color="primary">
 											Manage your account
 										</Button>
@@ -130,8 +132,9 @@ class HeaderUserBlock extends Component {
 	}
 }
 
-const mapStateToProps = ({ settings }) => {
-	return settings;
+const mapStateToProps = ({ settings ,authUser}) => {
+	const { email, name, role ,instance_id } = authUser;
+	return {settings , email , name , role ,instance_id};
 }
 
 export default withRouter(connect(mapStateToProps, {

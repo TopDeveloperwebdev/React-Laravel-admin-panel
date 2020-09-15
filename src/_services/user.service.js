@@ -56,9 +56,15 @@ export const userService = {
    showRoles,
    editRoles,
    deleteRoles,
+
+   
+   addOrders,
+   showOrders,
+   editOrders,
+   deleteOrders
    
 };
-const serverUrl = 'https://betpool.tech/adminserver/api/';
+const serverUrl = 'http://localhost:8000/api/';
 function signup(data) {
    console.log('data', data);
    const requestOptions = {
@@ -72,7 +78,7 @@ function signup(data) {
       .then(user => {
          console.log('user', user);
          // store user details and jwt token in local storage to keep user logged in between page refreshes
-         localStorage.setItem('user_id', JSON.stringify(user));
+         localStorage.setItem('user', JSON.stringify(user));
 
          return user;
       });
@@ -89,9 +95,7 @@ function login(username, password) {
       .then(user => user.json())
       .then(user => {
          // store user details and jwt token in local storage to keep user logged in between page refreshes
-         localStorage.setItem('user_id', JSON.stringify(user));
-
-
+         localStorage.setItem('user', JSON.stringify(user.user));
          return user;
       });
 }
@@ -388,6 +392,65 @@ function deleteRoles(id) {
          return res
       });
 }
+// Orders CRUD
+function addOrders(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'addOrders', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res;
+      });
+}
+function showOrders(info) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(info)
+   };
+
+   return fetch(serverUrl + 'showOrders', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
+function editOrders(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'editOrders', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         console.log('res', res);
+         return res
+      });
+}
+function deleteOrders(id) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(id)
+   };
+
+   return fetch(serverUrl + 'deleteOrders', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
+
 // Insurances CRUD
 function addInsurances(data) {
 
@@ -749,8 +812,8 @@ function refreshToken() {
       .then(user => {
          // store user details and jwt token in local storage to keep user logged in between page refreshes
          console.log('adsfasfasfa', user)
-         if (!localStorage.getItem('user_id') === null) {
-            console.log("show this inside if", localStorage.getItem('user_id'))
+         if (!localStorage.getItem('user') === null) {
+            console.log("show this inside if", localStorage.getItem('user'))
 
             localStorage.setItem('user_id', JSON.stringify(user));
          }

@@ -30,7 +30,7 @@ const styles = theme => ({
 		width: theme.spacing(10),
 		height: theme.spacing(10)
 	},
-	avatar:{
+	avatar: {
 		'@media (max-width:1560px)': {
 			width: 35,
 			height: 35,
@@ -77,6 +77,7 @@ class HeaderUserBlock extends Component {
 		const { anchorEl } = this.state;
 		const open = Boolean(anchorEl);
 		const { classes } = this.props;
+		const { email, name, role } = this.props;
 		return (
 			<div>
 				<Tooltip title="User Profile" placement="bottom">
@@ -130,8 +131,9 @@ class HeaderUserBlock extends Component {
 	}
 }
 
-const mapStateToProps = ({ settings }) => {
-	return settings;
+const mapStateToProps = ({ settings, authUser }) => {
+	const { email, name, role } = authUser;
+	return { settings, email, name, role };
 }
 
 export default withRouter(connect(mapStateToProps, {

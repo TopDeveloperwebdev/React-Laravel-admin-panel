@@ -8,7 +8,7 @@ import { userService } from '../../../_services';
 //Components
 import { SmallTitleBar } from 'components/GlobalComponents';
 import IntlMessages from 'util/IntlMessages';
-
+let rolesList = {};
 class Instances extends Component {
 	constructor(props) {
 		super(props)
@@ -23,6 +23,7 @@ class Instances extends Component {
 				{ title: 'Admin Name', field: 'name' },
 				{ title: 'Email', field: 'email' },
 				{ title: 'Password', field: 'password' },
+				{ title: 'Role', field: 'role', lookup: rolesList },
 				{
 					title: 'Status', field: 'status', render: rowData => {
 						return (<Switch
@@ -33,7 +34,7 @@ class Instances extends Component {
 
 					},
 					editComponent: rowData => {
-						console.log('rowData' ,rowData);
+						console.log('rowData', rowData);
 						if (this.state.isEdit && rowData.rowData.id) {
 							this.setState({ status: rowData.rowData.status ? true : false, isEdit: false });
 						}
@@ -56,13 +57,15 @@ class Instances extends Component {
 	}
 
 	componentDidMount() {
-		let user = JSON.parse(localStorage.getItem('user_id'));
+		let user = JSON.parse(localStorage.getItem('user'));
 		this.instance_id = user.instance_id;
 		console.log('res', this.instance_id);
 		userService.showInstances({ instance_id: this.instance_id, pagination: 1 }).then(res => {
-
+			res.roles.map(ele => {
+				rolesList[ele.role] = ele.role;
+			})
 			this.setState(prevState => {
-				const data = res;
+				const data = res.instances
 				return { ...prevState, data };
 			});
 

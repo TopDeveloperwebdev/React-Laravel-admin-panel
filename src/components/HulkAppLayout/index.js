@@ -243,8 +243,11 @@ class HulkAppLayout extends Component {
 	}
 
 	render() {
+		console.log('ressre');
 		const { classes } = this.props;
 		const { navCollapsed, isDarkModeActive, isMiniSidebarActive, isRtlActive, isHorizontalMenuActive } = this.props.settings;
+			const { instance_id , permissions , email } = this.props.authUser;
+			
 		return (
 			<div>
 				{this.state.loading === true ?
@@ -423,8 +426,8 @@ class HulkAppLayout extends Component {
 }
 
 // map state to props
-const mapStateToProps = ({ settings }) => {
-	return { settings }
+const mapStateToProps = ({ settings , authUser }) => {
+	return { settings , authUser }
 }
 
 export default withRouter(connect(mapStateToProps, {

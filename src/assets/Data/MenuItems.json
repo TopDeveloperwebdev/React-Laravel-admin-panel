@@ -170,7 +170,7 @@
 				},
 				{
 					"menu_title": "sidebar.familiy-directors",
-					"path": "/app/familiy-directors",
+					"path": "/app/directors",
 					"icon": "contacts",
 					"isMenuOpen": false,
 					"fullPageMenu": false,
@@ -196,7 +196,7 @@
 		},
 		{
 			"menu_title": "sidebar.services",
-			"path": "/app/search-table",
+			"path": "/app/resources",
 			"icon": "insert_drive_file",
 			"category": "general",
 			"isMenuOpen": false,
@@ -240,20 +240,8 @@
 			]
 		},
 		{
-			"menu_title": "sidebar.Instance",
-			"path": "/app/instances",
-			"icon": "apps",
-			"category": "components",
-			"isMenuOpen": false,
-			"menu": "tables",
-			"fullPageMenu": false,
-			"desc": true,
-			"content": "",
-			"child_routes": null
-		},
-		{
 			"menu_title": "sidebar.permission",
-			"path": "/app/search-table",
+			"path": "/app/permissions",
 			"icon": "perm_data_setting",
 			"category": "general",
 			"isMenuOpen": false,
@@ -277,8 +265,32 @@
 					"isMenuOpen": false,
 					"fullPageMenu": false,
 					"third_child_routes": null
-				}				
+				}
 			]
+		},
+		{
+			"menu_title": "sidebar.Instance",
+			"path": "/app/instances",
+			"icon": "apps",
+			"category": "components",
+			"isMenuOpen": false,
+			"menu": "tables",
+			"fullPageMenu": false,
+			"desc": true,
+			"content": "",
+			"child_routes": null
+		},
+		{
+			"menu_title": "sidebar.order",
+			"path": "/app/order",
+			"icon": "shopping_cart",
+			"category": "components",
+			"isMenuOpen": false,
+			"menu": "tables",
+			"fullPageMenu": false,
+			"desc": true,
+			"content": "",
+			"child_routes": null
 		}
 	]
 }

@@ -8,6 +8,7 @@ import { Tooltip } from '@material-ui/core';
 import menuItems from 'assets/Data/MenuItems';
 // Intl messages
 import IntlMessages from 'util/IntlMessages';
+import { connect } from 'react-redux';
 
 class SidebarContent extends Component {
 
@@ -25,6 +26,8 @@ class SidebarContent extends Component {
 
 	render() {
 		const { navLinks } = this.state;
+		const { email, password } = this.props;
+
 		return (
 			<div className="icon-menu-wrap">
 				<ul className="main-menu">
@@ -70,3 +73,4 @@ class SidebarContent extends Component {
 }
 
 export default SidebarContent;
+

@@ -12,6 +12,7 @@ class NavMenuItem extends Component {
 
 	render() {
 		const { menu } = this.props;
+	
 		return (
 			<Fragment>
 				{menu.child_routes !== null ?

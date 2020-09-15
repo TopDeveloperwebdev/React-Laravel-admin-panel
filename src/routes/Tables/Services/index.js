@@ -29,7 +29,7 @@ class Services extends Component {
 	}
 
 	componentDidMount() {
-		let user = JSON.parse(localStorage.getItem('user_id'));
+		let user = JSON.parse(localStorage.getItem('user'));
 		this.instance_id = user.instance_id;
 		console.log('res', this.instance_id);
 		userService.showServices({ instance_id: this.instance_id, pagination: 1 }).then(res => {

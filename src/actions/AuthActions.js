@@ -58,12 +58,13 @@ export const signinUserWithJwt = (user, history) => (dispatch) => {
 		.then(
 			user => {
 				if (user.result == 'success') {
-					dispatch({ type: JWT_LOGIN_SUCCESS, payload: user });
+					dispatch({ type: JWT_LOGIN_SUCCESS, payload:  user.user });				
 					history.push('/');
 					NotificationManager.success('User Logged In Successfully');
+					
 				}
 				else {
-					dispatch({ type: JWT_LOGIN_FAILURE, payload: user.result });
+					dispatch({ type: JWT_LOGIN_FAILURE, payload: user.user });
 					NotificationManager.success(user.result);
 				}
 			},
@@ -213,7 +214,7 @@ export const signinUserWithGoogle = (history) => (dispatch) => {
 	const provider = new firebase.auth.GoogleAuthProvider();
 	firebase.auth().signInWithPopup(provider).then(function (result) {
 		localStorage.setItem("user_id", "user-id");
-		dispatch({ type: LOGIN_USER_SUCCESS, payload: localStorage.getItem('user_id') });
+		dispatch({ type: LOGIN_USER_SUCCESS, payload: localStorage.getItem('user') });
 		history.push('/');
 		NotificationManager.success('User Login Successfully');
 	}).catch(function (error) {
@@ -230,7 +231,7 @@ export const signinUserWithGithub = (history) => (dispatch) => {
 	const provider = new firebase.auth.GithubAuthProvider();
 	firebase.auth().signInWithPopup(provider).then(function (result) {
 		localStorage.setItem("user_id", "user-id");
-		dispatch({ type: LOGIN_USER_SUCCESS, payload: localStorage.getItem('user_id') });
+		dispatch({ type: LOGIN_USER_SUCCESS, payload: localStorage.getItem('user') });
 		history.push('/');
 		NotificationManager.success('User Login Successfully');
 	}).catch(function (error) {
@@ -247,7 +248,7 @@ export const signinUserWithTwitter = (history) => (dispatch) => {
 	const provider = new firebase.auth.TwitterAuthProvider();
 	firebase.auth().signInWithPopup(provider).then(function (result) {
 		localStorage.setItem("user_id", "user-id");
-		dispatch({ type: LOGIN_USER_SUCCESS, payload: localStorage.getItem('user_id') });
+		dispatch({ type: LOGIN_USER_SUCCESS, payload: localStorage.getItem('user') });
 		history.push('/');
 		NotificationManager.success('User Login Successfully!');
 	}).catch(function (error) {
@@ -263,7 +264,8 @@ export const hulkLogoutUserFirebase = () => (dispatch) => {
 	firebase.auth().signOut()
 		.then(() => {
 			dispatch({ type: LOGOUT_USER });
-			localStorage.removeItem("user_id");
+			localStorage.removeItem("user");
+			console.log('user login');
 			NotificationManager.success('User Logged Out');
 		})
 		.catch((error) => {

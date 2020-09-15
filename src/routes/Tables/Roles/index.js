@@ -9,7 +9,7 @@ import { userService } from '../../../_services';
 import { SmallTitleBar } from 'components/GlobalComponents';
 import IntlMessages from 'util/IntlMessages';
 import { MultiSelect } from '@progress/kendo-react-dropdowns';
-let colors = ['orange', 'red', 'blue', 'purple'];
+
 class Roles extends Component {
 	constructor(props) {
 		super(props)
@@ -20,14 +20,38 @@ class Roles extends Component {
 						{rowData.id}
 					</div>
 				},
-				{ title: 'Role', field: 'user' },
+				{ title: 'Role', field: 'role' },
 				{
-					title: 'Permissions', field: 'permissions', editComponent: rowData => {
+					title: 'Permissions', field: 'permissions', render: rowData => {
+						let selectedPermissions = JSON.parse(rowData.permissions);
+						return (
+							<div>
+								{
+									selectedPermissions.map((value, index) => {
+										return (<div key={index}>{value}</div>)
+									})
+								}
+							</div>
+
+						)
+
+					},
+					editComponent: rowData => {
+						if (rowData.rowData.id) {
+							console.log('rowData', rowData);
+							let selectedPermissions = JSON.parse(rowData.rowData.permissions);
+							if (!selectedPermissions) {
+								selectedPermissions = [];
+							}
+							if (this.state.isEditPermissions) {
+								this.setState({ selectedPermissions: selectedPermissions, isEditPermissions: false })
+							}
+						}
 						return (
 							<MultiSelect
-								data={colors}
+								data={this.state.permissionsList}
 								onChange={this.onChange}
-								value={this.state.value}
+								value={this.state.selectedPermissions}
 							/>
 						)
 
@@ -36,24 +60,28 @@ class Roles extends Component {
 			],
 
 			data: [],
-			value: []
+			selectedPermissions: [],
+			permissionsList: [],
+			isEditPermissions: true
 
 		};
 
 	}
 	onChange = (event) => {
 		this.setState({
-			value: [...event.target.value]
+			selectedPermissions: [...event.target.value]
 		});
 	}
 	componentDidMount() {
-		let user = JSON.parse(localStorage.getItem('user_id'));
+		let user = JSON.parse(localStorage.getItem('user'));
 		this.instance_id = user.instance_id;
 		console.log('res', this.instance_id);
 		userService.showRoles({ instance_id: this.instance_id, pagination: 1 }).then(res => {
 
+			let permissionsList = res.permissions.map(ele => { return ele.permissions })
+			this.setState({ permissionsList: permissionsList })
 			this.setState(prevState => {
-				const data = res;
+				const data = res.roles;
 				return { ...prevState, data };
 			});
 
@@ -78,32 +106,35 @@ class Roles extends Component {
 							editable={{
 								onRowAdd: newData =>
 									new Promise(resolve => {
-										setTimeout(() => {
-											resolve();
-											console.log('newData', newData);
-											newData.instance_id = this.instance_id;
-											userService.addRoles(newData).then(res => {
-												console.log('res', res);
-												this.setState(prevState => {
-													const data = [...prevState.data];
-													data.push(res);
-													return { ...prevState, data };
-												});
+										resolve();
+										console.log('newData', newData);
+										newData.instance_id = this.instance_id;
+										newData.permissions = JSON.stringify(this.state.selectedPermissions);
+										userService.addRoles(newData).then(res => {
+											console.log('res', res);
+											this.setState(prevState => {
+												const data = [...prevState.data];
+												data.push(res);
+												const selectedPermissions = [];
+												const isEditPermissions = true;
+												return { ...prevState, data, selectedPermissions, isEditPermissions };
 											});
-
-										}, 600);
+										});
 									}),
 								onRowUpdate: (newData, oldData) =>
 									new Promise(resolve => {
 										setTimeout(() => {
 											resolve();
 											console.log('newdata', newData.id);
+											newData.permissions = JSON.stringify(this.state.selectedPermissions);
 											userService.editRoles(newData).then(res => {
 												if (oldData) {
 													this.setState(prevState => {
 														const data = [...prevState.data];
 														data[data.indexOf(oldData)] = newData;
-														return { ...prevState, data };
+														const selectedPermissions = [];
+														const isEditPermissions = true;
+														return { ...prevState, data, selectedPermissions, isEditPermissions };
 													});
 												}
 											})

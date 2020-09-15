@@ -6,6 +6,7 @@ import { Box } from '@material-ui/core';
 import menuItems from 'assets/Data/MenuItems';
 import NavMenuItem from './NavMenuItem';
 import IntlMessages from 'util/IntlMessages';
+
 class HorizontalMenu extends Component {
 
    constructor(props) {
@@ -21,9 +22,11 @@ class HorizontalMenu extends Component {
 	
 	componentDidMount(){
 		this.setCategory()
+		
 	}
 	
 	setCategory(){
+		
 		let category1 = this.state.navLinks.filter((item, i) => {
 			return item.category === 'general';
 		})
@@ -49,6 +52,7 @@ class HorizontalMenu extends Component {
 			modules,
 			components,
 			application } = this.state;
+			
 		return (
          <Box className="horizontal-menu">
             <ul className="list-unstyled nav">

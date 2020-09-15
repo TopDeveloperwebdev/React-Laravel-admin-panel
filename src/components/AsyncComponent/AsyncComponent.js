@@ -179,6 +179,13 @@ const AsyncInstancesComponent = Loadable({
 	delay: 3000,
 });
 
+// AsyncOrderComponent Table
+const AsyncOrderComponent = Loadable({
+	loader: () => import("routes/Tables/Orders"),
+	loading: () => <HulkPageLoader />,
+	delay: 3000,
+});
+
 // Blog Detail Page
 const AsyncBlogDetailComponent = Loadable({
 	loader: () => import("routes/Blog/BlogDetail"),
@@ -369,5 +376,6 @@ export {
 	AsyncIngredientsComponent,
 	AsyncInstancesComponent,
 	AsyncPermissionsComponent,
-	AsyncRolesComponent
+	AsyncRolesComponent,
+	AsyncOrderComponent
 };

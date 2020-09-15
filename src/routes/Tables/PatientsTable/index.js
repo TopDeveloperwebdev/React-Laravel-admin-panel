@@ -4,7 +4,7 @@
 import React, { Component } from 'react';
 import MaterialTable from 'material-table';
 import { Container, Box, Switch, FormControl, InputLabel, Select } from '@material-ui/core';
-import MultiSelect from "@khanacademy/react-multi-select";
+import { MultiSelect } from '@progress/kendo-react-dropdowns';
 import { userService } from '../../../_services';
 //Components
 import { SmallTitleBar } from 'components/GlobalComponents';
@@ -46,16 +46,22 @@ class PatientsTable extends Component {
 
             {
                title: 'Resources', field: 'resources', render: props => {
-                  let selectedResources = JSON.parse(props.resources);
+                  let selectedResources = [];
+                  selectedResources = JSON.parse(props.resources);
                   if (!selectedResources) {
                      selectedResources = [];
                   }
                   return (
-                     <MultiSelect
-                        options={resourcesList}
-                        selected={selectedResources}
-                     />
+                     <div>
+                        {
+                           selectedResources.map((value, index) => {
+                              return (<div key={index}>{value}</div>)
+                           })
+                        }
+                     </div>
+
                   )
+
 
                },
                editComponent: rowData => {
@@ -71,11 +77,9 @@ class PatientsTable extends Component {
 
                   return (
                      <MultiSelect
-
-                        options={resourcesList}
-                        selected={this.state.selected}
-                        onSelectedChanged={selected => this.setState({ selected })}
-
+                        data={resourcesList}
+                        value={this.state.selected}
+                        onChange={this.onChangeResources}
                      />
                   )
 
@@ -93,12 +97,16 @@ class PatientsTable extends Component {
                      selectedServices = [];
                   }
                   return (
-                     <MultiSelect
-                        name="services"
-                        options={servicesList}
-                        selected={selectedServices}
-                     />
+                     <div>
+                        {
+                           servicesList.map((value, index) => {
+                              return (<div key={index}>{value}</div>)
+                           })
+                        }
+                     </div>
+
                   )
+
                },
                editComponent: rowData => {
                   console.log('rowData.rowData.id', rowData.rowData.id);
@@ -114,9 +122,9 @@ class PatientsTable extends Component {
                   }
                   return (
                      <MultiSelect
-                        options={servicesList}
-                        selected={this.state.selectedservice}
-                        onSelectedChanged={selectedservice => { console.log("selectedservice", selectedservice); this.setState({ selectedservice }) }}
+                        data={servicesList}
+                        value={this.state.selectedservice}
+                        onChange={this.onChangeServices}
                      />
                   )
 
@@ -136,67 +144,77 @@ class PatientsTable extends Component {
             { title: 'User group', field: 'userGroup' },
             { title: 'Status', field: 'status' },
             {
-					title: 'Serviceplan', field: 'serviceplan', render: rowData => {
-						return (<Switch
-							size="small"
-							color="primary"
-							checked={rowData.serviceplan ? true : false}
-						/>)
+               title: 'Serviceplan', field: 'serviceplan', render: rowData => {
+                  return (<Switch
+                     size="small"
+                     color="primary"
+                     checked={rowData.serviceplan ? true : false}
+                  />)
 
-					},
-					editComponent: rowData => {
-					
-						if (this.state.isEditServiceplan && rowData.rowData.id) {
-							this.setState({ serviceplan: rowData.rowData.serviceplan ? true : false, isEditServiceplan: false });
-						}
-						return (<Switch
-							size="small"
-							color="primary"
-							checked={this.state.serviceplan}
-							onChange={e => this.setState({ serviceplan: e.target.checked })}
-						/>)
+               },
+               editComponent: rowData => {
 
-					}
-				},
+                  if (this.state.isEditServiceplan && rowData.rowData.id) {
+                     this.setState({ serviceplan: rowData.rowData.serviceplan ? true : false, isEditServiceplan: false });
+                  }
+                  return (<Switch
+                     size="small"
+                     color="primary"
+                     checked={this.state.serviceplan}
+                     onChange={e => this.setState({ serviceplan: e.target.checked })}
+                  />)
+
+               }
+            },
          ],
          data: [],
          selected: [],
          selectedservice: [],
          isEditServices: true,
          isEditResources: true,
-         isEditServiceplan : true,
-         serviceplan : true
+         isEditServiceplan: true,
+         serviceplan: true
 
       };
 
 
    }
 
-
+   onChangeResources = (event) => {
+      this.setState({
+         selected: [...event.target.value]
+      });
+   }
+   onChangeServices = (event) => {
+      this.setState({
+         selectedservice: [...event.target.value]
+      });
+   }
    componentDidMount() {
       this.defaultUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSTbZrzTIuXAe01k5wgrhWGzPRPRliQygmBCA&usqp=CAU";
-      let user = JSON.parse(localStorage.getItem('user_id'));
+      let user = JSON.parse(localStorage.getItem('user'));
       this.instance_id = user.instance_id;
       console.log('res', this.instance_id);
       userService.showPatients({ instance_id: this.instance_id, pagination: 1 }).then(res => {
          resourcesList = [];
          servicesList = [];
-         res.services.map(ele => {
-            servicesList.push({ label: ele.services, value: ele.services });
-         })
-         res.resources.map(ele => {
-            resourcesList.push({ label: ele.resources, value: ele.resources });
+         servicesList = res.services.map(ele => {
+            return ele.services
+         });
+
+         resourcesList = res.resources.map(ele => {
+            return ele.resources;
          })
 
          res.family_doctors.map(ele => {
             family_doctorsList[ele.doctorName] = ele.doctorName;
          })
-    
+
          res.insurances.map(ele => {
             insuranceList[ele.insurances] = ele.insurances;
          })
-          
-         
+
+
          res.pharmacies.map(ele => {
             pharmaciesList[ele.pharmacyName] = ele.pharmacyName;
          })
@@ -248,7 +266,7 @@ class PatientsTable extends Component {
                                        data.push(res);
                                        return { ...prevState, data };
                                     });
-                                    this.setState({ selected: selected, selectedservice: selectedservice, isEditServices: true, isEditResources: true , isEditServiceplan : true });
+                                    this.setState({ selected: selected, selectedservice: selectedservice, isEditServices: true, isEditResources: true, isEditServiceplan: true });
                                  });
 
                               }, 600);
@@ -275,7 +293,7 @@ class PatientsTable extends Component {
                                        });
                                        const selected = [];
                                        const selectedservice = [];
-                                       this.setState({ selected: selected, selectedservice: selectedservice, isEditServices: true, isEditResources: true ,isEditServiceplan : true });
+                                       this.setState({ selected: selected, selectedservice: selectedservice, isEditServices: true, isEditResources: true, isEditServiceplan: true });
                                     }
                                  })
                               }, 600);
