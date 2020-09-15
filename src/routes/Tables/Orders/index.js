@@ -20,11 +20,9 @@ class Orders extends React.Component {
 			patient: '',
 			doctor: '',
 			note: '',
-			
-			date : ''
 
 		},
-	
+
 		medications: [],
 		patients: [],
 		doctors: [],
@@ -77,12 +75,11 @@ class Orders extends React.Component {
 		});
 	}
 	handleChangeNote = (event) => {
-		console.log('test' , event);
-		// this.setState(prevState => {
-		// 	let data = prevState.data;
-		// 	data.note = event.target.value;
-		// 	return { ...prevState, data };
-		// });
+		this.setState(prevState => {
+			let data = prevState.data;
+			data.note = event.target.value;
+			return { ...prevState, data };
+		});
 	}
 
 	componentDidMount() {
@@ -221,8 +218,8 @@ class Orders extends React.Component {
 									rows={4}
 									defaultValue="Default Value"
 									variant="outlined"
-									// value = {this.state.data.note}
-									// onChange={this.handleChangeNote}
+									value={this.state.note}
+									onChange={this.handleChangeNote}
 								/>
 							</Grid>
 
