@@ -160,17 +160,10 @@
 			"desc": true,
 			"content": "",
 			"child_routes": [
-				{
-					"menu_title": "sidebar.patients",
-					"path": "/app/patients",
-					"icon": "contacts",
-					"isMenuOpen": false,
-					"fullPageMenu": false,
-					"third_child_routes": null
-				},
+				
 				{
 					"menu_title": "sidebar.familiy-directors",
-					"path": "/app/directors",
+					"path": "/app/doctors",
 					"icon": "contacts",
 					"isMenuOpen": false,
 					"fullPageMenu": false,
@@ -187,6 +180,14 @@
 				{
 					"menu_title": "sidebar.medication",
 					"path": "/app/medication",
+					"icon": "contacts",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
+				},
+				{
+					"menu_title": "sidebar.patients",
+					"path": "/app/patients",
 					"icon": "contacts",
 					"isMenuOpen": false,
 					"fullPageMenu": false,

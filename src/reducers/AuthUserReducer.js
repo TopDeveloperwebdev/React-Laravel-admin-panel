@@ -34,17 +34,17 @@ let INIT_STATE = {
 	status: 1,
 	error: ''
 }
-
-let User = JSON.parse(localStorage.getItem('user'));
-if (User) {
-	console.log('USer' , User)
-	INIT_STATE = User;
-	INIT_STATE.user = User.name;
-	INIT_STATE.loading = false;
-	INIT_STATE.error = '';
+if (localStorage.getItem('user') != "undefined") {
+	let User = JSON.parse(localStorage.getItem('user'));
+	if (User) {
+		console.log('USer', User)
+		INIT_STATE = User;
+		INIT_STATE.user = User.name;
+		INIT_STATE.loading = false;
+		INIT_STATE.error = '';
+	}
 }
 
-console.log('User',User);
 export default (state = INIT_STATE, action) => {
 	switch (action.type) {
 		case LOGIN_USER:
@@ -76,7 +76,7 @@ export default (state = INIT_STATE, action) => {
 			return { ...state, loading: true, loggingIn: true, user: action.payload };
 
 		case JWT_LOGIN_SUCCESS:
-			return { ...state, loading: false, loggingIn: true, ...action.payload};
+			return { ...state, loading: false, loggingIn: true, ...action.payload };
 
 		case JWT_LOGIN_FAILURE:
 			return { ...state, loading: false, loggingIn: true, user: action.payload };

@@ -31,7 +31,7 @@ const Tables = ({ match }) => (
       <Route path={`${match.url}/pharmacies`} component={AsyncPharmaciesComponent}></Route>
       <Route path={`${match.url}/medication`} component={AsyncMedicationComponent}></Route>
       <Route path={`${match.url}/patients`} component={AsyncPatientsTableComponent}></Route>
-      <Route path={`${match.url}/directors`} component={AsyncFamilyDoctorsComponent}></Route>
+      <Route path={`${match.url}/doctors`} component={AsyncFamilyDoctorsComponent}></Route>
       <Route path={`${match.url}/resources`} component={AsyncResourcesComponent}></Route>
       <Route path={`${match.url}/permissions`} component={AsyncPermissionsComponent}></Route>
       <Route path={`${match.url}/roles`} component={AsyncRolesComponent}></Route>

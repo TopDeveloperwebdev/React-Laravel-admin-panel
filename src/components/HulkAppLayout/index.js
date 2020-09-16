@@ -154,6 +154,7 @@ class HulkAppLayout extends Component {
 			}, 1500)
 		}
 		if (this.state.loading === true) {
+			console.log('here')
 			setTimeout(() => {
 				this.setState({ loading: false });
 			}, 1500)

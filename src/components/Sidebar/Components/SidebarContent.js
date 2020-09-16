@@ -77,7 +77,10 @@ class SidebarContent extends Component {
 	render() {
 		const { closeSidebar } = this.props;
 		let { permissions, instance_id } = this.props.authUser;
-		permissions = JSON.parse(permissions);
+		if(permissions){
+			permissions = JSON.parse(permissions);
+		}
+	
 		console.log('permissions---', instance_id);
 		let links = this.state.navLinks;
 		let navItems = [];
