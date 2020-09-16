@@ -241,6 +241,18 @@
 			]
 		},
 		{
+			"menu_title": "sidebar.order",
+			"path": "/app/order",
+			"icon": "shopping_cart",
+			"category": "components",
+			"isMenuOpen": false,
+			"menu": "tables",
+			"fullPageMenu": false,
+			"desc": true,
+			"content": "",
+			"child_routes": null
+		},
+		{
 			"menu_title": "sidebar.permission",
 			"path": "/app/permissions",
 			"icon": "perm_data_setting",
@@ -282,9 +294,9 @@
 			"child_routes": null
 		},
 		{
-			"menu_title": "sidebar.order",
-			"path": "/app/order",
-			"icon": "shopping_cart",
+			"menu_title": "sidebar.Users",
+			"path": "/app/users",
+			"icon": "apps",
 			"category": "components",
 			"isMenuOpen": false,
 			"menu": "tables",

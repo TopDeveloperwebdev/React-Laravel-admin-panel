@@ -55,7 +55,7 @@ class Orders extends Component {
 				{
 					title: 'Patient', field: 'patient', render: rowData => {
 						return (<div>
-							{this.state.patient}
+							{rowData.patient}
 						</div>)
 					},
 					editComponent: rowData => {
@@ -78,7 +78,7 @@ class Orders extends Component {
 				{
 					title: 'Pharmacy', field: 'pharmacy', render: rowData => {
 						return (<div>
-							{this.state.pharmacy}
+							{rowData.pharmacy}
 						</div>)
 					},
 					editComponent: rowData => {
@@ -97,7 +97,7 @@ class Orders extends Component {
 				{
 					title: 'Family Doctor', field: 'doctor', render: rowData => {
 						return (<div>
-							{this.state.doctor}
+							{rowData.doctor}
 						</div>)
 					},
 					editComponent: rowData => {
@@ -117,7 +117,7 @@ class Orders extends Component {
 				{
 					title: 'Due Date', field: 'date', render: rowData => {
 						return (<div>
-							{this.state.date}
+							{rowData.date}
 						</div>)
 					},
 					editComponent: rowData => {
@@ -245,6 +245,7 @@ class Orders extends Component {
 										newData.date = this.state.date;
 										newData.note = this.state.note;
 										newData.pharmacy = this.state.pharmacy;
+										newData.doctor = this.state.doctor;
 										console.log('newData', newData);
 										userService.addOrders(newData).then(res => {
 											console.log('res', res);

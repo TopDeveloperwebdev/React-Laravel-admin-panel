@@ -47,6 +47,10 @@ export const userService = {
    showInstances,
    editInstances,
    deleteInstances,
+   addUsers,
+   showUsers,
+   editUsers,
+   deleteUsers,
    addPermissions,
    showPermissions,
    editPermissions,
@@ -687,6 +691,64 @@ function deletePharmacies(id) {
 
 
 
+// Users CRUD
+function addUsers(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'addUsers', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res;
+      });
+}
+function showUsers(info) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(info)
+   };
+
+   return fetch(serverUrl + 'showUsers', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
+function editUsers(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'editUsers', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         console.log('res', res);
+         return res
+      });
+}
+function deleteUsers(id) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(id)
+   };
+
+   return fetch(serverUrl + 'deleteUsers', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
 // Instances CRUD
 function addInstances(data) {
 
@@ -745,6 +807,7 @@ function deleteInstances(id) {
          return res
       });
 }
+
 // Patients CRUD
 function addPatients(formData) {
 

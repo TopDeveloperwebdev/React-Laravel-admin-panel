@@ -69,6 +69,7 @@ export default {
   "sidebar.medications": "Medications",
   "sidebar.familiy-directors": "Aerzte",
   "sidebar.Instance": "Instances",
+  "sidebar.Users": "Users",
   "sidebar.order": "Orders",
   "sidebar.medication": "Medikament",
   "sidebar.pharmacies": "Apotheken",

@@ -19,7 +19,8 @@ import {
    AsyncInstancesComponent,
    AsyncPermissionsComponent,
    AsyncRolesComponent,
-   AsyncOrderComponent
+   AsyncOrderComponent,
+   AsyncUsersComponent
 } from 'components/AsyncComponent/AsyncComponent';
 
 const Tables = ({ match }) => (
@@ -40,6 +41,7 @@ const Tables = ({ match }) => (
        <Route path={`${match.url}/services`} component={AsyncServicesComponent}></Route>
        <Route path={`${match.url}/Ingredients`} component={AsyncIngredientsComponent}></Route>
          <Route path={`${match.url}/instances`} component={AsyncInstancesComponent}></Route>
+           <Route path={`${match.url}/users`} component={AsyncUsersComponent}></Route>
          <Route path={`${match.url}/order`} component={AsyncOrderComponent}></Route>
       <Route path={`${match.url}/`} component={AsyncFullPageUrlsComponent}></Route>
    </Switch>
