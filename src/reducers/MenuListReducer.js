@@ -7,20 +7,16 @@ import {
 } from 'actions/Types'
 
 import menuItems from 'assets/Data/MenuItems';
-const temp = [...menuItems.data];
+localStorage.setItem('menuItem' , JSON.stringify(menuItems.data));
 
 const INITIAL_STATE = {
    navLinks: [...menuItems.data]
 }
 
-export default (state = INITIAL_STATE, action) => {
+export default (state = {...INITIAL_STATE}, action) => {
    switch (action.type) {
-      case ONLOAD_INITIAL_STATE:
-         console.log('0000000000000000000000');
-         console.log(menuItems.data);
-         console.log(temp);
-         console.log('----------------------------------------')
-			return { ...state, navLinks: [...menuItems.data] };
+      case ONLOAD_INITIAL_STATE:        
+			return { ...state, navLinks: [...JSON.parse(localStorage.getItem('menuItem'))] };
       case ONLOAD_TOGGLE_MENU:
          let navlinksArrayNew = state.navLinks;
          let indexnew = action.index;
