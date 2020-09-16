@@ -253,7 +253,7 @@
 			"child_routes": null
 		},
 		{
-			"menu_title": "sidebar.permission",
+			"menu_title": "sidebar.permissions",
 			"path": "/app/permissions",
 			"icon": "perm_data_setting",
 			"category": "general",
@@ -294,7 +294,7 @@
 			"child_routes": null
 		},
 		{
-			"menu_title": "sidebar.Users",
+			"menu_title": "sidebar.users",
 			"path": "/app/users",
 			"icon": "apps",
 			"category": "components",

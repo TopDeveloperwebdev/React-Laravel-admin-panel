@@ -79,17 +79,18 @@ class SidebarContent extends Component {
 		const { closeSidebar } = this.props;
 		let { permissions, instance_id } = this.props.authUser;
 		let navItems =[];
-		console.log('navItems-------',this.state.navLinks);
+		
 		if (instance_id) {
 			let links = this.state.navLinks;			
 			links && links.map((Navlink, index) => {
-				if (permissions.indexOf(Navlink.menu_title.split('.')[1] + '_access') > -1) {
+			
+				if (permissions.indexOf(Navlink.menu_title.split('.')[1].toLowerCase() + '_access') > -1) {
 					navItems.push(Navlink);
 				}
 				else if (Navlink.child_routes) {
 					let child_routes = [];
 					Navlink.child_routes.map((child_route) => {
-						if (permissions.indexOf(child_route.menu_title.split('.')[1] + '_access') > -1) {
+						if (permissions.indexOf(child_route.menu_title.split('.')[1].toLowerCase() + '_access') > -1) {
 							child_routes.push(child_route);
 						}
 					})

@@ -48,13 +48,13 @@ class Permissions extends Component {
 		return (
 			<div className="tables-wrapper search-table-wrap">
 				<SmallTitleBar
-					title={<IntlMessages id="sidebar.permissionslist" />}
+					title={<IntlMessages id="sidebar.permissions" />}
 					center
 				/>
 				<Container maxWidth="lg">
 					<Box px={{ xs: '12px', lg: 0 }} className="page-space">
 						<MaterialTable
-							title={<IntlMessages id="sidebar.permissionslist" />}
+							title={<IntlMessages id="sidebar.permissions" />}
 							columns={this.state.columns}
 							data={this.state.data}
 							editable={{

@@ -147,10 +147,10 @@ class HulkAppLayout extends Component {
 
 	componentDidUpdate(prevProps) {
 		if (this.props.location.pathname !== prevProps.location.pathname) {
-			document.getElementsByClassName("hulk-page-content")[0].classList.add('fadeInUpShorter');
+		//	document.getElementsByClassName("hulk-page-content")[0].classList.add('fadeInUpShorter');
 			window.scrollTo(0, 0);
 			setTimeout(() => {
-				document.getElementsByClassName("hulk-page-content")[0].classList.remove('fadeInUpShorter');
+			//	document.getElementsByClassName("hulk-page-content")[0].classList.remove('fadeInUpShorter');
 			}, 1500)
 		}
 		if (this.state.loading === true) {

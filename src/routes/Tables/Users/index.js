@@ -116,13 +116,13 @@ class Users extends Component {
 		return (
 			<div className="tables-wrapper search-table-wrap">
 				<SmallTitleBar
-					title={<IntlMessages id="sidebar.Users" />}
+					title={<IntlMessages id="sidebar.users" />}
 					center
 				/>
 				<Container maxWidth="lg">
 					<Box px={{ xs: '12px', lg: 0 }} className="page-space">
 						<MaterialTable
-							title={<IntlMessages id="sidebar.Users" />}
+							title={<IntlMessages id="sidebar.users" />}
 							columns={this.state.columns}
 							data={this.state.data}
 							editable={{
