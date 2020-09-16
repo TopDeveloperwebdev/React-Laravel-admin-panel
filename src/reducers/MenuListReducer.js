@@ -2,23 +2,31 @@ import {
    TOGGLE_MENU,
    TOGGLE_THIRD_MENU,
    TOGGLE_FOURTH_MENU,
-	ONLOAD_TOGGLE_MENU
+   ONLOAD_TOGGLE_MENU,
+   ONLOAD_INITIAL_STATE
 } from 'actions/Types'
 
 import menuItems from 'assets/Data/MenuItems';
+const temp = [...menuItems.data];
 
 const INITIAL_STATE = {
-   navLinks: menuItems.data
+   navLinks: [...menuItems.data]
 }
 
-export default (state = INITIAL_STATE, action) =>{
-   switch(action.type){
-		case ONLOAD_TOGGLE_MENU:
+export default (state = INITIAL_STATE, action) => {
+   switch (action.type) {
+      case ONLOAD_INITIAL_STATE:
+         console.log('0000000000000000000000');
+         console.log(menuItems.data);
+         console.log(temp);
+         console.log('----------------------------------------')
+			return { ...state, navLinks: [...menuItems.data] };
+      case ONLOAD_TOGGLE_MENU:
          let navlinksArrayNew = state.navLinks;
          let indexnew = action.index;
          for (let i = 0; i < navlinksArrayNew.length; i++) {
             if (i === indexnew) {
-               if (navlinksArrayNew[indexnew].isMenuOpen ) {
+               if (navlinksArrayNew[indexnew].isMenuOpen) {
                   // navlinksArrayNew[indexnew].isMenuOpen = false;
                } else {
                   navlinksArrayNew[indexnew].isMenuOpen = true;
@@ -27,20 +35,20 @@ export default (state = INITIAL_STATE, action) =>{
                navlinksArrayNew[i].isMenuOpen = false;
             }
          }
-         return{ 
-               ...state,
-               navLinks: navlinksArrayNew
-            }
+         return {
+            ...state,
+            navLinks: navlinksArrayNew
+         }
       case TOGGLE_MENU:
          let navlinksArray = state.navLinks;
          let index = action.index;
-         
+
          for (let i = 0; i < navlinksArray.length; i++) {
             if (i === index) {
                if (navlinksArray[index].isMenuOpen && navlinksArray[index].isMenuOpen === true) {
-                  if(navlinksArray[index].isMultiple || navlinksArray[index].isMultiple === false){
+                  if (navlinksArray[index].isMultiple || navlinksArray[index].isMultiple === false) {
                      navlinksArray[index].isMenuOpen = true;
-                  }else{
+                  } else {
                      navlinksArray[index].isMenuOpen = false;
                   }
                } else {
@@ -50,18 +58,18 @@ export default (state = INITIAL_STATE, action) =>{
                navlinksArray[i].isMenuOpen = false;
             }
          }
-         return{ 
-               ...state,
-               navLinks: navlinksArray
-            }
+         return {
+            ...state,
+            navLinks: navlinksArray
+         }
 
       case TOGGLE_THIRD_MENU:
          let navlinksArray1 = state.navLinks;
          let index1 = action.index;
          for (let i = 0; i < navlinksArray1.length; i++) {
-            if(navlinksArray1[i].child_routes !== null){
-               for( let j = 0; j < navlinksArray1[i].child_routes.length; j++){
-                  if(navlinksArray1[i].child_routes[j].third_child_routes !== null){
+            if (navlinksArray1[i].child_routes !== null) {
+               for (let j = 0; j < navlinksArray1[i].child_routes.length; j++) {
+                  if (navlinksArray1[i].child_routes[j].third_child_routes !== null) {
                      if (j === index1) {
                         if (navlinksArray1[i].child_routes[index1].isMenuOpen) {
                            navlinksArray1[i].child_routes[index1].isMenuOpen = false;
@@ -70,13 +78,13 @@ export default (state = INITIAL_STATE, action) =>{
                         }
                      } else {
                         navlinksArray1[i].child_routes[j].isMenuOpen = false;
-                     }  
+                     }
                   }
 
                }
             }
          }
-         return{ ...state, navLinks: navlinksArray1 }
+         return { ...state, navLinks: navlinksArray1 }
 
       case TOGGLE_FOURTH_MENU:
          let navlinksArray2 = state.navLinks;
@@ -105,6 +113,6 @@ export default (state = INITIAL_STATE, action) =>{
          return { ...state, navLinks: navlinksArray2 }
 
       default:
-         return{ ...state }
+         return { ...state }
    }
 }

@@ -3,7 +3,6 @@
  */
 import React from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
-import { useDispatch, useSelector, connect } from 'react-redux';
 import {
    AsyncAgGridComponent,
    AsyncBasicTableComponent,
@@ -32,8 +31,7 @@ const Tables = ({ match }) => {
    //       return (<Redirect to="app/fullpagemenu" />);
    //    }
    // }
-   const state = useSelector(({ authUser }) => authUser);
-   console.log('state' , state);
+   
    const RouteWithRole = ({ component: Component, permission, ...rest }) =>
       <Route
          {...rest}
@@ -44,7 +42,7 @@ const Tables = ({ match }) => {
             else {
                return (<Redirect
                   to={{
-                     pathname: '/app/error/404'
+                     pathname: '/app/error/404'                    
                   }}
                />)
             }

@@ -99,8 +99,9 @@ function login(username, password) {
       .then(user => user.json())
       .then(user => {
          console.log('user' , user.user);
+         
          // store user details and jwt token in local storage to keep user logged in between page refreshes
-         localStorage.setItem('user', JSON.stringify(user.user));
+         localStorage.setItem('user', JSON.stringify(user.user));   
          return user;
       });
 }

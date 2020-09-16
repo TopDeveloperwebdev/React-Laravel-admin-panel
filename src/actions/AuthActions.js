@@ -8,6 +8,7 @@ import firebase from '@firebase/app';
 import { userService } from '../_services';
 
 import { NotificationManager } from 'react-notifications';
+import menuItems from 'assets/Data/MenuItems';
 import '@firebase/auth';
 //Action types
 import {
@@ -23,8 +24,11 @@ import {
 	LOGOUT_USER,
 	JWT_LOGIN_REQUEST,
 	JWT_LOGIN_SUCCESS,
-	JWT_LOGIN_FAILURE
+	JWT_LOGIN_FAILURE,
+	ONLOAD_INITIAL_STATE
 } from './Types';
+
+
 export const signupUserWithJwt = (user, history) => (dispatch) => {
 	// return dispatch => {
 	dispatch({ type: JWT_LOGIN_REQUEST, payload: user });
@@ -59,9 +63,10 @@ export const signinUserWithJwt = (user, history) => (dispatch) => {
 			user => {
 				if (user.result == 'success') {
 					dispatch({ type: JWT_LOGIN_SUCCESS, payload:  user.user });				
+					dispatch({ type: ONLOAD_INITIAL_STATE, payload: menuItems.data});			
 					history.push('/');
-					NotificationManager.success('User Logged In Successfully');
-					
+					NotificationManager.success('User Logged In Successfully');		
+
 				}
 				else {
 					dispatch({ type: JWT_LOGIN_FAILURE, payload: user.user });

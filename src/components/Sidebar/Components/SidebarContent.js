@@ -14,7 +14,8 @@ class SidebarContent extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			navLinks: this.props.menuListReducer.navLinks
+			navLinks: this.props.menuListReducer.navLinks,
+			isLoad : false
 		}
 	}
 
@@ -77,14 +78,10 @@ class SidebarContent extends Component {
 	render() {
 		const { closeSidebar } = this.props;
 		let { permissions, instance_id } = this.props.authUser;
-		if(permissions){
-			permissions = JSON.parse(permissions);
-		}
-	
-		console.log('permissions---', instance_id);
-		let links = this.state.navLinks;
-		let navItems = [];
+		let navItems =[];
+		console.log('navItems-------',this.state.navLinks);
 		if (instance_id) {
+			let links = this.state.navLinks;			
 			links && links.map((Navlink, index) => {
 				if (permissions.indexOf(Navlink.menu_title.split('.')[1] + '_access') > -1) {
 					navItems.push(Navlink);
@@ -100,10 +97,38 @@ class SidebarContent extends Component {
 					if (child_routes.length) navItems.push(Navlink);
 				}
 			});
+	
 		}
 		else {
-			navItems = this.state.navLinks;
+				navItems = this.state.navLinks;
 		}
+
+		// let navItems = [];
+		// if (permissions) {
+		// 	permissions = JSON.parse(permissions);
+		// }
+		// let links = this.state.navLinks;
+		// if (instance_id) {
+		// 	links && links.map((Navlink, index) => {
+		// 		if (permissions.indexOf(Navlink.menu_title.split('.')[1] + '_access') > -1) {
+		// 			navItems.push(Navlink);
+		// 		}
+		// 		else if (Navlink.child_routes) {
+		// 			let child_routes = [];
+		// 			Navlink.child_routes.map((child_route) => {
+		// 				if (permissions.indexOf(child_route.menu_title.split('.')[1] + '_access') > -1) {
+		// 					child_routes.push(child_route);
+		// 				}
+		// 			})
+		// 			Navlink.child_routes = child_routes;
+		// 			if (child_routes.length) navItems.push(Navlink);
+		// 		}
+		// 	});
+		// }
+		// else {
+		// 	navItems = this.state.navLinks;
+		// 	console.log('navItems',navItems);
+		// }
 
 		// console.log('permissions', navItems);
 		return (
