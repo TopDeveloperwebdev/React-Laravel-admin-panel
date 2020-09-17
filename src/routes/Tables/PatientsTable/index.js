@@ -262,8 +262,10 @@ class PatientsTable extends Component {
                                     const selected = [];
                                     const selectedservice = [];
                                     this.setState(prevState => {
-                                       const data = [...prevState.data];
+                                       const old = [...prevState.data];
+                                       let data = [];
                                        data.push(res);
+                                       [...data] = [...data, ...old];
                                        return { ...prevState, data };
                                     });
                                     this.setState({ selected: selected, selectedservice: selectedservice, isEditServices: true, isEditResources: true, isEditServiceplan: true });

@@ -21,8 +21,9 @@ import DefaultLayout from './DefaultLayout'
 
 // async components
 import {
-   AsyncErrorPage404Component,
+	AsyncErrorPage404Component,
 	AsyncErrorPage500Component,
+	AsyncOrderDetailComponent
 } from 'components/AsyncComponent/AsyncComponent';
 
 import Auth from '../Auth/Auth';
@@ -33,9 +34,9 @@ import Callback from "components/Callback/Callback";
 //Auth0 Handle Authentication
 const auth = new Auth();
 const handleAuthentication = ({ location }) => {
-   if (/access_token|id_token|error/.test(location.hash)) {
-      auth.handleAuthentication();
-   }
+	if (/access_token|id_token|error/.test(location.hash)) {
+		auth.handleAuthentication();
+	}
 }
 /**
  * Initial Path To Check Whether User Is Logged In Or Not
@@ -66,7 +67,7 @@ class App extends Component {
 			}
 		}
 		return (
-         <HulkThemeProvider>
+			<HulkThemeProvider>
 				<CssBaseline />
 				<NotificationContainer />
 				<InitialPath
@@ -81,12 +82,13 @@ class App extends Component {
 				<Route path="/register" component={Register} />
 				<Route path="/forgot-password2" component={ForgotPassword2} />
 				<Route path="/error/404" component={AsyncErrorPage404Component} />
-            <Route path="/error/500" component={AsyncErrorPage500Component} />
-            <Route path="/callback" render={(props) => {
-               handleAuthentication(props);
-               return <Callback {...props} />
-            }} />
-         </HulkThemeProvider>
+				<Route path="/order-detail/:id" component={AsyncOrderDetailComponent} />
+				<Route path="/error/500" component={AsyncErrorPage500Component} />
+				<Route path="/callback" render={(props) => {
+					handleAuthentication(props);
+					return <Callback {...props} />
+				}} />
+			</HulkThemeProvider>
 		);
 	}
 }

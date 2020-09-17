@@ -98,8 +98,10 @@ class Instances extends Component {
 											userService.addInstances(newData).then(res => {
 												console.log('res', res);
 												this.setState(prevState => {
-													const data = [...prevState.data];
+													const old = [...prevState.data];
+													let data = [];
 													data.push(res);
+													[...data] = [...data, ...old];
 													const status = true;
 													return { ...prevState, data, status };
 												});

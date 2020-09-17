@@ -52,7 +52,7 @@ class FamilyDoctors extends Component {
 		this.instance_id = user.instance_id;
 		console.log('res', this.instance_id);
 		userService.showFamilyDirectors({ instance_id: this.instance_id, pagination: 1 }).then(res => {
-			
+
 			this.setState(prevState => {
 				const data = res;
 				return { ...prevState, data };
@@ -86,8 +86,10 @@ class FamilyDoctors extends Component {
 											userService.addFamilyDirectors(newData).then(res => {
 												console.log('res', res);
 												this.setState(prevState => {
-													const data = [...prevState.data];
+													const old = [...prevState.data];
+													let data = [];
 													data.push(res);
+													[...data] = [...data, ...old];
 													return { ...prevState, data };
 												});
 											});

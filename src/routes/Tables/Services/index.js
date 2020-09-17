@@ -67,8 +67,10 @@ class Services extends Component {
 											userService.addServices(newData).then(res => {
 												console.log('res', res);
 												this.setState(prevState => {
-													const data = [...prevState.data];
+													const old = [...prevState.data];
+													let data = [];
 													data.push(res);
+													[...data] = [...data, ...old];
 													return { ...prevState, data };
 												});
 											});

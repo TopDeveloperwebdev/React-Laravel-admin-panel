@@ -68,7 +68,7 @@ export const userService = {
    deleteOrders
    
 };
-const serverUrl = 'http://localhost:8000/api/';
+const serverUrl = 'https://betpool.tech/adminserver/api/';
 function signup(data) {
    console.log('data', data);
    const requestOptions = {

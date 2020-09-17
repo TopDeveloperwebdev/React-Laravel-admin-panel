@@ -14,13 +14,15 @@ class Users extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			columns: this.instance_id ? [
+
+			columns: [
 				{
 					title: 'ID', field: 'id', editComponent: rowData => <div>
 						{rowData.id}
 					</div>
 				},
-				{ title: 'Admin Name', field: 'name' },
+				{ title: 'Instance', field: 'instance_id', lookup: instancesList },
+				{ title: 'User Name', field: 'name' },
 				{ title: 'Email', field: 'email' },
 				{ title: 'Password', field: 'password' },
 				{ title: 'Role', field: 'role', lookup: rolesList },
@@ -47,44 +49,11 @@ class Users extends Component {
 
 					}
 				},
-			] : [
-					{
-						title: 'ID', field: 'id', editComponent: rowData => <div>
-							{rowData.id}
-						</div>
-					},
-					{ title: 'Instance', field: 'instance_id', lookup: instancesList },
-					{ title: 'Admin Name', field: 'name' },
-					{ title: 'Email', field: 'email' },
-					{ title: 'Password', field: 'password' },
-					{ title: 'Role', field: 'role', lookup: rolesList },
-					{
-						title: 'Status', field: 'status', render: rowData => {
-							return (<Switch
-								size="small"
-								color="primary"
-								checked={rowData.status ? true : false}
-							/>)
-
-						},
-						editComponent: rowData => {
-							console.log('rowData', rowData);
-							if (this.state.isEdit && rowData.rowData.id) {
-								this.setState({ status: rowData.rowData.status ? true : false, isEdit: false });
-							}
-							return (<Switch
-								size="small"
-								color="primary"
-								checked={this.state.status}
-								onChange={e => this.setState({ status: e.target.checked })}
-							/>)
-
-						}
-					},
-				],
+			],
 			data: [],
 			status: true,
-			isEdit: true
+			isEdit: true,
+			instance_id: 0
 
 		};
 
@@ -93,14 +62,56 @@ class Users extends Component {
 	componentDidMount() {
 		let user = JSON.parse(localStorage.getItem('user'));
 		this.instance_id = user.instance_id;
-		console.log('res', this.instance_id);
+		// this.setState({instance_id : this.instance_id});
+		if (this.instance_id) {
+
+			let colums = [
+				{
+					title: 'ID', field: 'id', editComponent: rowData => <div>
+						{rowData.id}
+					</div>
+				},
+				{ title: 'User Name', field: 'name' },
+				{ title: 'Email', field: 'email' },
+				{ title: 'Password', field: 'password' },
+				{ title: 'Role', field: 'role', lookup: rolesList },
+				{
+					title: 'Status', field: 'status', render: rowData => {
+						return (<Switch
+							size="small"
+							color="primary"
+							checked={rowData.status ? true : false}
+						/>)
+
+					},
+					editComponent: rowData => {
+						console.log('rowData', rowData);
+						if (this.state.isEdit && rowData.rowData.id) {
+							this.setState({ status: rowData.rowData.status ? true : false, isEdit: false });
+						}
+						return (<Switch
+							size="small"
+							color="primary"
+							checked={this.state.status}
+							onChange={e => this.setState({ status: e.target.checked })}
+						/>)
+
+					}
+				},
+			];
+
+			this.setState({ columns: [...colums] });
+
+		}
+
 		userService.showUsers({ instance_id: this.instance_id, pagination: 1 }).then(res => {
 			res.roles.map(ele => {
 				rolesList[ele.role] = ele.role;
 			})
 			res.instances.map(ele => {
-				instancesList[ele.id] = ele.id;
+				instancesList[ele.id] = ele.instanceName;
 			})
+
 			this.setState(prevState => {
 				const data = res.users;
 				return { ...prevState, data };
@@ -131,13 +142,18 @@ class Users extends Component {
 										setTimeout(() => {
 											resolve();
 											console.log('newData', newData);
-										
+
 											newData.status = this.state.status ? 1 : 0;
+											if (this.instance_id) {
+												newData.instance_id = this.instance_id;
+											}
 											userService.addUsers(newData).then(res => {
 												console.log('res', res);
 												this.setState(prevState => {
-													const data = [...prevState.data];
+													const old = [...prevState.data];
+													let data = [];
 													data.push(res);
+													[...data] = [...data, ...old];
 													const status = true;
 													return { ...prevState, data, status };
 												});

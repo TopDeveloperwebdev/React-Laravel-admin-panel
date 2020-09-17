@@ -113,8 +113,10 @@ class Roles extends Component {
 										userService.addRoles(newData).then(res => {
 											console.log('res', res);
 											this.setState(prevState => {
-												const data = [...prevState.data];
+												const old = [...prevState.data];
+												let data = [];
 												data.push(res);
+												[...data] = [...data, ...old];
 												const selectedPermissions = [];
 												const isEditPermissions = true;
 												return { ...prevState, data, selectedPermissions, isEditPermissions };

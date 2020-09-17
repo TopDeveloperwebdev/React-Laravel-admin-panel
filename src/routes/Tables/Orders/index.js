@@ -15,8 +15,13 @@ class Orders extends Component {
 		super(props)
 		this.state = {
 			columns: [
-
 				{
+					title: 'Order ID', field: 'id', editComponent: rowData => <div>
+						{rowData.id}
+					</div>
+				},
+				{
+
 					title: 'Medications', field: 'orderMedications', render: rowData => {
 						let selectedMedications = JSON.parse(rowData.orderMedications);
 						return (
@@ -54,8 +59,10 @@ class Orders extends Component {
 				},
 				{
 					title: 'Patient', field: 'patient', render: rowData => {
+						let patient = this.state.patients.filter((a) => a.id == rowData.patient);
+
 						return (<div>
-							{rowData.patient}
+							{patient[0].firstName} {patient[0].lastName}
 						</div>)
 					},
 					editComponent: rowData => {
@@ -207,7 +214,7 @@ class Orders extends Component {
 			});
 			let patients = res.patients;
 
-             console.log('res' , res.orders);
+			console.log('res', res.orders);
 			this.setState({
 				medications, medications,
 				data: res.orders,
@@ -250,8 +257,10 @@ class Orders extends Component {
 										userService.addOrders(newData).then(res => {
 											console.log('res', res);
 											this.setState(prevState => {
-												const data = [...prevState.data];
+												const old = [...prevState.data];
+												let data = [];
 												data.push(res);
+												[...data] = [...data, ...old];
 												const selectedMedications = [];
 												const isEditMedications = true;
 												return { ...prevState, data, selectedMedications, isEditMedications };

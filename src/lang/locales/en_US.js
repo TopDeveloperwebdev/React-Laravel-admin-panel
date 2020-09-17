@@ -71,6 +71,7 @@ export default {
   "sidebar.Instance": "Instances",
   "sidebar.users": "Users",
   "sidebar.order": "Orders",
+    "sidebar.manageOrders": "Orders Manage",
   "sidebar.medication": "Medikament",
   "sidebar.pharmacies": "Apotheken",
   "sidebar.sessions": "Sessions",

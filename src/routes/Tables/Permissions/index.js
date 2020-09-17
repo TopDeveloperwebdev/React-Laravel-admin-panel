@@ -66,8 +66,10 @@ class Permissions extends Component {
 										userService.addPermissions(newData).then(res => {
 											console.log('res', res);
 											this.setState(prevState => {
-												const data = [...prevState.data];
+												const old = [...prevState.data];
+												let data = [];
 												data.push(res);
+												[...data] = [...data, ...old];
 												return { ...prevState, data };
 											});
 										});
@@ -89,15 +91,15 @@ class Permissions extends Component {
 								onRowDelete: oldData =>
 									new Promise(resolve => {
 										resolve();
-											console.log(';oldData', oldData.id);
-											userService.deletePermissions({ id: oldData.id }).then(res => {
-												console.log('res', res);
-												this.setState(prevState => {
-													const data = [...prevState.data];
-													data.splice(data.indexOf(oldData), 1);
-													return { ...prevState, data };
-												});
-											})
+										console.log(';oldData', oldData.id);
+										userService.deletePermissions({ id: oldData.id }).then(res => {
+											console.log('res', res);
+											this.setState(prevState => {
+												const data = [...prevState.data];
+												data.splice(data.indexOf(oldData), 1);
+												return { ...prevState, data };
+											});
+										})
 									}),
 							}}
 						/>

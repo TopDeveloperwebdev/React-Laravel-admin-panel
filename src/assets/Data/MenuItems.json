@@ -251,6 +251,17 @@
 			"desc": true,
 			"content": "",
 			"child_routes": null
+		},{
+			"menu_title": "sidebar.manageOrders",
+			"path": "/app/manage-orders",
+			"icon": "receipt",
+			"category": "components",
+			"isMenuOpen": false,
+			"menu": "tables",
+			"fullPageMenu": false,
+			"desc": true,
+			"content": "",
+			"child_routes": null
 		},
 		{
 			"menu_title": "sidebar.permissions",

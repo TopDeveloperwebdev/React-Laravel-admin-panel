@@ -19,7 +19,7 @@ class Pharmacies extends Component {
 					editComponent: props => {
 						return (
 							<input
-								type='file'							
+								type='file'
 								onChange={e => props.onChange(e.target.files[0])}
 							/>
 						)
@@ -52,7 +52,7 @@ class Pharmacies extends Component {
 		};
 
 	}
-	
+
 	componentDidMount() {
 		this.defaultUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSTbZrzTIuXAe01k5wgrhWGzPRPRliQygmBCA&usqp=CAU";
 		let user = JSON.parse(localStorage.getItem('user'));
@@ -88,17 +88,19 @@ class Pharmacies extends Component {
 									new Promise(resolve => {
 										setTimeout(() => {
 											resolve();
-										
+
 											newData.instance_id = this.instance_id;
 											const formData = new FormData()
 											formData.append('file', newData.pharmacyLogo);
-											newData.pharmacyLogo = '';									
-											formData.append('data', JSON.stringify(newData) );
+											newData.pharmacyLogo = '';
+											formData.append('data', JSON.stringify(newData));
 											userService.addPharmacies(formData).then(res => {
 												console.log('res', res);
 												this.setState(prevState => {
-													const data = [...prevState.data];
+													const old = [...prevState.data];
+													let data = [];
 													data.push(res);
+													[...data] = [...data, ...old];
 													return { ...prevState, data };
 												});
 											});
@@ -108,14 +110,14 @@ class Pharmacies extends Component {
 								onRowUpdate: (newData, oldData) =>
 									new Promise(resolve => {
 										setTimeout(() => {
-											resolve();	
+											resolve();
 											const formData = new FormData()
-											if (typeof newData.pharmacyLogo == 'object') {                                   
-											   formData.append('file', newData.pharmacyLogo);
-											   newData.pharmacyLogo = '';
-											}									   
-											formData.append('data', JSON.stringify(newData));	
-                                             console.log('newData',newData);
+											if (typeof newData.pharmacyLogo == 'object') {
+												formData.append('file', newData.pharmacyLogo);
+												newData.pharmacyLogo = '';
+											}
+											formData.append('data', JSON.stringify(newData));
+											console.log('newData', newData);
 											userService.editPharmacies(formData).then(res => {
 												if (oldData) {
 													this.setState(prevState => {

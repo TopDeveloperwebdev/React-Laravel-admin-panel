@@ -190,7 +190,12 @@ const AsyncOrderComponent = Loadable({
 	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
-
+// AsyncManageOrdersComponent Table
+const AsyncManageOrdersComponent = Loadable({
+	loader: () => import("routes/Tables/manageOrders"),
+	loading: () => <HulkPageLoader />,
+	delay: 3000,
+});
 // Blog Detail Page
 const AsyncBlogDetailComponent = Loadable({
 	loader: () => import("routes/Blog/BlogDetail"),
@@ -323,6 +328,12 @@ const AsyncErrorPage404Component = Loadable({
 	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
+//AsyncOrderDetailComponent
+const AsyncOrderDetailComponent = Loadable({
+	loader: () => import("routes/orderDetail"),
+	loading: () => <HulkPageLoader />,
+	delay: 3000,
+});
 // Error Page 500
 const AsyncErrorPage500Component = Loadable({
 	loader: () => import("routes/Error/500"),
@@ -383,5 +394,7 @@ export {
 	AsyncPermissionsComponent,
 	AsyncRolesComponent,
 	AsyncOrderComponent,
-	AsyncUsersComponent
+	AsyncUsersComponent,
+	AsyncManageOrdersComponent,
+	AsyncOrderDetailComponent
 };
