@@ -17,12 +17,18 @@ class Medication extends Component {
 				{ title: 'Medication name', field: 'medicationName' },
 				{
 					title: 'Ingredients ', field: 'ingredients', lookup: ingredientsList
-
 				},
 				{ title: 'Packaging ', field: 'packaging' },
-				{ title: 'Relation to order', field: 'orders' },
-				{ title: 'Relation to patient', field: 'patients' },
-
+				{
+					title: 'Relation to order', field: 'ordersCount', editComponent: rowData => <div>
+						{rowData.ordersCount}
+					</div>
+				},
+				{
+					title: 'Relation to patient', field: 'patientsCount', editComponent: rowData => <div>
+						{rowData.patientsCount}
+					</div>
+				},
 			],
 
 			data: [],
@@ -36,7 +42,7 @@ class Medication extends Component {
 		this.instance_id = user.instance_id;
 		console.log('res', this.instance_id);
 		userService.showMedications({ instance_id: this.instance_id, pagination: 1 }).then(res => {
-
+			console.log('ingredients', res.medications);
 			this.setState(prevState => {
 				const data = res.medications;
 				return { ...prevState, data };
@@ -72,10 +78,9 @@ class Medication extends Component {
 											userService.addMedications(newData).then(res => {
 												console.log('res', res);
 												this.setState(prevState => {
-													const old = [...prevState.data];
-													let data = [];
-													data.push(res);
-													[...data] = [...data, ...old];
+													const data = [...prevState.data];												
+													data.push(res);		
+													console.log('ingredients-res', data);										
 													return { ...prevState, data };
 												});
 											});

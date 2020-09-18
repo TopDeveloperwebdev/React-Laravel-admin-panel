@@ -206,6 +206,7 @@ class Orders extends Component {
 		let user = JSON.parse(localStorage.getItem('user'));
 		this.instance_id = user.instance_id;
 		this.user_id = user.id;
+	
 
 		console.log('res-1', this.user_id);
 		userService.showOrders({ instance_id: this.instance_id, pagination: 1, user_id: this.user_id }).then(res => {

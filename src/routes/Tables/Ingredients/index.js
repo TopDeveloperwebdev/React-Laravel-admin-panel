@@ -48,13 +48,13 @@ class Ingredients extends Component {
 		return (
 			<div className="tables-wrapper search-table-wrap">
 				<SmallTitleBar
-					title={<IntlMessages id="sidebar.Ingredients" />}
+					title={<IntlMessages id="sidebar.ingredients" />}
 					center
 				/>
 				<Container maxWidth="lg">
 					<Box px={{ xs: '12px', lg: 0 }} className="page-space">
 						<MaterialTable
-							title={<IntlMessages id="sidebar.Ingredients" />}
+							title={<IntlMessages id="sidebar.ingredients" />}
 							columns={this.state.columns}
 							data={this.state.data}
 							editable={{
