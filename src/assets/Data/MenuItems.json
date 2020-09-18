@@ -160,7 +160,14 @@
 			"desc": true,
 			"content": "",
 			"child_routes": [
-				
+				{
+					"path": "/app/ingredients",
+					"menu_title": "sidebar.ingredients",
+					"icon": "contact_support",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
+				},
 				{
 					"menu_title": "sidebar.familiy-directors",
 					"path": "/app/doctors",
@@ -229,14 +236,6 @@
 					"isMenuOpen": false,
 					"fullPageMenu": false,
 					"third_child_routes": null
-				},
-				{
-					"path": "/app/ingredients",
-					"menu_title": "sidebar.ingredients",
-					"icon": "contact_support",
-					"isMenuOpen": false,
-					"fullPageMenu": false,
-					"third_child_routes": null
 				}
 			]
 		},
@@ -251,7 +250,8 @@
 			"desc": true,
 			"content": "",
 			"child_routes": null
-		},{
+		},
+		{
 			"menu_title": "sidebar.manageOrders",
 			"path": "/app/manage-orders",
 			"icon": "receipt",

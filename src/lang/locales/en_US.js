@@ -65,7 +65,7 @@ export default {
   "sidebar.basicTable": "Basic Table",
   "sidebar.agGrid": "AgGrid",
   "sidebar.searchTable": "Search Table",
-  "sidebar.patients": "Geduldig",
+  "sidebar.patients": "Patienten",
   "sidebar.medications": "Medications",
   "sidebar.familiy-directors": "Aerzte",
   "sidebar.Instance": "Instances",

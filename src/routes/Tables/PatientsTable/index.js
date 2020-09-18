@@ -3,18 +3,22 @@
 */
 import React, { Component } from 'react';
 import MaterialTable from 'material-table';
-import { Container, Box, Switch, FormControl, InputLabel, Select } from '@material-ui/core';
-import { MultiSelect } from '@progress/kendo-react-dropdowns';
+import { Container, Box, Switch, FormControl, InputLabel, TextField } from '@material-ui/core';
+import { AutoComplete, MultiSelect } from '@progress/kendo-react-dropdowns';
 import { userService } from '../../../_services';
 //Components
 import { SmallTitleBar } from 'components/GlobalComponents';
 import IntlMessages from 'util/IntlMessages';
 
-let insuranceList = {};
-let pharmaciesList = {};
+let insuranceList = [];
+let pharmaciesList = [];
+let salutationList = { Herr: 'Herr', Frau: 'Frau' };
+let degreeList = { 1: 1, 2: 2, 3: 3, 4: 4, 5: 5 };
+let statusList = { Aktiv: 'Aktiv', Inaktiv: 'Inaktiv', Unvollständig: 'Unvollständig' };
 let family_doctorsList = {};
 let resourcesList = [];
 let servicesList = [];
+let usersList = [];
 
 class PatientsTable extends Component {
    constructor(props) {
@@ -33,13 +37,34 @@ class PatientsTable extends Component {
 
                }
             },
-            { title: 'Salutation', field: 'salutation' },
+            { title: 'Salutation', field: 'salutation', lookup: salutationList },
             { title: 'First Name', field: 'firstName' },
             { title: 'Last Name', field: 'lastName' },
             { title: 'Street nr', field: 'streetNr' },
             { title: 'zip code', field: 'zipCode' },
             { title: 'City', field: 'city' },
-            { title: 'Birthday', field: 'birthday' },
+
+            {
+               title: 'Birthday', field: 'birthday', render: rowData => {
+                  return (<div>
+                     {rowData.birthday}
+                  </div>)
+               },
+               editComponent: rowData => {
+                  return (
+                     <TextField
+                        className="full-width"
+                        id="date"
+                        type="date"
+                        defaultValue="2017-05-24"
+                        InputLabelProps={{
+                           shrink: true,
+                        }}
+                        value={this.state.birthday}
+                        onChange={this.handleChangeDate}
+                     />)
+               }
+            },
             { title: 'Phone 1', field: 'phone1' },
             { title: 'Phone 2', field: 'phone2' },
             { title: 'E-Mail', field: 'email' },
@@ -88,8 +113,11 @@ class PatientsTable extends Component {
             },
 
             {
-               title: 'Insurance', field: 'insurance', lookup: insuranceList
+               title: 'Insurance', field: 'insurance', editComponent: rowData => {
+                  return (<AutoComplete data={insuranceList} placeholder="Select Insurance" onChange={this.onChangeInsurance} />)
+               }
             },
+
             {
                title: 'Services', field: 'services', render: props => {
                   let selectedServices = JSON.parse(props.services);
@@ -131,18 +159,62 @@ class PatientsTable extends Component {
                }
             },
             {
-               title: 'Family Doctor', field: 'familyDoctor', lookup: family_doctorsList
+               title: 'Family Doctor', field: 'familyDoctor', editComponent: rowData => {
+                  return (<AutoComplete data={family_doctorsList} placeholder="Select Family doctor" onChange={this.onChangeDoctor} />)
+               }
             },
             { title: 'Key number', field: 'keyNumber', type: 'numeric' },
             { title: 'Floor', field: 'floor', type: 'numeric' },
             {
-               title: 'Degree of care', field: 'degreeCare'
+               title: 'Degree of care', field: 'degreeCare', lookup: degreeList
             },
             {
-               title: 'Pharmacy', field: 'pharmacy', lookup: pharmaciesList
+               title: 'Pharmacy', field: 'pharmacy', editComponent: rowData => {
+                  return (<AutoComplete data={pharmaciesList} placeholder="Select Pharmacy" onChange={this.onChangePharmacies} />)
+               }
             },
-            { title: 'User group', field: 'userGroup' },
-            { title: 'Status', field: 'status' },
+            {
+               title: 'User group', field: 'userGroup', render: props => {
+                  let selectedUsers = [];
+                  selectedUsers = JSON.parse(props.userGroup);
+                  if (!selectedUsers) {
+                     selectedUsers = [];
+                  }
+                  return (
+                     <div>
+                        {
+                           selectedUsers.map((value, index) => {
+                              return (<div key={index}>{value}</div>)
+                           })
+                        }
+                     </div>
+
+                  )
+
+
+               },
+               editComponent: rowData => {
+                  if (rowData.rowData.id) {
+                     let selectedUsers = JSON.parse(rowData.rowData.userGroup);
+                     if (!selectedUsers) {
+                        selectedUsers = [];
+                     }
+                     if (this.state.isEditUsers) {
+                        this.setState({ selectedUsers: selectedUsers, isEditUsers: false })
+                     }
+                  }
+
+                  return (
+                     <MultiSelect
+                        data={usersList}
+                        value={this.state.selectedUsers}
+                        onChange={this.onChangeUsers}
+                     />
+                  )
+
+               }
+            },
+            { title: 'Status', field: 'status', lookup: statusList },
             {
                title: 'Serviceplan', field: 'serviceplan', render: rowData => {
                   return (<Switch
@@ -172,17 +244,37 @@ class PatientsTable extends Component {
          selectedservice: [],
          isEditServices: true,
          isEditResources: true,
+         isEditUsers: true,
          isEditServiceplan: true,
-         serviceplan: true
-
+         serviceplan: true,
+         insurance: '',
+         pharmacy: '',
+         birthday: ''
       };
 
 
    }
+   handleChangeDate = (event) => {
+      this.setState({ birthday: event.target.value });
+   }
+   onChangeDoctor = (event) => {
+      this.setState({ familyDoctor: event.target.value })
+   }
+   onChangePharmacies = (event) => {
+      this.setState({ pharmacy: event.target.value })
+   }
 
+   onChangeInsurance = (event) => {
+      this.setState({ insurance: event.target.value });
+   }
    onChangeResources = (event) => {
       this.setState({
          selected: [...event.target.value]
+      });
+   }
+   onChangeUsers = (event) => {
+      this.setState({
+         selectedUsers: [...event.target.value]
       });
    }
    onChangeServices = (event) => {
@@ -205,19 +297,30 @@ class PatientsTable extends Component {
          resourcesList = res.resources.map(ele => {
             return ele.resources;
          })
-
-         res.family_doctors.map(ele => {
-            family_doctorsList[ele.doctorName] = ele.doctorName;
+         usersList = res.users.map(ele => {
+            return ele.name;
+         })
+         family_doctorsList = res.family_doctors.map(ele => {
+            return ele.doctorName;
          })
 
-         res.insurances.map(ele => {
-            insuranceList[ele.insurances] = ele.insurances;
+
+         insuranceList = res.insurances.map(ele => {
+            return ele.insurances;
+         })
+         pharmaciesList = res.pharmacies.map(ele => {
+            return ele.pharmacyName;
          })
 
 
-         res.pharmacies.map(ele => {
-            pharmaciesList[ele.pharmacyName] = ele.pharmacyName;
-         })
+         // res.insurances.map(ele => {
+         //    insuranceList[ele.insurances] = ele.insurances;
+         // })
+
+
+         // res.pharmacies.map(ele => {
+         //    pharmaciesList[ele.pharmacyName] = ele.pharmacyName;
+         // })
          // console.log('this.insta' , this.insurances);  
 
 
@@ -254,6 +357,10 @@ class PatientsTable extends Component {
                                  newData.instance_id = this.instance_id;
                                  newData.resources = JSON.stringify(this.state.selected);
                                  newData.services = JSON.stringify(this.state.selectedservice);
+                                 newData.insurance = this.state.insurance;
+                                 newData.familyDoctor = this.state.familyDoctor;
+                                 newData.pharmacy = this.state.pharmacy;
+                                 newData.birthday = this.state.birthday;
                                  const formData = new FormData()
                                  formData.append('file', newData.picture);
                                  newData.picture = '';
@@ -262,13 +369,12 @@ class PatientsTable extends Component {
                                     const selected = [];
                                     const selectedservice = [];
                                     this.setState(prevState => {
-                                       const old = [...prevState.data];
-                                       let data = [];
+                                       let data = [...prevState.data];
                                        data.push(res);
-                                       [...data] = [...data, ...old];
-                                       return { ...prevState, data };
+                                       return { ...prevState, data : [...data] };
                                     });
-                                    this.setState({ selected: selected, selectedservice: selectedservice, isEditServices: true, isEditResources: true, isEditServiceplan: true });
+
+                                    this.setState({ selected: selected, selectedservice: selectedservice, isEditServices: true, isEditResources: true, isEditServiceplan: true, isEditUsers: true, insurance: "", familyDoctor: "", pharmacy: '', birthday: '' });
                                  });
 
                               }, 600);
@@ -284,6 +390,10 @@ class PatientsTable extends Component {
                                  }
                                  newData.resources = JSON.stringify(this.state.selected);
                                  newData.services = JSON.stringify(this.state.selectedservice);
+                                 newData.insurance = this.state.insurance;
+                                 newData.familyDoctor = this.state.familyDoctor;
+                                 newData.pharmacy = this.state.pharmacy;
+                                 newData.birthday = this.state.birthday;
                                  formData.append('data', JSON.stringify(newData));
 
                                  userService.editPatients(formData).then(res => {
@@ -295,7 +405,7 @@ class PatientsTable extends Component {
                                        });
                                        const selected = [];
                                        const selectedservice = [];
-                                       this.setState({ selected: selected, selectedservice: selectedservice, isEditServices: true, isEditResources: true, isEditServiceplan: true });
+                                       this.setState({ selected: selected, selectedservice: selectedservice, isEditServices: true, isEditResources: true, isEditServiceplan: true, isEditUsers: true, insurance: "", familyDoctor: "", pharmacy: '', birthday: '' });
                                     }
                                  })
                               }, 600);
