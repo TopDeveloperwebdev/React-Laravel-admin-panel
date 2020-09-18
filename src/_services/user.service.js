@@ -65,7 +65,8 @@ export const userService = {
    addOrders,
    showOrders,
    editOrders,
-   deleteOrders
+   deleteOrders,
+   getOrderDetail
    
 };
 const serverUrl = 'http://localhost:8000/api/';
@@ -422,6 +423,20 @@ function showOrders(info) {
    };
 
    return fetch(serverUrl + 'showOrders', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
+function getOrderDetail(info) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(info)
+   };
+
+   return fetch(serverUrl + 'getOrderDetail', requestOptions)
       .then(res => res.json())
       .then(res => {
          return res

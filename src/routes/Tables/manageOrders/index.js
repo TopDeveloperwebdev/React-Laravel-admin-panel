@@ -60,7 +60,7 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-	{ id: 'id', disablePadding: true, label: 'Order ID' },
+	{ id: 'orderId', disablePadding: true, label: 'Order ID' },
 	{ id: 'orderMedications', disablePadding: false, label: 'Medications' },
 	{ id: 'pharmacy', disablePadding: false, label: 'Pharmacy' },
 	{ id: 'doctor', disablePadding: false, label: 'Doctor' },
@@ -334,18 +334,18 @@ export default function EnhancedTable() {
 															/>
 														</TableCell>
 														<TableCell component="th" id={labelId} scope="row" padding="none">
-															{row.id}
+															{row.orderId}
 														</TableCell>
 														<TableCell align="right">{
-															row.orderMedications && JSON.parse(row.orderMedications).map(ele => {
-																return (<div>{ele}</div>)
+															row.orderMedications && JSON.parse(row.orderMedications).map((ele , index) => {
+																return (<div key={index}>{ele}</div>)
 															})
 														}</TableCell>
 														<TableCell align="right">{row.pharmacy}</TableCell>
 														<TableCell align="right">{row.doctor}</TableCell>
 														<TableCell align="right">{row.patient}</TableCell>
 														<TableCell align="right">{row.date}</TableCell>
-														<TableCell align="right"><Link to='/order-detail/1'>/order-detail/?id={row.id}</Link></TableCell>
+														<TableCell align="right"><Link to='/order-detail/{row.orderId}'>/order-detail/?id={row.orderId}</Link></TableCell>
 														<TableCell align="right">Not sent</TableCell>
 													</TableRow>
 												);

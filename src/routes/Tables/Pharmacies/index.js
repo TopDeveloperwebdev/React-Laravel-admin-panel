@@ -53,7 +53,7 @@ class Pharmacies extends Component {
 
 	}
 
-	componentDidMount() {
+	componentWillMount() {
 		this.defaultUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSTbZrzTIuXAe01k5wgrhWGzPRPRliQygmBCA&usqp=CAU";
 		let user = JSON.parse(localStorage.getItem('user'));
 		this.instance_id = user.instance_id;

@@ -28,7 +28,7 @@ class Permissions extends Component {
 
 	}
 
-	componentDidMount() {
+	componentWillMount() {
 		let user = JSON.parse(localStorage.getItem('user'));
 		this.instance_id = user.instance_id;
 		console.log('res', this.instance_id);

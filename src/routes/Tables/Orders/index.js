@@ -16,7 +16,7 @@ class Orders extends Component {
 		this.state = {
 			columns: [
 				{
-					title: 'Order ID', field: 'id', editComponent: rowData => <div>
+					title: 'Order ID', field: 'orderId', editComponent: rowData => <div>
 						{rowData.id}
 					</div>
 				},
@@ -201,7 +201,7 @@ class Orders extends Component {
 	}
 
 
-	componentDidMount() {
+	componentWillMount() {
 		this.defaultUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSTbZrzTIuXAe01k5wgrhWGzPRPRliQygmBCA&usqp=CAU";
 		let user = JSON.parse(localStorage.getItem('user'));
 		this.instance_id = user.instance_id;

@@ -242,6 +242,7 @@ class PatientsTable extends Component {
          data: [],
          selected: [],
          selectedservice: [],
+         selectedUsers : [],
          isEditServices: true,
          isEditResources: true,
          isEditUsers: true,
@@ -282,7 +283,7 @@ class PatientsTable extends Component {
          selectedservice: [...event.target.value]
       });
    }
-   componentDidMount() {
+   componentWillMount() {
       this.defaultUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSTbZrzTIuXAe01k5wgrhWGzPRPRliQygmBCA&usqp=CAU";
       let user = JSON.parse(localStorage.getItem('user'));
       this.instance_id = user.instance_id;
@@ -357,10 +358,12 @@ class PatientsTable extends Component {
                                  newData.instance_id = this.instance_id;
                                  newData.resources = JSON.stringify(this.state.selected);
                                  newData.services = JSON.stringify(this.state.selectedservice);
+                                 newData.userGroup = JSON.stringify(this.state.selectedUsers);
                                  newData.insurance = this.state.insurance;
                                  newData.familyDoctor = this.state.familyDoctor;
                                  newData.pharmacy = this.state.pharmacy;
                                  newData.birthday = this.state.birthday;
+
                                  const formData = new FormData()
                                  formData.append('file', newData.picture);
                                  newData.picture = '';
@@ -371,10 +374,10 @@ class PatientsTable extends Component {
                                     this.setState(prevState => {
                                        let data = [...prevState.data];
                                        data.push(res);
-                                       return { ...prevState, data : [...data] };
+                                       return { ...prevState, data: [...data] };
                                     });
 
-                                    this.setState({ selected: selected, selectedservice: selectedservice, isEditServices: true, isEditResources: true, isEditServiceplan: true, isEditUsers: true, insurance: "", familyDoctor: "", pharmacy: '', birthday: '' });
+                                    this.setState({ selected: selected, selectedservice: selectedservice, isEditServices: true, isEditResources: true, isEditServiceplan: true, isEditUsers: true, insurance: "", familyDoctor: "", pharmacy: '', birthday: '', selectedUsers: [] });
                                  });
 
                               }, 600);
@@ -390,6 +393,7 @@ class PatientsTable extends Component {
                                  }
                                  newData.resources = JSON.stringify(this.state.selected);
                                  newData.services = JSON.stringify(this.state.selectedservice);
+                                 newData.userGroup = JSON.stringify(this.state.selectedUsers);
                                  newData.insurance = this.state.insurance;
                                  newData.familyDoctor = this.state.familyDoctor;
                                  newData.pharmacy = this.state.pharmacy;
@@ -405,7 +409,7 @@ class PatientsTable extends Component {
                                        });
                                        const selected = [];
                                        const selectedservice = [];
-                                       this.setState({ selected: selected, selectedservice: selectedservice, isEditServices: true, isEditResources: true, isEditServiceplan: true, isEditUsers: true, insurance: "", familyDoctor: "", pharmacy: '', birthday: '' });
+                                       this.setState({ selected: selected, selectedservice: selectedservice, isEditServices: true, isEditResources: true, isEditServiceplan: true, isEditUsers: true, insurance: "", familyDoctor: "", pharmacy: '', birthday: '', selectedUsers: [] });
                                     }
                                  })
                               }, 600);
