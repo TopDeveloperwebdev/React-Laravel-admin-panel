@@ -22,7 +22,7 @@ export const userService = {
    showMedications,
    editMedications,
    deleteMedications,
-
+   relationPatients,
    addResources,
    showResources,
    editResources,
@@ -69,7 +69,7 @@ export const userService = {
    getOrderDetail,
    submitComment
 };
-const serverUrl = 'http://localhost:8000/api/';
+const serverUrl = 'https://betpool.tech/adminserver/api/';
 function signup(data) {
    console.log('data', data);
    const requestOptions = {
@@ -180,6 +180,22 @@ function addMedications(data) {
          return res;
       });
 }
+
+function relationPatients(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'relationPatients', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res;
+      });
+}
+
 function showMedications(info) {
 
    const requestOptions = {

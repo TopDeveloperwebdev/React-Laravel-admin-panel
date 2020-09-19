@@ -398,15 +398,15 @@ class PatientsTable extends Component {
                                     formData.append('file', newData.picture);
                                     newData.picture = '';
                                  }
-                                 newData.resources = JSON.stringify(this.state.selected);
-                                 newData.services = JSON.stringify(this.state.selectedservice);
-                                 newData.userGroup = JSON.stringify(this.state.selectedUsers);
-                                 newData.insurance = this.state.insurance;
-                                 newData.familyDoctor = this.state.familyDoctor;
-                                 newData.pharmacy = this.state.pharmacy;
-                                 newData.birthday = this.state.birthday;
+                                 if (this.state.selected.length) newData.resources = JSON.stringify(this.state.selected);
+                                 if (this.state.selectedservice.length) newData.services = JSON.stringify(this.state.selectedservice);
+                                 if (this.state.selectedUsers.length) newData.userGroup = JSON.stringify(this.state.selectedUsers);
+                                 if (this.state.insurance) newData.insurance = this.state.insurance;
+                                 if (this.state.familyDoctor) newData.familyDoctor = this.state.familyDoctor;
+                                 if (this.state.pharmacy) newData.pharmacy = this.state.pharmacy;
+                                 if (this.state.birthday) newData.birthday = this.state.birthday;
                                  formData.append('data', JSON.stringify(newData));
-                                 if (this.state.pharmacy && this.state.familyDoctor && newData.firstName && newData.lastName && newData.phone1 && newData.phone2) {
+                                 if (newData.pharmacy && newData.familyDoctor && newData.firstName && newData.lastName && newData.phone1 && newData.phone2) {
                                     userService.editPatients(formData).then(res => {
                                        if (oldData) {
                                           this.setState(prevState => {

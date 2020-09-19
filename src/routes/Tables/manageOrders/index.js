@@ -65,8 +65,7 @@ const headCells = [
 	{ id: 'pharmacy', disablePadding: false, label: 'Pharmacy' },
 	{ id: 'doctor', disablePadding: false, label: 'Doctor' },
 	{ id: 'patient', disablePadding: false, label: 'Patient' },
-	{ id: 'date', disablePadding: false, label: 'Due Date' },
-	{ id: 'orderDetail', disablePadding: false, label: 'orderDetail' },
+	{ id: 'date', disablePadding: false, label: 'Due Date' },	
 	{ id: 'status', disablePadding: false, label: 'Status' },
 ];
 
@@ -230,7 +229,7 @@ export default function EnhancedTable() {
 		let user_id = user.id;
 
 		userService.showOrders({ instance_id: instance_id, pagination: 1, user_id: user_id }).then(res => {
-			console.log('re-----------s', rows);
+
 
 			if (!rows.length && res.orders.length) setRows(res.orders)
 
@@ -334,7 +333,7 @@ export default function EnhancedTable() {
 															/>
 														</TableCell>
 														<TableCell component="th" id={labelId} scope="row" padding="none">
-															{row.orderId}
+															<Link to={`/order-detail/${row.orderId}`}>{row.orderId}</Link>
 														</TableCell>
 														<TableCell align="right">{
 															row.orderMedications && JSON.parse(row.orderMedications).map((ele, index) => {
@@ -345,7 +344,6 @@ export default function EnhancedTable() {
 														<TableCell align="right">{row.doctor}</TableCell>
 														<TableCell align="right">{row.patient}</TableCell>
 														<TableCell align="right">{row.date}</TableCell>
-														<TableCell align="right"><Link to={`/order-detail/${row.orderId}`}>/order-detail/?id={row.orderId}</Link></TableCell>
 														<TableCell align="right">Not sent</TableCell>
 													</TableRow>
 												);

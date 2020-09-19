@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 import { SmallTitleBar, CustomCard } from 'components/GlobalComponents';
 import { userService } from '../../_services';
-
+import ReactToPrint from 'react-to-print';
 
 let orderDetail = {};
 
@@ -45,14 +45,14 @@ class OrderDetail extends Component {
 		// this.user_id = user.id;
 		this.setState({ orderId });
 		userService.getOrderDetail({ orderId: orderId }).then(res => {
-		   let user = localStorage.getItem('user');
-		   this.user_id = null;
-		   if(user){
-			user = JSON.parse(user);
-			this.user_id = user.id;
-		   }
-			
-		
+			let user = localStorage.getItem('user');
+			this.user_id = null;
+			if (user) {
+				user = JSON.parse(user);
+				this.user_id = user.id;
+			}
+
+
 			orderDetail = res;
 			let title = 'Medikamentenbestellung ' + res.order.orderId;
 			this.setState({ title });
@@ -105,11 +105,12 @@ class OrderDetail extends Component {
 			let list = [...this.state.commentList];
 			list.push(res);
 			this.setState({ commentList: list });
-		
+
 		})
 	}
 	render() {
-		console.log('title', this.state.title);
+
+		const componentRef = React.createRef();
 		return (
 
 			<div className="order-detail vh-100">
@@ -125,8 +126,15 @@ class OrderDetail extends Component {
 					<div className="page-space">
 						<Container>
 							<Box px={{ xs: "12px", lg: 0 }}>
+
 								<CustomCard>
-									<div className="main-invoice">
+									<Grid item xs={12}  className="text-right">
+										<ReactToPrint
+											trigger={() => <Button variant="outlined" className="primary-bg-btn" color="primary">Print</Button>}
+											content={() => componentRef.current}
+										/>
+									</Grid>
+									<div className="main-invoice" ref={componentRef}>
 										<Grid container spacing={3} direction="row"  >
 											<Grid item xs={12} sm={9} md={9} lg={10} className="gridItem">
 												<Box mb={1}>
@@ -275,7 +283,7 @@ class OrderDetail extends Component {
 																			{res.created_at}
 																		</Box>
 																		<Typography>{res.comment}</Typography>
-																		
+
 																	</Box>
 																)
 															})
