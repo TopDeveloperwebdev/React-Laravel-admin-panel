@@ -61,3 +61,31 @@
     background-color:#e0e0e04d !important;
     overflow: auto
 }
+.font-2  {
+    font-size: 14px;
+    font-weight: bold;
+    color: rgba(10, 10, 10, 0.589);
+    p{
+        font-size: 14px !important;
+        font-weight: bold;
+        color: rgba(10, 10, 10, 0.589); 
+    }
+}
+.warp-row {
+ display: flex;
+ width: 100%;
+ justify-content: start;
+ flex-wrap: wrap;
+}
+.textArea {
+    background: #f1f1f1c9 !important;
+}
+.buttonContainer {
+    display: flex;
+    justify-content: start;
+    margin-top: 17px;
+}
+.comment {
+    margin: 21px 0px;
+    word-wrap: break-word;
+}

@@ -38,8 +38,8 @@ class PatientsTable extends Component {
                }
             },
             { title: 'Salutation', field: 'salutation', lookup: salutationList },
-            { title: 'First Name', field: 'firstName' },
-            { title: 'Last Name', field: 'lastName' },
+            { title: '*First Name', field: 'firstName' },
+            { title: '*Last Name', field: 'lastName' },
             { title: 'Street nr', field: 'streetNr' },
             { title: 'zip code', field: 'zipCode' },
             { title: 'City', field: 'city' },
@@ -65,8 +65,8 @@ class PatientsTable extends Component {
                      />)
                }
             },
-            { title: 'Phone 1', field: 'phone1' },
-            { title: 'Phone 2', field: 'phone2' },
+            { title: '*Phone 1', field: 'phone1' },
+            { title: '*Phone 2', field: 'phone2' },
             { title: 'E-Mail', field: 'email' },
 
             {
@@ -113,7 +113,7 @@ class PatientsTable extends Component {
             },
 
             {
-               title: 'Insurance', field: 'insurance', editComponent: rowData => {
+               title: '*Insurance', field: 'insurance', editComponent: rowData => {
                   return (<AutoComplete data={insuranceList} placeholder="Select Insurance" onChange={this.onChangeInsurance} />)
                }
             },
@@ -159,7 +159,7 @@ class PatientsTable extends Component {
                }
             },
             {
-               title: 'Family Doctor', field: 'familyDoctor', editComponent: rowData => {
+               title: '*Family Doctor', field: 'familyDoctor', editComponent: rowData => {
                   return (<AutoComplete data={family_doctorsList} placeholder="Select Family doctor" onChange={this.onChangeDoctor} />)
                }
             },
@@ -169,7 +169,7 @@ class PatientsTable extends Component {
                title: 'Degree of care', field: 'degreeCare', lookup: degreeList
             },
             {
-               title: 'Pharmacy', field: 'pharmacy', editComponent: rowData => {
+               title: '*Pharmacy', field: 'pharmacy', editComponent: rowData => {
                   return (<AutoComplete data={pharmaciesList} placeholder="Select Pharmacy" onChange={this.onChangePharmacies} />)
                }
             },
@@ -242,7 +242,7 @@ class PatientsTable extends Component {
          data: [],
          selected: [],
          selectedservice: [],
-         selectedUsers : [],
+         selectedUsers: [],
          isEditServices: true,
          isEditResources: true,
          isEditUsers: true,
@@ -363,22 +363,29 @@ class PatientsTable extends Component {
                                  newData.familyDoctor = this.state.familyDoctor;
                                  newData.pharmacy = this.state.pharmacy;
                                  newData.birthday = this.state.birthday;
+                                 if (this.state.pharmacy && this.state.familyDoctor && newData.firstName && newData.lastName && newData.phone1 && newData.phone2) {
+                                    const formData = new FormData()
+                                    formData.append('file', newData.picture);
+                                    newData.picture = '';
+                                    formData.append('data', JSON.stringify(newData));
+                                    userService.addPatients(formData).then(res => {
+                                       const selected = [];
+                                       const selectedservice = [];
+                                       this.setState(prevState => {
+                                          let data = [...prevState.data];
+                                          data.push(res);
+                                          return { ...prevState, data: [...data] };
+                                       });
 
-                                 const formData = new FormData()
-                                 formData.append('file', newData.picture);
-                                 newData.picture = '';
-                                 formData.append('data', JSON.stringify(newData));
-                                 userService.addPatients(formData).then(res => {
-                                    const selected = [];
-                                    const selectedservice = [];
-                                    this.setState(prevState => {
-                                       let data = [...prevState.data];
-                                       data.push(res);
-                                       return { ...prevState, data: [...data] };
+                                       this.setState({ selected: selected, selectedservice: selectedservice, isEditServices: true, isEditResources: true, isEditServiceplan: true, isEditUsers: true, insurance: "", familyDoctor: "", pharmacy: '', birthday: '', selectedUsers: [] });
+                                    }).catch(error => {
+                                       console.log('erro', error);
+                                       alert(error.message);
                                     });
-
-                                    this.setState({ selected: selected, selectedservice: selectedservice, isEditServices: true, isEditResources: true, isEditServiceplan: true, isEditUsers: true, insurance: "", familyDoctor: "", pharmacy: '', birthday: '', selectedUsers: [] });
-                                 });
+                                 }
+                                 else {
+                                    alert("Bitte füllen Sie die erforderlichen Felder aus.");
+                                 }
 
                               }, 600);
                            }),
@@ -399,19 +406,23 @@ class PatientsTable extends Component {
                                  newData.pharmacy = this.state.pharmacy;
                                  newData.birthday = this.state.birthday;
                                  formData.append('data', JSON.stringify(newData));
+                                 if (this.state.pharmacy && this.state.familyDoctor && newData.firstName && newData.lastName && newData.phone1 && newData.phone2) {
+                                    userService.editPatients(formData).then(res => {
+                                       if (oldData) {
+                                          this.setState(prevState => {
+                                             const data = [...prevState.data];
+                                             data[data.indexOf(oldData)] = res;
+                                             return { ...prevState, data };
+                                          });
+                                          const selected = [];
+                                          const selectedservice = [];
+                                          this.setState({ selected: selected, selectedservice: selectedservice, isEditServices: true, isEditResources: true, isEditServiceplan: true, isEditUsers: true, insurance: "", familyDoctor: "", pharmacy: '', birthday: '', selectedUsers: [] });
+                                       }
+                                    })
+                                 } else {
+                                    alert("Bitte füllen Sie die erforderlichen Felder aus.");
+                                 }
 
-                                 userService.editPatients(formData).then(res => {
-                                    if (oldData) {
-                                       this.setState(prevState => {
-                                          const data = [...prevState.data];
-                                          data[data.indexOf(oldData)] = res;
-                                          return { ...prevState, data };
-                                       });
-                                       const selected = [];
-                                       const selectedservice = [];
-                                       this.setState({ selected: selected, selectedservice: selectedservice, isEditServices: true, isEditResources: true, isEditServiceplan: true, isEditUsers: true, insurance: "", familyDoctor: "", pharmacy: '', birthday: '', selectedUsers: [] });
-                                    }
-                                 })
                               }, 600);
                            }),
                         onRowDelete: oldData =>

@@ -66,10 +66,10 @@ export const userService = {
    showOrders,
    editOrders,
    deleteOrders,
-   getOrderDetail
-   
+   getOrderDetail,
+   submitComment
 };
-const serverUrl = 'https://betpool.tech/adminserver/api/';
+const serverUrl = 'http://localhost:8000/api/';
 function signup(data) {
    console.log('data', data);
    const requestOptions = {
@@ -442,6 +442,20 @@ function getOrderDetail(info) {
          return res
       });
 }
+function submitComment(info) {
+   console.log('info' , info);
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(info)
+   };
+
+   return fetch(serverUrl + 'submitComment', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
 function editOrders(data) {
 
    const requestOptions = {
@@ -766,12 +780,11 @@ function deleteUsers(id) {
       });
 }
 // Instances CRUD
-function addInstances(data) {
+function addInstances(formData) {
 
    const requestOptions = {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
+      body: formData
    };
 
    return fetch(serverUrl + 'addInstances', requestOptions)
@@ -798,8 +811,7 @@ function editInstances(data) {
 
    const requestOptions = {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
+      body: data
    };
 
    return fetch(serverUrl + 'editInstances', requestOptions)

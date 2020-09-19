@@ -254,19 +254,21 @@ class Orders extends Component {
 										newData.note = this.state.note;
 										newData.pharmacy = this.state.pharmacy;
 										newData.doctor = this.state.doctor;
-										console.log('newData', newData);
-										userService.addOrders(newData).then(res => {
-											console.log('res', res);
-											this.setState(prevState => {
-												const old = [...prevState.data];
-												let data = [];
-												data.push(res);
-												[...data] = [...data, ...old];
-												const selectedMedications = [];
-												const isEditMedications = true;
-												return { ...prevState, data, selectedMedications, isEditMedications };
+										if(this.state.selectedMedications.length && newData.patient && newData.note && newData.date && newData.pharmacy && newData.doctor){
+											userService.addOrders(newData).then(res => {
+												console.log('res', res);
+												this.setState(prevState => {
+													const data = [...prevState.data];
+													data.push(res);
+													const selectedMedications = [];
+													const isEditMedications = true;
+													return { ...prevState, data, selectedMedications, isEditMedications };
+												});
 											});
-										});
+										}else {
+											alert("Bitte füllen Sie die erforderlichen Felder aus.");
+										}									
+									
 									}),
 								onRowDelete: oldData =>
 									new Promise(resolve => {

@@ -79,7 +79,7 @@ class SidebarContent extends Component {
 		const { closeSidebar } = this.props;
 		let { permissions, instance_id } = this.props.authUser;
 		let navItems =[];
-		
+		console.log('instance_id',instance_id);
 		if (instance_id) {
 			let links = this.state.navLinks;			
 			links && links.map((Navlink, index) => {

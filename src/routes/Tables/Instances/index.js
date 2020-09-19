@@ -19,6 +19,18 @@ class Instances extends Component {
 						{rowData.id}
 					</div>
 				},
+				{
+					title: 'Instance logo', field: 'instanceLogo', render: rowData => <img src={rowData.instanceLogo ? rowData.instanceLogo : this.defaultUrl} className="logo-td bdr-rad-50" />,
+					editComponent: props => {
+						return (
+							<input
+								type='file'
+								onChange={e => props.onChange(e.target.files[0])}
+							/>
+						)
+
+					}
+				},
 				{ title: 'Instance Name', field: 'instanceName' },
 				{ title: 'Admin Name', field: 'name' },
 				{ title: 'Email', field: 'email' },
@@ -57,6 +69,7 @@ class Instances extends Component {
 	}
 
 	componentWillMount() {
+		this.defaultUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSTbZrzTIuXAe01k5wgrhWGzPRPRliQygmBCA&usqp=CAU";
 		let user = JSON.parse(localStorage.getItem('user'));
 		this.instance_id = user.instance_id;
 		console.log('res', this.instance_id);
@@ -92,20 +105,31 @@ class Instances extends Component {
 									new Promise(resolve => {
 										setTimeout(() => {
 											resolve();
-											console.log('newData', newData);
+
 											newData.instance_id = this.instance_id;
 											newData.status = this.state.status ? 1 : 0;
-											userService.addInstances(newData).then(res => {
-												console.log('res', res);
-												this.setState(prevState => {
-													const old = [...prevState.data];
-													let data = [];
-													data.push(res);
-													[...data] = [...data, ...old];
-													const status = true;
-													return { ...prevState, data, status };
-												});
-											});
+											const formData = new FormData()
+											formData.append('file', newData.instanceLogo);
+											newData.instanceLogo = '';
+											formData.append('data', JSON.stringify(newData));
+											if (newData.instanceName && newData.name && newData.email && newData.password && newData.role) {
+												userService.addInstances(formData).then(res => {
+													console.log('res', res);
+													this.setState(prevState => {
+														const data = [...prevState.data];
+														data.push(res);
+														const status = true;
+														return { ...prevState, data, status };
+													});
+												}).catch(error => {
+													alert("Diese E-Mail existiert bereits oder ist ein Netzwerkfehler.");
+												});;
+											}
+											else {
+												alert("Bitte füllen Sie die erforderlichen Felder aus.");
+											}
+
+
 
 										}, 600);
 									}),
@@ -115,17 +139,31 @@ class Instances extends Component {
 											resolve();
 											console.log('newdata', newData.id);
 											newData.status = this.state.status ? 1 : 0;
-											userService.editInstances(newData).then(res => {
-												if (oldData) {
-													this.setState(prevState => {
-														const data = [...prevState.data];
-														data[data.indexOf(oldData)] = newData;
-														const status = true;
-														const isEdit = true;
-														return { ...prevState, data, status, isEdit };
-													});
-												}
-											})
+
+											const formData = new FormData()
+											if (typeof newData.instanceLogo == 'object') {
+												formData.append('file', newData.instanceLogo);
+												newData.instanceLogo = '';
+											}
+											formData.append('data', JSON.stringify(newData));
+											if (newData.instanceName && newData.name && newData.email && newData.password && newData.role) {
+												userService.editInstances(newData).then(res => {
+													if (oldData) {
+														this.setState(prevState => {
+															const data = [...prevState.data];
+															data[data.indexOf(oldData)] = newData;
+															const status = true;
+															const isEdit = true;
+															return { ...prevState, data, status, isEdit };
+														});
+													}
+												}).catch(error => {
+													alert("Diese E-Mail existiert bereits oder ist ein Netzwerkfehler.");
+												});;
+											}
+											else {
+												alert("Bitte füllen Sie die erforderlichen Felder aus.");
+											}
 										}, 600);
 									}),
 								onRowDelete: oldData =>

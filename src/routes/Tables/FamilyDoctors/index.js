@@ -86,10 +86,8 @@ class FamilyDoctors extends Component {
 											userService.addFamilyDirectors(newData).then(res => {
 												console.log('res', res);
 												this.setState(prevState => {
-													const old = [...prevState.data];
-													let data = [];
+													const data = [...prevState.data];
 													data.push(res);
-													[...data] = [...data, ...old];
 													return { ...prevState, data };
 												});
 											});
