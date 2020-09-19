@@ -31,7 +31,7 @@
 }
 .rowContainer {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     width: 100%;
     p{
         font-size: 12px !important;
@@ -50,6 +50,14 @@
         padding: 10px 0px !important;
     }
     .user-logo{
-        border-radius: 50px;
+       
+        padding: 5px;
+        img{
+            border-radius: 50px !important;
+        }
     }
+}
+.order-detail {
+    background-color:#e0e0e04d !important;
+    overflow: auto
 }

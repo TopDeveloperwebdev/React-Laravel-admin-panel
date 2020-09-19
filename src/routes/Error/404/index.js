@@ -23,9 +23,9 @@ function NotFound() {
 		<div className="page-404">
 			<div className="page-space-top">
 				<Container>
-					<Box className="">
-						<Grid container justify="center" alignItems="center" spacing={3} direction="row" className="vh-100 text-center">
-							<Grid item xs={12} sm={7} className="page-404-img-wrap">
+					<Box className="vh-100 text-center">
+						<Grid container justify="center" alignItems="center" spacing={3} direction="row" >
+							<Grid item xs={12} sm={7} >
 								<div className="page-404-img">
 									<img src={require('assets/Images/404-img.png')} alt="site logo" className="img-fluid" />
 								</div>

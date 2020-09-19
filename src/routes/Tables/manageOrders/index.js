@@ -337,7 +337,7 @@ export default function EnhancedTable() {
 															{row.orderId}
 														</TableCell>
 														<TableCell align="right">{
-															row.orderMedications && JSON.parse(row.orderMedications).map((ele , index) => {
+															row.orderMedications && JSON.parse(row.orderMedications).map((ele, index) => {
 																return (<div key={index}>{ele}</div>)
 															})
 														}</TableCell>
@@ -345,7 +345,7 @@ export default function EnhancedTable() {
 														<TableCell align="right">{row.doctor}</TableCell>
 														<TableCell align="right">{row.patient}</TableCell>
 														<TableCell align="right">{row.date}</TableCell>
-														<TableCell align="right"><Link to='/order-detail/{row.orderId}'>/order-detail/?id={row.orderId}</Link></TableCell>
+														<TableCell align="right"><Link to={`/order-detail/${row.orderId}`}>/order-detail/?id={row.orderId}</Link></TableCell>
 														<TableCell align="right">Not sent</TableCell>
 													</TableRow>
 												);
