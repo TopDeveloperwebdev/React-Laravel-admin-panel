@@ -74,6 +74,7 @@ class Instances extends Component {
 		this.instance_id = user.instance_id;
 		console.log('res', this.instance_id);
 		userService.showInstances({ instance_id: this.instance_id, pagination: 1 }).then(res => {
+			console.log('res.instances',res.instances);
 			res.roles.map(ele => {
 				rolesList[ele.role] = ele.role;
 			})
@@ -146,24 +147,20 @@ class Instances extends Component {
 												newData.instanceLogo = '';
 											}
 											formData.append('data', JSON.stringify(newData));
-											if (newData.instanceName && newData.name && newData.email && newData.password && newData.role) {
-												userService.editInstances(newData).then(res => {
-													if (oldData) {
-														this.setState(prevState => {
-															const data = [...prevState.data];
-															data[data.indexOf(oldData)] = newData;
-															const status = true;
-															const isEdit = true;
-															return { ...prevState, data, status, isEdit };
-														});
-													}
-												}).catch(error => {
-													alert("Diese E-Mail existiert bereits oder ist ein Netzwerkfehler.");
-												});;
-											}
-											else {
-												alert("Bitte füllen Sie die erforderlichen Felder aus.");
-											}
+											userService.editInstances(formData).then(res => {
+												if (oldData) {
+													this.setState(prevState => {
+														const data = [...prevState.data];
+														newData.instanceLogo = res.instanceLogo;
+														data[data.indexOf(oldData)] = newData;
+														const status = true;
+														const isEdit = true;
+														return { ...prevState, data, status, isEdit };
+													});
+												}
+											}).catch(error => {
+												alert("Diese E-Mail existiert bereits oder ist ein Netzwerkfehler.");
+											});;
 										}, 600);
 									}),
 								onRowDelete: oldData =>

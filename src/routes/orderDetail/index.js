@@ -45,10 +45,14 @@ class OrderDetail extends Component {
 		// this.user_id = user.id;
 		this.setState({ orderId });
 		userService.getOrderDetail({ orderId: orderId }).then(res => {
-
-			let user = JSON.parse(localStorage.getItem('user'));
+		   let user = localStorage.getItem('user');
+		   this.user_id = null;
+		   if(user){
+			user = JSON.parse(user);
 			this.user_id = user.id;
-
+		   }
+			
+		
 			orderDetail = res;
 			let title = 'Medikamentenbestellung ' + res.order.orderId;
 			this.setState({ title });
@@ -68,7 +72,7 @@ class OrderDetail extends Component {
 				order.date = data.date;
 				order.time = data.time;
 			}
-
+			console.log('this.comment', this.user_id == this.state.user.id)
 			let lastOrder = res.lastOrder;
 
 			if (lastOrder.created_at) {
@@ -101,7 +105,7 @@ class OrderDetail extends Component {
 			let list = [...this.state.commentList];
 			list.push(res);
 			this.setState({ commentList: list });
-			console.log('this.comment', this.state.commentList)
+		
 		})
 	}
 	render() {
@@ -126,9 +130,9 @@ class OrderDetail extends Component {
 										<Grid container spacing={3} direction="row"  >
 											<Grid item xs={12} sm={9} md={9} lg={10} className="gridItem">
 												<Box mb={1}>
-													<Box mb="1" className="site-logo">
+													<Box mb="1" className="site-logo user-logo">
 														<Link to="/" className="logo-mini mb-1 d-block">
-															<img src={this.instance.instanceLogo} alt="site logo" width="35" />
+															<img src={this.state.instance.instanceLogo ? this.state.instance.instanceLogo : this.defaultUrl} alt="site logo " width="35" />
 														</Link>
 													</Box>
 												</Box>
