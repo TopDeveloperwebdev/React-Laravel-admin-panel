@@ -18,38 +18,49 @@ function createData(name, calories, fat, carbs, protein) {
 	return { name, calories, fat, carbs, protein };
 }
 
-const rows = [
-	createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-	createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-	createData('Eclair', 262, 16.0, 24, 6.0),
-	createData('Cupcake', 305, 3.7, 67, 4.3),
-	createData('Gingerbread', 356, 16.0, 49, 3.9),
-	createData('Doughnut', 305, 3.7, 67, 4.3),
-	createData('KitKat', 356, 16.0, 49, 3.9),
-];
 class Documents extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			
+			instances: [],
+			documents: []
 		}
 		this.editorDialog = React.createRef();
 		this.addDocument = this.addDocument.bind(this);
 	}
-   addDocument(){
-	this.editorDialog.current.openDialog();
-   }
-   componentWillMount() {
-	
-	let user = JSON.parse(localStorage.getItem('user'));
-	this.instance_id = user.instance_id;
+	addDocument() {
+		this.editorDialog.current.openDialog();
+	}
+	onSubmit(popupResponse) {
+		if (popupResponse) {
 
-	userService.showInstances({ instance_id: this.instance_id, pagination: 1 }).then(res => {
-		console.log('res.instances', res.instances);
+			userService.addDocuments(popupResponse).then(res => {
+				let documents = this.state.documents;
+				documents.push(res);
+				this.setState({ documents: documents });
+
+			})
+		}
+	}
+
+	viewDocument(documentId){
 		
-	})
+	}
+	componentWillMount() {
 
-}
+		let user = JSON.parse(localStorage.getItem('user'));
+		this.instance_id = user.instance_id;
+		userService.showDocuments({ instance_id: this.instance_id, pagination: 1 }).then(res => {
+			this.setState({ documents: res });
+		})
+		userService.showInstances({ instance_id: this.instance_id, pagination: 1 }).then(res => {
+			this.setState({ instances: res.instances });
+
+		})
+
+
+	}
+
 	render() {
 		return (
 			<div className="tables-wrapper">
@@ -67,21 +78,22 @@ class Documents extends Component {
 									<Table aria-label="simple table">
 										<TableHead>
 											<TableRow>
-												<TableCell>Dessert (100g serving)</TableCell>
-												<TableCell align="left">Calories</TableCell>
-												<TableCell align="left">Fat&nbsp;(g)</TableCell>
-												<TableCell align="left">Carbs&nbsp;(g)</TableCell>
+												<TableCell></TableCell>
+												<TableCell align="left">Title</TableCell>
+												<TableCell align="left">Created_At</TableCell>
+												<TableCell align="left">Actions</TableCell>
 											</TableRow>
 										</TableHead>
+
 										<TableBody>
-											{rows.map(row => (
-												<TableRow key={row.name}>
+											{this.state.documents.map(row => (
+												<TableRow key={row.title} onClick={() => this.viewDocument(row.id)}>
 													<TableCell align="left"><InsertDriveFileOutlinedIcon /></TableCell>
 													<TableCell component="th" scope="row">
-														{row.name}
+														{row.title}
 													</TableCell>
 
-													<TableCell align="left">{row.protein}</TableCell>
+													<TableCell align="left">{row.created_at}</TableCell>
 													<TableCell align="left">
 														<EditOutlinedIcon />
 														<DeleteOutlineOutlinedIcon />
@@ -100,7 +112,8 @@ class Documents extends Component {
 
 				<EditorDialog
 					ref={this.editorDialog}
-					instances={this.instances}
+					instances={this.state.instances}
+					onConfirm={(res) => this.onSubmit(res)}
 				/>
 			</div>
 		);

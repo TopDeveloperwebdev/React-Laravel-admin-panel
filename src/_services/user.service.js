@@ -42,6 +42,11 @@ export const userService = {
    showIngredients,
    editIngredients,
    deleteIngredients,
+
+   addDocuments,
+   showDocuments,
+   editDocuments,
+   deleteDocuments,
    
    addInstances,
    showInstances,
@@ -620,6 +625,66 @@ function deleteServices(id) {
       });
 }
 
+// Documents CRUD
+function addDocuments(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'addDocuments', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res;
+      });
+}
+function showDocuments(info) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(info)
+   };
+
+   return fetch(serverUrl + 'showDocuments', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
+function editDocuments(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'editDocuments', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         console.log('res', res);
+         return res
+      });
+}
+function deleteDocuments(id) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(id)
+   };
+
+   return fetch(serverUrl + 'deleteDocuments', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
+
+
 // Ingredients CRUD
 function addIngredients(data) {
 
@@ -678,7 +743,6 @@ function deleteIngredients(id) {
          return res
       });
 }
-
 // pharmaciespharmacies CRUD
 function addPharmacies(formData) {
 

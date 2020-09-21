@@ -9,12 +9,16 @@ import 'react-summernote/dist/react-summernote.css'; // import styles
 import 'react-summernote/lang/summernote-ru-RU'; // you can import any other locale
 import { SmallTitleBar } from '../../../../components/GlobalComponents';
 import IntlMessages from 'util/IntlMessages';
+import { userService } from '../../../../_services';
 class EditorDialog extends React.Component {
 	constructor(props) {
-		super(props);	
+		super(props);
 	}
 	state = {
 		open: false,
+		instance: null,
+		title: '',
+		content: ''
 	};
 
 	//Define function for open confirmation dialog box
@@ -29,10 +33,22 @@ class EditorDialog extends React.Component {
 
 	//Define function for close confirmation dialog box and callback for delete item 
 	onCloseDialog(isTrue) {
-		this.setState({ open: false });	
+		this.setState({ open: false });
 	};
+	onSubmit() {
+		
+		this.setState({ open: false });
+		this.props.onConfirm({ title : this.state.title, instance_id : this.state.instance, content : this.state.content });
+	
+	}
 	onChange(content) {
-		console.log('onChange', content);
+		this.setState({ content: content })
+	}
+	instanceChanged(e) {
+		this.setState({ instance: e.target.value });
+	}
+	titleChanged(e) {
+		this.setState({ title: e.target.value });
 	}
 	render() {
 		return (
@@ -58,17 +74,26 @@ class EditorDialog extends React.Component {
 							InputLabelProps={{
 								shrink: true,
 							}}
+							value={this.state.title}
+							onChange={this.titleChanged.bind(this)}
+							defaultValue="Title..."
 						/>
 						<FormControl className="selection-wrap full-width" >
 							<InputLabel id="page-size">Please Select a Instance</InputLabel>
 							<Select
 								labelId="page-size"
 								id="page-size"
+								value={this.state.instance}
+								onChange={this.instanceChanged.bind(this)}
+								defaultValue={1}
+							>{
+									this.props.instances.map(instance => {
+										return (<option key={instance.id} value={instance.id}>{instance.instanceName}</option>)
+									})
 
-							>
-								<MenuItem value={10}>Ten</MenuItem>
-								<MenuItem value={20}>Twenty</MenuItem>
-								<MenuItem value={30}>Thirty</MenuItem>
+								}
+
+
 							</Select>
 						</FormControl>
 					</Box>
@@ -98,7 +123,7 @@ class EditorDialog extends React.Component {
 				<DialogActions className="px-20 pb-20 justify-content-center">
 					<Box mb={2} width="100%" display="flex" justifyContent="center" p={1} textAlign="center">
 						<Box mx={2}>
-							<Button variant="contained" color="primary" onClick={() => this.onCloseDialog(true)}>
+							<Button variant="contained" color="primary" onClick={() => this.onSubmit(true)}>
 								Yes
                		</Button>
 						</Box>
