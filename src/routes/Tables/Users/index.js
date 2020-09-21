@@ -21,6 +21,18 @@ class Users extends Component {
 						{rowData.id}
 					</div>
 				},
+				{
+					title: 'User Avatar', field: 'userAvatar', render: rowData => <img src={rowData.userAvatar ? rowData.userAvatar : this.defaultUrl} className="logo-td bdr-rad-50" />,
+					editComponent: props => {
+						return (
+							<input
+								type='file'
+								onChange={e => props.onChange(e.target.files[0])}
+							/>
+						)
+
+					}
+				},
 				{ title: 'Instance', field: 'instance_id', lookup: instancesList },
 				{ title: 'User Name', field: 'name' },
 				{ title: 'Email', field: 'email' },
@@ -70,6 +82,18 @@ class Users extends Component {
 					title: 'ID', field: 'id', editComponent: rowData => <div>
 						{rowData.id}
 					</div>
+				},
+				{
+					title: 'User Avatar', field: 'userAvatar', render: rowData => <img src={rowData.userAvatar ? rowData.userAvatar : this.defaultUrl} className="logo-td bdr-rad-50" />,
+					editComponent: props => {
+						return (
+							<input
+								type='file'
+								onChange={e => props.onChange(e.target.files[0])}
+							/>
+						)
+
+					}
 				},
 				{ title: 'User Name', field: 'name' },
 				{ title: 'Email', field: 'email' },
@@ -147,17 +171,29 @@ class Users extends Component {
 											if (this.instance_id) {
 												newData.instance_id = this.instance_id;
 											}
-											userService.addUsers(newData).then(res => {
-												console.log('res', res);
-												this.setState(prevState => {
-													const data = [...prevState.data];
-													data.push(res);
-													const status = true;
-													return { ...prevState, data, status };
-												});
-											});
+											const formData = new FormData()
+											formData.append('file', newData.userAvatar);
+											newData.userAvatar = '';
+											formData.append('data', JSON.stringify(newData));
+											if (newData.name && newData.email && newData.password && newData.role) {
+												userService.addUsers(formData).then(res => {
+													console.log('res', res);
+													this.setState(prevState => {
+														const data = [...prevState.data];
+														data.push(res);
+														const status = true;
+														return { ...prevState, data, status };
+													});
+												}).catch(error => {
+													alert("Diese E-Mail existiert bereits oder ist ein Netzwerkfehler.");
+												});;
+											}
+											else {
+												alert("Bitte füllen Sie die erforderlichen Felder aus.");
+											}
 
 										}, 600);
+
 									}),
 								onRowUpdate: (newData, oldData) =>
 									new Promise(resolve => {
@@ -165,9 +201,16 @@ class Users extends Component {
 											resolve();
 											console.log('newdata', newData.id);
 											newData.status = this.state.status ? 1 : 0;
-											userService.editUsers(newData).then(res => {
+											const formData = new FormData()
+											if (typeof newData.userAvatar == 'object') {
+												formData.append('file', newData.userAvatar);
+												newData.userAvatar = '';
+											}											
+											formData.append('data', JSON.stringify(newData));
+											userService.editUsers(formData).then(res => {
 												if (oldData) {
-													this.setState(prevState => {
+													this.setState(prevState => {													
+														newData.userAvatar = res.userAvatar;
 														const data = [...prevState.data];
 														data[data.indexOf(oldData)] = newData;
 														const status = true;
@@ -175,7 +218,10 @@ class Users extends Component {
 														return { ...prevState, data, status, isEdit };
 													});
 												}
-											})
+											}).catch(error => {
+												alert("Diese E-Mail existiert bereits oder ist ein Netzwerkfehler.");
+											});;
+										
 										}, 600);
 									}),
 								onRowDelete: oldData =>

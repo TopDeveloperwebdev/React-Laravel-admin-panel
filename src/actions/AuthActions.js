@@ -37,7 +37,8 @@ export const signupUserWithJwt = (user, history) => (dispatch) => {
 		.then(
 			user => {
 				if (user.result == 'success') {
-					dispatch({ type: JWT_LOGIN_SUCCESS, payload: user });
+					dispatch({ type: JWT_LOGIN_SUCCESS, payload: user.user });
+					dispatch({ type: ONLOAD_INITIAL_STATE, payload: menuItems.data});	
 					history.push('/');
 					NotificationManager.success('Account Created');
 				}

@@ -31,6 +31,18 @@ class Instances extends Component {
 
 					}
 				},
+				{
+					title: 'Admin Avatar', field: 'userAvatar', render: rowData => <img src={rowData.userAvatar ? rowData.userAvatar : this.defaultUrl} className="logo-td bdr-rad-50" />,
+					editComponent: props => {
+						return (
+							<input
+								type='file'
+								onChange={e => props.onChange(e.target.files[0])}
+							/>
+						)
+
+					}
+				},
 				{ title: 'Instance Name', field: 'instanceName' },
 				{ title: 'Admin Name', field: 'name' },
 				{ title: 'Email', field: 'email' },
@@ -74,7 +86,7 @@ class Instances extends Component {
 		this.instance_id = user.instance_id;
 		console.log('res', this.instance_id);
 		userService.showInstances({ instance_id: this.instance_id, pagination: 1 }).then(res => {
-			console.log('res.instances',res.instances);
+			console.log('res.instances', res.instances);
 			res.roles.map(ele => {
 				rolesList[ele.role] = ele.role;
 			})
@@ -111,7 +123,9 @@ class Instances extends Component {
 											newData.status = this.state.status ? 1 : 0;
 											const formData = new FormData()
 											formData.append('file', newData.instanceLogo);
+											formData.append('userAvatar', newData.userAvatar);
 											newData.instanceLogo = '';
+											newData.userAvatar = '';
 											formData.append('data', JSON.stringify(newData));
 											if (newData.instanceName && newData.name && newData.email && newData.password && newData.role) {
 												userService.addInstances(formData).then(res => {
@@ -145,13 +159,18 @@ class Instances extends Component {
 											if (typeof newData.instanceLogo == 'object') {
 												formData.append('file', newData.instanceLogo);
 												newData.instanceLogo = '';
-											}
+											}	
+											if (typeof newData.userAvatar == 'object') {
+												formData.append('userAvatar', newData.userAvatar);
+												newData.userAvatar = '';
+											}											
 											formData.append('data', JSON.stringify(newData));
 											userService.editInstances(formData).then(res => {
 												if (oldData) {
 													this.setState(prevState => {
 														const data = [...prevState.data];
 														newData.instanceLogo = res.instanceLogo;
+														newData.userAvatar = res.userAvatar;
 														data[data.indexOf(oldData)] = newData;
 														const status = true;
 														const isEdit = true;

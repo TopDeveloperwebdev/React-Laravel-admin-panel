@@ -117,7 +117,9 @@ class PatientsTable extends Component {
                   return (<AutoComplete data={insuranceList} placeholder="Select Insurance" onChange={this.onChangeInsurance} />)
                }
             },
-
+            {
+               title: '*Insurance Nr', field: 'insuranceNr'
+            },
             {
                title: 'Services', field: 'services', render: props => {
                   let selectedServices = JSON.parse(props.services);

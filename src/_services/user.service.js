@@ -79,11 +79,11 @@ function signup(data) {
    };
 
    return fetch(serverUrl + 'addUser', requestOptions)
-      .then(handleResponse)
+      .then(user => user.json())
       .then(user => {
          console.log('user', user);
          // store user details and jwt token in local storage to keep user logged in between page refreshes
-         localStorage.setItem('user', JSON.stringify(user));
+         localStorage.setItem('user', JSON.stringify(user.user));
 
          return user;
       });
@@ -742,8 +742,7 @@ function addUsers(data) {
 
    const requestOptions = {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
+      body: data
    };
 
    return fetch(serverUrl + 'addUsers', requestOptions)
@@ -769,9 +768,8 @@ function showUsers(info) {
 function editUsers(data) {
 
    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
+      method: 'POST',    
+      body: data
    };
 
    return fetch(serverUrl + 'editUsers', requestOptions)
