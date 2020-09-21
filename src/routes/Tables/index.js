@@ -130,7 +130,7 @@ const Tables = ({ match }) => {
          />
            <RouteWithRole
             path={`${match.url}/Ingredients`}
-            permission="Ingredients_access"
+            permission="ingredients_access"
             component={AsyncIngredientsComponent}
          />
          <RouteWithRole

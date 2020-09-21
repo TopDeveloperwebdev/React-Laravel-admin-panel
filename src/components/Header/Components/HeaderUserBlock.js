@@ -30,7 +30,7 @@ const styles = theme => ({
 		width: theme.spacing(10),
 		height: theme.spacing(10)
 	},
-	avatar:{
+	avatar: {
 		'@media (max-width:1560px)': {
 			width: 35,
 			height: 35,
@@ -77,15 +77,15 @@ class HeaderUserBlock extends Component {
 		const { anchorEl } = this.state;
 		const open = Boolean(anchorEl);
 		const { classes } = this.props;
-		const { email, name, role ,instance_id} = this.props;
-		console.log('emial' , email , name , role);
+		const { email, name, role, instance_id, userAvatar } = this.props;
+		console.log('emial', email, name, role);
 		return (
 			<div>
 				<Tooltip title="User Profile" placement="bottom">
 					<IconButton aria-describedby={open ? 'simple-popper' : null} variant="contained" color="primary"
 						style={{ padding: '6px' }}
 						onClick={this.handleClick}>
-						<Avatar alt="user-thumb" className={classes.avatar} src={require('assets/Images/avatars/user-4.jpg')} />
+						<Avatar alt="user-thumb" className={classes.avatar} src={userAvatar ? userAvatar : require('assets/Images/avatars/user-4.jpg')} />
 					</IconButton>
 				</Tooltip>
 				<Popover
@@ -109,9 +109,9 @@ class HeaderUserBlock extends Component {
 							subheader={
 								<ListSubheader component="div" id="nested-list-subheader">
 									<div className="dropdown-header user-info  text-center">
-										<Avatar alt="user-thumb" className={classes.large} src={require('assets/Images/avatars/user-4.jpg')} />
-							<Typography variant="body2">  {name}</Typography>
-							<Typography variant="subtitle2">   {instance_id ? role : "super administrator"}</Typography>
+										<Avatar alt="user-thumb" className={classes.large} src={userAvatar ? userAvatar : require('assets/Images/avatars/user-4.jpg')} />
+										<Typography variant="body2">  {name}</Typography>
+										<Typography variant="subtitle2">   {instance_id ? role : "super administrator"}</Typography>
 										<Button className="btn primary-bg-btn" component={Link} to="/app/user-settings" variant="outlined" color="primary">
 											Manage your account
 										</Button>
@@ -132,9 +132,9 @@ class HeaderUserBlock extends Component {
 	}
 }
 
-const mapStateToProps = ({ settings ,authUser}) => {
-	const { email, name, role ,instance_id } = authUser;
-	return {settings , email , name , role ,instance_id};
+const mapStateToProps = ({ settings, authUser }) => {
+	const { email, name, role, instance_id, userAvatar } = authUser;
+	return { settings, email, name, role, instance_id, userAvatar };
 }
 
 export default withRouter(connect(mapStateToProps, {

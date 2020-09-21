@@ -67,7 +67,7 @@ export default {
   "sidebar.searchTable": "Search Table",
   "sidebar.patients": "Patienten",
   "sidebar.medications": "Medications",
-  "sidebar.familiy-directors": "Aerzte",
+  "sidebar.doctors": "Aerzte",
   "sidebar.Instance": "Instances",
   "sidebar.users": "Users",
   "sidebar.order": "Orders",

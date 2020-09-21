@@ -32,7 +32,8 @@ let INIT_STATE = {
 	remember_token: null,
 	role: "admin",
 	status: 1,
-	error: ''
+	error: '',
+	userAvatar : ''
 }
 if (localStorage.getItem('user') != "undefined") {
 	let User = JSON.parse(localStorage.getItem('user'));

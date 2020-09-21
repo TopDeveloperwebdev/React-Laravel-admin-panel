@@ -136,7 +136,7 @@ class OrderDetail extends Component {
 									</Grid>
 									<div className="main-invoice" ref={componentRef}>
 										<Grid container spacing={3} direction="row"  >
-											<Grid item xs={12} sm={9} md={9} lg={10} className="gridItem">
+											<Grid item xs={12} sm={9} md={9} lg={10} className="gridItem ">
 												<Box mb={1}>
 													<Box mb="1" className="site-logo user-logo">
 														<Link to="/" className="logo-mini mb-1 d-block">
@@ -154,7 +154,7 @@ class OrderDetail extends Component {
 
 													<Box>
 														<Typography>Versicherung :  {this.state.patient.insurance}</Typography>
-														<Typography>Versicherte Nr :   {this.state.patient.streetNr}</Typography>
+														<Typography>Versicherte Nr :   {this.state.patient.insuranceNr}</Typography>
 													</Box>
 													<Box>
 														<Typography className="text-over">Telefon 1: {this.state.patient.phone1}</Typography>
@@ -167,6 +167,13 @@ class OrderDetail extends Component {
 												<Box>
 													<Typography>
 														unser gemeinsame patient <span className="name">{this.state.patient.firstName} {this.state.patient.lastName} </span> benötigt folgende Medikamente/Hilfsmittel für die Durchfuhrung der Behandlungspflege</Typography>
+												</Box>
+
+												<Box fontSize="body2.fontSize" color="text.primary" fontWeight="500">Eine Notiz des bestellenden Benutzers</Box>
+												<Box>
+													<Typography>
+														{this.state.order.note}
+														</Typography>
 												</Box>
 												<Box mb={4}>
 													<TableContainer >
@@ -225,7 +232,7 @@ class OrderDetail extends Component {
 													<Box fontSize="body2.fontSize" color="text.primary" fontWeight="500">Bestellung von</Box>
 													<div className="rowContainer" pt={5} >
 														<Box mb="3" className="site-logo user-logo">
-															<img src={require('assets/Images/avatars/user-1.jpg')} alt="search" width="45" height="45" />
+															<img src={this.state.user.userAvatar ? this.state.user.userAvatar : require('assets/Images/avatars/user-1.jpg')} alt="search" width="45" height="45" />
 														</Box>
 														<Box className="font-2 warp-row">
 															{this.state.user.name} <span>
@@ -239,7 +246,7 @@ class OrderDetail extends Component {
 													<Box fontSize="body2.fontSize" color="text.primary" fontWeight="500">Letzte Bestellung</Box>
 													<div className="rowContainer" pt={5} >
 														<Box mb="3" className="site-logo user-logo">
-															<img src={require('assets/Images/avatars/user-1.jpg')} alt="search" width="45" height="45" />
+															<img src={ this.state.lastUser.userAvatar ? this.state.lastUser.userAvatar : require('assets/Images/avatars/user-1.jpg')} alt="search" width="45" height="45" />
 														</Box>
 														<Box className="font-2 warp-row">
 															{this.state.lastUser.name} <span>

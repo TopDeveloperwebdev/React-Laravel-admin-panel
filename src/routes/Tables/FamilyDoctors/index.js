@@ -67,13 +67,13 @@ class FamilyDoctors extends Component {
 		return (
 			<div className="tables-wrapper search-table-wrap">
 				<SmallTitleBar
-					title={<IntlMessages id="sidebar.familiy-directors" />}
+					title={<IntlMessages id="sidebar.doctors" />}
 					center
 				/>
 				<Container maxWidth="lg">
 					<Box px={{ xs: '12px', lg: 0 }} className="page-space">
 						<MaterialTable
-							title={<IntlMessages id="sidebar.familiy-directors" />}
+							title={<IntlMessages id="sidebar.doctors" />}
 							columns={this.state.columns}
 							data={this.state.data}
 							editable={{

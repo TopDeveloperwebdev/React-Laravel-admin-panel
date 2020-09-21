@@ -169,7 +169,7 @@
 					"third_child_routes": null
 				},
 				{
-					"menu_title": "sidebar.familiy-directors",
+					"menu_title": "sidebar.doctors",
 					"path": "/app/doctors",
 					"icon": "contacts",
 					"isMenuOpen": false,
