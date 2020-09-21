@@ -59,7 +59,7 @@ class EditorDialog extends React.Component {
 				aria-labelledby="responsive-dialog-title"
 				className="confirmation-dialog"
 			>
-				<DialogContent>
+				<DialogContent className="p-10">
 					<SmallTitleBar
 						title={<IntlMessages id="sidebar.document" />}
 						center

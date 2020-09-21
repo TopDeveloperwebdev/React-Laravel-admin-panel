@@ -47,7 +47,7 @@ export const userService = {
    showDocuments,
    editDocuments,
    deleteDocuments,
-   
+   getByIdDocument,
    addInstances,
    showInstances,
    editInstances,
@@ -640,6 +640,22 @@ function addDocuments(data) {
          return res;
       });
 }
+// getByIdDocument CRUD
+function getByIdDocument(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'getByIdDocument', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res;
+      });
+}
+
 function showDocuments(info) {
 
    const requestOptions = {

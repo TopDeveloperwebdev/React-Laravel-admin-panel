@@ -13,23 +13,33 @@ import { SmallTitleBar, CustomCard } from 'components/GlobalComponents';
 import IntlMessages from 'util/IntlMessages';
 import { userService } from '../../../_services';
 import EditorDialog from './Components/EditorDialog';
-
-function createData(name, calories, fat, carbs, protein) {
-	return { name, calories, fat, carbs, protein };
-}
+import ViewDialog from './Components/ViewDialog';
 
 class Documents extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
 			instances: [],
-			documents: []
+			documents: [],
+			selectedDocument: {}
 		}
 		this.editorDialog = React.createRef();
+		this.viewDialog = React.createRef();
 		this.addDocument = this.addDocument.bind(this);
 	}
 	addDocument() {
 		this.editorDialog.current.openDialog();
+	}
+	viewDocument(documentId) {
+		userService.getByIdDocument({ id: documentId }).then(res => {
+			if(res.length){
+				this.setState({ selectedDocument: res[0].content });
+				console.log('res' , res);
+				this.viewDialog.current.openDialog();
+			}
+			
+		})
+
 	}
 	onSubmit(popupResponse) {
 		if (popupResponse) {
@@ -43,9 +53,7 @@ class Documents extends Component {
 		}
 	}
 
-	viewDocument(documentId){
-		
-	}
+
 	componentWillMount() {
 
 		let user = JSON.parse(localStorage.getItem('user'));
@@ -87,7 +95,7 @@ class Documents extends Component {
 
 										<TableBody>
 											{this.state.documents.map(row => (
-												<TableRow key={row.title} onClick={() => this.viewDocument(row.id)}>
+												<TableRow className="talbeRow" key={row.title} onClick={() => this.viewDocument(row.id)}>
 													<TableCell align="left"><InsertDriveFileOutlinedIcon /></TableCell>
 													<TableCell component="th" scope="row">
 														{row.title}
@@ -114,6 +122,12 @@ class Documents extends Component {
 					ref={this.editorDialog}
 					instances={this.state.instances}
 					onConfirm={(res) => this.onSubmit(res)}
+				/>
+
+				<ViewDialog
+					ref={this.viewDialog}
+					document={this.state.selectedDocument}
+
 				/>
 			</div>
 		);
