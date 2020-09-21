@@ -22,7 +22,8 @@ import {
    AsyncRolesComponent,
    AsyncOrderComponent,
    AsyncUsersComponent,
-   AsyncManageOrdersComponent
+   AsyncManageOrdersComponent,
+   AsyncDocumentsComponent
 } from 'components/AsyncComponent/AsyncComponent';
 
 const Tables = ({ match }) => {
@@ -147,6 +148,11 @@ const Tables = ({ match }) => {
             path={`${match.url}/manage-orders`}
             permission="manageOrders_access"
             component={AsyncManageOrdersComponent}
+         />
+         <RouteWithRole
+            path={`${match.url}/documents`}
+            permission="documents_access"
+            component={AsyncDocumentsComponent}
          />
          {/* <Route path={`${match.url}/pharmacies`} component={AsyncPharmaciesComponent}></Route> */}
          {/* <Route path={`${match.url}/medication`} component={AsyncMedicationComponent}></Route> */}
