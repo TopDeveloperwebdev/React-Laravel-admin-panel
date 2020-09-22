@@ -53,18 +53,23 @@ class ViewDialog extends React.Component {
 						<Container>
 							<Box className="title-content" textAlign="center">
 								<Typography variant="h4">
-									instance NAme
-						</Typography>
+									{this.props.document.instanceName}
+								</Typography>
 								<Box pt={1} fontSize="body2.fontSize">
-									instance logo
-						</Box>
+									<img src={this.props.document.instanceLogo} />
+								</Box>
 							</Box>
 						</Container>
 					</Box>
-					<Box className="box">
+					<Box className="p-10">
+						<Typography variant="h4" className="title">
+							{this.props.document.title}
+						</Typography>
+					</Box>
+					<Box className="p-10">
 
 						<div dangerouslySetInnerHTML={{
-							__html: this.props.document
+							__html: this.props.document.content
 						}}>
 
 						</div>
@@ -78,12 +83,12 @@ class ViewDialog extends React.Component {
 					<Box bgcolor="background.paper" className={`title-banner`} >
 						<Container>
 							<Box className="title-content" textAlign="center">
-								<Typography variant="h4">
-									instance NAme
-						</Typography>
 								<Box pt={1} fontSize="body2.fontSize">
-									instance logo
-						</Box>
+									instance Name : {this.props.document.instanceName}
+								</Box>
+								<Box pt={1} fontSize="body2.fontSize">
+									Contact Email : {this.props.document.email}
+								</Box>
 							</Box>
 						</Container>
 					</Box>

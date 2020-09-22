@@ -6,7 +6,7 @@ import React from 'react';
 import { Button, Box, Typography, Dialog, DialogActions, DialogContent, TextField, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import ReactSummernote from 'react-summernote';
 import 'react-summernote/dist/react-summernote.css'; // import styles
-import 'react-summernote/lang/summernote-ru-RU'; // you can import any other locale
+
 import { SmallTitleBar } from '../../../../components/GlobalComponents';
 import IntlMessages from 'util/IntlMessages';
 import { userService } from '../../../../_services';
@@ -50,6 +50,15 @@ class EditorDialog extends React.Component {
 	titleChanged(e) {
 		this.setState({ title: e.target.value });
 	}
+	onInit = (note) => {
+		note.reset()
+		const regex = /(\<\w*)((\s\/\>)|(.*\<\/\w*\>))/i
+		if (this.state.content.match(regex) !== null) {
+		  note.replace(this.state.content)
+		} else {
+		  note.insertText(this.state.content)
+		}
+	  }
 	render() {
 		return (
 
@@ -101,9 +110,10 @@ class EditorDialog extends React.Component {
 
 					<Box textAlign="center" pt={2}>
 						<ReactSummernote
-							value="Default value"
+						
+							onInit={this.onInit.bind(this)}
 							options={{
-								lang: 'ru-RU',
+							
 								height: 350,
 								dialogsInBody: true,
 								toolbar: [

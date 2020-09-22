@@ -7,6 +7,7 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Conta
 import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
+import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import NoteAddOutlinedIcon from '@material-ui/icons/NoteAddOutlined';
 // Components
 import { SmallTitleBar, CustomCard } from 'components/GlobalComponents';
@@ -14,32 +15,32 @@ import IntlMessages from 'util/IntlMessages';
 import { userService } from '../../../_services';
 import EditorDialog from './Components/EditorDialog';
 import ViewDialog from './Components/ViewDialog';
-
+import DeleteDialog from './Components/DeleteDialog';
 class Documents extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
 			instances: [],
 			documents: [],
-			selectedDocument: {}
+			selectedDocument: {},
+			oldData: {},			
 		}
 		this.editorDialog = React.createRef();
 		this.viewDialog = React.createRef();
+		this.deleteDialog = React.createRef();
 		this.addDocument = this.addDocument.bind(this);
 	}
 	addDocument() {
 		this.editorDialog.current.openDialog();
 	}
-	viewDocument(documentId) {
-		userService.getByIdDocument({ id: documentId }).then(res => {
-			if(res.length){
-				this.setState({ selectedDocument: res[0].content });
-				console.log('res' , res);
-				this.viewDialog.current.openDialog();
-			}
-			
-		})
+	viewDocument(content, email, instanceLogo, instanceName, title) {
+		this.setState({ selectedDocument: { content: content, instanceLogo: instanceLogo, email: email, instanceName: instanceName, title: title } });
+		this.viewDialog.current.openDialog();
+	}
+	editDocument(instance, title, content) {
 
+		this.editorDialog.current.setState({ instance: instance, title: title, content: content });
+		this.editorDialog.current.openDialog();
 	}
 	onSubmit(popupResponse) {
 		if (popupResponse) {
@@ -52,7 +53,35 @@ class Documents extends Component {
 			})
 		}
 	}
+	
 
+	ondeleteContact(oldData) {	
+		console.log(';',oldData);	
+		this.setState({oldData})
+		this.deleteDialog.current.openDialog();
+	}
+
+	deleteContactPermanent(popupResponse) {
+		if (popupResponse) {
+			userService.deleteDocuments({ id: this.state.oldData.id }).then(res => {
+				if(res){
+					this.setState(prevState => {
+						const documents = [...prevState.documents];
+						documents.splice(documents.indexOf(this.state.oldData), 1);
+						return { ...prevState, documents };
+					});
+				}			
+			})
+		}
+	}
+
+
+
+	onCloseDialog = (popupResponse) => {
+		this.setState({
+			oldData: null,		
+		})
+	}
 
 	componentWillMount() {
 
@@ -60,6 +89,7 @@ class Documents extends Component {
 		this.instance_id = user.instance_id;
 		userService.showDocuments({ instance_id: this.instance_id, pagination: 1 }).then(res => {
 			this.setState({ documents: res });
+			console.log('res', res);
 		})
 		userService.showInstances({ instance_id: this.instance_id, pagination: 1 }).then(res => {
 			this.setState({ instances: res.instances });
@@ -95,7 +125,7 @@ class Documents extends Component {
 
 										<TableBody>
 											{this.state.documents.map(row => (
-												<TableRow className="talbeRow" key={row.title} onClick={() => this.viewDocument(row.id)}>
+												<TableRow className="talbeRow" key={row.title} >
 													<TableCell align="left"><InsertDriveFileOutlinedIcon /></TableCell>
 													<TableCell component="th" scope="row">
 														{row.title}
@@ -103,8 +133,9 @@ class Documents extends Component {
 
 													<TableCell align="left">{row.created_at}</TableCell>
 													<TableCell align="left">
-														<EditOutlinedIcon />
-														<DeleteOutlineOutlinedIcon />
+														<VisibilityOutlinedIcon onClick={() => this.viewDocument(row.content, row.email, row.instanceLogo, row.instanceName, row.title)} />
+														<EditOutlinedIcon onClick={() => this.editDocument(row.instance_id, row.title, row.content)} />
+														<DeleteOutlineOutlinedIcon onClick={() => this.ondeleteContact(row)} />
 
 													</TableCell>
 
@@ -129,6 +160,10 @@ class Documents extends Component {
 					document={this.state.selectedDocument}
 
 				/>
+					<DeleteDialog
+								ref={this.deleteDialog}
+								onConfirm={(res) => this.deleteContactPermanent(res)}
+							/>
 			</div>
 		);
 	}
