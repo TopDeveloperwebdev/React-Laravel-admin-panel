@@ -148,7 +148,7 @@
     float: right;
     color: white;
 }
-.talbeRow {
+.pointerIcon {
     cursor: pointer;
 }
 .title-content{
@@ -168,4 +168,18 @@
 }
 .MuiTableCell-body .MuiSvgIcon-root{
     margin: 5px;
+}
+.carefolderContainer {
+    max-width: 650px;
+    margin: 0 auto;
+
+
+}
+.key-animation-container-shown{
+    z-index: 500 !important;
+    
+}
+.note-editable {
+    height: 100% !important;
+    min-height: 400px;
 }

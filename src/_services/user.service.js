@@ -47,7 +47,11 @@ export const userService = {
    showDocuments,
    editDocuments,
    deleteDocuments,
-   getByIdDocument,
+   getDocuments,
+   addFolders,
+   showFolders,  
+   editFolders,
+   deleteFolders,
    addInstances,
    showInstances,
    editInstances,
@@ -74,7 +78,7 @@ export const userService = {
    getOrderDetail,
    submitComment
 };
-const serverUrl = 'http://localhost:8000/api/';
+const serverUrl = 'https://betpool.tech/adminserver/api/';
 function signup(data) {
    console.log('data', data);
    const requestOptions = {
@@ -640,8 +644,10 @@ function addDocuments(data) {
          return res;
       });
 }
+
+
 // getByIdDocument CRUD
-function getByIdDocument(data) {
+function getDocuments(data) {
 
    const requestOptions = {
       method: 'POST',
@@ -649,7 +655,7 @@ function getByIdDocument(data) {
       body: JSON.stringify(data)
    };
 
-   return fetch(serverUrl + 'getByIdDocument', requestOptions)
+   return fetch(serverUrl + 'getDocuments', requestOptions)
       .then(res => res.json())
       .then(res => {
          return res;
@@ -700,6 +706,65 @@ function deleteDocuments(id) {
       });
 }
 
+
+// Folders CRUD
+function addFolders(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'addFolders', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res;
+      });
+}
+function showFolders(info) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(info)
+   };
+
+   return fetch(serverUrl + 'showFolders', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
+function editFolders(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'editFolders', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         console.log('res', res);
+         return res
+      });
+}
+function deleteFolders(id) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(id)
+   };
+
+   return fetch(serverUrl + 'deleteFolders', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
 
 // Ingredients CRUD
 function addIngredients(data) {

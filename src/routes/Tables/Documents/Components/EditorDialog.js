@@ -18,7 +18,11 @@ class EditorDialog extends React.Component {
 		open: false,
 		instance: null,
 		title: '',
-		content: ''
+		content: '',
+		contentHeight: 0,
+		contentWidth: 0,
+		isEdit: false,
+		id : null
 	};
 
 	//Define function for open confirmation dialog box
@@ -36,13 +40,20 @@ class EditorDialog extends React.Component {
 		this.setState({ open: false });
 	};
 	onSubmit() {
-		
 		this.setState({ open: false });
-		this.props.onConfirm({ title : this.state.title, instance_id : this.state.instance, content : this.state.content });
-	
+		this.props.onConfirm({ title: this.state.title, instance_id: this.state.instance, content: this.state.content, contentHeight: this.state.contentHeight, contentWidth: this.state.contentWidth });
+
+	}
+	onUpdate() {
+		this.setState({ open: false });
+		this.props.onUpdate({id : this.state.id, title: this.state.title, instance_id: this.state.instance, content: this.state.content, contentHeight: this.state.contentHeight, contentWidth: this.state.contentWidth });
+
 	}
 	onChange(content) {
-		this.setState({ content: content })
+		let contentHeight = document.getElementById('editArea').clientHeight;
+		let contentWidth = document.getElementById('editArea').clientWidth;
+
+		this.setState({ content: content, contentHeight: contentHeight, contentWidth: contentWidth });
 	}
 	instanceChanged(e) {
 		this.setState({ instance: e.target.value });
@@ -54,11 +65,11 @@ class EditorDialog extends React.Component {
 		note.reset()
 		const regex = /(\<\w*)((\s\/\>)|(.*\<\/\w*\>))/i
 		if (this.state.content.match(regex) !== null) {
-		  note.replace(this.state.content)
+			note.replace(this.state.content)
 		} else {
-		  note.insertText(this.state.content)
+			note.insertText(this.state.content)
 		}
-	  }
+	}
 	render() {
 		return (
 
@@ -108,12 +119,11 @@ class EditorDialog extends React.Component {
 					</Box>
 
 
-					<Box textAlign="center" pt={2}>
+					<Box textAlign="center" id="editArea" pt={2}>
 						<ReactSummernote
-						
+
 							onInit={this.onInit.bind(this)}
 							options={{
-							
 								height: 350,
 								dialogsInBody: true,
 								toolbar: [
@@ -132,15 +142,23 @@ class EditorDialog extends React.Component {
 				</DialogContent>
 				<DialogActions className="px-20 pb-20 justify-content-center">
 					<Box mb={2} width="100%" display="flex" justifyContent="center" p={1} textAlign="center">
-						<Box mx={2}>
+						{!this.state.isEdit && <Box mx={2}>
 							<Button variant="contained" color="primary" onClick={() => this.onSubmit(true)}>
-								Yes
-               		</Button>
+								Submit
+							</Button>
 						</Box>
+						}
+						{this.state.isEdit && <Box mx={2}>
+							<Button variant="contained" color="primary" onClick={() => this.onUpdate(true)}>
+								Update
+							</Button>
+						</Box>
+						}
 						<Button variant="contained" color="secondary" onClick={() => this.onCloseDialog(false)} >
 							No
-               </Button>
+						</Button>
 					</Box>
+
 				</DialogActions>
 			</Dialog>
 		);

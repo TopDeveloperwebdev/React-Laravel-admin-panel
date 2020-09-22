@@ -328,7 +328,7 @@
 			"content": "",
 			"child_routes": [
 				{
-					"path": "/app/documents",
+					"path": "/app/documents/*",
 					"menu_title": "sidebar.documents",
 					"icon": "contacts",
 					"isMenuOpen": false,
@@ -336,7 +336,7 @@
 					"third_child_routes": null
 				},
 				{
-					"path": "/app/folders",
+					"path": "/app/carefolders",
 					"menu_title": "sidebar.carefolders",
 					"icon": "contact_support",
 					"isMenuOpen": false,
