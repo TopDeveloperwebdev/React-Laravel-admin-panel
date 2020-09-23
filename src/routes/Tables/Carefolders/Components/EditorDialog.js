@@ -22,7 +22,8 @@ class EditorDialog extends React.Component {
 		title: '',
 		servicesList: [],
 		documentsList: [],
-		instance_id : 0
+		instance_id: 0,
+		isEdit: false
 	};
 
 	//Define function for open confirmation dialog box
@@ -40,9 +41,14 @@ class EditorDialog extends React.Component {
 		this.setState({ open: false });
 	};
 	onSubmit() {
-		
+
 		this.setState({ open: false });
-		this.props.onConfirm({ title: this.state.title, documents: JSON.stringify(this.state.selectedDocuments) , service: this.state.selectedService , instance_id : this.state.instance_id });
+		this.props.onConfirm({ title: this.state.title, documents: JSON.stringify(this.state.selectedDocuments), service: this.state.selectedService, instance_id: this.state.instance_id });
+
+	}
+	onUpdate() {
+		this.setState({ open: false });
+		this.props.onUpdate({id : this.state.id, title: this.state.title, documents: JSON.stringify(this.state.selectedDocuments), service: this.state.selectedService, instance_id: this.state.instance_id });
 
 	}
 
@@ -56,6 +62,7 @@ class EditorDialog extends React.Component {
 		this.setState({ title: event.target.value })
 	}
 	render() {
+
 		return (
 			<Dialog
 				className="contact-dialog carefolderContainer"
@@ -105,6 +112,7 @@ class EditorDialog extends React.Component {
 								</Box>
 
 								<Box className="p-10">
+
 									<FormControl className="full-width">
 										<InputLabel id="demo-mutiple-checkbox-label">Please select documents</InputLabel>
 										<Select
@@ -129,21 +137,29 @@ class EditorDialog extends React.Component {
 
 
 							</div>
-							<div className="pt-25 text-right">
-								<Box mb={2} width="100%" display="flex" justifyContent="flex-end" textAlign="center">
-									<Box mx={2}>
-										<Button variant="contained" color="secondary" onClick={() => this.onCloseDialog(false)}>
-											Cancel
-									</Button>
-									</Box>
-									<Button variant="contained" color="primary" onClick={() => this.onSubmit(true)}>
-										Submit
-								</Button>
-								</Box>
-							</div>
 						</form>
 					</div>
 				</DialogContent>
+				<DialogActions className="px-20 pb-20 justify-content-center">
+					<Box mb={2} width="100%" display="flex" justifyContent="center" p={1} textAlign="center">
+						{!this.state.isEdit && <Box mx={2}>
+							<Button variant="contained" color="primary" onClick={() => this.onSubmit(true)}>
+								Submit
+							</Button>
+						</Box>
+						}
+						{this.state.isEdit && <Box mx={2}>
+							<Button variant="contained" color="primary" onClick={() => this.onUpdate(true)}>
+								Update
+							</Button>
+						</Box>
+						}
+						<Button variant="contained" color="secondary" onClick={() => this.onCloseDialog(false)} >
+							No
+						</Button>
+					</Box>
+
+				</DialogActions>
 			</Dialog>
 
 		);

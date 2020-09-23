@@ -55,7 +55,8 @@ class Carefolders extends Component {
 				{
 					title: 'Actions', field: 'actions', render: row => <div>
 						<CloudDownloadOutlinedIcon onClick={() => this.previewDocument(row.documents)} />
-						<DeleteOutlineOutlinedIcon onClick={() => this.ondeleteContact(row)} />
+						<EditOutlinedIcon className="pointerIcon" onClick={() => this.editDocument(row)} />
+						<DeleteOutlineOutlinedIcon className="pointerIcon" onClick={() => this.ondeleteContact(row)} />
 					</div>
 				},
 			]
@@ -65,17 +66,13 @@ class Carefolders extends Component {
 		this.viewDialog = React.createRef();
 		this.preViewDialog = React.createRef();
 		this.deleteDialog = React.createRef();
-		this.addDocument = this.addDocument.bind(this);
+		this.addFolder = this.addFolder.bind(this);
 	}
-	addDocument() {
+	addFolder() {
 		this.editorDialog.current.setState({ servicesList: this.state.servicesList, documentsList: this.state.documentsList, instance_id: this.instance_id });
 		this.editorDialog.current.openDialog();
+	}
 
-	}
-	viewDocument(content, instanceLogo, email, instanceName, title) {
-		this.setState({ selectedDocument: { content: content, instanceLogo: instanceLogo, email: email, instanceName: instanceName, title: title } });
-		this.viewDialog.current.openDialog();
-	}
 	previewDocument(documents) {
 		let selectedDocumentList = [];
 
@@ -127,25 +124,43 @@ class Carefolders extends Component {
 		})
 
 	}
-	editDocument(instance, title, content) {
+	editDocument(oldData) {
 
-		this.editorDialog.current.setState({ instance: instance, title: title, content: content });
+		let documents = [];
+		if (oldData.documents) documents = JSON.parse(oldData.documents);
+		this.editorDialog.current.setState({ servicesList: this.state.servicesList, documentsList: this.state.documentsList, instance_id: this.instance_id });
+		this.editorDialog.current.setState({ id: oldData.id, instance_id: oldData.instance_id, title: oldData.title, selectedDocuments: [...documents], selectedService: oldData.service, isEdit: true });
+		this.setState({ oldData });
 		this.editorDialog.current.openDialog();
 	}
-
 	onSubmit(popupResponse) {
 		if (popupResponse) {
-
-			userService.addFolders(popupResponse).then(res => {
-				let folders = this.state.folders;
-				folders.push(res);
-				this.setState({ folders: folders });
+			userService.addFolders(popupResponse).then(res => {				
+				this.setState(prevState => {
+					const folders = [...prevState.folders];
+					folders.push(res);					
+					return { ...prevState, folders };
+				});
 
 			})
 		}
 	}
 
 
+	onUpdate(popupResponse) {
+		if (popupResponse) {	
+			userService.editFolders(popupResponse).then(res => {
+				this.setState(prevState => {
+					const folders = [...prevState.folders];
+					popupResponse['created_at'] = this.state.oldData.created_at;
+					folders[folders.indexOf(this.state.oldData)] = popupResponse;					
+					let oldData = {};
+					return { ...prevState, folders, oldData };
+				});
+
+			})
+		}
+	}
 	ondeleteContact(oldData) {
 		console.log(';', oldData);
 		this.setState({ oldData })
@@ -154,7 +169,7 @@ class Carefolders extends Component {
 
 	deleteContactPermanent(popupResponse) {
 		if (popupResponse) {
-			userService.deleteDocuments({ id: this.state.oldData.id }).then(res => {
+			userService.deleteFolders({ id: this.state.oldData.id }).then(res => {
 				if (res) {
 					this.setState(prevState => {
 						const folders = [...prevState.folders];
@@ -165,8 +180,6 @@ class Carefolders extends Component {
 			})
 		}
 	}
-
-
 
 	onCloseDialog = (popupResponse) => {
 		this.setState({
@@ -225,17 +238,18 @@ class Carefolders extends Component {
 									tooltip: "create",
 									position: "toolbar",
 									onClick: () => {
-										this.addDocument()
+										this.addFolder()
 									}
 								}
 							]}
-						/>					
+						/>
 					</Box>
 				</Container>
 
 				<EditorDialog
 					ref={this.editorDialog}
 					onConfirm={(res) => this.onSubmit(res)}
+					onUpdate={(res) => this.onUpdate(res)}
 				/>
 
 				<ViewDialog
