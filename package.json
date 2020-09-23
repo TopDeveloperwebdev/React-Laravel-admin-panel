@@ -33,6 +33,7 @@
 		"bootstrap": "^4.5.2",
 		"chart.js": "^2.9.3",
 		"clsx": "^1.0.4",
+		"dom-to-image": "^2.6.0",
 		"echarts": "^4.3.0",
 		"echarts-for-react": "^2.0.15-beta.0",
 		"firebase": "^6.6.0",

@@ -99,7 +99,7 @@
     justify-content: end;
 }
 .MuiDialog-paperWidthSm {
-    max-width: 1024px !important;
+    max-width: 895px !important;
     .note-toolbar {
         background: #eae6e6;
         border: 1px solid #dad7d7;
@@ -182,4 +182,14 @@
 .note-editable {
     height: 100% !important;
     min-height: 400px;
+}
+.downloadPaper {
+    max-width: 895px !important;
+    .pageContainer {
+        min-height: 1123px;
+        margin: 20px 0px;
+        .contentHtml {
+            min-height: 815px;
+        }
+    }
 }

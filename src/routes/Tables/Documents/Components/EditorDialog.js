@@ -126,7 +126,7 @@ class EditorDialog extends React.Component {
 							options={{
 								height: 350,
 								dialogsInBody: true,
-								toolbar: [
+								toolbar: [								
 									['style', ['style']],
 									['font', ['bold', 'underline', 'clear']],
 									['fontname', ['fontname']],
@@ -134,6 +134,7 @@ class EditorDialog extends React.Component {
 									['table', ['table']],
 									['view', ['fullscreen', 'codeview']]
 								]
+								
 							}}
 							onChange={(content) => this.onChange(content)}
 						/>

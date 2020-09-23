@@ -15,12 +15,14 @@ import IntlMessages from 'util/IntlMessages';
 import { userService } from '../../../_services';
 import EditorDialog from './Components/EditorDialog';
 import ViewDialog from './Components/ViewDialog';
+import PreViewDialog from './Components/PreViewDialog';
 import DeleteDialog from './Components/DeleteDialog';
 import FolderOutlinedIcon from '@material-ui/icons/FolderOutlined';
 import CreateNewFolderOutlinedIcon from '@material-ui/icons/CreateNewFolderOutlined';
 import CloudDownloadOutlinedIcon from '@material-ui/icons/CloudDownloadOutlined';
 import { Link } from 'react-router-dom';
 import { jsPDF } from "jspdf";
+import domtoimage from 'dom-to-image';
 import 'react-summernote/dist/react-summernote.css'; // import styles
 class Carefolders extends Component {
 	constructor(props) {
@@ -31,10 +33,12 @@ class Carefolders extends Component {
 			selectedDocument: {},
 			oldData: {},
 			documentsList: [],
+			selectedDocumentList : []
 
 		}
 		this.editorDialog = React.createRef();
 		this.viewDialog = React.createRef();
+		this.preViewDialog = React.createRef();
 		this.deleteDialog = React.createRef();
 		this.addDocument = this.addDocument.bind(this);
 	}
@@ -43,10 +47,61 @@ class Carefolders extends Component {
 		this.editorDialog.current.openDialog();
 
 	}
-	viewDocument(content, email, instanceLogo, instanceName, title) {
+	viewDocument(content, instanceLogo, email, instanceName, title) {
 		this.setState({ selectedDocument: { content: content, instanceLogo: instanceLogo, email: email, instanceName: instanceName, title: title } });
 		this.viewDialog.current.openDialog();
 	}
+	previewDocument(documents) {
+		let selectedDocumentList = [];
+
+		if (documents) {
+			let docs = JSON.parse(documents);
+			selectedDocumentList = this.state.documentsList.filter((a) => {
+				return docs.indexOf(a.id) > -1;
+			})
+		}
+		this.setState({ selectedDocumentList: [...selectedDocumentList]});
+		this.preViewDialog.current.openDialog();
+		setTimeout(() => {
+			// let pdfDiv = document.getElementById('downloadArea');
+			// console.log('pdf' , pdfDiv);
+			this.generatePdf(selectedDocumentList.length);
+		}, 2000);
+	
+	}
+	generatePdf(documentsLen) {
+		let HTML_Width, HTML_Height, PDF_Width, PDF_Height, canvas_image_width, canvas_image_height, top_left_margin;
+		HTML_Width = document.getElementById('downloadArea').clientWidth;
+		HTML_Height = document.getElementById('downloadArea').clientHeight;
+		top_left_margin = 15;
+		
+		PDF_Width = HTML_Width + (top_left_margin * 2);
+		PDF_Height = (1.5 * PDF_Width) + (top_left_margin * 2);
+		canvas_image_width = HTML_Width;
+		canvas_image_height = HTML_Height;
+	    
+		var totalPDFPages = Math.ceil(HTML_Height / PDF_Height) - 1;
+		const div = document.getElementById('downloadArea');
+	    
+		domtoimage.toPng(div).then((dataUrl) => {
+			console.log('totlapdf' , dataUrl);
+		  //Initialize JSPDF
+		  var pdf = new jsPDF('p', 'pt', [PDF_Width, PDF_Height]);
+		  
+		  //Add image Url to PDF
+		  pdf.addImage(dataUrl, 'JPG', top_left_margin, top_left_margin, canvas_image_width, canvas_image_height);
+		  console.log('totalPDFPages', PDF_Width, PDF_Height);
+
+		  for (var i = 1; i <= totalPDFPages; i++) {
+			pdf.addPage();
+			pdf.addImage(dataUrl, 'JPG', top_left_margin, -(PDF_Height * i) + (top_left_margin * 4), canvas_image_width, canvas_image_height);
+		  }
+	
+		  pdf.save("HTML-Document.pdf");		
+	
+		})
+	
+	  }
 	editDocument(instance, title, content) {
 
 		this.editorDialog.current.setState({ instance: instance, title: title, content: content });
@@ -101,86 +156,88 @@ class Carefolders extends Component {
 		}
 		return len;
 	}
-	convert(instanceName, instanceLogo, title, content, email) {
-		console.log(instanceLogo);
-		let html = `<div>
-		<div id="printable-area">
-			<div bgcolor="background.paper"  class='title-banner' >
-				<div>
-					<div className="title-content"  textAlign="center">
-						<div variant="h4" style="color : red">
-							${instanceName}
-						</div>
+	// convert(instanceName, instanceLogo, title, content, email) {
+	// 	console.log(instanceLogo);
+	// 	let html = `<div>
+	// 	<div id="printable-area">
+	// 		<div bgcolor="background.paper"  class='title-banner' >
+	// 			<div>
+	// 				<div className="title-content"  textAlign="center">
+	// 					<div variant="h4" style="color : red">
+	// 						${instanceName}
+	// 					</div>
 						
-					</div>
-				</div>
-			</div>
-			<div className="p-10">
-				<div variant="h4" className="title">
-					${title}
-				</div>
-			</div>
+	// 				</div>
+	// 			</div>
+	// 		</div>
+	// 		<div className="p-10">
+	// 			<div variant="h4" className="title">
+	// 				${title}
+	// 			</div>
+	// 		</div>
 			
 
-			<div style="margin : 0 auto" >
-			${content}
-			</div>
-			<div bgcolor="background.paper" className='title-banner' >
-				<div>
-					<div className="title-content" textAlign="center">
-						<div pt={1} fontSize="body2.fontSize">
-							instance Name : ${instanceName}
-						</div>
-						<div pt={1} fontSize="body2.fontSize">
-							Contact Email : ${email}
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>`
+	// 		<div style="margin : 0 auto" >
+	// 		${content}
+	// 		</div>
+	// 		<div bgcolor="background.paper" className='title-banner' >
+	// 			<div>
+	// 				<div className="title-content" textAlign="center">
+	// 					<div pt={1} fontSize="body2.fontSize">
+	// 						instance Name : ${instanceName}
+	// 					</div>
+	// 					<div pt={1} fontSize="body2.fontSize">
+	// 						Contact Email : ${email}
+	// 					</div>
+	// 				</div>
+	// 			</div>
+	// 		</div>
+	// 	</div>
+	// </div>`
 
-			;
-		return html;
-	}
-	downloadCarefolder(documents) {
-		let selectedDocuments = [];
+	// 		;
+	// 	return html;
+	// }
+	// downloadCarefolder(documents) {
+	// 	let selectedDocuments = [];
 
-		if (documents) {
-			let docs = JSON.parse(documents);
-			selectedDocuments = this.state.documentsList.filter((a) => {
-				return docs.indexOf(a.id) > -1;
-			})
-		}
-		let pdf = new jsPDF('p', 'pt', 'a4');
-		console.log('res', selectedDocuments);
-		let html = '<div id="pdf-area">';
-		let contentHeight = 0;
-		let contentWidth = selectedDocuments[0].contentWidth;
-		selectedDocuments.forEach(element => {
-			let htmlTemp = this.convert(element.instanceName, element.instanceLogo, element.title, element.content, element.email);
-			contentHeight += element.contentHeight;
-			html = html + htmlTemp;
-		});
-		html = html + '</div>';
-		console.log('client', contentWidth, contentHeight);
-		pdf.html(html, {
-			html2canvas: {
-				// insert html2canvas options here, e.g.
-				width: contentWidth,
-				height: contentHeight,			
-				scrollX: 30,
-				scrollY: 30,			
-				proxy: null,			
-				useCORS: false
-			},
-			callback: function () {
-				pdf.save('myDocument.pdf');
-			}
-		});
+	// 	if (documents) {
+	// 		let docs = JSON.parse(documents);
+	// 		selectedDocuments = this.state.documentsList.filter((a) => {
+	// 			return docs.indexOf(a.id) > -1;
+	// 		})
+	// 	}
+	// 	let pdf = new jsPDF('p', 'pt', 'a4');
+	// 	console.log('res', selectedDocuments);
+	// 	let html = '<div id="pdf-area">';
+	// 	let contentHeight = 0;
+	// 	let contentWidth = selectedDocuments[0].contentWidth;
+	// 	selectedDocuments.forEach(element => {
+	// 		let htmlTemp = this.convert(element.instanceName, element.instanceLogo, element.title, element.content, element.email);
+	// 		contentHeight += element.contentHeight;
+	// 		html = html + htmlTemp;
+	// 	});
+	// 	html = html + '</div>';
+	// 	console.log('client', contentWidth, contentHeight);
+	// 	pdf.html(html, {
+	// 		html2canvas: {
+	// 			// insert html2canvas options here, e.g.
+	// 			width: contentWidth,
+	// 			height: contentHeight,			
+	// 			scrollX: 30,
+	// 			scrollY: 30,			
+	// 			proxy: null,			
+	// 			useCORS: false
+	// 		},
+	// 		callback: function () {
+	// 			pdf.save('myDocument.pdf');
+	// 		}
+	// 	});
 
 
-	}
+	// }
+	
+
 	componentWillMount() {
 
 		let user = JSON.parse(localStorage.getItem('user'));
@@ -244,7 +301,7 @@ class Carefolders extends Component {
 													<TableCell align="left">{row.created_at}</TableCell>
 													<TableCell align="left">
 
-														<CloudDownloadOutlinedIcon onClick={() => this.downloadCarefolder(row.documents)} />
+														<CloudDownloadOutlinedIcon onClick={() => this.previewDocument(row.documents)} />
 														<DeleteOutlineOutlinedIcon onClick={() => this.ondeleteContact(row)} />
 
 													</TableCell>
@@ -267,6 +324,11 @@ class Carefolders extends Component {
 				<ViewDialog
 					ref={this.viewDialog}
 					document={this.state.selectedDocument}
+
+				/>
+				<PreViewDialog
+					ref={this.preViewDialog}
+					selectedDocumentList={this.state.selectedDocumentList}
 
 				/>
 				<DeleteDialog

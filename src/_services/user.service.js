@@ -78,7 +78,7 @@ export const userService = {
    getOrderDetail,
    submitComment
 };
-const serverUrl = 'https://betpool.tech/adminserver/api/';
+const serverUrl = 'http://localhost:8000/api/';
 function signup(data) {
    console.log('data', data);
    const requestOptions = {
