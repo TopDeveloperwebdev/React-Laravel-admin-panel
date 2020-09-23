@@ -5,7 +5,7 @@
 import React from 'react';
 import { Button, Box, Typography, Input, Dialog, DialogTitle, Checkbox, ListItemText, DialogActions, DialogContent, TextField, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import { AutoComplete, MultiSelect } from '@progress/kendo-react-dropdowns';
-
+import { Link } from 'react-router-dom';
 import { SmallTitleBar } from '../../../../components/GlobalComponents';
 import IntlMessages from 'util/IntlMessages';
 import { userService } from '../../../../_services';
@@ -41,15 +41,23 @@ class EditorDialog extends React.Component {
 		this.setState({ open: false });
 	};
 	onSubmit() {
-
-		this.setState({ open: false });
-		this.props.onConfirm({ title: this.state.title, documents: JSON.stringify(this.state.selectedDocuments), service: this.state.selectedService, instance_id: this.state.instance_id });
+		if (this.state.title && this.state.selectedDocuments.length && this.state.selectedService) {
+			this.setState({ open: false });
+			this.props.onConfirm({ title: this.state.title, documents: JSON.stringify(this.state.selectedDocuments), service: this.state.selectedService, instance_id: this.state.instance_id });
+		}
+		else {
+			alert("Bitte geben Sie die erforderlichen Felder ein")
+		}
 
 	}
 	onUpdate() {
-		this.setState({ open: false });
-		this.props.onUpdate({id : this.state.id, title: this.state.title, documents: JSON.stringify(this.state.selectedDocuments), service: this.state.selectedService, instance_id: this.state.instance_id });
-
+		if (this.state.title && this.state.selectedDocuments.length && this.state.selectedService) {
+			this.setState({ open: false });
+			this.props.onUpdate({ id: this.state.id, title: this.state.title, documents: JSON.stringify(this.state.selectedDocuments), service: this.state.selectedService, instance_id: this.state.instance_id });
+		}
+		else {
+			alert("Bitte geben Sie die erforderlichen Felder ein")
+		}
 	}
 
 	onchangeDocument = (event) => {
@@ -91,48 +99,60 @@ class EditorDialog extends React.Component {
 								</Box>
 								<Box className="p-10">
 
-									<FormControl className="selection-wrap full-width" >
-										<InputLabel id="page-size">Please Select a Service</InputLabel>
-										<Select
-											labelId="page-size"
-											id="page-size"
-											value={this.state.selectedService}
-											onChange={this.onChangeServices.bind(this)}
-											defaultValue={1}
-										>{
-												this.state.servicesList.map(ele => {
-													return (<option key={ele.id} value={ele.id}>{ele.services}</option>)
-												})
+									{
+										this.state.servicesList.length ?
+											<FormControl className="selection-wrap full-width" >
+												<InputLabel id="page-size">Please Select a Service</InputLabel>
+												<Select
+													labelId="page-size"
+													id="page-size"
+													value={this.state.selectedService}
+													onChange={this.onChangeServices.bind(this)}
+													defaultValue={1}
+												>{
+														this.state.servicesList.map(ele => {
+															return (<option key={ele.services} value={ele.services}>{ele.services}</option>)
+														})
 
-											}
-
-
-										</Select>
-									</FormControl>
+													}
+												</Select>
+											</FormControl>
+											:
+											<div>
+												<Link to="/app/services">Add New Services</Link>
+											</div>
+									}
 								</Box>
 
 								<Box className="p-10">
+									{
+										this.state.documentsList.length ?
 
-									<FormControl className="full-width">
-										<InputLabel id="demo-mutiple-checkbox-label">Please select documents</InputLabel>
-										<Select
-											labelId="demo-mutiple-checkbox-label"
-											id="demo-mutiple-checkbox"
-											multiple
-											value={this.state.selectedDocuments}
-											onChange={this.onchangeDocument.bind(this)}
-											input={<Input />}
-											renderValue={(selected) => selected.join(', ')}
+											<FormControl className="full-width">
+												<InputLabel id="demo-mutiple-checkbox-label">Please select documents</InputLabel>
+												<Select
+													labelId="demo-mutiple-checkbox-label"
+													id="demo-mutiple-checkbox"
+													multiple
+													value={this.state.selectedDocuments}
+													onChange={this.onchangeDocument.bind(this)}
+													input={<Input />}
+													renderValue={(selected) => selected.join(', ')}
 
-										>
-											{this.state.documentsList.map((ele) => (
-												<MenuItem key={ele.id} value={ele.id}>
-													<Checkbox checked={this.state.selectedDocuments.indexOf(ele.id) > -1} />
-													<ListItemText primary={ele.title} />
-												</MenuItem>
-											))}
-										</Select>
-									</FormControl>
+												>
+													{this.state.documentsList.map((ele) => (
+														<MenuItem key={ele.id} value={ele.id}>
+															<Checkbox checked={this.state.selectedDocuments.indexOf(ele.id) > -1} />
+															<ListItemText primary={ele.title} />
+														</MenuItem>
+													))}
+												</Select>
+											</FormControl>
+											:
+											<div>
+												<Link to="/app/documents/*">Add New documents</Link>
+											</div>
+									}
 								</Box>
 
 

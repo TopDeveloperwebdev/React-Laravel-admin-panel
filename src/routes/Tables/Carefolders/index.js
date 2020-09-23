@@ -106,7 +106,6 @@ class Carefolders extends Component {
 		const div = document.getElementById('downloadArea');
 
 		domtoimage.toPng(div).then((dataUrl) => {
-			console.log('totlapdf', dataUrl);
 			//Initialize JSPDF
 			var pdf = new jsPDF('p', 'pt', [PDF_Width, PDF_Height]);
 
@@ -135,10 +134,10 @@ class Carefolders extends Component {
 	}
 	onSubmit(popupResponse) {
 		if (popupResponse) {
-			userService.addFolders(popupResponse).then(res => {				
+			userService.addFolders(popupResponse).then(res => {
 				this.setState(prevState => {
 					const folders = [...prevState.folders];
-					folders.push(res);					
+					folders.push(res);
 					return { ...prevState, folders };
 				});
 
@@ -148,12 +147,12 @@ class Carefolders extends Component {
 
 
 	onUpdate(popupResponse) {
-		if (popupResponse) {	
+		if (popupResponse) {
 			userService.editFolders(popupResponse).then(res => {
 				this.setState(prevState => {
 					const folders = [...prevState.folders];
 					popupResponse['created_at'] = this.state.oldData.created_at;
-					folders[folders.indexOf(this.state.oldData)] = popupResponse;					
+					folders[folders.indexOf(this.state.oldData)] = popupResponse;
 					let oldData = {};
 					return { ...prevState, folders, oldData };
 				});
@@ -196,25 +195,14 @@ class Carefolders extends Component {
 	}
 
 	componentWillMount() {
-
 		let user = JSON.parse(localStorage.getItem('user'));
 		this.instance_id = user.instance_id;
-
-		userService.showDocuments({ instance_id: this.instance_id, pagination: 1 }).then(res => {
-			this.setState({ documentsList: res });
-		})
-		userService.showServices({ instance_id: this.instance_id, pagination: 1 }).then(res => {
-			this.setState({ servicesList: res });
-		})
 		console.log('instance', this.instance_id);
 		userService.showFolders({ instance_id: this.instance_id, pagination: 1 }).then(res => {
 			console.log('servicesList', res);
-			this.setState({ folders: res });
+			this.setState({ folders : res.folders, servicesList: res.services, documentsList: res.documents })
 
 		})
-
-
-
 
 	}
 

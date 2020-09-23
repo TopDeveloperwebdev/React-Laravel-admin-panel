@@ -78,7 +78,7 @@ export const userService = {
    getOrderDetail,
    submitComment
 };
-const serverUrl = 'http://localhost:8000/api/';
+const serverUrl = 'http://localhost/adminserver/server/api/';
 function signup(data) {
    console.log('data', data);
    const requestOptions = {

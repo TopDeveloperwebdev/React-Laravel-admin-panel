@@ -10,6 +10,7 @@ import 'react-summernote/dist/react-summernote.css'; // import styles
 import { SmallTitleBar } from '../../../../components/GlobalComponents';
 import IntlMessages from 'util/IntlMessages';
 import { userService } from '../../../../_services';
+import { Link } from 'react-router-dom';
 class EditorDialog extends React.Component {
 	constructor(props) {
 		super(props);
@@ -22,7 +23,7 @@ class EditorDialog extends React.Component {
 		contentHeight: 0,
 		contentWidth: 0,
 		isEdit: false,
-		id : null
+		id: null
 	};
 
 	//Define function for open confirmation dialog box
@@ -40,13 +41,23 @@ class EditorDialog extends React.Component {
 		this.setState({ open: false });
 	};
 	onSubmit() {
-		this.setState({ open: false });
-		this.props.onConfirm({ title: this.state.title, instance_id: this.state.instance, content: this.state.content, contentHeight: this.state.contentHeight, contentWidth: this.state.contentWidth });
+		if (this.state.title && this.state.instance && this.state.content) {
+			this.setState({ open: false });
+			this.props.onConfirm({ title: this.state.title, instance_id: this.state.instance, content: this.state.content, contentHeight: this.state.contentHeight, contentWidth: this.state.contentWidth });
+		}
+		else {
+			alert("Bitte geben Sie die erforderlichen Felder ein")
+		}
 
 	}
 	onUpdate() {
-		this.setState({ open: false });
-		this.props.onUpdate({id : this.state.id, title: this.state.title, instance_id: this.state.instance, content: this.state.content, contentHeight: this.state.contentHeight, contentWidth: this.state.contentWidth });
+		if (this.state.title && this.state.instance && this.state.content) {
+			this.setState({ open: false });
+			this.props.onUpdate({ id: this.state.id, title: this.state.title, instance_id: this.state.instance, content: this.state.content, contentHeight: this.state.contentHeight, contentWidth: this.state.contentWidth });
+		}
+		else {
+			alert("Bitte geben Sie die erforderlichen Felder ein")
+		}
 
 	}
 	onChange(content) {
@@ -98,24 +109,34 @@ class EditorDialog extends React.Component {
 							onChange={this.titleChanged.bind(this)}
 							defaultValue="Title..."
 						/>
-						<FormControl className="selection-wrap full-width" >
-							<InputLabel id="page-size">Please Select a Instance</InputLabel>
-							<Select
-								labelId="page-size"
-								id="page-size"
-								value={this.state.instance}
-								onChange={this.instanceChanged.bind(this)}
-								defaultValue={1}
-							>{
-									this.props.instances.map(instance => {
-										return (<option key={instance.id} value={instance.id}>{instance.instanceName}</option>)
-									})
 
-								}
+						{!this.state.instance && (this.props.instances.length ?
+
+							<FormControl className="selection-wrap full-width" >
+								<InputLabel id="page-size">Please Select a Instance</InputLabel>
+								<Select
+									labelId="page-size"
+									id="page-size"
+									value={this.state.instance}
+									onChange={this.instanceChanged.bind(this)}
+									defaultValue={1}
+								>{
+										this.props.instances.map(instance => {
+											return (<option key={instance.id} value={instance.id}>{instance.instanceName}</option>)
+										})
+
+									}
 
 
-							</Select>
-						</FormControl>
+								</Select>
+							</FormControl>
+							:
+							<div>
+								<Link to="/app/instances">Add New Instances</Link>
+							</div>)
+
+						}
+
 					</Box>
 
 
@@ -126,7 +147,7 @@ class EditorDialog extends React.Component {
 							options={{
 								height: 350,
 								dialogsInBody: true,
-								toolbar: [								
+								toolbar: [
 									['style', ['style']],
 									['font', ['bold', 'underline', 'clear']],
 									['fontname', ['fontname']],
@@ -134,7 +155,7 @@ class EditorDialog extends React.Component {
 									['table', ['table']],
 									['view', ['fullscreen', 'codeview']]
 								]
-								
+
 							}}
 							onChange={(content) => this.onChange(content)}
 						/>

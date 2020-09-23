@@ -71,6 +71,8 @@ class Services extends Component {
 													data.push(res);
 													return { ...prevState, data };
 												});
+											}).catch(error => {
+												alert("Dieser Dienst existiert bereits oder ist ein Netzwerkfehler.");
 											});
 
 										}, 600);
@@ -88,7 +90,9 @@ class Services extends Component {
 														return { ...prevState, data };
 													});
 												}
-											})
+											}).catch(error => {
+												alert("Dieser Dienst existiert bereits oder ist ein Netzwerkfehler.");
+											});
 										}, 600);
 									}),
 								onRowDelete: oldData =>

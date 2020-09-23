@@ -187,9 +187,22 @@
     max-width: 895px !important;
     .pageContainer {
         min-height: 1123px;
-        margin: 20px 0px;
+        margin: 5px 0px;
         .contentHtml {
             min-height: 815px;
         }
+    }
+}
+.serviceContainer {
+    display: flex;
+    justify-content: space-evenly;
+    svg{
+        cursor: pointer;
+    }
+    >div{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 }

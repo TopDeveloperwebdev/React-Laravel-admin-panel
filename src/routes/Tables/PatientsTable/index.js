@@ -9,6 +9,11 @@ import { userService } from '../../../_services';
 //Components
 import { SmallTitleBar } from 'components/GlobalComponents';
 import IntlMessages from 'util/IntlMessages';
+import FolderOutlinedIcon from '@material-ui/icons/FolderOutlined';
+import { jsPDF } from "jspdf";
+import domtoimage from 'dom-to-image';
+import PreViewDialog from '../Carefolders/Components/PreViewDialog';
+
 
 let insuranceList = [];
 let pharmaciesList = [];
@@ -127,12 +132,17 @@ class PatientsTable extends Component {
                      selectedServices = [];
                   }
                   return (
-                     <div>
-                        {
-                           servicesList.map((value, index) => {
-                              return (<div key={index}>{value}</div>)
-                           })
-                        }
+                     <div className="serviceContainer">
+                        <div>
+                           {
+                              servicesList.map((value, index) => {
+                                 return (<div key={index}>{value}</div>)
+                              })
+                           }
+                        </div>
+                        <div>
+                           <FolderOutlinedIcon onClick={() => this.previewDocument(servicesList)} />
+                        </div>
                      </div>
 
                   )
@@ -252,9 +262,74 @@ class PatientsTable extends Component {
          serviceplan: true,
          insurance: '',
          pharmacy: '',
-         birthday: ''
+         birthday: '',
+         documentsList: [],
+         folders: [],
+         downloadDocs: []
       };
 
+      this.preViewDialog = React.createRef();
+   }
+   previewDocument(services) {
+      console.log('previewDocument', services);
+
+
+
+      let relationDocs = [];
+      this.state.folders.forEach(folder => {
+         if (services.indexOf(folder.service) > -1) {
+            let folderDocs = JSON.parse(folder.documents);
+            let relationDocsTemps = [...relationDocs];
+            console.log('folderDocs', folderDocs, relationDocsTemps);
+            relationDocs = relationDocsTemps.concat(folderDocs);
+         }
+      });
+      relationDocs = [...new Set(relationDocs)];
+      if (relationDocs) {
+         let downloadDocs = this.state.documentsList.filter((a) => {
+            return relationDocs.indexOf(a.id) > -1;
+         })
+         this.setState({ downloadDocs: [...downloadDocs] });
+         this.preViewDialog.current.openDialog();
+         setTimeout(() => {
+            // let pdfDiv = document.getElementById('downloadArea');
+            // console.log('pdf' , pdfDiv);
+            this.generatePdf();
+         }, 2000);
+      }
+   }
+   generatePdf() {
+      let HTML_Width, HTML_Height, PDF_Width, PDF_Height, canvas_image_width, canvas_image_height, top_left_margin;
+      HTML_Width = document.getElementById('downloadArea').clientWidth;
+      HTML_Height = document.getElementById('downloadArea').clientHeight;
+      top_left_margin = 15;
+
+      PDF_Width = HTML_Width + (top_left_margin * 2);
+      // PDF_Height = (1.5 * PDF_Width) + (top_left_margin * 2);
+
+      PDF_Height = 1130;
+      canvas_image_width = HTML_Width;
+      canvas_image_height = HTML_Height;
+
+      var totalPDFPages = Math.ceil(HTML_Height / PDF_Height) - 1;
+      const div = document.getElementById('downloadArea');
+
+      domtoimage.toPng(div).then((dataUrl) => {
+         //Initialize JSPDF
+         var pdf = new jsPDF('p', 'pt', [PDF_Width, 1123]);
+
+         //Add image Url to PDF
+         pdf.addImage(dataUrl, 'JPG', top_left_margin, top_left_margin, canvas_image_width, canvas_image_height);
+         console.log('totalPDFPages', PDF_Width, PDF_Height);
+
+         for (var i = 1; i <= totalPDFPages; i++) {
+            pdf.addPage();
+            pdf.addImage(dataUrl, 'JPG', top_left_margin, -(PDF_Height * i) + (top_left_margin * 4), canvas_image_width, canvas_image_height);
+         }
+
+         pdf.save("HTML-Document.pdf");
+
+      })
 
    }
    handleChangeDate = (event) => {
@@ -329,7 +404,9 @@ class PatientsTable extends Component {
 
          this.setState(prevState => {
             const data = res.patients;
-            return { ...prevState, data };
+            const documentsList = res.documents;
+            const folders = res.folders;
+            return { ...prevState, data, documentsList, folders };
          });
 
       })
@@ -446,6 +523,10 @@ class PatientsTable extends Component {
                   />
                </Box>
             </Container>
+            <PreViewDialog
+               ref={this.preViewDialog}
+               selectedDocumentList={this.state.downloadDocs}
+            />
          </div>
       );
    }

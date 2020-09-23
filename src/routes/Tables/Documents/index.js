@@ -32,7 +32,7 @@ class Documents extends Component {
 						<InsertDriveFileOutlinedIcon className="pointerIcon" onClick={() => this.viewDocument(row.content, row.email, row.instanceLogo, row.instanceName, row.title)} />
 					</div>
 				},
-				{ title: 'Ingredients', field: 'title' },
+				{ title: 'Title', field: 'title' },
 				{ title: 'Created_At', field: 'created_at' },
 				{
 					title: 'Actions', field: 'actions', render: row => <div>
@@ -64,28 +64,28 @@ class Documents extends Component {
 	}
 	onSubmit(popupResponse) {
 		if (popupResponse) {
-
-			userService.addDocuments(popupResponse).then(res => {
-				if (res.length) {
-					let documents = this.state.documents;
-					documents.push(res[0]);
-					this.setState({ documents: documents });
+			userService.addDocuments(popupResponse).then(res => {			
+				if (res.length) {				
+					this.setState(prevState => {
+						const documents = [...prevState.documents];
+						documents.push(res[0]);
+						return { ...prevState, documents };
+					});
 				}
-
-
 			})
 		}
 	}
 
 	onUpdate(popupResponse) {
 		if (popupResponse) {
-			console.log('res edit', popupResponse);
+		
 			userService.editDocuments(popupResponse).then(res => {
 				if (res.length) {
 					this.setState(prevState => {
 						const documents = [...prevState.documents];
 						documents[documents.indexOf(this.state.oldData)] = res[0];
 						let oldData = {};
+						console.log('res documents', documents);
 						return { ...prevState, documents, oldData };
 					});
 				}
@@ -130,18 +130,12 @@ class Documents extends Component {
 		userService.showDocuments({ instance_id: this.instance_id, pagination: 1, folder_id: this.folder_id }).then(res => {
 			if (this.documents != '*') {
 				let docs = JSON.parse(this.documents);
-				res = res.filter((a) => {
+				 res.documents = res.documents.filter((a) => {
 					return docs.indexOf(a.id) > -1;
 				})
-			}
-			this.setState({ documents: res });
+			}			
+			this.setState({ documents: res.documents   , instances : res.instances});
 		})
-		userService.showInstances({ instance_id: this.instance_id, pagination: 1 }).then(res => {
-			this.setState({ instances: res.instances });
-
-		})
-
-
 	}
 
 	render() {
