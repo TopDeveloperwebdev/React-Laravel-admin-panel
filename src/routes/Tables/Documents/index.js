@@ -9,6 +9,7 @@ import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import NoteAddOutlinedIcon from '@material-ui/icons/NoteAddOutlined';
+import MaterialTable from 'material-table';
 // Components
 import { SmallTitleBar, CustomCard } from 'components/GlobalComponents';
 import IntlMessages from 'util/IntlMessages';
@@ -25,6 +26,23 @@ class Documents extends Component {
 			documents: [],
 			selectedDocument: {},
 			oldData: {},
+			columns: [
+				{
+					title: 'Files', field: 'action', render: row => <div>
+						<InsertDriveFileOutlinedIcon className="pointerIcon" onClick={() => this.viewDocument(row.content, row.email, row.instanceLogo, row.instanceName, row.title)} />
+					</div>
+				},
+				{ title: 'Ingredients', field: 'title' },
+				{ title: 'Created_At', field: 'created_at' },
+				{
+					title: 'Actions', field: 'actions', render: row => <div>
+						<EditOutlinedIcon className="pointerIcon" onClick={() => this.editDocument(row)} />
+						<DeleteOutlineOutlinedIcon className="pointerIcon" onClick={() => this.ondeleteContact(row)} />
+
+					</div>
+				},
+			],
+
 		}
 		this.editorDialog = React.createRef();
 		this.viewDialog = React.createRef();
@@ -133,46 +151,24 @@ class Documents extends Component {
 					title={<IntlMessages id="sidebar.documents" />}
 					center
 				/>
-				<Container maxWidth="lg">
+				<Container maxWidth="lg" className="documentContainer">
 					<Box px={{ xs: '12px', lg: 0 }} className="page-space">
-						<CustomCard title={<IntlMessages id="sidebar.documents" />}>
-							<Box>	<NoteAddOutlinedIcon onClick={this.addDocument} /></Box>
-
-							<Box pt={3}>
-								<TableContainer>
-									<Table aria-label="simple table">
-										<TableHead>
-											<TableRow>
-												<TableCell></TableCell>
-												<TableCell align="left">Title</TableCell>
-												<TableCell align="left">Created_At</TableCell>
-												<TableCell align="left">Actions</TableCell>
-											</TableRow>
-										</TableHead>
-
-										<TableBody>
-											{this.state.documents.map(row => (
-												<TableRow key={row.title} >
-													<TableCell align="left" ><InsertDriveFileOutlinedIcon className="pointerIcon" onClick={() => this.viewDocument(row.content, row.email, row.instanceLogo, row.instanceName, row.title)} /></TableCell>
-													<TableCell component="th" scope="row">
-														{row.title}
-													</TableCell>
-
-													<TableCell align="left">{row.created_at}</TableCell>
-													<TableCell align="left">
-
-														<EditOutlinedIcon className="pointerIcon" onClick={() => this.editDocument(row)} />
-														<DeleteOutlineOutlinedIcon className="pointerIcon" onClick={() => this.ondeleteContact(row)} />
-
-													</TableCell>
-
-												</TableRow>
-											))}
-										</TableBody>
-									</Table>
-								</TableContainer>
-							</Box>
-						</CustomCard>
+				
+						<MaterialTable
+							title={<IntlMessages id="sidebar.documents" />}
+							columns={this.state.columns}
+							data={this.state.documents}
+							actions={[
+								{
+								  icon: "note_add_outlined",
+								  tooltip: "my tooltip",
+								  position: "toolbar",
+								  onClick: () => {
+									this.addDocument()
+								  }
+								}
+							  ]}
+						/>
 					</Box>
 				</Container>
 
