@@ -34,7 +34,11 @@ class PreviewDialgo extends React.Component {
 	onCloseDialog(isTrue) {
 		this.setState({ open: false });
 	};
-
+	getUrl(logo) {
+		let url = '/backend_latest/file_storage/' + logo.split('/')[5];
+		let defaultUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSTbZrzTIuXAe01k5wgrhWGzPRPRliQygmBCA&usqp=CAU";
+		return defaultUrl
+	}
 	render() {
 		return (
 
@@ -52,19 +56,16 @@ class PreviewDialgo extends React.Component {
 					<div id="downloadArea">
 						{this.props.selectedDocumentList.map((element, index) => {
 							return (
-								<Box key={index} className="pageContainer">
-									<Box bgcolor="background.paper" className={`title-banner`} >
-										<Container>
-											<Box className="title-content" textAlign="center">
-												<Typography variant="h4">
-													{element.instanceName}
-												</Typography>
-												{/* <Box pt={1} fontSize="body2.fontSize">
-													<img src={element.instanceLogo} />
-												</Box> */}
-											</Box>
-										</Container>
-									</Box>
+								<Box key={index} className="pageContainer" id={`page-${index}`}>
+									{/* <Box textAlign="center" className="headerBar">
+										<Box pt={1} fontSize="body2.fontSize">
+											<img src={this.getUrl(element.instanceLogo)} />
+										</Box>
+										<Typography variant="h4">
+											{element.instanceName}
+										</Typography>
+
+									</Box> */}
 									<Box className="p-10">
 										<Typography variant="h4" className="title">
 											{element.title}
@@ -79,18 +80,22 @@ class PreviewDialgo extends React.Component {
 										</div>
 
 									</Box>
-									<Box bgcolor="background.paper" className={`title-banner`} >
-										<Container>
-											<Box className="title-content" textAlign="center">
+									{/* <Box bgcolor="background.paper"  >
+										<Box className="footerBar" >
+											<div textAlign="left">
 												<Box pt={1} fontSize="body2.fontSize">
 													instance Name : {element.instanceName}
 												</Box>
 												<Box pt={1} fontSize="body2.fontSize">
 													Contact Email : {element.email}
 												</Box>
+											</div>
+											<Box>
+												Seilte 3 von 3
 											</Box>
-										</Container>
-									</Box>
+										</Box>
+
+									</Box> */}
 								</Box>
 							)
 						})

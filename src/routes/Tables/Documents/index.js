@@ -50,6 +50,7 @@ class Documents extends Component {
 		this.addDocument = this.addDocument.bind(this);
 	}
 	addDocument() {
+		this.editorDialog.current.setState({  userInstance_id: this.instance_id});
 		this.editorDialog.current.openDialog();
 	}
 	viewDocument(content, email, instanceLogo, instanceName, title) {
@@ -126,6 +127,7 @@ class Documents extends Component {
 
 		let user = JSON.parse(localStorage.getItem('user'));
 		this.instance_id = user.instance_id;
+		console.log('this.instance_id-----------',this.instance_id);
 		this.documents = this.props.match.params.id;
 		userService.showDocuments({ instance_id: this.instance_id, pagination: 1, folder_id: this.folder_id }).then(res => {
 			if (this.documents != '*') {
@@ -133,7 +135,8 @@ class Documents extends Component {
 				 res.documents = res.documents.filter((a) => {
 					return docs.indexOf(a.id) > -1;
 				})
-			}			
+			}		
+			console.log('documentsList' , res.documents)	;
 			this.setState({ documents: res.documents   , instances : res.instances});
 		})
 	}

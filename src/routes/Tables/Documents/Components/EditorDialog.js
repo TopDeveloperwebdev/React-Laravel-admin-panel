@@ -18,6 +18,7 @@ class EditorDialog extends React.Component {
 	state = {
 		open: false,
 		instance: null,
+		userInstance_id: null,
 		title: '',
 		content: '',
 		contentHeight: 0,
@@ -41,9 +42,11 @@ class EditorDialog extends React.Component {
 		this.setState({ open: false });
 	};
 	onSubmit() {
-		if (this.state.title && this.state.instance && this.state.content) {
+		let instance_id = this.state.userInstance_id;
+		if (!this.state.userInstance_id) instance_id = this.state.instance;
+		if (this.state.title && instance_id && this.state.content) {
 			this.setState({ open: false });
-			this.props.onConfirm({ title: this.state.title, instance_id: this.state.instance, content: this.state.content, contentHeight: this.state.contentHeight, contentWidth: this.state.contentWidth });
+			this.props.onConfirm({ title: this.state.title, instance_id: instance_id, content: this.state.content, contentHeight: this.state.contentHeight, contentWidth: this.state.contentWidth });
 		}
 		else {
 			alert("Bitte geben Sie die erforderlichen Felder ein")
@@ -51,9 +54,11 @@ class EditorDialog extends React.Component {
 
 	}
 	onUpdate() {
-		if (this.state.title && this.state.instance && this.state.content) {
+		let instance_id = this.state.userInstance_id;
+		if (!this.state.userInstance_id) instance_id = this.state.instance;
+		if (this.state.title && instance_id && this.state.content) {
 			this.setState({ open: false });
-			this.props.onUpdate({ id: this.state.id, title: this.state.title, instance_id: this.state.instance, content: this.state.content, contentHeight: this.state.contentHeight, contentWidth: this.state.contentWidth });
+			this.props.onUpdate({ id: this.state.id, title: this.state.title, instance_id: instance_id, content: this.state.content, contentHeight: this.state.contentHeight, contentWidth: this.state.contentWidth });
 		}
 		else {
 			alert("Bitte geben Sie die erforderlichen Felder ein")
@@ -82,6 +87,7 @@ class EditorDialog extends React.Component {
 		}
 	}
 	render() {
+		console.log('this.state.instance', this.state.instance);
 		return (
 
 			<Dialog
@@ -109,32 +115,37 @@ class EditorDialog extends React.Component {
 							onChange={this.titleChanged.bind(this)}
 							defaultValue="Title..."
 						/>
+						{
+							!this.state.userInstance_id ? <Box>
+								{this.props.instances.length ?
 
-						{!this.state.instance && (this.props.instances.length ?
+									<FormControl className="selection-wrap full-width" >
+										<InputLabel id="page-size">Please Select a Instance</InputLabel>
+										<Select
+											labelId="page-size"
+											id="page-size"
+											value={this.state.instance}
+											onChange={this.instanceChanged.bind(this)}
+											defaultValue={1}
+										>{
+												this.props.instances.map(instance => {
+													return (<option key={instance.id} value={instance.id}>{instance.instanceName}</option>)
+												})
 
-							<FormControl className="selection-wrap full-width" >
-								<InputLabel id="page-size">Please Select a Instance</InputLabel>
-								<Select
-									labelId="page-size"
-									id="page-size"
-									value={this.state.instance}
-									onChange={this.instanceChanged.bind(this)}
-									defaultValue={1}
-								>{
-										this.props.instances.map(instance => {
-											return (<option key={instance.id} value={instance.id}>{instance.instanceName}</option>)
-										})
-
-									}
+											}
 
 
-								</Select>
-							</FormControl>
-							:
-							<div>
-								<Link to="/app/instances">Add New Instances</Link>
-							</div>)
+										</Select>
+									</FormControl>
+									:
+									<div>
+										<Link to="/app/instances">Add New Instances</Link>
+									</div>
 
+								}
+
+							</Box> :
+								''
 						}
 
 					</Box>
@@ -150,8 +161,9 @@ class EditorDialog extends React.Component {
 								toolbar: [
 									['style', ['style']],
 									['font', ['bold', 'underline', 'clear']],
-									['fontname', ['fontname']],
+									['fontname', ['fontname']],									
 									['para', ['ul', 'ol', 'paragraph']],
+									['color', ['color']],
 									['table', ['table']],
 									['view', ['fullscreen', 'codeview']]
 								]

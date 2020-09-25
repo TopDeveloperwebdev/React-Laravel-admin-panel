@@ -124,10 +124,10 @@ class Instances extends Component {
 											const formData = new FormData()
 											formData.append('file', newData.instanceLogo);
 											formData.append('userAvatar', newData.userAvatar);
-											newData.instanceLogo = '';
-											newData.userAvatar = '';
-											formData.append('data', JSON.stringify(newData));
-											if (newData.instanceName && newData.name && newData.email && newData.password && newData.role) {
+											if (newData.instanceLogo != undefined && newData.userAvatar != undefined && newData.instanceName && newData.name && newData.email && newData.password && newData.role) {
+												newData.instanceLogo = '';
+												newData.userAvatar = '';
+												formData.append('data', JSON.stringify(newData));
 												userService.addInstances(formData).then(res => {
 													console.log('res', res);
 													this.setState(prevState => {
@@ -159,11 +159,11 @@ class Instances extends Component {
 											if (typeof newData.instanceLogo == 'object') {
 												formData.append('file', newData.instanceLogo);
 												newData.instanceLogo = '';
-											}	
+											}
 											if (typeof newData.userAvatar == 'object') {
 												formData.append('userAvatar', newData.userAvatar);
 												newData.userAvatar = '';
-											}											
+											}
 											formData.append('data', JSON.stringify(newData));
 											userService.editInstances(formData).then(res => {
 												if (oldData) {

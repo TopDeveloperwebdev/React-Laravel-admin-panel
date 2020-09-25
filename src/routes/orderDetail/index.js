@@ -128,7 +128,7 @@ class OrderDetail extends Component {
 							<Box px={{ xs: "12px", lg: 0 }}>
 
 								<CustomCard>
-									<Grid item xs={12}  className="text-right">
+									<Grid item xs={12} className="text-right">
 										<ReactToPrint
 											trigger={() => <Button variant="outlined" className="primary-bg-btn" color="primary">Print</Button>}
 											content={() => componentRef.current}
@@ -173,7 +173,7 @@ class OrderDetail extends Component {
 												<Box>
 													<Typography>
 														{this.state.order.note}
-														</Typography>
+													</Typography>
 												</Box>
 												<Box mb={4}>
 													<TableContainer >
@@ -246,7 +246,7 @@ class OrderDetail extends Component {
 													<Box fontSize="body2.fontSize" color="text.primary" fontWeight="500">Letzte Bestellung</Box>
 													<div className="rowContainer" pt={5} >
 														<Box mb="3" className="site-logo user-logo">
-															<img src={ this.state.lastUser.userAvatar ? this.state.lastUser.userAvatar : require('assets/Images/avatars/user-1.jpg')} alt="search" width="45" height="45" />
+															<img src={this.state.lastUser.userAvatar ? this.state.lastUser.userAvatar : require('assets/Images/avatars/user-1.jpg')} alt="search" width="45" height="45" />
 														</Box>
 														<Box className="font-2 warp-row">
 															{this.state.lastUser.name} <span>
@@ -258,28 +258,26 @@ class OrderDetail extends Component {
 
 
 												<Box>
-													{
-														this.user_id == this.state.user.id && <Box>
-															<TextField
-																className="full-width textArea"
-																id="outlined-multiline-static"
-																label="Add Note"
-																multiline
-																rows={4}
-																defaultValue="Default Value"
-																variant="outlined"
-																value={this.state.comment}
-																onChange={this.handleChangeComment}
-															/>
-															<Box className="buttonContainer">
-																<Button variant="outlined" className="primary-bg-btn" color="primary" autoFocus
-																	onClick={this.submitComment} >
-																	<Box component="span" fontSize="18px" mr={1} className="material-icons">send</Box>
+													<Box>
+														<TextField
+															className="full-width textArea"
+															id="outlined-multiline-static"
+															label="Add Note"
+															multiline
+															rows={4}
+															defaultValue="Default Value"
+															variant="outlined"
+															value={this.state.comment}
+															onChange={this.handleChangeComment}
+														/>
+														<Box className="buttonContainer">
+															<Button variant="outlined" className="primary-bg-btn" color="primary" autoFocus
+																onClick={this.submitComment} >
+																<Box component="span" fontSize="18px" mr={1} className="material-icons">send</Box>
 																	Send
 																</Button>
-															</Box>
 														</Box>
-													}
+													</Box>
 
 													<Box className="commentContainer">
 														{

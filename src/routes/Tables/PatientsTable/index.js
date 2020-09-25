@@ -294,44 +294,42 @@ class PatientsTable extends Component {
          setTimeout(() => {
             // let pdfDiv = document.getElementById('downloadArea');
             // console.log('pdf' , pdfDiv);
-            this.generatePdf();
+            this.generatePdf(this.state.downloadDocs.length);
          }, 2000);
       }
    }
-   generatePdf() {
-      let HTML_Width, HTML_Height, PDF_Width, PDF_Height, canvas_image_width, canvas_image_height, top_left_margin;
-      HTML_Width = document.getElementById('downloadArea').clientWidth;
-      HTML_Height = document.getElementById('downloadArea').clientHeight;
-      top_left_margin = 15;
+   generatePdf(documentsLen) {	
+		var pageHight = 1123;
+		this.formate(documentsLen, pageHight);
+		setTimeout(() => {
+			const div = document.getElementById("downloadArea");
+			domtoimage.toPng(div).then((dataUrl) => {				
+				let HTML_Height = document.getElementById("downloadArea").clientHeight;
+				var pdf = new jsPDF("p", "pt", [794 , 1123]);			
+				var canvas_image_width = 794;			
+				var canvas_image_height = HTML_Height;				
+				var totalPDFPages = Math.ceil(canvas_image_height / pageHight) - 1;
+				let top_left_margin = 10;
+				pdf.addImage(dataUrl, 'JPG', top_left_margin, top_left_margin, canvas_image_width - 3 * top_left_margin, canvas_image_height);
 
-      PDF_Width = HTML_Width + (top_left_margin * 2);
-      // PDF_Height = (1.5 * PDF_Width) + (top_left_margin * 2);
+				for (var i = 1; i <= totalPDFPages; i++) {
+					pdf.addPage();
+					pdf.addImage(dataUrl, 'JPG', top_left_margin, -(pageHight * i) + (top_left_margin * 2), canvas_image_width - 2 * top_left_margin, canvas_image_height - 2 * top_left_margin);
+				}
+				pdf.save("HTML-Document.pdf");
+			})
+		}, 1000);
 
-      PDF_Height = 1130;
-      canvas_image_width = HTML_Width;
-      canvas_image_height = HTML_Height;
 
-      var totalPDFPages = Math.ceil(HTML_Height / PDF_Height) - 1;
-      const div = document.getElementById('downloadArea');
-
-      domtoimage.toPng(div).then((dataUrl) => {
-         //Initialize JSPDF
-         var pdf = new jsPDF('p', 'pt', [PDF_Width, 1123]);
-
-         //Add image Url to PDF
-         pdf.addImage(dataUrl, 'JPG', top_left_margin, top_left_margin, canvas_image_width, canvas_image_height);
-         console.log('totalPDFPages', PDF_Width, PDF_Height);
-
-         for (var i = 1; i <= totalPDFPages; i++) {
-            pdf.addPage();
-            pdf.addImage(dataUrl, 'JPG', top_left_margin, -(PDF_Height * i) + (top_left_margin * 4), canvas_image_width, canvas_image_height);
-         }
-
-         pdf.save("HTML-Document.pdf");
-
-      })
-
-   }
+	}
+	formate(documentsLen, pageHight ) {	
+		for (let i = 0; i < documentsLen; i++) {
+			let ipageHight = document.getElementById("page-" + i).clientHeight;				
+			if (ipageHight > pageHight) {	
+				document.getElementById("page-" + i).style.paddingBottom = (pageHight - (ipageHight % pageHight)) + 'px';
+			}
+		}
+	}
    handleChangeDate = (event) => {
       this.setState({ birthday: event.target.value });
    }

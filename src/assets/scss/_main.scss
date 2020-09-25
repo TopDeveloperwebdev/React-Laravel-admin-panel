@@ -99,10 +99,11 @@
     justify-content: end;
 }
 .MuiDialog-paperWidthSm {
-    max-width: 895px !important;
+    max-width: 835px !important;
     .note-toolbar {
         background: #eae6e6;
         border: 1px solid #dad7d7;
+        text-align: left;
     }
 }
 @media (min-width: 1280px)
@@ -187,11 +188,11 @@
     max-width: 895px !important;
     .pageContainer {
         min-height: 1123px;
-        margin: 5px 0px;
+        margin: 10px 0px;
         .contentHtml {
-            min-height: 815px;
+            min-height: 800px;
         }
-    }
+    }    
 }
 .serviceContainer {
     display: flex;
@@ -204,5 +205,36 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+    }
+}
+.headerBar {
+    display: flex;
+    justify-content: left;
+    align-items: baseline;
+    height: 100px;
+    >h4 , div {
+        margin-top: auto;
+        margin-bottom: auto;
+        color : #ff6a00
+    }
+    img {
+        margin-right: 30px;
+        margin-left: 30px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+}
+.footerBar {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    text-align: left;
+       color : #ff6a00
+}
+html{
+    @page {
+        margin:20 !important;
+        padding: 0px 0px 0px 0px !important;
     }
 }

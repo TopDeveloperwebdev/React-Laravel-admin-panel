@@ -240,6 +240,35 @@
 			]
 		},
 		{
+			"menu_title": "sidebar.fileManager",
+			"path": "/app/files",
+			"icon": "folder_open",
+			"category": "general",
+			"isMenuOpen": false,
+			"menu": "pages",
+			"fullPageMenu": false,
+			"desc": true,
+			"content": "",
+			"child_routes": [
+				{
+					"path": "/app/documents/*",
+					"menu_title": "sidebar.documents",
+					"icon": "contacts",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
+				},
+				{
+					"path": "/app/carefolders",
+					"menu_title": "sidebar.carefolders",
+					"icon": "contact_support",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
+				}
+			]
+		},
+		{
 			"menu_title": "sidebar.order",
 			"path": "/app/order",
 			"icon": "shopping_cart",
@@ -315,35 +344,6 @@
 			"desc": true,
 			"content": "",
 			"child_routes": null
-		},
-		{
-			"menu_title": "sidebar.fileManager",
-			"path": "/app/files",
-			"icon": "folder_open",
-			"category": "general",
-			"isMenuOpen": false,
-			"menu": "pages",
-			"fullPageMenu": false,
-			"desc": true,
-			"content": "",
-			"child_routes": [
-				{
-					"path": "/app/documents/*",
-					"menu_title": "sidebar.documents",
-					"icon": "contacts",
-					"isMenuOpen": false,
-					"fullPageMenu": false,
-					"third_child_routes": null
-				},
-				{
-					"path": "/app/carefolders",
-					"menu_title": "sidebar.carefolders",
-					"icon": "contact_support",
-					"isMenuOpen": false,
-					"fullPageMenu": false,
-					"third_child_routes": null
-				}
-			]
 		}
 	]
 }
