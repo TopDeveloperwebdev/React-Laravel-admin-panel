@@ -189,9 +189,9 @@
     .pageContainer {
         min-height: 1123px;
         margin: 10px 0px;
-        .contentHtml {
-            min-height: 800px;
-        }
+        // .contentHtml {
+        //     min-height: 800px;
+        // }
     }    
 }
 .serviceContainer {
@@ -236,5 +236,51 @@ html{
     @page {
         margin:20 !important;
         padding: 0px 0px 0px 0px !important;
+    }
+}
+.note-editing-area {
+    text-align: left !important;
+}
+.triggerContainer {
+    .MuiGrid-container {
+        display: flex;
+        justify-content: space-around !important;
+        li{
+            cursor: pointer;
+            padding: 20px 0px;
+            .MuiSvgIcon-root {
+                font-size: 40px;
+            }
+        }
+        .MuiCardContent-root {
+            height: 100%;
+        }
+        .previewPanel {
+            height: 100% !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: space-evenly !important;
+           .triggerTitle {
+            font-size: 20px;
+            font-weight: 500;
+            color: #1357ff;
+            padding: 10px;
+           }
+          
+            .k-multiselect-wrap ,.k-autocomplete{
+           
+                width: 100%;
+                font-size: 12px;
+                margin-left: 10px;
+            }
+            .MuiBox-root-636 , .MuiBox-root-637 .MuiBox-root-638{
+                text-align: center;
+                font-weight: bold;
+                font-size: 15px;
+            }
+            .MuiPaper-elevation1 {
+                margin-bottom: 20px;
+            }
+        }
     }
 }

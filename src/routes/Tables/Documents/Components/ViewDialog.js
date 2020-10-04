@@ -17,12 +17,17 @@ class ViewDialog extends React.Component {
 		open: false,
 		instance: null,
 		title: '',
-		content: ''
+		content: '',
+		name : '{{patient.name}}'
 	};
 
 	//Define function for open confirmation dialog box
 	openDialog() {
-		this.setState({ open: true });
+		this.setState({ open: true }, () => {
+			setTimeout(() => {
+				document.getElementsByClassName('patientname').innerText=this.state.name;
+			}, 1);
+		});
 	};
 
 	//Define function for close confirmation dialog box 
@@ -34,7 +39,8 @@ class ViewDialog extends React.Component {
 	onCloseDialog(isTrue) {
 		this.setState({ open: false });
 	};
-
+	componentDidMount() {
+	}
 	render() {
 		return (
 
@@ -71,7 +77,6 @@ class ViewDialog extends React.Component {
 						<div dangerouslySetInnerHTML={{
 							__html: this.props.document.content
 						}}>
-
 						</div>
 
 					</Box>

@@ -47,9 +47,16 @@ export const userService = {
    showDocuments,
    editDocuments,
    deleteDocuments,
+   addMails,
+   showMails,
+   editMails,
+   deleteMails,
+   showTriggers,
+   addTriggers,
+   editTriggers,
    getDocuments,
    addFolders,
-   showFolders,  
+   showFolders,
    editFolders,
    deleteFolders,
    addInstances,
@@ -70,12 +77,13 @@ export const userService = {
    editRoles,
    deleteRoles,
 
-   
+
    addOrders,
    showOrders,
    editOrders,
    deleteOrders,
    getOrderDetail,
+   sendMessage,
    submitComment
 };
 const serverUrl = 'https://betpool.tech/adminserver/api/';
@@ -108,10 +116,10 @@ function login(username, password) {
    return fetch(serverUrl + 'login', requestOptions)
       .then(user => user.json())
       .then(user => {
-         console.log('user' , user.user);
-         
+         console.log('user', user.user);
+
          // store user details and jwt token in local storage to keep user logged in between page refreshes
-         localStorage.setItem('user', JSON.stringify(user.user));   
+         localStorage.setItem('user', JSON.stringify(user.user));
          return user;
       });
 }
@@ -424,6 +432,22 @@ function deleteRoles(id) {
          return res
       });
 }
+// manageOrders 
+
+function sendMessage(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'notifications', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res;
+      });
+}
 // Orders CRUD
 function addOrders(data) {
 
@@ -468,7 +492,7 @@ function getOrderDetail(info) {
       });
 }
 function submitComment(info) {
-   console.log('info' , info);
+   console.log('info', info);
    const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -628,6 +652,112 @@ function deleteServices(id) {
          return res
       });
 }
+//Triggers,
+
+function addTriggers(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'addTriggers', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res;
+      });
+}
+
+function showTriggers(info) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(info)
+   };
+
+   return fetch(serverUrl + 'showTriggers', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
+
+function editTriggers(info) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(info)
+   };
+
+   return fetch(serverUrl + 'editTriggers', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
+// Mails CRUD
+function addMails(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'addMails', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res;
+      });
+}
+
+function showMails(info) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(info)
+   };
+
+   return fetch(serverUrl + 'showMails', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
+function editMails(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'editMails', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         console.log('res', res);
+         return res
+      });
+}
+function deleteMails(id) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(id)
+   };
+
+   return fetch(serverUrl + 'deleteMails', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
+
 
 // Documents CRUD
 function addDocuments(data) {
@@ -705,7 +835,6 @@ function deleteDocuments(id) {
          return res
       });
 }
-
 
 // Folders CRUD
 function addFolders(data) {
@@ -913,7 +1042,7 @@ function showUsers(info) {
 function editUsers(data) {
 
    const requestOptions = {
-      method: 'POST',    
+      method: 'POST',
       body: data
    };
 

@@ -17,7 +17,16 @@ import { userService } from '../../../_services';
 import EditorDialog from './Components/EditorDialog';
 import ViewDialog from './Components/ViewDialog';
 import DeleteDialog from './Components/DeleteDialog';
-
+window.patients = {
+	name: [],
+	street: [],
+	zip: [],
+	city: [],
+	insurance: [],
+	insuranceNr: [],
+	birthday: [],
+	phone: []
+};
 class Documents extends Component {
 	constructor(props) {
 		super(props)
@@ -50,12 +59,14 @@ class Documents extends Component {
 		this.addDocument = this.addDocument.bind(this);
 	}
 	addDocument() {
-		this.editorDialog.current.setState({  userInstance_id: this.instance_id});
+		this.editorDialog.current.setState({ userInstance_id: this.instance_id });
 		this.editorDialog.current.openDialog();
 	}
 	viewDocument(content, email, instanceLogo, instanceName, title) {
 		this.setState({ selectedDocument: { content: content, instanceLogo: instanceLogo, email: email, instanceName: instanceName, title: title } });
+      
 		this.viewDialog.current.openDialog();
+	
 	}
 	editDocument(oldData) {
 
@@ -65,8 +76,8 @@ class Documents extends Component {
 	}
 	onSubmit(popupResponse) {
 		if (popupResponse) {
-			userService.addDocuments(popupResponse).then(res => {			
-				if (res.length) {				
+			userService.addDocuments(popupResponse).then(res => {
+				if (res.length) {
 					this.setState(prevState => {
 						const documents = [...prevState.documents];
 						documents.push(res[0]);
@@ -79,7 +90,7 @@ class Documents extends Component {
 
 	onUpdate(popupResponse) {
 		if (popupResponse) {
-		
+
 			userService.editDocuments(popupResponse).then(res => {
 				if (res.length) {
 					this.setState(prevState => {
@@ -127,17 +138,18 @@ class Documents extends Component {
 
 		let user = JSON.parse(localStorage.getItem('user'));
 		this.instance_id = user.instance_id;
-		console.log('this.instance_id-----------',this.instance_id);
+		console.log('this.instance_id-----------', this.instance_id);
 		this.documents = this.props.match.params.id;
 		userService.showDocuments({ instance_id: this.instance_id, pagination: 1, folder_id: this.folder_id }).then(res => {
 			if (this.documents != '*') {
 				let docs = JSON.parse(this.documents);
-				 res.documents = res.documents.filter((a) => {
+				res.documents = res.documents.filter((a) => {
 					return docs.indexOf(a.id) > -1;
 				})
-			}		
-			console.log('documentsList' , res.documents)	;
-			this.setState({ documents: res.documents   , instances : res.instances});
+			}	
+		
+		
+			this.setState({ documents: res.documents, instances: res.instances });
 		})
 	}
 
@@ -150,21 +162,21 @@ class Documents extends Component {
 				/>
 				<Container maxWidth="lg" className="documentContainer">
 					<Box px={{ xs: '12px', lg: 0 }} className="page-space">
-				
+
 						<MaterialTable
 							title={<IntlMessages id="sidebar.documents" />}
 							columns={this.state.columns}
 							data={this.state.documents}
 							actions={[
 								{
-								  icon: "note_add_outlined",
-								  tooltip: "my tooltip",
-								  position: "toolbar",
-								  onClick: () => {
-									this.addDocument()
-								  }
+									icon: "note_add_outlined",
+									tooltip: "my tooltip",
+									position: "toolbar",
+									onClick: () => {
+										this.addDocument()
+									}
 								}
-							  ]}
+							]}
 						/>
 					</Box>
 				</Container>

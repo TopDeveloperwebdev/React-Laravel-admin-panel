@@ -208,6 +208,18 @@ const AsyncFoldersComponent = Loadable({
 	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
+// AsyncEmailTemplatesComponent Table
+const AsyncEmailTemplatesComponent = Loadable({
+	loader: () => import("routes/Tables/EmailTemplates"),
+	loading: () => <HulkPageLoader />,
+	delay: 3000,
+});
+// AsyncEmailTrigersComponent Table
+const AsyncEmailTrigersComponent = Loadable({
+	loader: () => import("routes/Tables/EmailTrigers"),
+	loading: () => <HulkPageLoader />,
+	delay: 3000,
+});
 // Blog Detail Page
 const AsyncBlogDetailComponent = Loadable({
 	loader: () => import("routes/Blog/BlogDetail"),
@@ -410,5 +422,7 @@ export {
 	AsyncManageOrdersComponent,
 	AsyncOrderDetailComponent,
 	AsyncDocumentsComponent,
-	AsyncFoldersComponent
+	AsyncFoldersComponent,
+	AsyncEmailTemplatesComponent,
+	AsyncEmailTrigersComponent
 };

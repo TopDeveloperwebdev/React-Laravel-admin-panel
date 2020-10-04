@@ -167,7 +167,7 @@ class Dashboard3 extends Component {
 										<CustomCard>
 											<Typography variant="h3">14,458</Typography>
 											<Box mb={2}>
-                                    <Typography variant="h6" className="font-weight-med text-disabled"><IntlMessages id="widgets.recipients" /></Typography>
+												<Typography variant="h6" className="font-weight-med text-disabled"><IntlMessages id="widgets.recipients" /></Typography>
 											</Box>
 											<BorderLinearProgress
 												variant="determinate"
@@ -180,7 +180,7 @@ class Dashboard3 extends Component {
 										<CustomCard>
 											<Typography variant="h3">24.3%</Typography>
 											<Box mb={2}>
-                                    <Typography variant="h6" className="font-weight-med text-disabled"><IntlMessages id="widgets.openRate" /></Typography>
+												<Typography variant="h6" className="font-weight-med text-disabled"><IntlMessages id="widgets.openRate" /></Typography>
 											</Box>
 											<BorderLinearProgress
 												variant="determinate"
@@ -190,13 +190,13 @@ class Dashboard3 extends Component {
 										</CustomCard>
 									</Grid>
 									<Grid item xs={12} sm={12} md={6}>
-                              <CustomCard title={<IntlMessages id="widgets.howmanyuserscamefromABC?" />} showDivider={true}>
+										<CustomCard title={<IntlMessages id="widgets.howmanyuserscamefromABC?" />} showDivider={true}>
 											<Grid container spacing={3}>
 												<Grid item xs={12} sm={12} md={4}>
 													<Box mt={2}>
 														<Typography variant="h5">14,458</Typography>
 														<Box>
-                                             <Typography className="font-weight-med text-disabled"><IntlMessages id="widgets.recipients" /></Typography>
+															<Typography className="font-weight-med text-disabled"><IntlMessages id="widgets.recipients" /></Typography>
 														</Box>
 													</Box>
 												</Grid>
@@ -204,7 +204,7 @@ class Dashboard3 extends Component {
 													<Box mt={2}>
 														<Typography variant="h5">14,458</Typography>
 														<Box>
-                                             <Typography className="font-weight-med text-disabled"><IntlMessages id="widgets.recipients" /></Typography>
+															<Typography className="font-weight-med text-disabled"><IntlMessages id="widgets.recipients" /></Typography>
 														</Box>
 													</Box>
 												</Grid>
@@ -212,7 +212,7 @@ class Dashboard3 extends Component {
 													<Box mt={2}>
 														<Typography variant="h5">14,458</Typography>
 														<Box>
-                                             <Typography className="font-weight-med text-disabled"><IntlMessages id="widgets.recipients" /></Typography>
+															<Typography className="font-weight-med text-disabled"><IntlMessages id="widgets.recipients" /></Typography>
 														</Box>
 													</Box>
 												</Grid>
@@ -235,7 +235,7 @@ class Dashboard3 extends Component {
 									<Grid item xs={12} sm={12} md={6}>
 										<CustomCard cardClasses="p-0 sales-chart-wrap">
 											<MarketingChartWidget
-                                    title={<IntlMessages id="widgets.marketing" />}
+												title={<IntlMessages id="widgets.marketing" />}
 												allData={this.state.marketing}
 											/>
 										</CustomCard>
@@ -243,7 +243,7 @@ class Dashboard3 extends Component {
 									<Grid item xs={12} sm={12} md={6}>
 										<CustomCard cardClasses="p-0 marketing-chart-wrap">
 											<MarketingChartWidget
-                                    title={<IntlMessages id="widgets.sales" />}
+												title={<IntlMessages id="widgets.sales" />}
 												allData={this.state.sales}
 											/>
 										</CustomCard>
@@ -253,14 +253,14 @@ class Dashboard3 extends Component {
 								<Grid container spacing={3}>
 									<Grid item xs={12} sm={12} md={12}>
 										<CustomCard cardClasses="p-0 new-account-wrap">
-                                 <NewAccountsChart title={<IntlMessages id="widgets.newAccounts" />} allData={this.state.newAccounts} />
+											<NewAccountsChart title={<IntlMessages id="widgets.newAccounts" />} allData={this.state.newAccounts} />
 										</CustomCard>
 									</Grid>
 								</Grid>
 
 							</Grid>
 							<Grid item xs={12} sm={12} md={4}>
-                        <CustomCard title={<IntlMessages id="widgets.topProducts" />} showDivider={true}>
+								<CustomCard title={<IntlMessages id="widgets.topProducts" />} showDivider={true}>
 									<ul className="top-hits">
 										<li>
 											<div className="top-product">
@@ -361,7 +361,7 @@ class Dashboard3 extends Component {
 													<img alt="Remy Sharp" width={35} src={require(`assets/Images/avatars/user-2.jpg`)} />
 												</li>
 											</ul>
-										
+
 										</div>
 										<div className="user-card--thumb">
 											<img alt="Remy Sharp" width={100} src={require(`assets/Images/avatars/user-6.jpg`)} />
@@ -392,7 +392,7 @@ class Dashboard3 extends Component {
 								</div>
 							</Grid>
 							<Grid item xs={12} sm={12} md={4}>
-								 <CustomCard title={<IntlMessages id="widgets.visitorsDevicesUsed" />} showDivider={true}>
+								<CustomCard title={<IntlMessages id="widgets.visitorsDevicesUsed" />} showDivider={true}>
 									<Box mt={1}>
 										<PieEchart showLabel={false} />
 									</Box>
@@ -403,7 +403,7 @@ class Dashboard3 extends Component {
 					<Paper className={classes.Paper} square>
 						<Grid container spacing={3}>
 							<Grid item xs={12} sm={12} md={12}>
-                        <CustomCard title={<IntlMessages id="widgets.analyticsWebSessionsByRegion" />} showDivider={true}>
+								<CustomCard title={<IntlMessages id="widgets.analyticsWebSessionsByRegion" />} showDivider={true}>
 									<GeoMap />
 								</CustomCard>
 							</Grid>
@@ -412,7 +412,7 @@ class Dashboard3 extends Component {
 					<Paper className={classes.Paper} square>
 						<Grid container spacing={3}>
 							<Grid item xs={12} sm={12} md={12}>
-                        <WidgetSimpleTable title={<IntlMessages id="widgets.keywordSearch" />} selection={true} showDivider={true} columns={columns2} data={KeywordSearchAnalysis} />
+								<WidgetSimpleTable title={<IntlMessages id="widgets.keywordSearch" />} selection={true} showDivider={true} columns={columns2} data={KeywordSearchAnalysis} />
 							</Grid>
 						</Grid>
 					</Paper>

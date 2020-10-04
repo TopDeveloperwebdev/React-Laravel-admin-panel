@@ -11,6 +11,59 @@ import { SmallTitleBar } from '../../../../components/GlobalComponents';
 import IntlMessages from 'util/IntlMessages';
 import { userService } from '../../../../_services';
 import { Link } from 'react-router-dom';
+import $ from 'jquery'
+
+var Apotheken = function (context) {
+	var ui = $.summernote.ui;
+	// var button = ui.button({
+	// 	contents: 'Insert Placeholders',
+	// 	tooltip: 'Placeholders',
+	// 	click: function () {
+	// 		// invoke insertText method with 'hello' on editor module.
+	// 		var node = document.createElement('span');
+	// 		node.innerHTML = "{{patient.name}}"
+	// 		context.invoke('editor.insertNode', node);
+	// 	}
+	// });
+
+	// return button.render()
+
+	let dropdown = ui.buttonGroup([
+		ui.button({
+			className: 'dropdown-toggle',
+			contents: '<span>Insert Placeholders</span>',
+			tooltip: "Insert",
+			data: {
+				toggle: 'dropdown'
+			}
+		}),
+		ui.dropdown({
+			className: 'dropdown-style',
+			contents: `<ol>
+							<li>name</li>
+							<li>street</li>
+							<li>zip</li>
+							<li>city</li>
+							<li>insurance</li>
+							<li>insuranceNr</li>
+							<li>birthday</li>
+							<li>phone</li>
+						</ol>`,
+			callback: function ($dropdown) {
+				$dropdown.find('li').each(function () {
+					$(this).click(function () {
+						let element = $(this).text();
+						var node = document.createElement('span');
+						node.innerHTML = "{{" + element + "}}"
+						context.invoke('editor.insertNode', node);
+					});
+				});
+			}
+		})
+	]);
+	return dropdown.render();
+}
+
 class EditorDialog extends React.Component {
 	constructor(props) {
 		super(props);
@@ -46,7 +99,28 @@ class EditorDialog extends React.Component {
 		if (!this.state.userInstance_id) instance_id = this.state.instance;
 		if (this.state.title && instance_id && this.state.content) {
 			this.setState({ open: false });
-			this.props.onConfirm({ title: this.state.title, instance_id: instance_id, content: this.state.content, contentHeight: this.state.contentHeight, contentWidth: this.state.contentWidth });
+
+			let { content } = this.state;
+			const nameTag = `<span class='name'>{{name}}</span>`;
+			const streetTag = `<span class='street'>{{street}}</span>`;
+			const zipTag = `<span class='zip'>{{zip}}</span>`;
+			const cityTag = `<span class='city'>{{city}}</span>`;
+			const insuranceTag = `<span class='insurance'>{{insurance}}</span>`;
+			const insuranceNrTag = `<span class='insuranceNr'>{{insuranceNr}}</span>`;
+			const birthdayTag = `<span class='birthday'>{{birthday}}</span>`;
+			const phoneTag = `<span class='phone'>{{phone}}</span>`;
+			content = content.replaceAll(/{{name}}/g, `${nameTag}`);
+			content = content.replaceAll(/{{street}}/g, `${streetTag}`);
+			content = content.replaceAll(/{{zip}}/g, `${zipTag}`);
+			content = content.replaceAll(/{{city}}/g, `${cityTag}`);
+			content = content.replaceAll(/{{insurance}}/g, `${insuranceTag}`);
+			content = content.replaceAll(/{{insuranceNr}}/g, `${insuranceNrTag}`);
+			content = content.replaceAll(/{{birthday}}/g, `${birthdayTag}`);
+			content = content.replaceAll(/{{phone}}/g, `${phoneTag}`);
+
+			// content = content.replaceAll(/}}/g, `}}${spanEndTag}`);
+
+			this.props.onConfirm({ title: this.state.title, instance_id: instance_id, content: content, contentHeight: this.state.contentHeight, contentWidth: this.state.contentWidth });
 		}
 		else {
 			alert("Bitte geben Sie die erforderlichen Felder ein")
@@ -58,7 +132,12 @@ class EditorDialog extends React.Component {
 		if (!this.state.userInstance_id) instance_id = this.state.instance;
 		if (this.state.title && instance_id && this.state.content) {
 			this.setState({ open: false });
-			this.props.onUpdate({ id: this.state.id, title: this.state.title, instance_id: instance_id, content: this.state.content, contentHeight: this.state.contentHeight, contentWidth: this.state.contentWidth });
+			let { content } = this.state;
+			const spanTag = `<span class='patientName'>`;
+			const spanEndTag = `</span>`;
+			content = content.replaceAll(/{{/g, `${spanTag}{{`);
+			content = content.replaceAll(/}}/g, `}}${spanEndTag}`);
+			this.props.onUpdate({ id: this.state.id, title: this.state.title, instance_id: instance_id, content: content, contentHeight: this.state.contentHeight, contentWidth: this.state.contentWidth });
 		}
 		else {
 			alert("Bitte geben Sie die erforderlichen Felder ein")
@@ -153,7 +232,6 @@ class EditorDialog extends React.Component {
 
 					<Box textAlign="center" id="editArea" pt={2}>
 						<ReactSummernote
-
 							onInit={this.onInit.bind(this)}
 							options={{
 								height: 350,
@@ -161,13 +239,16 @@ class EditorDialog extends React.Component {
 								toolbar: [
 									['style', ['style']],
 									['font', ['bold', 'underline', 'clear']],
-									['fontname', ['fontname']],									
+									['fontname', ['fontname']],
 									['para', ['ul', 'ol', 'paragraph']],
 									['color', ['color']],
-									['table', ['table']],
-									['view', ['fullscreen', 'codeview']]
-								]
+									['view', ['fullscreen', 'codeview']],
+									['mybutton', ['Apotheken']],
 
+								],
+								buttons: {
+									Apotheken: Apotheken,
+								}
 							}}
 							onChange={(content) => this.onChange(content)}
 						/>

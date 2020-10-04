@@ -17,12 +17,61 @@ class PreviewDialgo extends React.Component {
 		open: false,
 		instance: null,
 		title: '',
-		content: ''
+		content: '',
+		name: '',
+		street: '',
+		zip: '',
+		city: '',
+		insurance: '',
+		insuranceNr: '',
+		birthday: '',
+		phone: ''
+
 	};
 
 	//Define function for open confirmation dialog box
 	openDialog() {
-		this.setState({ open: true });
+		this.setState({ open: true }, () => {
+			let { name, street, zip, city, insurance, insuranceNr, birthday, phone } = this.state;
+			setTimeout(() => {
+				var names = document.getElementsByClassName("name");
+				for (let i = 0; i < names.length; i++) {
+					document.getElementsByClassName("name")[i].innerText = name;
+				}		
+				
+				var streets = document.getElementsByClassName("street");
+				for (let i = 0; i < streets.length; i++) {
+					document.getElementsByClassName("street")[i].innerText = street;
+				}	
+				var zips = document.getElementsByClassName("zip");
+				for (let i = 0; i < zips.length; i++) {
+					document.getElementsByClassName("zip")[i].innerText = zip;
+				}	
+				var citys = document.getElementsByClassName("city");
+				for (let i = 0; i < citys.length; i++) {
+					document.getElementsByClassName("city")[i].innerText = city;
+				}
+				var insurances = document.getElementsByClassName("insurance");
+				for (let i = 0; i < insurances.length; i++) {
+					document.getElementsByClassName("insurance")[i].innerText = insurance;
+				}
+				var insuranceNrs = document.getElementsByClassName("insuranceNr");
+				for (let i = 0; i < insuranceNrs.length; i++) {
+					document.getElementsByClassName("insuranceNr")[i].innerText = insuranceNr;
+				}	
+
+				var birthdays = document.getElementsByClassName("birthday");
+				for (let i = 0; i < birthdays.length; i++) {
+					document.getElementsByClassName("birthday")[i].innerText = birthday;
+				}	
+				
+				var phones = document.getElementsByClassName("phone");
+				for (let i = 0; i < phones.length; i++) {
+					document.getElementsByClassName("phone")[i].innerText = phone;
+				}	
+				
+			}, 10);
+		});
 	};
 
 	//Define function for close confirmation dialog box 
@@ -66,12 +115,12 @@ class PreviewDialgo extends React.Component {
 										</Typography>
 
 									</Box> */}
-									<Box className="p-10">
-										<Typography variant="h4" className="title">
+									<div className="p-10">
+										<div variant="h4" className="title">
 											{element.title}
-										</Typography>
-									</Box>
-									<Box className="p-10 contentHtml">
+										</div>
+									</div>
+									<div className="p-10 contentHtml">
 
 										<div dangerouslySetInnerHTML={{
 											__html: element.content
@@ -79,7 +128,7 @@ class PreviewDialgo extends React.Component {
 
 										</div>
 
-									</Box>
+									</div>
 									{/* <Box bgcolor="background.paper"  >
 										<Box className="footerBar" >
 											<div textAlign="left">

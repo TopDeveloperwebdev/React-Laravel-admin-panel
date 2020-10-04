@@ -187,7 +187,7 @@ class Orders extends Component {
 	handleChangePatients = (event) => {
 		let patient_id = event.target.value;
 		let patient = this.state.patients.filter((a) => a.id == patient_id);
-		let pharmacy = patient[0].pharmacy;
+		let pharmacy = patient[0].pharmacy;		
 		let doctor = patient[0].familyDoctor;
 		this.setState({ patient: event.target.value, pharmacy: pharmacy, doctor: doctor });
 

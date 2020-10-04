@@ -149,6 +149,44 @@
 				}
 			]
 		},
+	
+		{
+			"menu_title": "sidebar.services",
+			"path": "/app/resources",
+			"icon": "insert_drive_file",
+			"category": "general",
+			"isMenuOpen": false,
+			"menu": "pages",
+			"fullPageMenu": false,
+			"desc": true,
+			"content": "",
+			"child_routes": [
+				{
+					"path": "/app/resources",
+					"menu_title": "sidebar.Resources",
+					"icon": "contacts",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
+				},
+				{
+					"path": "/app/insurances",
+					"menu_title": "sidebar.Insurance",
+					"icon": "contact_support",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
+				},
+				{
+					"path": "/app/services",
+					"menu_title": "sidebar.Services",
+					"icon": "contact_support",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
+				}
+			]
+		},
 		{
 			"menu_title": "sidebar.Manages",
 			"path": "/app/",
@@ -203,43 +241,6 @@
 			]
 		},
 		{
-			"menu_title": "sidebar.services",
-			"path": "/app/resources",
-			"icon": "insert_drive_file",
-			"category": "general",
-			"isMenuOpen": false,
-			"menu": "pages",
-			"fullPageMenu": false,
-			"desc": true,
-			"content": "",
-			"child_routes": [
-				{
-					"path": "/app/resources",
-					"menu_title": "sidebar.Resources",
-					"icon": "contacts",
-					"isMenuOpen": false,
-					"fullPageMenu": false,
-					"third_child_routes": null
-				},
-				{
-					"path": "/app/insurances",
-					"menu_title": "sidebar.Insurance",
-					"icon": "contact_support",
-					"isMenuOpen": false,
-					"fullPageMenu": false,
-					"third_child_routes": null
-				},
-				{
-					"path": "/app/services",
-					"menu_title": "sidebar.Services",
-					"icon": "contact_support",
-					"isMenuOpen": false,
-					"fullPageMenu": false,
-					"third_child_routes": null
-				}
-			]
-		},
-		{
 			"menu_title": "sidebar.fileManager",
 			"path": "/app/files",
 			"icon": "folder_open",
@@ -261,6 +262,35 @@
 				{
 					"path": "/app/carefolders",
 					"menu_title": "sidebar.carefolders",
+					"icon": "contact_support",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
+				}
+			]
+		},
+		{
+			"menu_title": "sidebar.emailAutomation",
+			"path": "/app/email-automation",
+			"icon": "mail_outline",
+			"category": "general",
+			"isMenuOpen": false,
+			"menu": "pages",
+			"fullPageMenu": false,
+			"desc": true,
+			"content": "",
+			"child_routes": [
+				{
+					"path": "/app/email-templtes",
+					"menu_title": "sidebar.emailTemplates",
+					"icon": "contacts",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
+				},
+				{
+					"path": "/app/email-trigers",
+					"menu_title": "sidebar.emailTrigers",
 					"icon": "contact_support",
 					"isMenuOpen": false,
 					"fullPageMenu": false,

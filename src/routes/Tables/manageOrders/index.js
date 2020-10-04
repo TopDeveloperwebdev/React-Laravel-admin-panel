@@ -25,6 +25,16 @@ import IntlMessages from 'util/IntlMessages';
 import { Container, Box, Button } from '@material-ui/core';
 import { userService } from '../../../_services';
 import { Link } from 'react-router-dom';
+import {
+	Hidden, List, ListItem, ListItemIcon, ListSubheader, ListItemText, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Divider
+} from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import ReactQuill from 'react-quill';
+
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
 // let rows = [
 // 	{id : '', orderMedications: 'Cupcake', pharmacy: '', doctor: '', patient: '', date: '' },
 // 	{id : '', orderMedications: 'Cupcake', pharmacy: '', doctor: '', patient: '', date: '' },,
@@ -65,7 +75,7 @@ const headCells = [
 	{ id: 'pharmacy', disablePadding: false, label: 'Pharmacy' },
 	{ id: 'doctor', disablePadding: false, label: 'Doctor' },
 	{ id: 'patient', disablePadding: false, label: 'Patient' },
-	{ id: 'date', disablePadding: false, label: 'Due Date' },	
+	{ id: 'date', disablePadding: false, label: 'Due Date' },
 	{ id: 'status', disablePadding: false, label: 'Status' },
 ];
 
@@ -163,10 +173,10 @@ const EnhancedTableToolbar = (props) => {
 				)}
 
 			{numSelected > 0 ? (
-				<Tooltip title="Delete">
-					<Button variant="outlined" className="primary-bg-btn" color="primary" autoFocus >
-						<Box component="span" fontSize="18px" mr={1} className="material-icons">send</Box>
-								Send
+				<Tooltip title="email">
+					<Button variant="outlined" className="primary-bg-btn" color="primary" autoFocus onClick={props.handleClickInbox}>
+						{/* <Box component="span" fontSize="18px" mr={1} className="material-icons">send</Box> */}
+						Send Email
 							</Button>
 				</Tooltip>
 			) : (
@@ -179,11 +189,148 @@ const EnhancedTableToolbar = (props) => {
 		</Toolbar>
 	);
 };
+const modules = {
+	toolbar: [
+		[{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+		[{ 'font': [] }],
+		['bold', 'italic', 'underline', 'strike', 'blockquote'],
+		[{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
+		['link', 'image'],
+		['clean'],
+		[{ 'align': [] }]
+	],
+};
+
+const formats = [
+	'header',
+	'font',
+	'bold', 'italic', 'underline', 'strike', 'blockquote',
+	'list', 'bullet', 'indent',
+	'link', 'image', 'align'
+];
+const InboxComponent = (props) => {
+
+	const { open, selectedOrders } = props;
+	console.log('selectedOrders', selectedOrders);
+	const [selectedValue, setSelectedValue] = React.useState('now');
+	const [selectedTitle, setSelectedTitle] = React.useState('');
+	const [selectedContent, setSelectedContent] = React.useState('');
+	const [selectedDatetime, setSelectedDatetime] = React.useState('');
+	const handleChange = (event) => {
+		setSelectedValue(event.target.value);
+	};
+	const handleChangeTitle = (event) => {
+		setSelectedTitle(event.target.value);
+	};
+	const handleChangeContent = (content) => {	
+		setSelectedContent(content);
+	};
+	const handleChangeDatetime = (event) => {
+		setSelectedDatetime(event.target.value);
+	};
+	const SendMessage = () => {
+		  let user = JSON.parse(localStorage.getItem('user'));
+		  let instance_id = user.instance_id;	
+		  userService.sendMessage({ instance_id: instance_id,title : selectedTitle , body : selectedContent , date_string : selectedDatetime , receivers : selectedOrders , isNow : selectedValue  }).then(res => {
+			 console.log('res' , res);
+
+		})
+	};
+	return (
+		<Dialog
+			open={open}
+			// onClose={this.closeDialog.bind(this)}
+			aria-labelledby="responsive-dialog-title"
+			className="confirmation-dialog"
+		>
+			<DialogTitle id="customized-dialog-title">
+				<IntlMessages id="components.composer" />
+			</DialogTitle>
+			<DialogContent dividers>
+				{/* <Box mb={1}>
+					<TextField fullWidth label="To" />
+				</Box>
+				<Box mb={1}>
+					<TextField fullWidth label="CC" />
+				</Box>
+				<Box mb={1}>
+					<TextField fullWidth label="BCC" />
+				</Box> */}
+				<Box mb={3}>
+					<TextField fullWidth label="Title" onChange={handleChangeTitle} />
+				</Box>
+				<Box height="100%">
+					<ReactQuill
+						modules={modules}
+						formats={formats}
+						placeholder="Enter Your Message.."
+						onChange={handleChangeContent}
+					
+					/>
+				</Box>
+				<Box mt={5}>
+
+					<FormControl component="fieldset">
+						<FormLabel component="legend">When to send :</FormLabel>
+						<RadioGroup row aria-label="position" name="position" defaultValue="now">
+							<FormControlLabel value="now" control={<Radio color="primary" />} label="Send Now" checked={selectedValue === 'now'}
+								onChange={handleChange} />
+							<FormControlLabel value="later" control={<Radio color="primary" />} label="Send Later" checked={selectedValue === 'later'}
+								onChange={handleChange} />
+						</RadioGroup>
+					</FormControl>
+				</Box>
+				{
+					(selectedValue == 'later') ? <Box>
+						<TextField
+							className="full-width"
+							id="datetime-local"
+							type="datetime-local"
+							defaultValue="2017-05-24T10:30"
+							InputLabelProps={{
+								shrink: true,
+							}}
+							value={selectedDatetime}
+							onChange={handleChangeDatetime}
+						/></Box> : ''
+				}
+
+			</DialogContent>
+			<DialogActions>
+				<Box py={1} px={2}>
+					<Box display="inline-block" mr={2}>
+						<Button variant="outlined" className="primary-bg-btn" color="primary" onClick={props.handleClickInbox}>
+							<Box component="span" fontSize="20px" mr={1} className="material-icons">cancel_schedule_send</Box>
+							Cancel
+						</Button>
+					</Box>
+					{(selectedValue == 'now') ? <Button variant="outlined" className="primary-bg-btn" color="primary" autoFocus onClick={SendMessage}>
+						<Box component="span" fontSize="18px" mr={1} className="material-icons">send </Box>
+						Send Now
+					</Button> :
+						<Box display="inline-block" mr={2}>
+							<Button variant="outlined" className="primary-bg-btn" color="primary" onClick={SendMessage}>
+								<Box component="span" fontSize="20px" mr={1} className="material-icons">schedule_send</Box>
+							Send Later
+						</Button>
+						</Box>
+					}
+
+				</Box>
+			</DialogActions>
+		</Dialog>
+	);
+};
 
 EnhancedTableToolbar.propTypes = {
 	numSelected: PropTypes.number.isRequired,
+	handleClickInbox: PropTypes.func.isRequired,
 };
-
+InboxComponent.propTypes = {
+	open: PropTypes.bool.isRequired,
+	selectedOrders: PropTypes.array.isRequired,
+	handleClickInbox: PropTypes.func.isRequired,
+};
 const useStyles = makeStyles((theme) => ({
 	root: {
 		width: '100%',
@@ -208,6 +355,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
+
+
+
 export default function EnhancedTable() {
 	const classes = useStyles();
 	const [order, setOrder] = React.useState('asc');
@@ -217,7 +367,7 @@ export default function EnhancedTable() {
 	const [dense, setDense] = React.useState(false);
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
 	const [rows, setRows] = React.useState([]);
-
+	const [open, setOpens] = React.useState(false);
 	const handleRequestSort = (event, property) => {
 		const isAsc = orderBy === property && order === 'asc';
 		setOrder(isAsc ? 'desc' : 'asc');
@@ -246,6 +396,7 @@ export default function EnhancedTable() {
 	};
 
 	const handleClick = (event, name) => {
+
 		const selectedIndex = selected.indexOf(name);
 		let newSelected = [];
 
@@ -265,6 +416,9 @@ export default function EnhancedTable() {
 		setSelected(newSelected);
 	};
 
+	const handleClickInbox = (event) => {
+		setOpens(!open);
+	};
 	const handleChangePage = (event, newPage) => {
 		setPage(newPage);
 	};
@@ -292,7 +446,7 @@ export default function EnhancedTable() {
 				<Box px={{ xs: '12px', lg: 0 }} className="page-space">
 					<div className={classes.root}>
 						<Paper className={classes.paper}>
-							<EnhancedTableToolbar numSelected={selected.length} />
+							<EnhancedTableToolbar numSelected={selected.length} handleClickInbox={handleClickInbox} />
 							<TableContainer>
 								<Table
 									className={classes.table}
@@ -319,7 +473,7 @@ export default function EnhancedTable() {
 												return (
 													<TableRow
 														hover
-														onClick={(event) => handleClick(event, row.id)}
+														onClick={(event) => handleClick(event, row.user_id)}
 														role="checkbox"
 														aria-checked={isItemSelected}
 														tabIndex={-1}
@@ -373,6 +527,7 @@ export default function EnhancedTable() {
 					</div>
 				</Box>
 			</Container>
+			<InboxComponent open={open} handleClickInbox={handleClickInbox} selectedOrders={selected} />
 		</div>
 	);
 }
