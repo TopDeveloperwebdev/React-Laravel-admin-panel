@@ -18,14 +18,14 @@ class ViewDialog extends React.Component {
 		instance: null,
 		title: '',
 		content: '',
-		name : '{{patient.name}}'
+		name: '{{patient.name}}'
 	};
 
 	//Define function for open confirmation dialog box
 	openDialog() {
 		this.setState({ open: true }, () => {
 			setTimeout(() => {
-				document.getElementsByClassName('patientname').innerText=this.state.name;
+				document.getElementsByClassName('patientname').innerText = this.state.name;
 			}, 1);
 		});
 	};
@@ -55,18 +55,16 @@ class ViewDialog extends React.Component {
 						<CloseIcon className="closeBtn" onClick={() => this.onCloseDialog(false)}></CloseIcon>
 					</Box>
 
-					<Box bgcolor="background.paper" className={`title-banner`} >
-						<Container>
-							<Box className="title-content" textAlign="center">
-								<Typography variant="h4">
-									{this.props.document.instanceName}
-								</Typography>
-								<Box pt={1} fontSize="body2.fontSize">
-									<img src={this.props.document.instanceLogo} />
-								</Box>
+					<Container>
+						<Box className="title-content" textAlign="center">
+							<Typography variant="h4">
+								{this.props.document.instanceName}
+							</Typography>
+							<Box pt={1} fontSize="body2.fontSize">
+								<img src={this.props.document.instanceLogo} width="50px"/>
 							</Box>
-						</Container>
-					</Box>
+						</Box>
+					</Container>
 					<Box className="p-10">
 						<Typography variant="h4" className="title">
 							{this.props.document.title}
@@ -85,17 +83,13 @@ class ViewDialog extends React.Component {
 					<Box textAlign="center" pt={2}>
 
 					</Box>
-					<Box bgcolor="background.paper" className={`title-banner`} >
-						<Container>
-							<Box className="title-content" textAlign="center">
-								<Box pt={1} fontSize="body2.fontSize">
-									instance Name : {this.props.document.instanceName}
-								</Box>
-								<Box pt={1} fontSize="body2.fontSize">
-									Contact Email : {this.props.document.email}
-								</Box>
-							</Box>
-						</Container>
+					<Box className="title-content" textAlign="center">
+						<Box pt={1} fontSize="body2.fontSize">
+							instance Name : {this.props.document.instanceName}
+						</Box>
+						<Box pt={1} fontSize="body2.fontSize">
+							Contact Email : {this.props.document.email}
+						</Box>
 					</Box>
 				</DialogContent>
 

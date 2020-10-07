@@ -9,14 +9,20 @@ import { userService } from '../../../_services';
 import { SmallTitleBar } from 'components/GlobalComponents';
 import IntlMessages from 'util/IntlMessages';
 import { MultiSelect } from '@progress/kendo-react-dropdowns';
+import { Link } from 'react-router-dom';
 
+let statusList = { YES: "YES", NO: "NO" };
 class Orders extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
 			columns: [
 				{
-					title: 'Order ID', field: 'orderId', editComponent: rowData => <div>
+					title: 'Order ID', field: 'orderId', render: rowData => <div>
+						<Link to={`/order-detail/${rowData.orderId}`} target="_blank">{rowData.orderId}</Link>
+
+					</div>,
+					editComponent: rowData => <div>
 						{rowData.id}
 					</div>
 				},
@@ -60,10 +66,9 @@ class Orders extends Component {
 				{
 					title: 'Patient', field: 'patient', render: rowData => {
 						let patient = this.state.patients.filter((a) => a.id == rowData.patient);
-
-						return (<div>
+						return <div>
 							{patient[0].firstName} {patient[0].lastName}
-						</div>)
+						</div>
 					},
 					editComponent: rowData => {
 						return (
@@ -124,22 +129,27 @@ class Orders extends Component {
 				{
 					title: 'Due Date', field: 'date', render: rowData => {
 						return (<div>
-							{rowData.date}
+							{this.formate_date(rowData.date)}
+
 						</div>)
 					},
 					editComponent: rowData => {
+
+						let now = Date.now();
+						console.log('now', now);
 						return (
 							<TextField
 								className="full-width"
 								id="datetime-local"
-								type="datetime-local"
-								defaultValue="2017-05-24T10:30"
+								type="date"
+								defaultValue={now}
 								InputLabelProps={{
 									shrink: true,
 								}}
 								value={this.state.date}
 								onChange={this.handleChangeDate}
-							/>)
+							/>
+						)
 					}
 				},
 				{
@@ -162,7 +172,29 @@ class Orders extends Component {
 								onChange={this.handleChangeNote}
 							/>)
 					}
-				}
+				},
+				{ title: 'Delivered', field: 'status', lookup: statusList }
+
+				// {
+				// 	title: 'Delivered', field: 'status', render: rowData => {
+				// 		return (
+				// 			rowData.status ? <div className="send">
+				// 				YES
+				// 		</div> :
+				// 				<div className="notsend">
+				// 					NO
+				// 	</div>)
+				// 	},
+				// 	editComponent: rowData => {
+				// 		return (
+				// 			rowData.rowData.status ? <div className="send">
+				// 				YES
+				// 		</div> :
+				// 				<div className="notsend">
+				// 					NO
+				// 	</div>)
+				// 	},
+				// }
 			],
 
 			pharmacy: '',
@@ -182,12 +214,21 @@ class Orders extends Component {
 			selectedMedications: [...event.target.value]
 		});
 	}
+	formate_date(dateString) {
+		let date;
+		if (dateString) {
+			let str = dateString.split(" ");
+			date = str[0].split('-');
+			date = date[2] + '.' + date[1] + '.' + date[0];
+		}
 
+		return date;
+	}
 
 	handleChangePatients = (event) => {
 		let patient_id = event.target.value;
 		let patient = this.state.patients.filter((a) => a.id == patient_id);
-		let pharmacy = patient[0].pharmacy;		
+		let pharmacy = patient[0].pharmacy;
 		let doctor = patient[0].familyDoctor;
 		this.setState({ patient: event.target.value, pharmacy: pharmacy, doctor: doctor });
 
@@ -206,10 +247,10 @@ class Orders extends Component {
 		let user = JSON.parse(localStorage.getItem('user'));
 		this.instance_id = user.instance_id;
 		this.user_id = user.id;
-	
+
 
 		console.log('res-1', this.user_id);
-		userService.showOrders({ instance_id: this.instance_id, pagination: 1, user_id: this.user_id }).then(res => {
+		userService.showOrders({ instance_id: this.instance_id, pagination: 1 }).then(res => {
 			let medications = res.medications.map(ele => {
 				return ele.medicationName;
 			});
@@ -227,9 +268,70 @@ class Orders extends Component {
 	}
 
 	render() {
-		console.log('this.stae', this.state.doctor, this.state.pharmacy)
+		let EditableData = this.instance_id ? {
+			onRowAdd: newData =>
+				new Promise(resolve => {
+					resolve();
+
+					newData.user_id = this.instance_id;
+
+					newData.orderMedications = JSON.stringify(this.state.selectedMedications);
+					newData.patient = this.state.patient;
+					newData.date = this.state.date;
+					newData.note = this.state.note;
+					newData.pharmacy = this.state.pharmacy;
+					newData.doctor = this.state.doctor;
+					if (this.state.selectedMedications.length && newData.patient && newData.note && newData.date && newData.pharmacy && newData.doctor) {
+						userService.addOrders(newData).then(res => {
+							console.log('res', res);
+							this.setState(prevState => {
+								const data = [...prevState.data];
+								data.push(res);
+								const selectedMedications = [];
+								const isEditMedications = true;
+								return { ...prevState, data, selectedMedications, isEditMedications };
+							});
+						});
+					} else {
+						alert("Bitte füllen Sie die erforderlichen Felder aus.");
+					}
+
+				}),
+			onRowDelete: oldData =>
+				new Promise(resolve => {
+					setTimeout(() => {
+						resolve();
+						console.log(';oldData', oldData.id);
+						userService.deleteOrders({ id: oldData.id }).then(res => {
+							console.log('res', res);
+							this.setState(prevState => {
+								const data = [...prevState.data];
+								data.splice(data.indexOf(oldData), 1);
+								return { ...prevState, data };
+							});
+						})
+					}, 600);
+				})
+		} : {
+				onRowDelete: oldData =>
+					new Promise(resolve => {
+						setTimeout(() => {
+							resolve();
+							console.log(';oldData', oldData.id);
+							userService.deleteOrders({ id: oldData.id }).then(res => {
+								console.log('res', res);
+								this.setState(prevState => {
+									const data = [...prevState.data];
+									data.splice(data.indexOf(oldData), 1);
+									return { ...prevState, data };
+								});
+							})
+						}, 600);
+					})
+			};
+
 		return (
-			<div className="tables-wrapper search-table-wrap">
+			<div className="tables-wrapper search-table-wrap order-page">
 				<SmallTitleBar
 					title={<IntlMessages id="sidebar.order" />}
 					center
@@ -240,52 +342,7 @@ class Orders extends Component {
 							title={<IntlMessages id="sidebar.order" />}
 							columns={this.state.columns}
 							data={this.state.data}
-							editable={{
-
-								onRowAdd: newData =>
-									new Promise(resolve => {
-										resolve();
-
-										newData.instance_id = this.instance_id;
-										newData.user_id = this.user_id;
-										newData.orderMedications = JSON.stringify(this.state.selectedMedications);
-										newData.patient = this.state.patient;
-										newData.date = this.state.date;
-										newData.note = this.state.note;
-										newData.pharmacy = this.state.pharmacy;
-										newData.doctor = this.state.doctor;
-										if(this.state.selectedMedications.length && newData.patient && newData.note && newData.date && newData.pharmacy && newData.doctor){
-											userService.addOrders(newData).then(res => {
-												console.log('res', res);
-												this.setState(prevState => {
-													const data = [...prevState.data];
-													data.push(res);
-													const selectedMedications = [];
-													const isEditMedications = true;
-													return { ...prevState, data, selectedMedications, isEditMedications };
-												});
-											});
-										}else {
-											alert("Bitte füllen Sie die erforderlichen Felder aus.");
-										}									
-									
-									}),
-								onRowDelete: oldData =>
-									new Promise(resolve => {
-										setTimeout(() => {
-											resolve();
-											console.log(';oldData', oldData.id);
-											userService.deleteOrders({ id: oldData.id }).then(res => {
-												console.log('res', res);
-												this.setState(prevState => {
-													const data = [...prevState.data];
-													data.splice(data.indexOf(oldData), 1);
-													return { ...prevState, data };
-												});
-											})
-										}, 600);
-									})
-							}}
+							editable={EditableData}		
 						/>
 					</Box>
 				</Container>

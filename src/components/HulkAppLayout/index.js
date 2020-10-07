@@ -275,7 +275,7 @@ class HulkAppLayout extends Component {
 									toggleSidebar={(e) => this.onToggleNavCollapsed(e)}
 									openHorizontal={isHorizontalMenuActive}
 								/>
-								<SidebarCustomization
+								{/* <SidebarCustomization
 									iconColor="#fff"
 									open={navCollapsed}
 									toggleSidebar={(e) => this.onToggleNavCollapsed(e)}
@@ -290,7 +290,7 @@ class HulkAppLayout extends Component {
 									chooseTheme={(e) => this.chooseTheme(e)}
 								/>
 								<Tutorials />
-								<NotificationSidebar />
+								<NotificationSidebar /> */}
 								<nav aria-label="menu-sidebar">
 									{/* The implementation can be swapped with js to avoid SEO duplication of links. */}
 									<Hidden lgUp implementation="css">
@@ -341,7 +341,7 @@ class HulkAppLayout extends Component {
 							:
 							<div className={`hk-icon-layout ${classes.root}`}>
 								<Fragment>
-									<SidebarCustomization
+									{/* <SidebarCustomization
 										iconColor="#fff"
 										open={navCollapsed}
 										toggleSidebar={(e) => this.onToggleNavCollapsed(e)}
@@ -367,7 +367,7 @@ class HulkAppLayout extends Component {
 										toggleRtl={(e) => this.onToggleRtl(e)}
 										horizontalMenuStatus={isHorizontalMenuActive}
 										toggleHorizontalMenu={(e) => this.onToggleHorizontalMenu(e)}
-									/>
+									/> */}
 									<nav aria-label="menu-sidebar" className="icon-sidebar">
 										{/* The implementation can be swapped with js to avoid SEO duplication of links. */}
 										<Hidden lgUp implementation="css">

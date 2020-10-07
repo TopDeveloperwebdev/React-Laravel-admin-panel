@@ -23,15 +23,40 @@ class FamilyDoctors extends Component {
 				{ title: 'Fax', field: 'fax' },
 				{ title: 'Email', field: 'email' },
 				{ title: 'Password', field: 'password', type: 'string' },
+				// {
+				// 	title: 'Notifications', field: 'notifications', render: rowData => <Switch
+				// 		size="small"
+				// 		color="primary"
+				// 	/>,
+				// 	editComponent: rowData => <Switch
+				// 		size="small"
+				// 		color="primary"
+				// 		onChange={e => this.setState({ notifications: e.target.checked })}
+				// 		value={this.state.notifications}
+				// 	/>
+				// },
 				{
-					title: 'Notifications', field: 'notifications', render: rowData => <Switch
-						size="small"
-						color="primary"
-					/>,
-					editComponent: rowData => <Switch
-						size="small"
-						color="primary"
-					/>
+					title: 'Notifications', field: 'notifications', render: rowData => {
+						return (<Switch
+							size="small"
+							color="primary"
+							checked={rowData.notifications ? true : false}
+						/>)
+
+					},
+					editComponent: rowData => {
+						console.log('rowData', rowData);
+						if (this.state.isEditNotifications && rowData.rowData.id) {
+							this.setState({ notifications: rowData.rowData.notifications ? true : false, isEditNotifications: false });
+						}
+						return (<Switch
+							size="small"
+							color="primary"
+							checked={this.state.notifications}
+							onChange={e => this.setState({ notifications: e.target.checked })}
+						/>)
+
+					}
 				},
 			],
 
@@ -42,6 +67,8 @@ class FamilyDoctors extends Component {
 			// 	{ practiceName: 'Mehmet', doctorName: 'Baran', streetNr: 'streetNr', zipCode: 63 ,city: 'Mehmet', phone: 'Baran', fax: 'streetNr' ,email : 'test@admin.com' ,password : 'password' ,notifications  : true  },
 			// ],
 			data: [],
+			notifications : true,
+			isEditNotifications : false
 
 		};
 
@@ -83,14 +110,16 @@ class FamilyDoctors extends Component {
 											resolve();
 											console.log('newData', newData);
 											newData.instance_id = this.instance_id;
+											newData.notifications = this.state.notifications;
 											userService.addFamilyDirectors(newData).then(res => {
 												console.log('res', res);
 												this.setState(prevState => {
 													const data = [...prevState.data];
 													data.push(res);
-													return { ...prevState, data };
+													return { ...prevState, data  };
 												});
 											});
+											this.setState({notifications : true , isEditNotifications : true})
 
 										}, 600);
 									}),
@@ -98,15 +127,17 @@ class FamilyDoctors extends Component {
 									new Promise(resolve => {
 										setTimeout(() => {
 											resolve();
-											console.log('newdata', newData.id);
+											
+											newData.notifications = this.state.notifications;
 											userService.editFamilyDirectors(newData).then(res => {
-												if (oldData) {
+												if (res) {
 													this.setState(prevState => {
 														const data = [...prevState.data];
 														data[data.indexOf(oldData)] = newData;
 														return { ...prevState, data };
 													});
 												}
+												this.setState({notifications : true , isEditNotifications : true})
 											})
 										}, 600);
 									}),

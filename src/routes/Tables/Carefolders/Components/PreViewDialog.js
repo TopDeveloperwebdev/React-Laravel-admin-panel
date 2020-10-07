@@ -12,6 +12,7 @@ import IntlMessages from 'util/IntlMessages';
 class PreviewDialgo extends React.Component {
 	constructor(props) {
 		super(props);
+		this.pdfExportComponent = React.createRef();
 	}
 	state = {
 		open: false,
@@ -37,16 +38,16 @@ class PreviewDialgo extends React.Component {
 				var names = document.getElementsByClassName("name");
 				for (let i = 0; i < names.length; i++) {
 					document.getElementsByClassName("name")[i].innerText = name;
-				}		
-				
+				}
+
 				var streets = document.getElementsByClassName("street");
 				for (let i = 0; i < streets.length; i++) {
 					document.getElementsByClassName("street")[i].innerText = street;
-				}	
+				}
 				var zips = document.getElementsByClassName("zip");
 				for (let i = 0; i < zips.length; i++) {
 					document.getElementsByClassName("zip")[i].innerText = zip;
-				}	
+				}
 				var citys = document.getElementsByClassName("city");
 				for (let i = 0; i < citys.length; i++) {
 					document.getElementsByClassName("city")[i].innerText = city;
@@ -58,22 +59,32 @@ class PreviewDialgo extends React.Component {
 				var insuranceNrs = document.getElementsByClassName("insuranceNr");
 				for (let i = 0; i < insuranceNrs.length; i++) {
 					document.getElementsByClassName("insuranceNr")[i].innerText = insuranceNr;
-				}	
+				}
 
 				var birthdays = document.getElementsByClassName("birthday");
 				for (let i = 0; i < birthdays.length; i++) {
-					document.getElementsByClassName("birthday")[i].innerText = birthday;
-				}	
-				
+					document.getElementsByClassName("birthday")[i].innerText = this.formate_date(birthday);
+				}
+
 				var phones = document.getElementsByClassName("phone");
 				for (let i = 0; i < phones.length; i++) {
 					document.getElementsByClassName("phone")[i].innerText = phone;
-				}	
-				
+				}
+
 			}, 10);
 		});
 	};
 
+	formate_date(dateString) {
+		let date = '';
+		if (dateString) {
+			let str = dateString.split(" ");
+			date = str[0].split('-');
+			date = date[2] + '.' + date[1] + '.' + date[0];
+		}
+
+		return date;
+	}
 	//Define function for close confirmation dialog box 
 	closeDialog() {
 		this.setState({ open: false });
@@ -86,6 +97,7 @@ class PreviewDialgo extends React.Component {
 	getUrl(logo) {
 		let url = '/backend_latest/file_storage/' + logo.split('/')[5];
 		let defaultUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSTbZrzTIuXAe01k5wgrhWGzPRPRliQygmBCA&usqp=CAU";
+
 		return defaultUrl
 	}
 	render() {
@@ -115,8 +127,8 @@ class PreviewDialgo extends React.Component {
 										</Typography>
 
 									</Box> */}
-									<div className="p-10">
-										<div variant="h4" className="title">
+									<div className="p-10" >
+										<div variant="h5" className="title" textAlign="left">
 											{element.title}
 										</div>
 									</div>

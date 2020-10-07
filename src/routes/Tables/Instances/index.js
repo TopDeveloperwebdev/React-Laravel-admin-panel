@@ -104,13 +104,13 @@ class Instances extends Component {
 		return (
 			<div className="tables-wrapper search-table-wrap">
 				<SmallTitleBar
-					title={<IntlMessages id="sidebar.Instance" />}
+					title={<IntlMessages id="sidebar.instances" />}
 					center
 				/>
 				<Container maxWidth="lg">
 					<Box px={{ xs: '12px', lg: 0 }} className="page-space">
 						<MaterialTable
-							title={<IntlMessages id="sidebar.Instance" />}
+							title={<IntlMessages id="sidebar.instances" />}
 							columns={this.state.columns}
 							data={this.state.data}
 							editable={{

@@ -125,6 +125,7 @@ class EmailTrigers extends Component {
 				triggers: [...res.triggers]
 
 			})
+			this.handleRowClick('User create an Order');
 		})
 	}
 

@@ -48,16 +48,16 @@ class Insurances extends Component {
 		return (
 			<div className="tables-wrapper search-table-wrap">
 				<SmallTitleBar
-					title={<IntlMessages id="sidebar.Insurance" />}
+					title={<IntlMessages id="sidebar.Insurances" />}
 					center
 				/>
 				<Container maxWidth="lg">
 					<Box px={{ xs: '12px', lg: 0 }} className="page-space">
 						<MaterialTable
-							title={<IntlMessages id="sidebar.Insurance" />}
+							title={<IntlMessages id="sidebar.Insurances" />}
 							columns={this.state.columns}
 							data={this.state.data}
-							editable={{
+							editable={this.instance_id ? {} : {
 								onRowAdd: newData =>
 									new Promise(resolve => {
 										setTimeout(() => {

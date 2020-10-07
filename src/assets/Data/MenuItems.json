@@ -13,26 +13,17 @@
 			"content": "Lorem ipsum dolor sit amet",
 			"child_routes": [
 				{
-					"path": "/app/dashboard/dashboard1",
-					"menu_title": "sidebar.dashboard1",
-					"icon": "equalizer",
-					"f_desc": "View dashboard and Widgets replated to web analytics",
+					"menu_title": "sidebar.patients",
+					"path": "/app/patients",
+					"icon": "table_chart",
+					"f_desc": "Check the new table for preview basic info for every row",
 					"isMenuOpen": false,
 					"fullPageMenu": false,
 					"third_child_routes": null
 				},
 				{
-					"path": "/app/dashboard/dashboard2",
-					"menu_title": "sidebar.dashboard2",
-					"icon": "dashboard",
-					"f_desc": "Checkout the SAAS dashboard and Widgets like chat and Task List",
-					"isMenuOpen": false,
-					"fullPageMenu": false,
-					"third_child_routes": null
-				},
-				{
-					"path": "/app/dashboard/dashboard3",
-					"menu_title": "sidebar.dashboard3",
+					"path": "/app/services",
+					"menu_title": "sidebar.Services",
 					"icon": "ballot",
 					"f_desc": "Manage your eCommerce dashboard and check out other activities",
 					"isMenuOpen": false,
@@ -40,10 +31,64 @@
 					"third_child_routes": null
 				},
 				{
-					"path": "/app/chat",
-					"menu_title": "sidebar.chat",
-					"icon": "question_answer",
-					"f_desc": "Get connected with your friends and clients",
+					"menu_title": "sidebar.doctors",
+					"path": "/app/doctors",
+					"icon": "ballot",
+					"f_desc": "Manage your eCommerce dashboard and check out other activities",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
+				},
+				{
+					"menu_title": "sidebar.pharmacies",
+					"path": "/app/pharmacies",
+					"icon": "ballot",
+					"f_desc": "Manage your eCommerce dashboard and check out other activities",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
+				},
+				{
+					"menu_title": "sidebar.medication",
+					"path": "/app/medication",
+					"icon": "ballot",
+					"f_desc": "Manage your eCommerce dashboard and check out other activities",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
+				},
+				{
+					"path": "/app/resources",
+					"menu_title": "sidebar.Resources",
+					"icon": "equalizer",
+					"f_desc": "View dashboard and Widgets replated to web analytics",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
+				},
+				{
+					"path": "/app/insurances",
+					"menu_title": "sidebar.Insurances",
+					"icon": "dashboard",
+					"f_desc": "Checkout the SAAS dashboard and Widgets like chat and Task List",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
+				},
+				{
+					"path": "/app/ingredients",
+					"menu_title": "sidebar.ingredients",
+					"icon": "dashboard",
+					"f_desc": "Checkout the SAAS dashboard and Widgets like chat and Task List",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
+				},
+				{
+					"path": "/app/order",
+					"menu_title": "sidebar.order",
+					"icon": "shopping_cart",
+					"f_desc": "Check out your daily emails with our integrated email component",
 					"isMenuOpen": false,
 					"fullPageMenu": false,
 					"third_child_routes": null
@@ -58,98 +103,52 @@
 					"third_child_routes": null
 				},
 				{
-					"path": "/app/calendar",
-					"menu_title": "sidebar.calendar",
-					"icon": "calendar_today",
-					"f_desc": "Manage your day to day schedule for staff and clients",
+					"path": "/app/email-trigers",
+					"menu_title": "sidebar.emailTrigers",
+					"icon": "mail_outline",
+					"f_desc": "Check out your daily emails with our integrated email component",
 					"isMenuOpen": false,
 					"fullPageMenu": false,
 					"third_child_routes": null
 				},
 				{
-					"path": "/app/pages/profile/standard",
-					"menu_title": "sidebar.profile",
-					"icon": "perm_identity",
-					"f_desc": "Check your standard profile page with useful widgets",
-					"isMenuOpen": false,
-					"fullPageMenu": false,
-					"third_child_routes": null
-				},
-				{
-					"path": "/app/pages/stepper/horizontal-stepper",
-					"menu_title": "sidebar.stepper",
-					"icon": "shopping_cart",
-					"f_desc": "Go and check the horizontal stepper form design",
-					"isMenuOpen": false,
-					"fullPageMenu": false,
-					"third_child_routes": null
-				},
-				{
-					"path": "/app/custom-table",
-					"menu_title": "sidebar.patients",
-					"icon": "table_chart",
+					"path": "/app/documents/*",
+					"menu_title": "sidebar.documents",
+					"icon": "folder_open",
 					"f_desc": "Check the new table for preview basic info for every row",
 					"isMenuOpen": false,
 					"fullPageMenu": false,
 					"third_child_routes": null
 				},
 				{
-					"path": "/app/user-settings",
-					"menu_title": "sidebar.userSettings",
-					"icon": "perm_data_setting",
+					"path": "/app/carefolders",
+					"menu_title": "sidebar.carefolders",
+					"icon": "folder_open",
+					"f_desc": "Check the new table for preview basic info for every row",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
+				},
+				{
+					"path": "/app/instances",
+					"menu_title": "sidebar.instances",
+					"icon": "web",
 					"f_desc": "View and manage your account information, email and more",
 					"isMenuOpen": false,
 					"fullPageMenu": false,
 					"third_child_routes": null
 				},
 				{
-					"path": "/app/blog/blog-grid",
-					"menu_title": "sidebar.blogGrid",
-					"icon": "web",
-					"f_desc": "Check, Read and edit and write a new blog post from here.",
-					"isMenuOpen": false,
-					"fullPageMenu": false,
-					"third_child_routes": null
-				},
-				{
-					"path": "/app/ecommerce/shop",
-					"menu_title": "sidebar.shop",
-					"icon": "shopping_cart",
-					"f_desc": "Shop the new and existing product and also manage all",
-					"isMenuOpen": false,
-					"fullPageMenu": false,
-					"third_child_routes": null
-				},
-				{
-					"path": "/app/pages/signature-pad",
-					"menu_title": "sidebar.signaturePad",
-					"icon": "contact_support",
-					"f_desc": "Edit forms with the digital signature and save or send them as pdf",
-					"isMenuOpen": false,
-					"fullPageMenu": false,
-					"third_child_routes": null
-				},
-				{
-					"path": "/app/pages/payment",
-					"menu_title": "sidebar.payment",
-					"icon": "access_time",
-					"f_desc": "Enter Payments keys to enable payment gateways in the theme",
-					"isMenuOpen": false,
-					"fullPageMenu": false,
-					"third_child_routes": null
-				},
-				{
-					"path": "/signup",
-					"menu_title": "sidebar.signUp",
-					"icon": "access_time",
-					"f_desc": "Register your account with us for more info. ",
+					"path": "/app/users",
+					"menu_title": "sidebar.users",
+					"icon": "perm_data_setting",
+					"f_desc": "View and manage your account information, email and more",
 					"isMenuOpen": false,
 					"fullPageMenu": false,
 					"third_child_routes": null
 				}
 			]
 		},
-	
 		{
 			"menu_title": "sidebar.services",
 			"path": "/app/resources",
@@ -171,7 +170,7 @@
 				},
 				{
 					"path": "/app/insurances",
-					"menu_title": "sidebar.Insurance",
+					"menu_title": "sidebar.Insurances",
 					"icon": "contact_support",
 					"isMenuOpen": false,
 					"fullPageMenu": false,
@@ -242,7 +241,7 @@
 		},
 		{
 			"menu_title": "sidebar.fileManager",
-			"path": "/app/files",
+			"path": "/app/documents/*",
 			"icon": "folder_open",
 			"category": "general",
 			"isMenuOpen": false,
@@ -271,7 +270,7 @@
 		},
 		{
 			"menu_title": "sidebar.emailAutomation",
-			"path": "/app/email-automation",
+			"path": "/app/email-templtes",
 			"icon": "mail_outline",
 			"category": "general",
 			"isMenuOpen": false,
@@ -310,18 +309,8 @@
 			"content": "",
 			"child_routes": null
 		},
-		{
-			"menu_title": "sidebar.manageOrders",
-			"path": "/app/manage-orders",
-			"icon": "receipt",
-			"category": "components",
-			"isMenuOpen": false,
-			"menu": "tables",
-			"fullPageMenu": false,
-			"desc": true,
-			"content": "",
-			"child_routes": null
-		},
+		
+		
 		{
 			"menu_title": "sidebar.permissions",
 			"path": "/app/permissions",
@@ -352,7 +341,7 @@
 			]
 		},
 		{
-			"menu_title": "sidebar.Instance",
+			"menu_title": "sidebar.instances",
 			"path": "/app/instances",
 			"icon": "apps",
 			"category": "components",

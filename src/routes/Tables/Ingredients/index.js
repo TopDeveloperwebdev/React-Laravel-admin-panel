@@ -57,7 +57,7 @@ class Ingredients extends Component {
 							title={<IntlMessages id="sidebar.ingredients" />}
 							columns={this.state.columns}
 							data={this.state.data}
-							editable={{
+							editable={this.instance_id ? {} : {
 								onRowAdd: newData =>
 									new Promise(resolve => {
 										setTimeout(() => {

@@ -87,12 +87,16 @@ class OrderDetail extends Component {
 
 	}
 	formate_date(dateString) {
-		let str = dateString.split(" ");
-		let date = str[0].split('-');
-		let time = str[1].split(':');
-		date = "am " + date[2] + '.' + date[1] + '.' + date[0];
-		time = "um " + time[0] + ':' + time[1];
-		let data = { date: date, time: time };
+		let data;
+		if (dateString) {
+			let str = dateString.split(" ");
+			let date = str[0].split('-');
+			let time = str[1].split(':');
+			date = "am " + date[2] + '.' + date[1] + '.' + date[0];
+			time = "um " + time[0] + ':' + time[1];
+			data = { date: date, time: time };
+		}
+
 		return data;
 	}
 	handleChangeComment = (event) => {
@@ -122,6 +126,7 @@ class OrderDetail extends Component {
 						title={<IntlMessages id={this.state.title} />}
 						buttonText={<IntlMessages id="component.backToMedications" />}
 						buttonLink="/app/manage-orders"
+
 					/>
 					<div className="page-space">
 						<Container>
@@ -146,10 +151,10 @@ class OrderDetail extends Component {
 												</Box>
 
 												<Box fontSize="body2.fontSize" color="text.primary" fontWeight="500">Rezeptanfrage für</Box>
-												<div className="rowContainer">
+												<div className="rowContainer patient-detail">
 													<Box>
-														<Typography>Peter Meier :  {this.state.patient.firstName} {this.state.patient.lastName}</Typography>
-														<Typography>Hansastr :  - 29528</Typography>
+														<Typography fontWeight="500">{this.state.patient.firstName} {this.state.patient.lastName}</Typography>
+														<Typography>Address :  {this.state.patient.streetNr} {this.state.patient.zipCode} {this.state.patient.city}</Typography>
 													</Box>
 
 													<Box>

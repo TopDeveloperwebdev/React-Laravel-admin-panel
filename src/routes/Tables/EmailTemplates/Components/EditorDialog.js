@@ -123,6 +123,7 @@ class EditorDialog extends React.Component {
 							id="datetime-local"
 							type="text"
 							label="Please input Template Title"
+							placeholder="Neue Bestellung [oder_id]"
 							InputLabelProps={{
 								shrink: true,
 							}}
@@ -223,7 +224,6 @@ EditorDialog.modules1 = {
 
 				[{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
 				[{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-
 				[{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
 				[{ 'font': [] }],
 				[{ 'align': [] }],
@@ -246,7 +246,7 @@ EditorDialog.modules2 = {
 	toolbar: {
 		container:
 			[
-				[{ 'placeholder': ['[patient firstname]', '[patient lastname]', '[patient birthday]', '[patient insurance]', '[patient address]', '[patient phone]'] }], // my custom dropdown
+				[{ 'placeholder': ['[patient firstname]', '[patient lastname]', '[patient birthday]', '[patient insurance]', '[patient address]', '[patient phone]' ,'[oder_id]' ,'[order_duedate]' ,'[order_public_link]'] }], // my custom dropdown
 				['bold', 'italic', 'underline', 'strike'],        // toggled buttons
 				['blockquote', 'code-block'],
 				[{ 'header': 1 }, { 'header': 2 }],               // custom button values

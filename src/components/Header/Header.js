@@ -59,7 +59,7 @@ const styles = theme => ({
 	},
 	ToggleBtn: {
 		marginLeft: '-12px',
-		color:theme.palette.text.primary,
+		color: theme.palette.text.primary,
 		transition: theme.transitions.create(['margin'], {
 			easing: theme.transitions.easing.easeOut,
 			duration: theme.transitions.duration.enteringScreen,
@@ -149,14 +149,14 @@ class Header extends Component {
 					className={clsx(classes.appBar, {
 						[classes.appBarShift]: windowWidth < 1280 ? false : open,
 						[classes.horizontalHead]: openHorizontal,
-						[`rtl-header`]:!open,
+						[`rtl-header`]: !open,
 					})}
 				>
 					<Box>
-						<GlobalSearch 
-							showSearchBar={() => this.showSearchBar()} 
-							className={clsx(classes.searchBar, 
-							{ [classes.activeBar]: isSearch, }, 'search-bar-wrap')}
+						<GlobalSearch
+							showSearchBar={() => this.showSearchBar()}
+							className={clsx(classes.searchBar,
+								{ [classes.activeBar]: isSearch, }, 'search-bar-wrap')}
 						/>
 					</Box>
 					<Toolbar className={classes.contentJustify}>
@@ -170,7 +170,7 @@ class Header extends Component {
 										edge="start"
 										className={clsx(classes.menuButton, {
 											[classes.ToggleBtn]: open === false,
-										},'hamburger-icon')}
+										}, 'hamburger-icon')}
 									>
 										<MenuIcon />
 									</IconButton>
@@ -207,7 +207,7 @@ class Header extends Component {
 									</IconButton>
 								</Tooltip>
 							</Box>
-							{!openHorizontal ?
+							{/* {!openHorizontal ?
 								<Hidden smDown implementation="css">
 									<Box pl={2} className="mega-menu-wrap">
 										<MegaMenu iconColor={classes.textLight} />
@@ -215,10 +215,10 @@ class Header extends Component {
 								</Hidden>
 								:
 								null
-							}
+							} */}
 						</Box>
 						<Box className="horizontal-icon" display="flex" alignItems="center">
-							<Box className="h-btn-noti res-hide">
+							{/* <Box className="h-btn-noti res-hide">
 								<Notification iconColor={classes.textLight} />
 							</Box>
                      <Box px="10px" className="h-btn-lang">
@@ -226,7 +226,7 @@ class Header extends Component {
                      </Box>  
 							<Box className="h-btn-cart res-hide">
 								<Cart iconColor={classes.textLight} />
-							</Box>
+							</Box> */}
 							{/* <Box>
 								<Wishlist iconColor={classes.textLight} />
 							</Box> */}

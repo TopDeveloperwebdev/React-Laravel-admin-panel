@@ -1,3 +1,65 @@
+/*
+    Use the DejaVu Sans font for displaying and embedding in the PDF file.
+    The standard PDF fonts do not support Unicode characters.
+*/
+p {
+    font-family: "DejaVu Sans", "Arial", sans-serif;  
+}
+main{
+    overflow-y: auto;
+}
+/*
+    The example loads the DejaVu Sans from the Kendo UI CDN.
+    Other fonts have to be hosted from your application.
+    The official site of the Deja Vu Fonts project is
+    https://dejavu-fonts.github.io/.
+*/
+@font-face {
+    font-family: "DejaVu Sans";
+    src: url("https://kendo.cdn.telerik.com/2017.2.621/styles/fonts/DejaVu/DejaVuSans.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "DejaVu Sans";
+    font-weight: bold;
+    src: url("https://kendo.cdn.telerik.com/2017.2.621/styles/fonts/DejaVu/DejaVuSans-Bold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "DejaVu Sans";
+    font-style: italic;
+    src: url("https://kendo.cdn.telerik.com/2017.2.621/styles/fonts/DejaVu/DejaVuSans-Oblique.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "DejaVu Sans";
+    font-weight: bold;
+    font-style: italic;
+    src: url("https://kendo.cdn.telerik.com/2017.2.621/styles/fonts/DejaVu/DejaVuSans-Oblique.ttf") format("truetype");
+}
+.send{
+    background: #8adc8a;
+    border-radius: 29px;
+    font-size: 12px;
+    width: 50px;
+    text-align: center;
+    padding: 1px;
+   
+}
+.notsend {
+    background: #ff0000a6;
+    border-radius: 29px;
+    width: 50px;
+    font-size: 12px;
+    text-align: center;
+    padding: 1px;
+}
+.order-page {
+    .MuiOutlinedInput-inputMultiline {
+        min-width: 180px !important;
+    }
+}
+
 .logo-td {
     width: 35px;  
     height : 35px
@@ -19,6 +81,11 @@
           font-size: 12px;
       }
   }
+  .MuiBox-root{
+    p{
+        margin-bottom: 0px !important;      
+    }
+}
 .textArea {
     width: 100%;
     height: auto;
@@ -60,7 +127,17 @@
 }
 .order-detail {
     background-color:#e0e0e04d !important;
-    overflow: auto
+    overflow: auto;
+    .MuiTypography-h4{
+        font-size: 150%;
+    }
+    .logo-mini{
+        img{
+            height: 50px;
+            width: auto;
+        }
+      
+    }
 }
 .font-2  {
     font-size: 14px;
@@ -106,6 +183,15 @@
         text-align: left;
     }
 }
+.patient-container {
+    .k-autocomplete {
+        width: auto !important;
+        min-width: 120px;
+    }
+    .k-multiselect, .k-dropdowntree {
+        min-width: 150px;
+    }
+}
 @media (min-width: 1280px)
 {   
     .MuiGrid-grid-lg-10 {
@@ -131,6 +217,18 @@
         flex-grow: 0;
         max-width: 18% !important;
         flex-basis: 18% !important;
+    }
+ 
+}
+@media (max-width: 768px)
+{   
+    .patient-detail{
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        >div{
+            width: 100%;
+        }
     }
  
 }
@@ -163,9 +261,11 @@
     }
 }
 .title {
-    font-size: 20px;
-    text-align: center;
-    padding: 10px;
+    font-size: 16px;
+    text-align: left;
+    padding: 0px;
+    color: black;
+    font-weight: bold;
 }
 .MuiTableCell-body .MuiSvgIcon-root{
     margin: 5px;
@@ -194,6 +294,7 @@
         // }
     }    
 }
+
 .serviceContainer {
     display: flex;
     justify-content: space-evenly;
@@ -211,17 +312,17 @@
     display: flex;
     justify-content: left;
     align-items: baseline;
-    height: 100px;
-    >h4 , div {
+    height: 50px;
+    >h5 , div {
         margin-top: auto;
         margin-bottom: auto;
-        color : #ff6a00
+        color : #ff6a00;
+        font-size: 13px;
     }
     img {
-        margin-right: 30px;
-        margin-left: 30px;
-        width: 50px;
-        height: 50px;
+        margin-right: 30px;       
+        width: 35px;
+        height: 35px;
         border-radius: 50%;
     }
 }

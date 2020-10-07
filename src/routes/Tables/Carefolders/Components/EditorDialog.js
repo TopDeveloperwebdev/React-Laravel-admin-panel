@@ -33,12 +33,12 @@ class EditorDialog extends React.Component {
 
 	//Define function for close confirmation dialog box 
 	closeDialog() {
-		this.setState({ open: false });
+		this.setState({ open: false ,title: '', selectedDocuments: [], selectedService: '' ,isEdit: false});
 	};
 
 	//Define function for close confirmation dialog box and callback for delete item 
-	onCloseDialog(isTrue) {
-		this.setState({ open: false });
+	onCloseDialog(isTrue) {	
+		this.setState({ open: false , title: '', selectedDocuments: [], selectedService: '' });
 	};
 	onSubmit() {
 		if (this.state.title && this.state.selectedDocuments.length && this.state.selectedService) {
@@ -68,6 +68,15 @@ class EditorDialog extends React.Component {
 	}
 	onChangeTitle = (event) => {
 		this.setState({ title: event.target.value })
+	}
+	renderValue(selected){
+		console.log('selected' , selected);
+		let selectedDocs = [];
+		selected.forEach(id => {
+			let temp =  this.state.documentsList.filter(x => x.id == id);
+			selectedDocs.push(temp[0].title);
+		});
+		return selectedDocs.join(', ');
 	}
 	render() {
 
@@ -137,7 +146,7 @@ class EditorDialog extends React.Component {
 													value={this.state.selectedDocuments}
 													onChange={this.onchangeDocument.bind(this)}
 													input={<Input />}
-													renderValue={(selected) => selected.join(', ')}
+													renderValue={(selected) => this.renderValue(selected) }
 
 												>
 													{this.state.documentsList.map((ele) => (

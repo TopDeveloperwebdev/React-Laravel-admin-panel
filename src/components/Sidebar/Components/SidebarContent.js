@@ -7,7 +7,7 @@ import List from '@material-ui/core/List';
 import NavListItem from './NavListItem';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { toggleThirdMenu, toggleMenu, toggleFourthMenu, onLoadToggleMenu } from 'actions';
+import { toggleThirdMenu, toggleMenu, toggleFourthMenu, onLoadToggleMenu,onloadmenuwithpermission } from 'actions';
 
 class SidebarContent extends Component {
 
@@ -15,7 +15,8 @@ class SidebarContent extends Component {
 		super(props);
 		this.state = {
 			navLinks: this.props.menuListReducer.navLinks,
-			isLoad : false
+			isLoad: false,
+			isEdited: false
 		}
 	}
 
@@ -33,6 +34,7 @@ class SidebarContent extends Component {
 			}
 		}
 		this.onLoadToggleMenu(currentIndex);
+	
 	}
 
 	onLoadToggleMenu(index) {
@@ -73,69 +75,55 @@ class SidebarContent extends Component {
 			this.props.closeSidebar()
 		}
 	}
+	loadNavLink() {
+		let { permissions, instance_id } = this.props.authUser;
+		let links = this.state.navLinks.slice();
 
+		let navItems = [];
+		if(permissions){
+			permissions = JSON.parse(permissions);
+		}
+		console.log('1navLinks', this.state.navLinks ,permissions);
+		links && links.map((Navlink, index) => {
+			if (permissions.indexOf(Navlink.menu_title.split('.')[1].toLowerCase() + '_access') > -1) {
+				navItems.push(Navlink);	
+					
+			}
+			else if (Navlink.child_routes) {
+				let child_routes = [];
+				let NavlinkClone ={};
+				NavlinkClone = Object.assign(NavlinkClone, Navlink)
+				NavlinkClone.child_routes.map((child_route) => {
+					if (permissions.indexOf(child_route.menu_title.split('.')[1].toLowerCase() + '_access') > -1) {
+						child_routes.push(child_route);							
+					}
+				})
+				NavlinkClone.child_routes = child_routes;
+				if (child_routes.length) navItems.push(NavlinkClone);
+			}
+		});
+
+	
+		
+		if(this.state.navLinks.length == 9){
+			this.props.onloadmenuwithpermission(navItems)
+			this.setState({
+				navLinks: this.props.menuListReducer.navLinks 		
+			})		
+		}
+
+		
+	}
 
 	render() {
 		const { closeSidebar } = this.props;
-		let { permissions, instance_id } = this.props.authUser;
-		let navItems =[];
-		console.log('instance_id',instance_id);
-		if (instance_id) {
-			let links = this.state.navLinks;			
-			links && links.map((Navlink, index) => {
-			
-				if (permissions.indexOf(Navlink.menu_title.split('.')[1].toLowerCase() + '_access') > -1) {
-					navItems.push(Navlink);
-				}
-				else if (Navlink.child_routes) {
-					let child_routes = [];
-					Navlink.child_routes.map((child_route) => {
-						if (permissions.indexOf(child_route.menu_title.split('.')[1].toLowerCase() + '_access') > -1) {
-							child_routes.push(child_route);
-						}
-					})
-					Navlink.child_routes = child_routes;
-					if (child_routes.length) navItems.push(Navlink);
-				}
-			});
 	
-		}
-		else {
-				navItems = this.state.navLinks;
-		}
-
-		// let navItems = [];
-		// if (permissions) {
-		// 	permissions = JSON.parse(permissions);
-		// }
-		// let links = this.state.navLinks;
-		// if (instance_id) {
-		// 	links && links.map((Navlink, index) => {
-		// 		if (permissions.indexOf(Navlink.menu_title.split('.')[1] + '_access') > -1) {
-		// 			navItems.push(Navlink);
-		// 		}
-		// 		else if (Navlink.child_routes) {
-		// 			let child_routes = [];
-		// 			Navlink.child_routes.map((child_route) => {
-		// 				if (permissions.indexOf(child_route.menu_title.split('.')[1] + '_access') > -1) {
-		// 					child_routes.push(child_route);
-		// 				}
-		// 			})
-		// 			Navlink.child_routes = child_routes;
-		// 			if (child_routes.length) navItems.push(Navlink);
-		// 		}
-		// 	});
-		// }
-		// else {
-		// 	navItems = this.state.navLinks;
-		// 	console.log('navItems',navItems);
-		// }
-
-		// console.log('permissions', navItems);
+		this.loadNavLink();
+		 console.log('navItems' , this.state.navLinks);
 		return (
 			<div>
 				<List className="menu-wrap" style={{ padding: 0, }}>
-					{navItems && navItems.map((Navlink, index) => {
+					{this.state.navLinks ? this.state.navLinks.map((Navlink, index) => {
 						return (
 							<NavListItem
 								menu={Navlink} key={index}
@@ -147,7 +135,7 @@ class SidebarContent extends Component {
 							/>
 						)
 
-					})}
+					}) : ''}
 				</List>
 			</div>
 		);
@@ -163,5 +151,6 @@ export default withRouter(connect(mapStateToProps, {
 	toggleThirdMenu,
 	toggleMenu,
 	toggleFourthMenu,
-	onLoadToggleMenu
+	onLoadToggleMenu,
+	onloadmenuwithpermission
 })(SidebarContent));

@@ -4,7 +4,8 @@ import {
    TOGGLE_MENU,
    TOGGLE_THIRD_MENU,
 	TOGGLE_FOURTH_MENU,
-	ONLOAD_TOGGLE_MENU
+   ONLOAD_TOGGLE_MENU,
+   ONLOAD_TOGGLE_MENU_WITH_PERMISSION
 } from './Types'
 
 export const toggleMenu = (index) =>({
@@ -25,4 +26,8 @@ export const toggleFourthMenu = (index) => ({
 export const onLoadToggleMenu = (index) => ({
    type: ONLOAD_TOGGLE_MENU,
    index
+})
+export const onloadmenuwithpermission = (data) => ({
+   type: ONLOAD_TOGGLE_MENU_WITH_PERMISSION,
+   data
 })

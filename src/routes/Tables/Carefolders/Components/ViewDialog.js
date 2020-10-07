@@ -49,20 +49,16 @@ class ViewDialog extends React.Component {
 						<CloseIcon className="closeBtn" onClick={() => this.onCloseDialog(false)}></CloseIcon>
 					</Box>
 
-					<Box bgcolor="background.paper" className={`title-banner`} >
-						<Container>
-							<Box className="title-content" textAlign="center">
-								<Typography variant="h4">
-									{this.props.document.instanceName}
-								</Typography>
-								<Box pt={1} fontSize="body2.fontSize">
-									<img src={this.props.document.instanceLogo} />
-								</Box>
-							</Box>
-						</Container>
+					<Box className="title-content" textAlign="center">
+						<Typography variant="h4">
+							{this.props.document.instanceName}
+						</Typography>
+						<Box pt={1} fontSize="body2.fontSize">
+							<img src={this.props.document.instanceLogo} />
+						</Box>
 					</Box>
 					<Box className="p-10">
-						<Typography variant="h4" className="title">
+						<Typography variant="h5" className="title" textAlign="left">
 							{this.props.document.title}
 						</Typography>
 					</Box>
@@ -76,21 +72,13 @@ class ViewDialog extends React.Component {
 
 					</Box>
 
-
-					<Box textAlign="center" pt={2}>
-
-					</Box>
-					<Box bgcolor="background.paper" className={`title-banner`} >
-						<Container>
-							<Box className="title-content" textAlign="center">
-								<Box pt={1} fontSize="body2.fontSize">
-									instance Name : {this.props.document.instanceName}
-								</Box>
-								<Box pt={1} fontSize="body2.fontSize">
-									Contact Email : {this.props.document.email}
-								</Box>
-							</Box>
-						</Container>
+					<Box className="title-content" textAlign="center">
+						<Box pt={1} fontSize="body2.fontSize">
+							instance Name : {this.props.document.instanceName}
+						</Box>
+						<Box pt={1} fontSize="body2.fontSize">
+							Contact Email : {this.props.document.email}
+						</Box>
 					</Box>
 				</DialogContent>
 

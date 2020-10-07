@@ -24,7 +24,7 @@ import {
    AsyncUsersComponent,
    AsyncManageOrdersComponent,
    AsyncDocumentsComponent,
-   AsyncFoldersComponent,
+AsyncFoldersComponent,
    AsyncEmailTemplatesComponent,
    AsyncEmailTrigersComponent
 } from 'components/AsyncComponent/AsyncComponent';
@@ -164,14 +164,15 @@ const Tables = ({ match }) => {
          />
           <RouteWithRole
             path={`${match.url}/email-templtes`}
-            permission="emailTemplates_access"
+            permission="emailtemplates_access"
             component={AsyncEmailTemplatesComponent}
          />
            <RouteWithRole
             path={`${match.url}/email-trigers`}
-            permission="emailTrigers_access"
+            permission="emailtrigers_access"
             component={AsyncEmailTrigersComponent}
          />
+         
          {/* <Route path={`${match.url}/pharmacies`} component={AsyncPharmaciesComponent}></Route> */}
          {/* <Route path={`${match.url}/medication`} component={AsyncMedicationComponent}></Route> */}
          {/* <Route path={`${match.url}/patients`} component={AsyncPatientsTableComponent}></Route> */}
@@ -186,7 +187,7 @@ const Tables = ({ match }) => {
          {/* <Route path={`${match.url}/instances`} component={AsyncInstancesComponent}></Route> */}
          {/* <Route path={`${match.url}/users`} component={AsyncUsersComponent}></Route> */}
          {/* <Route path={`${match.url}/order`} component={AsyncOrderComponent}></Route> */}
-         <Route path={`${match.url}/`} component={AsyncFullPageUrlsComponent}></Route>
+         {/* <Route path={`${match.url}`} component={AsyncFullPageUrlsComponent}></Route> */}
       </Switch>
    )
 

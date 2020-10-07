@@ -61,28 +61,42 @@ class Documents extends Component {
 	addDocument() {
 		this.editorDialog.current.setState({ userInstance_id: this.instance_id });
 		this.editorDialog.current.openDialog();
+		setTimeout(() => {
+			const placeholderPickerItems = Array.prototype.slice.call(document.querySelectorAll('.ql-placeholder .ql-picker-item'));
+			placeholderPickerItems.forEach(item => item.textContent = item.dataset.value);
+			document.querySelector('.ql-placeholder .ql-picker-label').innerHTML
+				= 'Insert placeholder' + document.querySelector('.ql-placeholder .ql-picker-label').innerHTML;
+		}, 10);
 	}
 	viewDocument(content, email, instanceLogo, instanceName, title) {
 		this.setState({ selectedDocument: { content: content, instanceLogo: instanceLogo, email: email, instanceName: instanceName, title: title } });
-      
+
 		this.viewDialog.current.openDialog();
-	
+
 	}
 	editDocument(oldData) {
 
 		this.editorDialog.current.setState({ id: oldData.id, instance: oldData.instance_id, title: oldData.title, content: oldData.content, isEdit: true });
 		this.setState({ oldData });
 		this.editorDialog.current.openDialog();
+		setTimeout(() => {
+			const placeholderPickerItems = Array.prototype.slice.call(document.querySelectorAll('.ql-placeholder .ql-picker-item'));
+			placeholderPickerItems.forEach(item => item.textContent = item.dataset.value);
+			document.querySelector('.ql-placeholder .ql-picker-label').innerHTML
+				= 'Insert placeholder' + document.querySelector('.ql-placeholder .ql-picker-label').innerHTML;
+		}, 10);
 	}
 	onSubmit(popupResponse) {
 		if (popupResponse) {
 			userService.addDocuments(popupResponse).then(res => {
 				if (res.length) {
-					this.setState(prevState => {
-						const documents = [...prevState.documents];
-						documents.push(res[0]);
-						return { ...prevState, documents };
-					});
+					// this.setState(prevState => {
+					// 	const documents = [...prevState.documents];
+					// 	documents.push(res[0]);
+					// 	return { ...prevState, documents };
+					// });
+					// this.editorDialog.current.setState({ title: '', content: '' ,isEdit: false });
+					window.location.reload();
 				}
 			})
 		}
@@ -93,13 +107,15 @@ class Documents extends Component {
 
 			userService.editDocuments(popupResponse).then(res => {
 				if (res.length) {
-					this.setState(prevState => {
-						const documents = [...prevState.documents];
-						documents[documents.indexOf(this.state.oldData)] = res[0];
-						let oldData = {};
-						console.log('res documents', documents);
-						return { ...prevState, documents, oldData };
-					});
+					
+					// this.setState(prevState => {
+					// 	const documents = [...prevState.documents];
+					// 	documents[documents.indexOf(this.state.oldData)] = res[0];
+					// 	let oldData = {};						
+					// 	return { ...prevState, documents, oldData };
+					// });
+					// this.editorDialog.current.setState({ title: '', content: '' ,isEdit: false });
+					window.location.reload();
 				}
 
 
@@ -146,9 +162,9 @@ class Documents extends Component {
 				res.documents = res.documents.filter((a) => {
 					return docs.indexOf(a.id) > -1;
 				})
-			}	
-		
-		
+			}
+
+
 			this.setState({ documents: res.documents, instances: res.instances });
 		})
 	}

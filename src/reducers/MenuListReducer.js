@@ -3,7 +3,8 @@ import {
    TOGGLE_THIRD_MENU,
    TOGGLE_FOURTH_MENU,
    ONLOAD_TOGGLE_MENU,
-   ONLOAD_INITIAL_STATE
+   ONLOAD_INITIAL_STATE,
+   ONLOAD_TOGGLE_MENU_WITH_PERMISSION
 } from 'actions/Types'
 
 import menuItems from 'assets/Data/MenuItems';
@@ -35,6 +36,12 @@ export default (state = {...INITIAL_STATE}, action) => {
             ...state,
             navLinks: navlinksArrayNew
          }
+         case ONLOAD_TOGGLE_MENU_WITH_PERMISSION:          
+           console.log(' action.data' , action.data);
+            return {
+               ...state,
+               navLinks: action.data
+            }
       case TOGGLE_MENU:
          let navlinksArray = state.navLinks;
          let index = action.index;

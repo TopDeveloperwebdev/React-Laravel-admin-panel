@@ -89,11 +89,12 @@ class EmailTemplates extends Component {
 	onSubmit(popupResponse) {
 		if (popupResponse) {
 			userService.addMails(popupResponse).then(res => {
-				this.setState(prevState => {
-					const templates = [...prevState.templates];
-					templates.push(res);
-					return { ...prevState, templates };
-				});
+				// this.setState(prevState => {
+				// 	const templates = [...prevState.templates];
+				// 	templates.push(res);
+				// 	return { ...prevState, templates };
+				// });
+				window.location.reload();
 			})
 		}
 	}
@@ -102,12 +103,13 @@ class EmailTemplates extends Component {
 		if (popupResponse) {
 
 			userService.editMails(popupResponse).then(res => {
-				this.setState(prevState => {
-					const templates = [...prevState.templates];
-					templates[templates.indexOf(this.state.oldData)] = popupResponse;
-					let oldData = {};
-					return { ...prevState, templates, oldData };
-				});
+				// this.setState(prevState => {
+				// 	const templates = [...prevState.templates];
+				// 	templates[templates.indexOf(this.state.oldData)] = popupResponse;
+				// 	let oldData = {};
+				// 	return { ...prevState, templates, oldData };
+				// });
+				window.location.reload();
 
 			})
 		}
@@ -169,17 +171,17 @@ class EmailTemplates extends Component {
 		return (
 			<div className="tables-wrapper">
 				<SmallTitleBar
-					title={<IntlMessages id="sidebar.documents" />}
+					title={<IntlMessages id="sidebar.emailTemplates" />}
 					center
 				/>
 				<Container maxWidth="lg" className="documentContainer">
 					<Box px={{ xs: '12px', lg: 0 }} className="page-space">
 
 						<MaterialTable
-							title={<IntlMessages id="sidebar.documents" />}
+							title={<IntlMessages id="sidebar.emailTemplates" />}
 							columns={this.state.columns}
 							data={this.state.templates}
-							actions={[
+							actions={this.instance_id ? [
 								{
 									icon: "note_add_outlined",
 									tooltip: "my tooltip",
@@ -188,7 +190,7 @@ class EmailTemplates extends Component {
 										this.addDocument()
 									}
 								}
-							]}
+							] : []}
 						/>
 					</Box>
 				</Container>

@@ -33,22 +33,37 @@ class Pharmacies extends Component {
 				{ title: 'Phone', field: 'phone', type: 'string', required: true },
 				{ title: 'Fax', field: 'fax' },
 				{ title: 'Email', field: 'email' },
-				{ title: 'Password', field: 'password', type: 'string' },
+				{ title: 'Password', field: 'password', type: 'string' },			
 				{
-					title: 'Notifications', field: 'notifications', render: rowData => <Switch
-						size="small"
-						color="primary"
-					/>,
-					editComponent: rowData => <Switch
-						size="small"
-						color="primary"
-					/>
+					title: 'Notifications', field: 'notifications', render: rowData => {
+						return (<Switch
+							size="small"
+							color="primary"
+							checked={rowData.notifications ? true : false}
+						/>)
+
+					},
+					editComponent: rowData => {
+						console.log('rowData', rowData);
+						if (this.state.isEditNotifications && rowData.rowData.id) {
+							this.setState({ notifications: rowData.rowData.notifications ? true : false, isEditNotifications: false });
+						}
+						return (<Switch
+							size="small"
+							color="primary"
+							checked={this.state.notifications}
+							onChange={e => this.setState({ notifications: e.target.checked })}
+						/>)
+
+					}
 				},
 			],
 			selectedData: {
 				logo: '',
 			},
-			data: []
+			data: [],
+			notifications : true,
+			isEditNotifications : false
 		};
 
 	}
@@ -90,6 +105,7 @@ class Pharmacies extends Component {
 											resolve();
 
 											newData.instance_id = this.instance_id;
+											newData.notifications = this.state.notifications;
 											const formData = new FormData()
 											formData.append('file', newData.pharmacyLogo);
 											newData.pharmacyLogo = '';
@@ -102,7 +118,7 @@ class Pharmacies extends Component {
 													return { ...prevState, data };
 												});
 											});
-
+											this.setState({notifications : true , isEditNotifications : true})
 										}, 600);
 									}),
 								onRowUpdate: (newData, oldData) =>
@@ -114,6 +130,7 @@ class Pharmacies extends Component {
 												formData.append('file', newData.pharmacyLogo);
 												newData.pharmacyLogo = '';
 											}
+											newData.notifications = this.state.notifications;
 											formData.append('data', JSON.stringify(newData));
 									
 											userService.editPharmacies(formData).then(res => {
@@ -125,6 +142,7 @@ class Pharmacies extends Component {
 													});
 												}
 											})
+											this.setState({notifications : true , isEditNotifications : true})
 										}, 600);
 									}),
 								onRowDelete: oldData =>

@@ -71,6 +71,7 @@ class fullPageMenu extends Component {
 	}
 
 	render() {
+	
 		const { classes } = this.props;
 		let { menuItems, submenus } = this.state;
 
