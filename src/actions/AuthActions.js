@@ -44,12 +44,13 @@ export const signupUserWithJwt = (user, history) => (dispatch) => {
 				}
 				else {
 					dispatch({ type: JWT_LOGIN_FAILURE, payload: user.result });
-					NotificationManager.success(user.result);
+					NotificationManager.error(user.result);
 				}
 			},
 			error => {
 				dispatch({ type: JWT_LOGIN_FAILURE, payload: user.result });
-				NotificationManager.success(user.result);
+				NotificationManager.error(user.result);
+				
 			}
 		);
 }
@@ -71,7 +72,7 @@ export const signinUserWithJwt = (user, history) => (dispatch) => {
 				}
 				else {
 					dispatch({ type: JWT_LOGIN_FAILURE, payload: user.user });
-					NotificationManager.success(user.result);
+					NotificationManager.error(user.result);
 				}
 			},
 			error => {

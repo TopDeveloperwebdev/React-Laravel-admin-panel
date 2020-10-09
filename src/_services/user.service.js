@@ -37,7 +37,7 @@ export const userService = {
    showServices,
    editServices,
    deleteServices,
-
+   resetPassword,
    addIngredients,
    showIngredients,
    editIngredients,
@@ -86,7 +86,7 @@ export const userService = {
    sendMessage,
    submitComment
 };
-const serverUrl = 'https://betpool.tech/adminserver/api/';
+const serverUrl = 'http://base.mastermedi-1.vautronserver.de/backend_latest/api/';
 function signup(data) {
    console.log('data', data);
    const requestOptions = {
@@ -1039,6 +1039,20 @@ function showUsers(info) {
          return res
       });
 }
+function resetPassword(info) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(info)
+   };
+
+   return fetch(serverUrl + 'resetPassword', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
 function editUsers(data) {
 
    const requestOptions = {
@@ -1053,6 +1067,7 @@ function editUsers(data) {
          return res
       });
 }
+
 function deleteUsers(id) {
 
    const requestOptions = {

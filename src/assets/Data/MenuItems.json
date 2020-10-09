@@ -10,7 +10,7 @@
 			"isMultiple": false,
 			"fullPageMenu": true,
 			"desc": true,
-			"content": "Lorem ipsum dolor sit amet",
+			"content": "Dein persönliche bereich",
 			"child_routes": [
 				{
 					"menu_title": "sidebar.patients",
@@ -228,16 +228,20 @@
 					"isMenuOpen": false,
 					"fullPageMenu": false,
 					"third_child_routes": null
-				},
-				{
-					"menu_title": "sidebar.patients",
-					"path": "/app/patients",
-					"icon": "contacts",
-					"isMenuOpen": false,
-					"fullPageMenu": false,
-					"third_child_routes": null
 				}
 			]
+		},
+		{
+			"menu_title": "sidebar.patients",
+			"path": "/app/patients",
+			"icon": "contacts",
+			"category": "components",
+			"isMenuOpen": false,
+			"menu": "tables",
+			"fullPageMenu": false,
+			"desc": true,
+			"content": "",
+			"child_routes": null
 		},
 		{
 			"menu_title": "sidebar.fileManager",
@@ -309,8 +313,6 @@
 			"content": "",
 			"child_routes": null
 		},
-		
-		
 		{
 			"menu_title": "sidebar.permissions",
 			"path": "/app/permissions",

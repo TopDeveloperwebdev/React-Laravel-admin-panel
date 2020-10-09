@@ -3,8 +3,9 @@
 */
 import React, { Component } from 'react';
 import MaterialTable from 'material-table';
-import { Box, Grid, Button, Switch, Container, InputLabel, FormHelperText, NativeSelect, TextField, FormControl, Select, MenuItem } from '@material-ui/core';
+import { Checkbox, Box, Grid, Button, Switch, Container, InputLabel, FormHelperText, NativeSelect, TextField, FormControl, Select, MenuItem } from '@material-ui/core';
 import { userService } from '../../../_services';
+
 //Components
 import { SmallTitleBar } from 'components/GlobalComponents';
 import IntlMessages from 'util/IntlMessages';
@@ -173,9 +174,27 @@ class Orders extends Component {
 							/>)
 					}
 				},
-				{ title: 'Delivered', field: 'status', lookup: statusList }
+				{
+					title: 'Delivered', field: 'status', render: rowdata => {
+
+						return (<Checkbox
+							checked={this.state.checked[rowdata.id]}
+							color="primary"
+							onChange={(event) => this.handleChange(event.target.checked, rowdata)}
+						/>)
+					},
+					editComponent: rowdata => {
+						return (<Checkbox
+							checked={this.state.completed}
+							color="primary"
+							onChange={(event) => this.handleChangeCheckbox(event.target.checked, rowdata)}
+						/>)
+					}
+				}
+
 
 				// {
+
 				// 	title: 'Delivered', field: 'status', render: rowData => {
 				// 		return (
 				// 			rowData.status ? <div className="send">
@@ -206,8 +225,26 @@ class Orders extends Component {
 			medications: [],
 			isEditMedications: true,
 			patients: [],
+			completed: false,
+			checked: []
 		};
 
+	}
+	handleChange(value, data) {
+        console.log('v alue' , value); 
+		userService.editOrders({ id: data.id, status: value }).then(res => {
+			if (res) {
+				this.setState(prevState => {
+					const checked = [...prevState.checked];
+					checked[data.id] = value;
+					return { ...prevState, checked };
+				});
+			}
+		})
+
+	}
+	handleChangeCheckbox(value, data) {
+	   this.setState({completed : value})
 	}
 	onChange = (event) => {
 		this.setState({
@@ -257,12 +294,19 @@ class Orders extends Component {
 			let patients = res.patients;
 
 			console.log('res', res.orders);
+
+			let checked = [];
+			res.orders.forEach(element => {
+				checked[element.id] = element.status;
+			});
+
+
 			this.setState({
 				medications, medications,
 				data: res.orders,
-				patients: patients
+				patients: patients,
+				checked: checked
 			})
-
 		})
 
 	}
@@ -273,14 +317,15 @@ class Orders extends Component {
 				new Promise(resolve => {
 					resolve();
 
-					newData.user_id = this.instance_id;
-
+					newData.user_id = this.user_id;
+					newData.instance_id = this.instance_id;
 					newData.orderMedications = JSON.stringify(this.state.selectedMedications);
 					newData.patient = this.state.patient;
 					newData.date = this.state.date;
 					newData.note = this.state.note;
 					newData.pharmacy = this.state.pharmacy;
 					newData.doctor = this.state.doctor;
+					newData.status = this.state.completed;
 					if (this.state.selectedMedications.length && newData.patient && newData.note && newData.date && newData.pharmacy && newData.doctor) {
 						userService.addOrders(newData).then(res => {
 							console.log('res', res);
@@ -297,6 +342,7 @@ class Orders extends Component {
 					}
 
 				}),
+
 			onRowDelete: oldData =>
 				new Promise(resolve => {
 					setTimeout(() => {
@@ -342,7 +388,7 @@ class Orders extends Component {
 							title={<IntlMessages id="sidebar.order" />}
 							columns={this.state.columns}
 							data={this.state.data}
-							editable={EditableData}		
+							editable={EditableData}
 						/>
 					</Box>
 				</Container>

@@ -26,22 +26,7 @@ const PageTitleBarWithImage = (props) => {
 									</Box>
 									:
 									''
-								}
-								{buttonText ?
-									<Fragment>
-										{buttonLink ?
-											<Button variant="outlined" color="default" component={Link} to={buttonLink}>
-												{buttonText}
-											</Button>
-											:
-											<Button variant="outlined" color="default">
-												{buttonText}
-											</Button>
-										}
-									</Fragment>
-									:
-									''
-								}
+								}							
 							</Box>
 						</Grid>
 						<Grid item xs={12} sm={12} md={4}>

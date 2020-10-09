@@ -12,7 +12,7 @@ import { userService } from '../../../_services';
 import { SmallTitleBar } from 'components/GlobalComponents';
 import IntlMessages from 'util/IntlMessages';
 import FolderOutlinedIcon from '@material-ui/icons/FolderOutlined';
-
+import { NotificationManager } from 'react-notifications';
 // import domtoimage from 'dom-to-image';
 import * as jsPDF from 'jspdf';
 import PreViewDialog from '../Carefolders/Components/PreViewDialog';
@@ -27,7 +27,7 @@ let family_doctorsList = {};
 let resourcesList = [];
 let servicesList = [];
 let usersList = [];
-
+let instances = {};
 class PatientsTable extends Component {
    constructor(props) {
       super(props)
@@ -323,7 +323,7 @@ class PatientsTable extends Component {
          }
       });
       relationDocs = [...new Set(relationDocs)];
-      if (relationDocs) {
+      if (relationDocs.length) {
          let downloadDocs = this.state.documentsList.filter((a) => {
             return relationDocs.indexOf(a.id) > -1;
          })
@@ -344,9 +344,13 @@ class PatientsTable extends Component {
 
          }, 2000);
       }
+      else {
+         NotificationManager.warning("Es gibt keine Pflegeordner, die optionale Dienste anbieten.");
+      }
    }
    generatePdf(len) {
-      let InstanceInfo = { instanceName: this.state.downloadDocs[0].instanceName, instanceLogo: this.state.downloadDocs[0].instanceLogo, email: this.state.downloadDocs[0].email, name: this.state.downloadDocs[0].name };
+      console.log('instances',instances);
+      let InstanceInfo = { instanceName: instances.instanceName, instanceLogo: instances.instanceLogo, email: instances.email, name: instances.name };
       localStorage.setItem('instanceInfo', JSON.stringify(InstanceInfo));
       console.log('instanceInfo', InstanceInfo);
       savePDF(ReactDOM.findDOMNode(document.getElementById('downloadArea')), {
@@ -425,7 +429,9 @@ class PatientsTable extends Component {
          pharmaciesList = res.pharmacies.map(ele => {
             return ele.pharmacyName;
          })
-
+         if(res.instances.length){
+            instances = res.instances[0];
+         }
 
          // res.insurances.map(ele => {
          //    insuranceList[ele.insurances] = ele.insurances;

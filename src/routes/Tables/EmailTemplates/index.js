@@ -76,7 +76,7 @@ class EmailTemplates extends Component {
 
 	}
 	editDocument(oldData) {
-		this.editorDialog.current.setState({ id: oldData.id, title: oldData.title, content: oldData.body, isEdit: true, userInstance_id: this.instance_id });
+		this.editorDialog.current.setState({ id: oldData.id, title: oldData.title, content: oldData.body, selectedType : oldData.type, isEdit: true, userInstance_id: this.instance_id });
 		this.setState({ oldData });
 		this.editorDialog.current.openDialog();
 		setTimeout(() => {

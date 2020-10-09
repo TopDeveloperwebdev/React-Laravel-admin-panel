@@ -98,7 +98,7 @@ main{
 }
 .rowContainer {
     display: flex;
-    justify-content: space-between;
+    justify-content: left;
     width: 100%;
     p{
         font-size: 14px !important;
@@ -133,7 +133,7 @@ main{
     }
     .logo-mini{
         img{
-            height: 50px;
+            height: 60px;
             width: auto;
         }
       
@@ -150,10 +150,14 @@ main{
     }
 }
 .warp-row {
- display: flex;
- width: 100%;
- justify-content: start;
- flex-wrap: wrap;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 24px;
+    div{
+        color: white;
+    font-weight: 300;
+    }
 }
 .textArea {
     background: #f1f1f1c9 !important;
@@ -384,4 +388,164 @@ html{
             }
         }
     }
+}
+
+.orderdetail {
+    .title-fontSize {
+        font-size: 32px;
+        padding: 0px !important;
+        .titlecolor{
+            color: #505761;
+        }
+    }
+    .content-fontSize {            
+         font-size: 20px;
+    }
+    .gridItem {
+        position: relative;
+        .header {
+            display: flex;
+            justify-content: space-between;
+            >div{
+                width: 30%;
+                margin: auto 0px;
+                font-weight: bold;
+            }
+           
+        }
+        .printBtn {
+            width: 100px;
+            top: 50px;
+            right: -10px;
+            position: absolute;
+            .MuiSvgIcon-root {
+                font-size: 2.7rem;
+            }
+        }
+        .patient {
+
+        }
+        .medication {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+         .MuiCard-root {
+            width: 329px !important;
+            border-radius: 10px;
+            margin: 30px 0px;
+         }
+         
+        }
+     
+      
+    }
+    .gridItem-right {
+        background-color: #4d7df2 !important;
+        padding: 100px 48px 60px 62px !important;
+        .title-fontSize {
+            color: white;
+
+        }
+        .MuiTypography-root {
+            color: white;
+        }
+        >.MuiBox-root {
+            margin: 30px 0px;
+        }
+    }
+   
+}
+.title-content {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    flex-wrap: wrap;
+    >div {
+        width: 50%;
+    }
+}
+
+@media (max-width: 768px){
+    .MuiBox-root-532 {
+        padding: 60px !important;
+    }
+    .orderdetail {
+        .title-fontSize {
+            font-size: 6vw;
+            padding: 0px !important;
+            .titlecolor{
+                color: #505761;
+            }
+        }
+        .content-fontSize {            
+             font-size: 12px;
+        }
+        .gridItem {
+            position: relative;
+            .header {
+                display: flex;
+                justify-content: space-between;
+                >div{
+                    width: 100%;
+                    margin: auto 0px;
+                }
+                margin-bottom: 30px;
+               
+            }
+            .printBtn {
+                width: 100px;
+                top: 84px;
+                left: 18px;
+                right: 0px;
+                position: absolute;
+                .MuiSvgIcon-root {
+                    font-size: 2rem;
+                }
+                cursor: pointer;
+            }
+            .patient {
+    
+            }
+            .medication {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-around;
+             .MuiCard-root {
+                width: 329px !important;
+                border-radius: 10px;
+                margin: 30px 0px;
+             }
+             
+            }
+         
+            .MuiOutlinedInput-notchedOutline{
+                border-color: white;
+            }
+        }
+        .gridItem-right {
+            background-color: #4d7df2 !important;
+            padding: 20px !important;
+            .title-fontSize {
+                color: white;
+    
+            }
+            .MuiTypography-root {
+                color: white;
+            }
+            >.MuiBox-root {
+                margin: 30px 0px;
+            }
+        }
+       
+    }
+    .title-content {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        flex-wrap: wrap;
+        >div {
+            width: 100%;
+        }
+    }
+    
 }

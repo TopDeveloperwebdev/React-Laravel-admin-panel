@@ -42,7 +42,12 @@ class Documents extends Component {
 					</div>
 				},
 				{ title: 'Title', field: 'title' },
-				{ title: 'Created_At', field: 'created_at' },
+				{ title: 'Created_At', field: 'created_at',render: rowdata => {
+					return (<div>
+						{this.formate_date(rowdata.created_at)}
+
+					</div>)
+				}}, 
 				{
 					title: 'Actions', field: 'actions', render: row => <div>
 						<EditOutlinedIcon className="pointerIcon" onClick={() => this.editDocument(row)} />
@@ -57,6 +62,19 @@ class Documents extends Component {
 		this.viewDialog = React.createRef();
 		this.deleteDialog = React.createRef();
 		this.addDocument = this.addDocument.bind(this);
+	}
+	formate_date(dateString) {
+		let data = '';
+		
+		if (dateString) {
+			let str = dateString.split(" ");
+			let date = str[0].split('-');
+			let time = str[1].split(':');
+			data = "am " + date[2] + '.' + date[1] + '.' + date[0] + " um " + time[0] + ':' + time[1];
+			
+		}
+	
+		return data;
 	}
 	addDocument() {
 		this.editorDialog.current.setState({ userInstance_id: this.instance_id });
@@ -107,7 +125,7 @@ class Documents extends Component {
 
 			userService.editDocuments(popupResponse).then(res => {
 				if (res.length) {
-					
+
 					// this.setState(prevState => {
 					// 	const documents = [...prevState.documents];
 					// 	documents[documents.indexOf(this.state.oldData)] = res[0];

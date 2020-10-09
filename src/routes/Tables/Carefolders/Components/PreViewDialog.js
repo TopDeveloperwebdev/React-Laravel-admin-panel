@@ -96,9 +96,8 @@ class PreviewDialgo extends React.Component {
 	};
 	getUrl(logo) {
 		let url = '/backend_latest/file_storage/' + logo.split('/')[5];
-		let defaultUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSTbZrzTIuXAe01k5wgrhWGzPRPRliQygmBCA&usqp=CAU";
-
-		return defaultUrl
+		//let defaultUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSTbZrzTIuXAe01k5wgrhWGzPRPRliQygmBCA&usqp=CAU";
+		return url
 	}
 	render() {
 		return (

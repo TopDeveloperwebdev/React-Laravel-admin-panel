@@ -14,7 +14,8 @@ import GeneralSettings from './Components/GeneralSettings';
 import AccountSettings from './Components/AccountSettings';
 import EmailSettings from './Components/EmailSettings';
 import { PageTitleBarWithImage } from 'components/GlobalComponents';
-
+import SettingsOutlinedIcon from '@material-ui/icons/SettingsOutlined';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 function TabPanel(props) {
 	const { children, value, index, dir, ...other } = props;
 	return (
@@ -40,7 +41,7 @@ function a11yProps(index) {
 }
 
 const styles = theme => ({
-	root:{
+	root: {
 		marginLeft: -9,
 		marginRight: -9,
 		'& div:nth-child(3)': {
@@ -51,7 +52,7 @@ const styles = theme => ({
 			marginRight: -10,
 		},
 	},
-	titleBar:{
+	titleBar: {
 		'& .MuiContainer-root': {
 			'& >div': {
 				'& >div:last-child': {
@@ -86,12 +87,12 @@ class UserSettings extends React.Component {
 		const { tabIndex } = this.state;
 		return (
 			<div className="hk-user-settings">
-				<Box className= {`${classes.titleBar} white-btn-color`}>
+				<Box className={`${classes.titleBar} white-btn-color`}>
 					<PageTitleBarWithImage
-                  title={<IntlMessages id="component.settings" />}
+						title={<IntlMessages id="component.settings" />}
 						desc="Manage all your basic, privacy and email account settings at an ease."
 						image="settings.png"
-                  buttonText={<IntlMessages id="component.home" />}
+						buttonText={<IntlMessages id="component.home" />}
 						buttonLink="/app/dashboard/dashboard1"
 					/>
 				</Box>
@@ -110,9 +111,8 @@ class UserSettings extends React.Component {
 										scrollButtons="on"
 										aria-label="scrollable auto tabs example"
 									>
-                              <Tab label={<><Box component="span" fontSize="20px" className="material-icons-outlined" mr={1} >Settings </Box><IntlMessages id="component.general" /></>} {...a11yProps(0)} />
-                              <Tab label={<><Box component="span" fontSize="20px" className="material-icons-outlined" mr={1} >Lock</Box><IntlMessages id="component.account" /></>} {...a11yProps(1)} />
-                              <Tab label={<><Box component="span" fontSize="20px" className="material-icons-outlined" mr={1} >Allow functions</Box></>} {...a11yProps(2)} />
+										<Tab label={<><SettingsOutlinedIcon /><IntlMessages id="component.general" /></>} {...a11yProps(0)} />
+										<Tab label={<><LockOutlinedIcon /><IntlMessages ml={5} id="component.account" /></>} {...a11yProps(1)} />
 									</Tabs>
 								</AppBar>
 								<SwipeableViews
