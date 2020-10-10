@@ -48,23 +48,13 @@ class ViewDialog extends React.Component {
 				open={this.state.open}
 				onClose={this.closeDialog.bind(this)}
 				aria-labelledby="responsive-dialog-title"
-				className="confirmation-dialog"
+				className="confirmation-dialog document"
 			>
 				<DialogContent className="p-10">
 					<Box>
 						<CloseIcon className="closeBtn" onClick={() => this.onCloseDialog(false)}></CloseIcon>
 					</Box>
-
-					<Container>
-						<Box className="title-content" textAlign="center">
-							<Typography variant="h4">
-								{this.props.document.instanceName}
-							</Typography>
-							<Box pt={1} fontSize="body2.fontSize">
-								<img src={this.props.document.instanceLogo} width="50px"/>
-							</Box>
-						</Box>
-					</Container>
+                    <Box >	<img className="logo" src={this.props.document.instanceLogo} width="50px"/></Box>
 					<Box className="p-10">
 						<Typography variant="h4" className="title">
 							{this.props.document.title}

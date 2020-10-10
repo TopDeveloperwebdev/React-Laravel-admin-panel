@@ -131,6 +131,7 @@ class PatientsTable extends Component {
             {
                title: 'Services', field: 'services', render: props => {
                   let selectedServices = JSON.parse(props.services);
+                  console.log('asdfadf', props.services);
                   if (!selectedServices) {
                      selectedServices = [];
                   }
@@ -138,7 +139,7 @@ class PatientsTable extends Component {
                      <div className="serviceContainer">
                         <div>
                            {
-                              servicesList.map((value, index) => {
+                              selectedServices.map((value, index) => {
                                  return (<div key={index}>{value}</div>)
                               })
                            }
@@ -322,12 +323,13 @@ class PatientsTable extends Component {
             relationDocs = relationDocsTemps.concat(folderDocs);
          }
       });
+      console.log('ssssssss' , relationDocs.length , services);
       relationDocs = [...new Set(relationDocs)];
       if (relationDocs.length) {
          let downloadDocs = this.state.documentsList.filter((a) => {
             return relationDocs.indexOf(a.id) > -1;
          })
-         let name = patient.firstName + patient.lastName;
+         let name = patient.firstName + ' ' + patient.lastName;
          let street = patient.streetNr;
          let zip = patient.zipCode;
          let city = patient.city;
@@ -349,7 +351,7 @@ class PatientsTable extends Component {
       }
    }
    generatePdf(len) {
-      console.log('instances',instances);
+      console.log('instances', instances);
       let InstanceInfo = { instanceName: instances.instanceName, instanceLogo: instances.instanceLogo, email: instances.email, name: instances.name };
       localStorage.setItem('instanceInfo', JSON.stringify(InstanceInfo));
       console.log('instanceInfo', InstanceInfo);
@@ -396,9 +398,11 @@ class PatientsTable extends Component {
       });
    }
    onChangeServices = (event) => {
+
       this.setState({
          selectedservice: [...event.target.value]
       });
+      console.log('selectedservices', this.state.selectedservice, [...event.target.value]);
    }
    componentWillMount() {
       this.defaultUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSTbZrzTIuXAe01k5wgrhWGzPRPRliQygmBCA&usqp=CAU";
@@ -429,7 +433,7 @@ class PatientsTable extends Component {
          pharmaciesList = res.pharmacies.map(ele => {
             return ele.pharmacyName;
          })
-         if(res.instances.length){
+         if (res.instances.length) {
             instances = res.instances[0];
          }
 
@@ -506,9 +510,10 @@ class PatientsTable extends Component {
                      formData.append('file', newData.picture);
                      newData.picture = '';
                   }
-                  if (this.state.selected.length) newData.resources = JSON.stringify(this.state.selected);
-                  if (this.state.selectedservice.length) newData.services = JSON.stringify(this.state.selectedservice);
-                  if (this.state.selectedUsers.length) newData.userGroup = JSON.stringify(this.state.selectedUsers);
+                  console.log('dddddddddd---', this.state.selectedservice);
+                  newData.resources = JSON.stringify(this.state.selected);
+                  newData.services = JSON.stringify(this.state.selectedservice);
+                  newData.userGroup = JSON.stringify(this.state.selectedUsers);
                   if (this.state.insurance) newData.insurance = this.state.insurance;
                   if (this.state.familyDoctor) newData.familyDoctor = this.state.familyDoctor;
                   if (this.state.pharmacy) newData.pharmacy = this.state.pharmacy;
@@ -624,7 +629,8 @@ class PatientsTable extends Component {
                            icon: 'folder_outlined_icon',
                            tooltip: 'Download Care Folder',
                            onClick: (event, rowData) => {
-                              this.previewDocument(servicesList, rowData)
+                              let currentService = JSON.parse(rowData.services);
+                              this.previewDocument(currentService, rowData)
                            }
                         }
                      ] : []}

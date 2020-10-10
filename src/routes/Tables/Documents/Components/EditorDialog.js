@@ -54,7 +54,7 @@ class EditorDialog extends React.Component {
 			const nameTag = `<span class='name'>[name]</span>`;
 			const streetTag = `<span class='street'>[street]</span>`;
 			const zipTag = `<span class='zip'>[zip]</span>`;
-			const cityTag = `<span class='city'>city]</span>`;
+			const cityTag = `<span class='city'>[city]</span>`;
 			const insuranceTag = `<span class='insurance'>[insurance]</span>`;
 			const insuranceNrTag = `<span class='insuranceNr'>[insuranceNr]</span>`;
 			const birthdayTag = `<span class='birthday'>[birthday]</span>`;
@@ -112,9 +112,7 @@ class EditorDialog extends React.Component {
 
 		this.setState({ content: content, contentHeight: contentHeight, contentWidth: contentWidth });
 	}
-	instanceChanged(e) {
-		this.setState({ instance: e.target.value });
-	}
+
 	titleChanged(e) {
 		this.setState({ title: e.target.value });
 	}
@@ -155,68 +153,8 @@ class EditorDialog extends React.Component {
 							value={this.state.title}
 							onChange={this.titleChanged.bind(this)}
 							defaultValue="Title..."
-						/>
-						{
-							!this.state.userInstance_id ? <Box>
-								{this.props.instances.length ?
-
-									<FormControl className="selection-wrap full-width" >
-										<InputLabel id="page-size">Please Select a Instance</InputLabel>
-										<Select
-											labelId="page-size"
-											id="page-size"
-											value={this.state.instance}
-											onChange={this.instanceChanged.bind(this)}
-											defaultValue={1}
-										>{
-												this.props.instances.map(instance => {
-													return (<option key={instance.id} value={instance.id}>{instance.instanceName}</option>)
-												})
-
-											}
-
-
-										</Select>
-									</FormControl>
-									:
-									<div>
-										<Link to="/app/instances">Add New Instances</Link>
-									</div>
-
-								}
-
-							</Box> :
-								''
-						}
-
+						/>		
 					</Box>
-
-
-					{/* <Box textAlign="center" id="editArea" pt={2}>
-						<ReactSummernote
-							onInit={this.onInit.bind(this)}
-							options={{
-								height: 350,
-								dialogsInBody: true,
-								toolbar: [
-									['style', ['style']],
-									['font', ['bold', 'underline', 'clear']],
-									['fontname', ['fontname']],
-									['para', ['ul', 'ol', 'paragraph']],
-									['color', ['color']],
-									['table', ['table']],
-									['view', ['fullscreen', 'codeview']],
-									['mybutton', ['Apotheken']],
-
-								],
-								buttons: {
-									Apotheken: Apotheken,
-								}
-							}}
-							onChange={(content) => this.onChange(content)}
-						/>
-					</Box> */}
-
 					<div className="text-editor" id="editArea">
 						<ReactQuill
 							theme={'snow'}

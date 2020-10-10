@@ -26,10 +26,11 @@ class Orders extends Component {
 					editComponent: rowData => <div>
 						{rowData.id}
 					</div>
+					, filtering: false
 				},
 				{
 
-					title: 'Medications', field: 'orderMedications', render: rowData => {
+					title: 'Medications*', field: 'orderMedications', render: rowData => {
 						let selectedMedications = JSON.parse(rowData.orderMedications);
 						return (
 							<div>
@@ -62,15 +63,16 @@ class Orders extends Component {
 							/>
 						)
 
-					}
+					},
+					filtering: false
 				},
 				{
-					title: 'Patient', field: 'patient', render: rowData => {
-						let patient = this.state.patients.filter((a) => a.id == rowData.patient);
-						return <div>
-							{patient[0].firstName} {patient[0].lastName}
-						</div>
+					title: 'Patient*', field: 'patient', render: rowData => {						
+						return (<div>
+							{this.handleChangeIdToName(rowData.patient)}
+						</div>)
 					},
+
 					editComponent: rowData => {
 						return (
 							<Select
@@ -86,10 +88,16 @@ class Orders extends Component {
 								}
 
 							</Select>)
-					}
+					},
+					customFilterAndSearch: (term, rowData) => {
+					 let patientName = this.handleChangeIdToName(rowData.patient);
+					 patientName = patientName.toLowerCase();
+						return patientName.indexOf(term.toLowerCase()) > -1;
+					},
+					filtering: false
 				},
 				{
-					title: 'Pharmacy', field: 'pharmacy', render: rowData => {
+					title: 'Pharmacy*', field: 'pharmacy', render: rowData => {
 						return (<div>
 							{rowData.pharmacy}
 						</div>)
@@ -105,10 +113,11 @@ class Orders extends Component {
 									readOnly: true,
 								}}
 							/>)
-					}
+					},
+					filtering: false
 				},
 				{
-					title: 'Family Doctor', field: 'doctor', render: rowData => {
+					title: 'Family Doctor*', field: 'doctor', render: rowData => {
 						return (<div>
 							{rowData.doctor}
 						</div>)
@@ -124,11 +133,12 @@ class Orders extends Component {
 									readOnly: true,
 								}}
 							/>)
-					}
+					},
+					filtering: false
 				},
 
 				{
-					title: 'Due Date', field: 'date', render: rowData => {
+					title: 'Due Date*', field: 'date', render: rowData => {
 						return (<div>
 							{this.formate_date(rowData.date)}
 
@@ -151,7 +161,8 @@ class Orders extends Component {
 								onChange={this.handleChangeDate}
 							/>
 						)
-					}
+					},
+					filtering: false
 				},
 				{
 					title: 'Note', field: 'note', render: rowData => {
@@ -172,7 +183,8 @@ class Orders extends Component {
 								value={this.state.note}
 								onChange={this.handleChangeNote}
 							/>)
-					}
+					},
+					filtering: false
 				},
 				{
 					title: 'Delivered', field: 'status', render: rowdata => {
@@ -189,31 +201,9 @@ class Orders extends Component {
 							color="primary"
 							onChange={(event) => this.handleChangeCheckbox(event.target.checked, rowdata)}
 						/>)
-					}
+					},
+					lookup: { 1: 'YES', 0: 'NO' },
 				}
-
-
-				// {
-
-				// 	title: 'Delivered', field: 'status', render: rowData => {
-				// 		return (
-				// 			rowData.status ? <div className="send">
-				// 				YES
-				// 		</div> :
-				// 				<div className="notsend">
-				// 					NO
-				// 	</div>)
-				// 	},
-				// 	editComponent: rowData => {
-				// 		return (
-				// 			rowData.rowData.status ? <div className="send">
-				// 				YES
-				// 		</div> :
-				// 				<div className="notsend">
-				// 					NO
-				// 	</div>)
-				// 	},
-				// }
 			],
 
 			pharmacy: '',
@@ -231,7 +221,7 @@ class Orders extends Component {
 
 	}
 	handleChange(value, data) {
-        console.log('v alue' , value); 
+		console.log('v alue', value);
 		userService.editOrders({ id: data.id, status: value }).then(res => {
 			if (res) {
 				this.setState(prevState => {
@@ -244,8 +234,9 @@ class Orders extends Component {
 
 	}
 	handleChangeCheckbox(value, data) {
-	   this.setState({completed : value})
+		this.setState({ completed: value })
 	}
+
 	onChange = (event) => {
 		this.setState({
 			selectedMedications: [...event.target.value]
@@ -260,6 +251,12 @@ class Orders extends Component {
 		}
 
 		return date;
+	}
+	handleChangeIdToName(id) {	
+		let patient = this.state.patients.filter((a) => a.id == id);
+		let patientName = '';
+		if(patient.length)patientName = patient[0].firstName + ' '+ patient[0].lastName;
+		return patientName;
 	}
 
 	handleChangePatients = (event) => {
@@ -326,7 +323,7 @@ class Orders extends Component {
 					newData.pharmacy = this.state.pharmacy;
 					newData.doctor = this.state.doctor;
 					newData.status = this.state.completed;
-					if (this.state.selectedMedications.length && newData.patient && newData.note && newData.date && newData.pharmacy && newData.doctor) {
+					if (this.state.selectedMedications.length && newData.patient && newData.date && newData.pharmacy && newData.doctor) {
 						userService.addOrders(newData).then(res => {
 							console.log('res', res);
 							this.setState(prevState => {
@@ -388,7 +385,12 @@ class Orders extends Component {
 							title={<IntlMessages id="sidebar.order" />}
 							columns={this.state.columns}
 							data={this.state.data}
+							options={{
+								search: true,
+								filtering: true
+							}}
 							editable={EditableData}
+
 						/>
 					</Box>
 				</Container>
