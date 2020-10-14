@@ -23,7 +23,7 @@ let INIT_STATE = {
 	user: null,
 	instance_id: 0,
 	loading: false,
-	email: 'hulktestuser@hulk.com',
+	email: 'deine@email.de',
 	password: '12345678',
 	instance_id: 1,
 	isOwner: 1,

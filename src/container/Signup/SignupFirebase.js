@@ -131,11 +131,7 @@ class SignupFirebase extends Component {
 			<div className="session-wrapper session-wrapper-v2">
 				<Box mx="auto" className="sign-box-wrap" >
 					<Box textAlign="center" className="session-logo" >
-						{isDarkModeActive ?
-							<img className="img-fluid" alt="img" width="100" src={require(`assets/Images/hulk-light.png`)} />
-							:
-							<img className="img-fluid" alt="img" width="100" src={require(`assets/Images/hulk-dark.png`)} />
-						}
+					  <h2>BASE</h2>
 					</Box>
 					<Box className="sign-box" display="flex" justifyContent="center" alignItems="center">
 						<div className="left-content log-tab">

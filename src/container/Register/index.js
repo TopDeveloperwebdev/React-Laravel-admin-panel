@@ -91,9 +91,9 @@ class Register extends Component {
 								<div className="w-100">
 									<div className="session-logo">
 										{isDarkModeActive ?
-											<img className="img-fluid" alt="img" width="100" src={require(`assets/Images/hulk-light.png`)} />
+											<img className="img-fluid" alt="img" width="100" src={require(`assets/Images/base-light.png`)} />
 											:
-											<img className="img-fluid" alt="img" width="100" src={require(`assets/Images/hulk-dark.png`)} />
+											<img className="img-fluid" alt="img" width="100" src={require(`assets/Images/base.png`)} />
 										}
 									</div>
 									<form className="signup-form">

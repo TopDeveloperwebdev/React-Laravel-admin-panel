@@ -58,7 +58,7 @@ export default function Sidebar(props) {
 				<div className={classes.drawerHeader}>
 						<Box className="site-logo" display="inline-flex" alignItems="center">
 							<Box component={Link} to="/app/dashboard/dashboard1" className="logo-mini" lineHeight={0.8}>
-								<img src={require('assets/Images/hulk-light.png')} alt="site-logo" width="90" height="22" />
+								<img src={require('assets/Images/base-light.png')} alt="site-logo" width="90" height="22" />
 							</Box>
 						</Box>
 					</div>

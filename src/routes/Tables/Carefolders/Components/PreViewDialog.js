@@ -8,7 +8,7 @@ import CloseIcon from '@material-ui/icons/Close';
 
 import { SmallTitleBar } from '../../../../components/GlobalComponents';
 import IntlMessages from 'util/IntlMessages';
-
+import { styles } from './styles.js';
 class PreviewDialgo extends React.Component {
 	constructor(props) {
 		super(props);
@@ -161,6 +161,7 @@ class PreviewDialgo extends React.Component {
 						})
 
 						}
+						<style>{styles}</style>
 					</div>
 
 				</DialogContent>

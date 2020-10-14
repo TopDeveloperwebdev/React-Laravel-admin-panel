@@ -13,8 +13,6 @@ import { SmallTitleBar } from 'components/GlobalComponents';
 import IntlMessages from 'util/IntlMessages';
 import FolderOutlinedIcon from '@material-ui/icons/FolderOutlined';
 import { NotificationManager } from 'react-notifications';
-// import domtoimage from 'dom-to-image';
-import * as jsPDF from 'jspdf';
 import PreViewDialog from '../Carefolders/Components/PreViewDialog';
 import PageTemplate from './Components/PageTemplates';
 
@@ -28,6 +26,7 @@ let resourcesList = [];
 let servicesList = [];
 let usersList = [];
 let instances = {};
+let instanceNames = [];
 class PatientsTable extends Component {
    constructor(props) {
       super(props)
@@ -131,7 +130,7 @@ class PatientsTable extends Component {
             {
                title: 'Services', field: 'services', render: props => {
                   let selectedServices = JSON.parse(props.services);
-                  console.log('asdfadf', props.services);
+
                   if (!selectedServices) {
                      selectedServices = [];
                   }
@@ -190,9 +189,34 @@ class PatientsTable extends Component {
                }
             },
             {
-               title: 'User group', field: 'userGroup', render: props => {
+               title: 'Instance', field: 'instance_id', render: rowData => {
+                  let temp = null;
+                  temp = instanceNames.find((x,i) =>  i == rowData.instance_id);
+                  if (temp) {
+                     return (<div>
+                        {instanceNames[rowData.instance_id]}
+                     </div>)
+                  }
+                  else return <div></div>;
+
+               }, editComponent: rowData => {
+                  let temp = null;
+                  temp = instanceNames.find((x,i) =>  i == rowData.rowData.instance_id);
+                  if (temp) {
+                     return (<div>
+                        {instanceNames[rowData.rowData.instance_id]}
+                     </div>)
+                  }
+                  else {
+                     return <div></div>;
+                  }
+               }
+            },
+            {
+               title: 'Related Users', field: 'userGroup', render: props => {
                   let selectedUsers = [];
                   selectedUsers = JSON.parse(props.userGroup);
+
                   if (!selectedUsers) {
                      selectedUsers = [];
                   }
@@ -215,6 +239,7 @@ class PatientsTable extends Component {
                      if (!selectedUsers) {
                         selectedUsers = [];
                      }
+
                      if (this.state.isEditUsers) {
                         this.setState({ selectedUsers: selectedUsers, isEditUsers: false })
                      }
@@ -231,29 +256,6 @@ class PatientsTable extends Component {
                }
             },
             { title: 'Status', field: 'status', lookup: statusList },
-            // {
-            //    title: 'Serviceplan', field: 'serviceplan', render: rowData => {
-            //       return (<Switch
-            //          size="small"
-            //          color="primary"
-            //          checked={rowData.serviceplan ? true : false}
-            //       />)
-
-            //    },
-            //    editComponent: rowData => {
-
-            //       if (this.state.isEditServiceplan && rowData.rowData.id) {
-            //          this.setState({ serviceplan: rowData.rowData.serviceplan ? true : false, isEditServiceplan: false });
-            //       }
-            //       return (<Switch
-            //          size="small"
-            //          color="primary"
-            //          checked={this.state.serviceplan}
-            //          onChange={e => this.setState({ serviceplan: e.target.checked })}
-            //       />)
-
-            //    }
-            // },
             {
                title: 'Serviceplan', field: 'serviceplan', render: rowData => {
                   return (<Switch
@@ -323,7 +325,7 @@ class PatientsTable extends Component {
             relationDocs = relationDocsTemps.concat(folderDocs);
          }
       });
-      console.log('ssssssss' , relationDocs.length , services);
+      console.log('ssssssss', relationDocs.length, services);
       relationDocs = [...new Set(relationDocs)];
       if (relationDocs.length) {
          let downloadDocs = this.state.documentsList.filter((a) => {
@@ -393,8 +395,10 @@ class PatientsTable extends Component {
       });
    }
    onChangeUsers = (event) => {
+      let selectedUsers = [...event.target.value];
+      if(selectedUsers.length == usersList.length - 1 || selectedUsers.indexOf('all') > -1)selectedUsers = ['all'];     
       this.setState({
-         selectedUsers: [...event.target.value]
+         selectedUsers: selectedUsers
       });
    }
    onChangeServices = (event) => {
@@ -405,7 +409,7 @@ class PatientsTable extends Component {
       console.log('selectedservices', this.state.selectedservice, [...event.target.value]);
    }
    componentWillMount() {
-      this.defaultUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSTbZrzTIuXAe01k5wgrhWGzPRPRliQygmBCA&usqp=CAU";
+      this.defaultUrl = "http://base.mastermedi-1.vautronserver.de/backend_latest/file_storage/1602322608icon-patient-kl.png";
       let user = JSON.parse(localStorage.getItem('user'));
       this.instance_id = user.instance_id;
       console.log('res', this.instance_id);
@@ -422,6 +426,7 @@ class PatientsTable extends Component {
          usersList = res.users.map(ele => {
             return ele.name;
          })
+         usersList.push("all");
          family_doctorsList = res.family_doctors.map(ele => {
             return ele.doctorName;
          })
@@ -435,7 +440,14 @@ class PatientsTable extends Component {
          })
          if (res.instances.length) {
             instances = res.instances[0];
+
          }
+         instanceNames = [];
+         res.instanceNames.map(ele => {
+           
+           instanceNames[ele.id] = ele.instanceName;
+         })
+         console.log('resinstanceName', instanceNames)
 
          // res.insurances.map(ele => {
          //    insuranceList[ele.insurances] = ele.insurances;

@@ -252,9 +252,9 @@ class HulkAppLayout extends Component {
 						<div className="text-center">
 							<Box mb={3}>
 								{isDarkModeActive ?
-									<img alt="site-logo" width="110" height="30" src={require(`assets/Images/hulk-light.png`)} />
+									<img alt="site-logo" width="110" height="30" src={require(`assets/Images/base-light.png`)} />
 									:
-									<img alt="site-logo" width="110" height="30" src={require(`assets/Images/hulk-dark.png`)} />
+									<img alt="site-logo" width="110" height="30" src={require(`assets/Images/base.png`)} />
 								}
 							</Box>
 							<CircularProgress />

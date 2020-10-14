@@ -86,7 +86,7 @@ export const userService = {
    sendMessage,
    submitComment
 };
-const serverUrl = 'http://base.mastermedi-1.vautronserver.de/backend_latest/api/';
+const serverUrl = 'http://localhost:8000/api/';
 function signup(data) {
    console.log('data', data);
    const requestOptions = {

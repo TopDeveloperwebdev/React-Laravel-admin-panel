@@ -2,9 +2,7 @@
     Use the DejaVu Sans font for displaying and embedding in the PDF file.
     The standard PDF fonts do not support Unicode characters.
 */
-p,div {
-    font-family: "DejaVu Sans", "Arial", sans-serif;  
-}
+
 main{
     overflow-y: auto;
 }
@@ -37,8 +35,15 @@ main{
     font-style: italic;
     src: url("https://kendo.cdn.telerik.com/2017.2.621/styles/fonts/DejaVu/DejaVuSans-Oblique.ttf") format("truetype");
 }
-h4{
-    font-family: "DejaVu Sans", "Arial", sans-serif !important; 
+.splash {
+  position : absolute ; 
+  top : calc(50vh - 250px);
+   left :calc(50vw - 250px)
+}
+.site-logo-dashboard{
+    width : 95px;
+     height : 25px;
+     color: white;
 }
 .send{
     background: #8adc8a;
@@ -393,7 +398,7 @@ html{
         }
     }
 }
-.document {
+.document,#downloadArea {
     .title-content{
         flex-direction: column;
         text-align: left;
@@ -403,6 +408,13 @@ html{
         padding: 30px 10px;
         
     }
+    // h4{
+    //     font-family: Arial, Helvetica, sans-serif !important; 
+    // }
+    // p,div {
+    //     font-family: Arial, Helvetica, sans-serif  
+
+    // }
 }
 .orderdetail {
     .title-fontSize {

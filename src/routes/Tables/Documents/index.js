@@ -17,16 +17,7 @@ import { userService } from '../../../_services';
 import EditorDialog from './Components/EditorDialog';
 import ViewDialog from './Components/ViewDialog';
 import DeleteDialog from './Components/DeleteDialog';
-window.patients = {
-	name: [],
-	street: [],
-	zip: [],
-	city: [],
-	insurance: [],
-	insuranceNr: [],
-	birthday: [],
-	phone: []
-};
+
 class Documents extends Component {
 	constructor(props) {
 		super(props)
@@ -35,6 +26,7 @@ class Documents extends Component {
 			documents: [],
 			selectedDocument: {},
 			oldData: {},
+			patients : [],
 			columns: [
 				{
 					title: 'Files', field: 'action', render: row => <div>
@@ -86,8 +78,14 @@ class Documents extends Component {
 				= 'Insert placeholder' + document.querySelector('.ql-placeholder .ql-picker-label').innerHTML;
 		}, 10);
 	}
-	viewDocument(content, email, instanceLogo, instanceName, title) {
+	viewDocument(content, email, instanceLogo, instanceName, title) {	
+		let patientList = [];
+		this.state.patients.map(element => {
+			patientList.push(element.firstName);
+		});
+
 		this.setState({ selectedDocument: { content: content, instanceLogo: instanceLogo, email: email, instanceName: instanceName, title: title } });
+		this.viewDialog.current.setState({patients : patientList});
 
 		this.viewDialog.current.openDialog();
 
@@ -181,9 +179,9 @@ class Documents extends Component {
 					return docs.indexOf(a.id) > -1;
 				})
 			}
+             console.log('patients',res.patients);
 
-
-			this.setState({ documents: res.documents, instances: res.instances });
+			this.setState({ documents: res.documents, instances: res.instances , patients : res.patients });
 		})
 	}
 
@@ -225,6 +223,7 @@ class Documents extends Component {
 				<ViewDialog
 					ref={this.viewDialog}
 					document={this.state.selectedDocument}
+					patientList = {this.state.patients}
 
 				/>
 				<DeleteDialog

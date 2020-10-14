@@ -10,6 +10,8 @@ import { SmallTitleBar, CustomCard } from 'components/GlobalComponents';
 import { userService } from '../../_services';
 import ReactToPrint from 'react-to-print';
 import PrintOutlinedIcon from '@material-ui/icons/PrintOutlined';
+import Loadable from 'react-loadable';
+import { HulkPageLoader } from '../../components/GlobalComponents';
 let orderDetail = {};
 
 class OrderDetail extends Component {
@@ -28,7 +30,8 @@ class OrderDetail extends Component {
 			lastUser: {},
 			comment: "",
 			orderId: '',
-			commentList: []
+			commentList: [],
+			loading : false
 
 		}
 		this.submitComment = this.submitComment.bind(this);
@@ -76,7 +79,7 @@ class OrderDetail extends Component {
 				lastOrder.date = this.formate_date(lastOrder.created_at);
 			}
 
-			this.setState({ order: order, lastOrder: lastOrder });
+			this.setState({ order: order, lastOrder: lastOrder , loading : true });
 
 		})
 
@@ -110,162 +113,162 @@ class OrderDetail extends Component {
 
 		const componentRef = React.createRef();
 		return (
+			<div>
 
-			<div className="order-detail vh-100">
+				{this.state.loading === true ?
+					<div className="order-detail vh-100">
+						<Box className="white-btn-color">
+							{/* <SmallTitleBar
+				   title={<IntlMessages id={this.state.title} />}
+				   buttonText={<IntlMessages id="component.backToMedications" />}
+				   buttonLink="/app/manage-orders"
 
+			   /> */}
+							<div className="page-space orderdetail">
+								<Container ref={componentRef}>
+									<Box px={{ xs: "12px", lg: 0 }}>
 
-
-				<Box className="white-btn-color">
-					{/* <SmallTitleBar
-						title={<IntlMessages id={this.state.title} />}
-						buttonText={<IntlMessages id="component.backToMedications" />}
-						buttonLink="/app/manage-orders"
-
-					/> */}
-					<div className="page-space orderdetail">
-						<Container ref={componentRef}>
-							<Box px={{ xs: "12px", lg: 0 }}>
-
-								<CustomCard>
-									<Grid container spacing={3} direction="row"  >
-										<Grid item xs={12} sm={8} md={8} lg={8} className="gridItem ">
-											<Box className="header">
-												<Box mb={1}>
-													<Box mb="1" className="site-logo user-logo">
-														<Link to="/" className="logo-mini mb-1 d-block">
-															<img src={this.state.instance.instanceLogo ? this.state.instance.instanceLogo : this.defaultUrl} alt="site logo " width="35" />
-														</Link>
+										<CustomCard>
+											<Grid container spacing={3} direction="row"  >
+												<Grid item xs={12} sm={8} md={8} lg={8} className="gridItem ">
+													<Box className="header">
+														<Box mb={1}>
+															<Box mb="1" className="site-logo">
+																<Link to="/" className="logo-mini mb-1 d-block">
+																	<img src={this.state.instance.instanceLogo ? this.state.instance.instanceLogo : this.defaultUrl} alt="site logo " width="35" />
+																</Link>
+															</Box>
+														</Box>
+														<Box fontSize="body2.fontSize">{this.state.title}</Box>
 													</Box>
-												</Box>
-												<Box fontSize="body2.fontSize">{this.state.title}</Box>
-											</Box>
 
-											<Box className="printBtn"><ReactToPrint
-												trigger={() => <PrintOutlinedIcon size="30px" />}
-												content={() => componentRef.current}
-											/></Box>
-											<Box className="patient">
-												<Box className="title-fontSize" color="text.primary" fontWeight="500"><span className="titlecolor">Bestellung für</span> <span>{this.state.patient.firstName}  {this.state.patient.lastName}</span></Box>
-												<Box className="content-fontSize">{this.state.patient.streetNr} {this.state.patient.zipCode} {this.state.patient.city} {this.state.patient.phone1} {this.state.patient.insurance} {this.state.patient.insuranceNr}</Box>
-
-											</Box>
-
-											<Box mb={4} className="medication">
-												{this.state.orderMedications.map((row, index) => (
-													<CustomCard key={index}><Box component="th" scope="row">
-														{row.medicationName}
-													</Box>
-														<Box align="right">{row.ingredients}</Box>
-														<Box align="right">{row.packaging}</Box>
-													</CustomCard>
-
-												))}
-
-											</Box>
-											<Box my={2}>
-												<Box>
-													<TextField
-														className="full-width textArea"
-														id="outlined-multiline-static"
-														label="Add Note"
-														multiline
-														rows={4}
-														defaultValue="Default Value"
-														variant="outlined"
-														value={this.state.comment}
-														onChange={this.handleChangeComment}
-													/>
-													<Box className="buttonContainer">
-														<Button variant="outlined" className="primary-bg-btn" color="primary" autoFocus
-															onClick={this.submitComment} >
-															<Box component="span" fontSize="18px" mr={1} className="material-icons">send</Box>
-																	Send
-																</Button>
-													</Box>
-												</Box>
-
-												<Box className="commentContainer">
-													{
-														this.state.commentList && this.state.commentList.map(res => {
-															return (
-																<Box className="comment">
-																	<Box className="font-2">
-																		{this.formate_date(res.created_at)}
-																	</Box>
-																	<Typography>{res.comment}</Typography>
-
-																</Box>
-															)
-														})
-													}	<Box >
+													<Box className="printBtn"><ReactToPrint
+														trigger={() => <PrintOutlinedIcon size="30px" />}
+														content={() => componentRef.current}
+													/></Box>
+													<Box className="patient">
+														<Box className="title-fontSize" color="text.primary" fontWeight="500"><span className="titlecolor">Bestellung für</span> <span>{this.state.patient.firstName}  {this.state.patient.lastName}</span></Box>
+														<Box className="content-fontSize">{this.state.patient.streetNr} {this.state.patient.zipCode} {this.state.patient.city} {this.state.patient.phone1} {this.state.patient.insurance} {this.state.patient.insuranceNr}</Box>
 
 													</Box>
 
-												</Box>
+													<Box mb={4} className="medication">
+														{this.state.orderMedications.map((row, index) => (
+															<CustomCard key={index}><Box component="th" scope="row">
+																{row.medicationName}
+															</Box>
+																<Box align="right">{row.ingredients}</Box>
+																<Box align="right">{row.packaging}</Box>
+															</CustomCard>
 
+														))}
 
-											</Box>
-										</Grid>
-										<Grid item xs={12} sm={4} md={4} lg={4} className="text-left" className="gridItem-right">
-											<Box >
-												<Box className="title-fontSize" fontWeight="500">Hausarzt</Box>
-												<Box className="content-fontSize"><Typography>{this.state.doctor.practiceName}</Typography></Box>
-												<Box className="content-fontSize"><Typography>{this.state.doctor.streetNr}</Typography></Box>
-												<Box className="content-fontSize"><Typography>{this.state.doctor.phone}</Typography></Box>
-												<Box className="content-fontSize"><Typography>{this.state.doctor.fax}</Typography></Box>
-											</Box>
-
-											<Box >
-												<Box className="title-fontSize" fontWeight="500">Apotheke</Box>
-												<Box className="content-fontSize"><Typography>{this.state.pharmacy.pharmacyName}</Typography></Box>
-												<Box className="content-fontSize"><Typography>{this.state.pharmacy.streetNr}</Typography></Box>
-												<Box className="content-fontSize"><Typography>{this.state.pharmacy.phone}</Typography></Box>
-												<Box className="content-fontSize"><Typography>{this.state.pharmacy.fax}</Typography></Box>
-											</Box>
-
-											<Box>
-
-												<div className="rowContainer" pt={5} >
-													<Box mb="3" className="site-logo user-logo">
-														<img src={this.state.user.userAvatar ? this.state.user.userAvatar : require('assets/Images/avatars/user-1.jpg')} alt="search" width="45" height="45" />
 													</Box>
-													<Box className="font-2 warp-row">
-														<Box fontSize="body2.fontSize" color="text.primary" fontWeight="500">Bestellung von   {this.state.user.name}</Box>
-														<Box> am  {this.state.order.date}</Box>
+													<Box my={2}>
+														<Box>
+															<TextField
+																className="full-width textArea"
+																id="outlined-multiline-static"
+																label="Add Note"
+																multiline
+																rows={4}
+																defaultValue="Default Value"
+																variant="outlined"
+																value={this.state.comment}
+																onChange={this.handleChangeComment}
+															/>
+															<Box className="buttonContainer">
+																<Button variant="outlined" className="primary-bg-btn" color="primary" autoFocus
+																	onClick={this.submitComment} >
+																	<Box component="span" fontSize="18px" mr={1} className="material-icons">send</Box>
+															   Send
+														   </Button>
+															</Box>
+														</Box>
+
+														<Box className="commentContainer">
+															{
+																this.state.commentList && this.state.commentList.map(res => {
+																	return (
+																		<Box className="comment">
+																			<Box className="font-2">
+																				{this.formate_date(res.created_at)}
+																			</Box>
+																			<Typography>{res.comment}</Typography>
+
+																		</Box>
+																	)
+																})
+															}	<Box >
+
+															</Box>
+
+														</Box>
+
+
 													</Box>
-												</div>
-											</Box>
-											<Box>
-												{
-													this.state.lastUser ?
-														< div className="rowContainer" pt={5} >
+												</Grid>
+												<Grid item xs={12} sm={4} md={4} lg={4} className="text-left" className="gridItem-right">
+													<Box >
+														<Box className="title-fontSize" fontWeight="500">Hausarzt</Box>
+														<Box className="content-fontSize"><Typography>{this.state.doctor.practiceName}</Typography></Box>
+														<Box className="content-fontSize"><Typography>{this.state.doctor.streetNr}</Typography></Box>
+														<Box className="content-fontSize"><Typography>{this.state.doctor.phone}</Typography></Box>
+														<Box className="content-fontSize"><Typography>{this.state.doctor.fax}</Typography></Box>
+													</Box>
+
+													<Box >
+														<Box className="title-fontSize" fontWeight="500">Apotheke</Box>
+														<Box className="content-fontSize"><Typography>{this.state.pharmacy.pharmacyName}</Typography></Box>
+														<Box className="content-fontSize"><Typography>{this.state.pharmacy.streetNr}</Typography></Box>
+														<Box className="content-fontSize"><Typography>{this.state.pharmacy.phone}</Typography></Box>
+														<Box className="content-fontSize"><Typography>{this.state.pharmacy.fax}</Typography></Box>
+													</Box>
+
+													<Box>
+
+														<div className="rowContainer" pt={5} >
 															<Box mb="3" className="site-logo user-logo">
-																<img src={this.state.lastUser.userAvatar ? this.state.lastUser.userAvatar : require('assets/Images/avatars/user-1.jpg')} alt="search" width="45" height="45" />
+																<img src={this.state.user.userAvatar ? this.state.user.userAvatar : require('assets/Images/avatars/user-1.jpg')} alt="search" width="45" height="45" />
 															</Box>
 															<Box className="font-2 warp-row">
-																<Box fontSize="body2.fontSize" color="text.primary" fontWeight="500">Letzte Bestellung  {this.state.lastUser.name}</Box>
-																<Box>am  {this.state.lastOrder.date}</Box>
+																<Box fontSize="body2.fontSize" color="text.primary" fontWeight="500">Bestellung von   {this.state.user.name}</Box>
+																<Box> am  {this.state.order.date}</Box>
 															</Box>
-														</div> : < div className="rowContainer" pt={5} ><Box className="font-2 warp-row">
-															<Box>keine vorherigen Bestellungen vorhanden</Box>
+														</div>
+													</Box>
+													<Box>
+														{
+															this.state.lastUser ?
+																< div className="rowContainer" pt={5} >
+																	<Box mb="3" className="site-logo user-logo">
+																		<img src={this.state.lastUser.userAvatar ? this.state.lastUser.userAvatar : require('assets/Images/avatars/user-1.jpg')} alt="search" width="45" height="45" />
+																	</Box>
+																	<Box className="font-2 warp-row">
+																		<Box fontSize="body2.fontSize" color="text.primary" fontWeight="500">Letzte Bestellung  {this.state.lastUser.name}</Box>
+																		<Box>am  {this.state.lastOrder.date}</Box>
+																	</Box>
+																</div> : < div className="rowContainer" pt={5} ><Box className="font-2 warp-row">
+																	<Box>keine vorherigen Bestellungen vorhanden</Box>
 
-														</Box></div>
-												}
+																</Box></div>
+														}
 
-											</Box>
-										</Grid>
-									</Grid>
+													</Box>
+												</Grid>
+											</Grid>
 
-								</CustomCard>
+										</CustomCard>
 
-							</Box>
-						</Container>
-					</div>
-				</Box>
+									</Box>
+								</Container>
+							</div>
+						</Box>
+					</div >
+					: <HulkPageLoader />
+				}
+			</div>
 
-
-
-			</div >
 		);
 	}
 

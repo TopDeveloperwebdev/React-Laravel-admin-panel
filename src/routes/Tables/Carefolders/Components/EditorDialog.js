@@ -69,12 +69,11 @@ class EditorDialog extends React.Component {
 	onChangeTitle = (event) => {
 		this.setState({ title: event.target.value })
 	}
-	renderValue(selected){
-		console.log('selected' , selected);
+	renderValue(selected){	
 		let selectedDocs = [];
 		selected.forEach(id => {
-			let temp =  this.state.documentsList.filter(x => x.id == id);
-			selectedDocs.push(temp[0].title);
+			let temp =  this.state.documentsList.find(x => x.id == id);		
+			if(temp)selectedDocs.push(temp.title);
 		});
 		return selectedDocs.join(', ');
 	}

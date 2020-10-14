@@ -152,16 +152,17 @@ class SigninFirebase extends Component {
 					<Box className="session-box" mx="auto" display="flex" justifyContent="center" alignItems="center">
 						<Box width="100%">
 							<Box textAlign="center" className="session-logo" >
-								{isDarkModeActive ?
-									<img className="img-fluid" alt="img" width="100" src={require(`assets/Images/hulk-light.png`)} />
+								<h2>BASE</h2>
+								{/* {isDarkModeActive ?
+									<img className="img-fluid" alt="img" width="100" src={require(`assets/Images/base-light.png`)} />
 									:
-									<img className="img-fluid" alt="img" width="100" src={require(`assets/Images/hulk-dark.png`)} />
-								}
+									<img className="img-fluid" alt="img" width="100" src={require(`assets/Images/base.png`)} />
+								} */}
 							</Box>							
 								<CustomCard>
 									<form className="login-form text-center">
-										<Typography variant="subtitle2" >Log in to continue to :</Typography>
-										<Typography variant="subtitle2" color="textPrimary" className="fw-500">Hulk</Typography>
+										<Typography variant="subtitle2" >Log in  bei :</Typography>
+										<Typography variant="subtitle2" color="textPrimary" className="fw-500">BASE</Typography>
 										<Box my={3}>
 											<TextField
 												required

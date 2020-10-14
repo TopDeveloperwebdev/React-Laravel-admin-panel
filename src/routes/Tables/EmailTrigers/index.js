@@ -14,9 +14,9 @@ import { AutoComplete, MultiSelect } from '@progress/kendo-react-dropdowns';
 // Components
 import { CustomCard, SocialIcons } from 'components/GlobalComponents';
 import { userService } from '../../../_services';
+import { NotificationManager } from 'react-notifications';
 
-
-let usersList = ['Family doctors', 'Pharmacies', 'Patients', 'Instance Admin', 'Instance User'];
+let usersList = ['Family doctors', 'Pharmacies', 'Patients', 'Related Users'];
 const types = ['Every year on birthdays', 'User create an Order'];
 
 const styles = theme => ({
@@ -72,7 +72,7 @@ class EmailTrigers extends Component {
 		isEditOrder: false,
 		triggers: [],
 		Template: '',
-		id : ''
+		id: ''
 	};
 
 	handleRowClick = (selectedType) => {
@@ -82,7 +82,7 @@ class EmailTrigers extends Component {
 				TemplateList.push(ele.title)
 			}
 		})
-		let isEditBirthday = false, isEditOrder = false, selectedUsers = [], Template , id;
+		let isEditBirthday = false, isEditOrder = false, selectedUsers = [], Template, id;
 		let trigger = this.state.triggers.filter(ele => ele.type == selectedType);
 
 		if (trigger.length) {
@@ -95,12 +95,12 @@ class EmailTrigers extends Component {
 			selectedUsers = JSON.parse(trigger[0].usergroup);
 			Template = trigger[0].template;
 			id = trigger[0].id;
-			
+
 		}
 
 
 		this.setState(prevState => {
-			return { ...prevState, TemplateList, selectedType, selectedUsers, Template, isEditBirthday, isEditOrder ,id};
+			return { ...prevState, TemplateList, selectedType, selectedUsers, Template, isEditBirthday, isEditOrder, id };
 		});
 
 	}
@@ -132,16 +132,19 @@ class EmailTrigers extends Component {
 	onSubmitTrigger() {
 
 		userService.addTriggers({ instance_id: this.instance_id, type: this.state.selectedType, usergroup: JSON.stringify(this.state.selectedUsers), template: this.state.Template }).then(res => {
-			alert('Sie haben den Triggerfluss erfolgreich gespeichert')
+
+			NotificationManager.success("Sie haben den Triggerfluss erfolgreich gespeichert'");
 		}, error => {
-			alert(error);
+			NotificationManager.error(error);
+
 		})
 	}
 	onUpdateTrigger() {
-		userService.editTriggers({id :  this.state.id,  instance_id: this.instance_id, type: this.state.selectedType, usergroup: JSON.stringify(this.state.selectedUsers), template: this.state.Template }).then(res => {
-			alert('Sie haben den Triggerfluss erfolgreich aktualisiert')
+		userService.editTriggers({ id: this.state.id, instance_id: this.instance_id, type: this.state.selectedType, usergroup: JSON.stringify(this.state.selectedUsers), template: this.state.Template }).then(res => {
+			NotificationManager.success("Sie haben den Triggerfluss erfolgreich aktualisiert");
 		}, error => {
-			alert(error);
+
+			NotificationManager.error(error);
 		})
 	}
 	render() {
@@ -247,7 +250,7 @@ class EmailTrigers extends Component {
 													<Button variant="contained" color="primary" onClick={this.onSubmitTrigger.bind(this)}>
 														Create E-Mail Trigger
 											   </Button>
-											</Box>
+												</Box>
 										}
 
 									</div>

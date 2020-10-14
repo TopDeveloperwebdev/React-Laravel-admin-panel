@@ -254,11 +254,11 @@ class HulkAppLayout extends Component {
 				{this.state.loading === true ?
 					<div id="loading-bg" className="hk-full-loader" >
 						<div className="text-center">
-							<Box mb={3}>
+							<Box mb={3} className="splash">
 								{isDarkModeActive ?
-									<img alt="site-logo" width="110" height="30" src={require(`assets/Images/hulk-light.png`)} />
+									<img alt="site-logo" width="500px" height="500px" src={require(`assets/Images/splash.png`)} />
 									:
-									<img alt="site-logo" width="110" height="30" src={require(`assets/Images/hulk-dark.png`)} />
+									<img alt="site-logo" width="500px" height="500px" src={require(`assets/Images/splash.png`)} />
 								}
 							</Box>
 							<CircularProgress />

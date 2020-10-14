@@ -193,7 +193,8 @@ class Header extends Component {
 								<div>
 									<Box className="logo-wrap" bgcolor="primary.main" mr={2} py="19px" px={4} lineHeight={0.8}>
 										<Box component={Link} to="/app/dashboard/dashboard1" display="inline-block" lineHeight={0.8}>
-											<img src={require('assets/Images/hulk-light.png')} alt="site-logo" width="95" height="25" />
+												{/* <img src={require('assets/Images/base-light.png')} alt="site-logo" width="95" height="25" /> */}
+												<h2 className="site-logo-dashboard">BASE</h2>
 										</Box>
 									</Box>
 								</div>

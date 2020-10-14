@@ -65,9 +65,9 @@ class SignaturePad extends Component {
 											<Box mb="3" className="site-logo">
 												<Link to="/" className="logo-mini mb-1 d-block">
 													{this.props.isDarkModeActive ?
-														<img alt="site logo" width="80" src={require(`assets/Images/hulk-light.png`)} />
+														<img alt="site logo" width="80" src={require(`assets/Images/base-light.png`)} />
 														:
-														<img alt="site logo" width="80" src={require(`assets/Images/hulk-dark.png`)} />
+														<img alt="site logo" width="80" src={require(`assets/Images/base.png`)} />
 													}
 												</Link>
 											</Box>

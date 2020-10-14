@@ -69,7 +69,7 @@ export default function Invoice() {
 										</Box>
 										<Box mb="3" className="site-logo">
 											<Link to="/" className="logo-mini mb-1 d-block">
-												<img src={require('assets/Images/hulk-dark.png')} alt="site logo" width="80" />
+												<img src={require('assets/Images/base.png')} alt="site logo" width="80" />
 											</Link>
 										</Box>
 										<Box fontSize="body2.fontSize" color="text.primary" fontWeight="500">Hulk Solutions LLC</Box>
