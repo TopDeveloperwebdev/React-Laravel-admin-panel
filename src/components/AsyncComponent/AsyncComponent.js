@@ -208,6 +208,12 @@ const AsyncFoldersComponent = Loadable({
 	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
+// AsyncvVerordnungsComponent Table
+const AsyncvVerordnungsComponent = Loadable({
+	loader: () => import("routes/Tables/Verordnungs"),
+	loading: () => <HulkPageLoader />,
+	delay: 3000,
+});
 // AsyncEmailTemplatesComponent Table
 const AsyncEmailTemplatesComponent = Loadable({
 	loader: () => import("routes/Tables/EmailTemplates"),
@@ -358,6 +364,13 @@ const AsyncOrderDetailComponent = Loadable({
 	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
+//AsyncSharedDocumentComponent
+const AsyncSharedDocumentComponent = Loadable({
+	loader: () => import("routes/sharedDocument"),
+	loading: () => <HulkPageLoader />,
+	delay: 3000,
+});
+
 // Error Page 500
 const AsyncErrorPage500Component = Loadable({
 	loader: () => import("routes/Error/500"),
@@ -424,5 +437,7 @@ export {
 	AsyncDocumentsComponent,
 	AsyncFoldersComponent,
 	AsyncEmailTemplatesComponent,
-	AsyncEmailTrigersComponent
+	AsyncEmailTrigersComponent,
+	AsyncvVerordnungsComponent,
+	AsyncSharedDocumentComponent
 };

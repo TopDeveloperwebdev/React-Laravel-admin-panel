@@ -158,7 +158,7 @@ class Carefolders extends Component {
 		userService.showFolders({ instance_id: this.instance_id, pagination: 1 }).then(res => {
 
 			this.setState({ folders: res.folders, servicesList: res.services, documentsList: res.documents })
-			console.log('servicesList-----', this.state.documentsList);
+			
 		})
 
 	}

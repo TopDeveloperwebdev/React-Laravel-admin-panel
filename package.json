@@ -70,6 +70,7 @@
 		"react-dom": "^16.13.0",
 		"react-dom-factories": "^1.0.2",
 		"react-dragula": "^1.1.17",
+		"react-google-autocomplete": "^1.2.6",
 		"react-google-charts": "^3.0.15",
 		"react-helmet": "^5.2.1",
 		"react-hot-loader": "^4.12.14",

@@ -47,6 +47,13 @@ export const userService = {
    showDocuments,
    editDocuments,
    deleteDocuments,
+   
+   addVerordnung,
+   showVerordnung,
+   editVerordnung,
+   deleteVerordnung,
+   getVerordnung,
+   sendMail,
    addMails,
    showMails,
    editMails,
@@ -86,7 +93,7 @@ export const userService = {
    sendMessage,
    submitComment
 };
-const serverUrl = 'http://localhost:8000/api/';
+const serverUrl = '/backend_latest/api/';
 function signup(data) {
    console.log('data', data);
    const requestOptions = {
@@ -894,6 +901,95 @@ function deleteFolders(id) {
          return res
       });
 }
+
+
+// Verordnung CRUD
+function addVerordnung(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'addVerordnung', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res;
+      });
+}
+function sendMail(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'sendMail', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res;
+      });
+}
+function getVerordnung(info) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(info)
+   };
+
+   return fetch(serverUrl + 'getVerordnung', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
+function showVerordnung(info) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(info)
+   };
+
+   return fetch(serverUrl + 'showVerordnung', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
+function editVerordnung(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'editVerordnung', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         console.log('res', res);
+         return res
+      });
+}
+function deleteVerordnung(id) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(id)
+   };
+
+   return fetch(serverUrl + 'deleteVerordnung', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
+
 
 // Ingredients CRUD
 function addIngredients(data) {

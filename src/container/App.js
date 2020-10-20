@@ -23,7 +23,8 @@ import DefaultLayout from './DefaultLayout'
 import {
 	AsyncErrorPage404Component,
 	AsyncErrorPage500Component,
-	AsyncOrderDetailComponent
+	AsyncOrderDetailComponent,
+	AsyncSharedDocumentComponent
 } from 'components/AsyncComponent/AsyncComponent';
 
 import Auth from '../Auth/Auth';
@@ -83,6 +84,7 @@ class App extends Component {
 				<Route path="/forgot-password2" component={ForgotPassword2} />
 				<Route path="/error/404" component={AsyncErrorPage404Component} />
 				<Route path="/order-detail/:id" component={AsyncOrderDetailComponent} />
+				<Route path="/shared-document/:id" component={AsyncSharedDocumentComponent} />
 				<Route path="/error/500" component={AsyncErrorPage500Component} />
 				<Route path="/callback" render={(props) => {
 					handleAuthentication(props);

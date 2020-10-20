@@ -37,14 +37,13 @@ class Documents extends Component {
 				{ title: 'Created_At', field: 'created_at',render: rowdata => {
 					return (<div>
 						{this.formate_date(rowdata.created_at)}
-
 					</div>)
-				}}, 
+				}
+				}, 
 				{
 					title: 'Actions', field: 'actions', render: row => <div>
 						<EditOutlinedIcon className="pointerIcon" onClick={() => this.editDocument(row)} />
 						<DeleteOutlineOutlinedIcon className="pointerIcon" onClick={() => this.ondeleteContact(row)} />
-
 					</div>
 				},
 			],

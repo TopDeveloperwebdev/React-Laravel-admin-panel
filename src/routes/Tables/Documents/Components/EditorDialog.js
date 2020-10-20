@@ -44,31 +44,34 @@ class EditorDialog extends React.Component {
 	onCloseDialog(isTrue) {
 		this.setState({ open: false ,title: '', content: '' ,isEdit: false});
 	};
-	onSubmit() {
+	onUpdate() {
 		let instance_id = this.state.userInstance_id;
 		if (!this.state.userInstance_id) instance_id = this.state.instance;
 		if (this.state.title && instance_id && this.state.content) {
 			this.setState({ open: false });
-
 			let { content } = this.state;
+
 			const nameTag = `<span class='name'>[name]</span>`;
 			const streetTag = `<span class='street'>[street]</span>`;
 			const zipTag = `<span class='zip'>[zip]</span>`;
-			const cityTag = `<span class='city'>[city]</span>`;
+			const cityTag = `<span class='city'>city]</span>`;
 			const insuranceTag = `<span class='insurance'>[insurance]</span>`;
 			const insuranceNrTag = `<span class='insuranceNr'>[insuranceNr]</span>`;
 			const birthdayTag = `<span class='birthday'>[birthday]</span>`;
 			const phoneTag = `<span class='phone'>[phone]</span>`;
-			content = content.replaceAll('[name]', `${nameTag}`);
-			content = content.replaceAll('[street]', `${streetTag}`);
-			content = content.replaceAll('[zip]', `${zipTag}`);
-			content = content.replaceAll('[city]', `${cityTag}`);
-			content = content.replaceAll('[insurance]', `${insuranceTag}`);
-			content = content.replaceAll('[insuranceNr]', `${insuranceNrTag}`);
-			content = content.replaceAll('[birthday]', `${birthdayTag}`);
-			content = content.replaceAll('[phone]', `${phoneTag}`);
+		
+			
+			content = content.replace(/\[name\]/gi  , `${nameTag}`);
+			content = content.replace(/\[name\]/gi  , `${nameTag}`);
+			content = content.replace(/\[street\]/gi  , `${streetTag}`);
+			content = content.replace(/\[zip\]/gi  , `${zipTag}`);
+			content = content.replace(/\[city\]/gi  , `${cityTag}`);
+			content = content.replace(/\[insurance\]/gi  , `${insuranceTag}`);
+			content = content.replace(/\[insuranceNr\]/gi  , `${insuranceNrTag}`);
+			content = content.replace(/\[birthday\]/gi  , `${birthdayTag}`);
+			content = content.replace(/\[phone\]/gi  , `${phoneTag}`);
 
-			this.props.onConfirm({ title: this.state.title, instance_id: instance_id, content: content, contentHeight: this.state.contentHeight, contentWidth: this.state.contentWidth });
+			this.props.onUpdate({ id: this.state.id, title: this.state.title, instance_id: instance_id, content: content, contentHeight: this.state.contentHeight, contentWidth: this.state.contentWidth });
 		}
 		else {
 			alert("Bitte geben Sie die erforderlichen Felder ein")
@@ -81,7 +84,7 @@ class EditorDialog extends React.Component {
 		if (this.state.title && instance_id && this.state.content) {
 			this.setState({ open: false });
 			let { content } = this.state;
-		
+
 			const nameTag = `<span class='name'>[name]</span>`;
 			const streetTag = `<span class='street'>[street]</span>`;
 			const zipTag = `<span class='zip'>[zip]</span>`;
@@ -90,14 +93,17 @@ class EditorDialog extends React.Component {
 			const insuranceNrTag = `<span class='insuranceNr'>[insuranceNr]</span>`;
 			const birthdayTag = `<span class='birthday'>[birthday]</span>`;
 			const phoneTag = `<span class='phone'>[phone]</span>`;
-			content = content.replaceAll('[name]', `${nameTag}`);
-			content = content.replaceAll('[street]', `${streetTag}`);
-			content = content.replaceAll('[zip]', `${zipTag}`);
-			content = content.replaceAll('[city]', `${cityTag}`);
-			content = content.replaceAll('[insurance]', `${insuranceTag}`);
-			content = content.replaceAll('[insuranceNr]', `${insuranceNrTag}`);
-			content = content.replaceAll('[birthday]', `${birthdayTag}`);
-			content = content.replaceAll('[phone]', `${phoneTag}`);
+		
+			
+			content = content.replace(/\[name\]/gi  , `${nameTag}`);
+			content = content.replace(/\[name\]/gi  , `${nameTag}`);
+			content = content.replace(/\[street\]/gi  , `${streetTag}`);
+			content = content.replace(/\[zip\]/gi  , `${zipTag}`);
+			content = content.replace(/\[city\]/gi  , `${cityTag}`);
+			content = content.replace(/\[insurance\]/gi  , `${insuranceTag}`);
+			content = content.replace(/\[insuranceNr\]/gi  , `${insuranceNrTag}`);
+			content = content.replace(/\[birthday\]/gi  , `${birthdayTag}`);
+			content = content.replace(/\[phone\]/gi  , `${phoneTag}`);
 
 			this.props.onUpdate({ id: this.state.id, title: this.state.title, instance_id: instance_id, content: content, contentHeight: this.state.contentHeight, contentWidth: this.state.contentWidth });
 		}
@@ -107,8 +113,8 @@ class EditorDialog extends React.Component {
 
 	}
 	onChange(content) {
-		let contentHeight = document.getElementById('editArea').clientHeight;
-		let contentWidth = document.getElementById('editArea').clientWidth;
+		let contentHeight = document.getElementById('documentArea').clientHeight;
+		let contentWidth = document.getElementById('documentArea').clientWidth;
 
 		this.setState({ content: content, contentHeight: contentHeight, contentWidth: contentWidth });
 	}
@@ -155,7 +161,7 @@ class EditorDialog extends React.Component {
 							defaultValue="Title..."
 						/>		
 					</Box>
-					<div className="text-editor" id="editArea">
+					<div className="text-editor" id="documentArea">
 						<ReactQuill
 							theme={'snow'}
 							value={this.state.content}

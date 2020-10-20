@@ -21,7 +21,7 @@ let pharmaciesList = [];
 let salutationList = { Herr: 'Herr', Frau: 'Frau' };
 let degreeList = { 1: 1, 2: 2, 3: 3, 4: 4, 5: 5 };
 let statusList = { Aktiv: 'Aktiv', Inaktiv: 'Inaktiv', Unvollständig: 'Unvollständig' };
-let family_doctorsList = {};
+let family_doctorsList = [];
 let resourcesList = [];
 let servicesList = [];
 let usersList = [];
@@ -189,7 +189,7 @@ class PatientsTable extends Component {
                }
             },
             {
-               title: 'Instance', field: 'instance_id', render: rowData => {
+               title: 'Instance', field: 'instance_id', hidden : false, render: rowData => {
                   let temp = null;
                   temp = instanceNames.find((x,i) =>  i == rowData.instance_id);
                   if (temp) {
@@ -210,7 +210,8 @@ class PatientsTable extends Component {
                   else {
                      return <div></div>;
                   }
-               }
+               },
+               
             },
             {
                title: 'Related Users', field: 'userGroup', render: props => {
@@ -280,6 +281,7 @@ class PatientsTable extends Component {
                }
             },
          ],
+         
          data: [],
          selected: [],
          selectedservice: [],
@@ -294,7 +296,8 @@ class PatientsTable extends Component {
          birthday: '',
          documentsList: [],
          folders: [],
-         downloadDocs: []
+         downloadDocs: [],
+      
       };
 
       this.preViewDialog = React.createRef();
@@ -320,13 +323,15 @@ class PatientsTable extends Component {
       this.state.folders.forEach(folder => {
          if (services.indexOf(folder.service) > -1) {
             let folderDocs = JSON.parse(folder.documents);
-            let relationDocsTemps = [...relationDocs];
-            console.log('folderDocs', folderDocs, relationDocsTemps);
-            relationDocs = relationDocsTemps.concat(folderDocs);
+            folderDocs.map(element => {
+               relationDocs.push(element);
+            })          
          }
       });
-      console.log('ssssssss', relationDocs.length, services);
+
+      console.log('ssssssss1', relationDocs);
       relationDocs = [...new Set(relationDocs)];
+      console.log('ssssssss2', relationDocs);
       if (relationDocs.length) {
          let downloadDocs = this.state.documentsList.filter((a) => {
             return relationDocs.indexOf(a.id) > -1;
@@ -412,8 +417,17 @@ class PatientsTable extends Component {
       this.defaultUrl = "http://base.mastermedi-1.vautronserver.de/backend_latest/file_storage/1602322608icon-patient-kl.png";
       let user = JSON.parse(localStorage.getItem('user'));
       this.instance_id = user.instance_id;
-      console.log('res', this.instance_id);
+    
       userService.showPatients({ instance_id: this.instance_id, pagination: 1 }).then(res => {
+        
+         this.setState(state => {
+            let columns = state.columns;
+            state.columns[20].hidden = (this.instance_id ? true : false);       
+            return {
+               columns
+            };
+         })
+       
          resourcesList = [];
          servicesList = [];
          servicesList = res.services.map(ele => {

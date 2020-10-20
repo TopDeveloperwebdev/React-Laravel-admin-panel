@@ -94,6 +94,7 @@ export default {
   "sidebar.fileManager": "Dateimanager",
   "sidebar.documents": "Dokumente",
   "sidebar.carefolders": "Pflegeordner",
+   "sidebar.verordnungs": "Verordnung",
   "widgets.newVisitors": "Neue Besucher",
   "widgets.newSales": "Neue Verkäufe",
   "widgets.bounceRate": "Absprungrate",

@@ -26,7 +26,8 @@ import {
    AsyncDocumentsComponent,
 AsyncFoldersComponent,
    AsyncEmailTemplatesComponent,
-   AsyncEmailTrigersComponent
+   AsyncEmailTrigersComponent,
+   AsyncvVerordnungsComponent
 } from 'components/AsyncComponent/AsyncComponent';
 
 const Tables = ({ match }) => {
@@ -161,6 +162,11 @@ const Tables = ({ match }) => {
             path={`${match.url}/carefolders`}
             permission="carefolders_access"
             component={AsyncFoldersComponent}
+         />
+          <RouteWithRole
+            path={`${match.url}/verordnungen`}
+            permission="verordnungs_access"
+            component={AsyncvVerordnungsComponent}
          />
           <RouteWithRole
             path={`${match.url}/email-templtes`}

@@ -269,6 +269,14 @@
 					"isMenuOpen": false,
 					"fullPageMenu": false,
 					"third_child_routes": null
+				},
+				{
+					"path": "/app/verordnungen",
+					"menu_title": "sidebar.verordnungs",
+					"icon": "contact_support",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
 				}
 			]
 		},
