@@ -3,7 +3,7 @@
 */
 import React, { Component } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Container, Box } from '@material-ui/core';
+import { Checkbox, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Container, Box } from '@material-ui/core';
 import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
@@ -36,35 +36,84 @@ class Documents extends Component {
 			oldData: {},
 			patients: [],
 			content: '',
-			viewState: {},
+			viewState: {
+				document: {
+					instanceInfo: instanceData,
+					doctorInfo: { doctorName: '' },
+					patientInfo: {},
+					selectedServices: []
+				},
+				type: {
+					type1: false,
+					type2: false,
+					type3: false
+				},
+				from: '',
+				to: '',
+			},
+			completed: false,
+			checked: [],
 			columns: [
 				{
 					title: 'Versenden per Fax', field: 'Documents', render: row => <div>
-						{this.formate_date(row.send_date)}
+						{this.formate_dateTime(row.send_date)}
 					</div>
+					, filtering: false
 				},
 				{
-					title: 'patient', field: 'patient'
+					title: 'patient', field: 'patient', filtering: false
 				},
 				{
-					title: 'type', field: 'type'
+					title: 'type', field: 'type', render: row => {
+
+						let type = {};
+						if (row.type) type = JSON.parse(row.type);
+						return (<div>
+							{type.type1 ? <p>Erstverordnung</p> : ''}
+							{type.type2 ? <p>Folgeverordnung</p> : ''}
+							{type.type3 ? <p>Medikamentenplan</p> : ''}
+						</div>)
+
+					}, filtering: false
+
+
 				},
 				{
 					title: 'from - to', field: 'from - to', render: row => <div>
-						{row.from} - {row.to}
-					</div>
+						{this.formate_date(row.from)} - {this.formate_date(row.to)}
+					</div>, filtering: false
 				},
 
 				{
 					title: 'Actions', field: 'actions', render: row => <div>
 						<CloudDownloadOutlinedIcon className="pointerIcon" onClick={() => this.downloadPdf(row)} />
-						<img alt="site logo" width="20" src={require(`assets/Images/fax-icon.png`)}  className="pointerIcon" onClick={() => this.sendEmail(row)}/>
+						<img alt="site logo" width="20" src={require(`assets/Images/fax-icon.png`)} className="pointerIcon" onClick={() => this.sendEmail(row)} />
 						{/* <EmailOutlinedIcon className="pointerIcon" onClick={() => this.sendEmail(row)} /> */}
 						<EditOutlinedIcon className="pointerIcon" onClick={() => this.editDocument(row)} />
 						<DeleteOutlineOutlinedIcon className="pointerIcon" onClick={() => this.ondeleteContact(row)} />
 
-					</div>
+					</div>, filtering: false
 				},
+				{
+
+
+					title: 'Genehmigt', field: 'status', render: rowdata => {
+
+						return (<Checkbox
+							checked={this.state.checked[rowdata.id]}
+							color="primary"
+							onChange={(event) => this.handleChange(event.target.checked, rowdata)}
+						/>)
+					},
+					editComponent: rowdata => {
+						return (<Checkbox
+							checked={this.state.completed}
+							color="primary"
+							onChange={(event) => this.handleChangeCheckbox(event.target.checked, rowdata)}
+						/>)
+					},
+					lookup: { 1: 'JA', 0: 'NEIN' },
+				}
 			],
 
 		}
@@ -73,14 +122,44 @@ class Documents extends Component {
 		this.deleteDialog = React.createRef();
 		this.addDocument = this.addDocument.bind(this);
 	}
-	formate_date(dateString) {
-		let data = '';
+	handleChangeCheckbox(value, data) {
+		this.setState({ completed: value })
+	}
+	handleChange(value, data) {
+		console.log('v alue', value);
+		userService.editVerordnung({ id: data.id, status: value }).then(res => {
+			if (res) {
+				this.setState(prevState => {
+					const checked = [...prevState.checked];
+					checked[data.id] = value;
+					return { ...prevState, checked };
+				});
+			}
+		})
 
+	}
+	formate_dateTime(dateString) {
+		let data = '';
+		console.log('this.formate_date', dateString)
 		if (dateString) {
 			let str = dateString.split(" ");
 			let date = str[0].split('-');
 			let time = str[1].split(':');
 			data = "am " + date[2] + '.' + date[1] + '.' + date[0] + " um " + time[0] + ':' + time[1];
+
+		}
+
+		return data;
+	}
+	formate_date(dateString) {
+		let data = '00.00.0000';
+		console.log('dateString', dateString);
+		if (dateString) {
+			let date = dateString.split('T');
+			if (date.length > 1) {
+				data = date[0].split('-');
+				data = data[2] + '.' + data[1] + '.' + data[0];
+			}
 
 		}
 
@@ -96,11 +175,17 @@ class Documents extends Component {
 	downloadPdf(oldData) {
 		this.setState({ oldData });
 		let content = JSON.parse(oldData.content);
-		this.setState({ viewState: content });
+		this.setState({
+			viewState: {
+				document: { ...content }, type: JSON.parse(oldData.type),
+				from: new Date(oldData.from),
+				to: new Date(oldData.to), isEdit: true, id: oldData.id
+			}
+		});
 		setTimeout(() => {
 			savePDF(ReactDOM.findDOMNode(document.getElementById('editArea')), {
 				paperSize: "A4",
-				margin: 5
+				margin: { left: 60, right: 60, top: 80, bottom: 60 }
 			})
 		}, 10);
 
@@ -108,29 +193,35 @@ class Documents extends Component {
 	sendEmail(oldData) {
 		this.setState({ oldData });
 		let content = JSON.parse(oldData.content);
-		this.setState({ viewState: content });
+		this.setState({
+			viewState: {
+				document: { ...content }, type: JSON.parse(oldData.type),
+				from: new Date(oldData.from),
+				to: new Date(oldData.to), isEdit: true, id: oldData.id
+			}
+		});
 
 		setTimeout(() => {
-         
+
 			let gridElement = document.getElementById('editArea')
 			drawDOM(gridElement, {
 				paperSize: "A4",
-				margin: 2
+				margin: { left: 60, right: 60, top: 60, bottom: 60 }
 			}).then((group) => {
 				return exportPDF(group);
 			}).then((dataUri) => {
 				const base64 = dataUri.replace('data:application/pdf;base64,', '');
 
-				let email = {	
-					id : oldData.id,			
+				let email = {
+					id: oldData.id,
 					attachments: base64,	//attachments: "base64:data.pdf//" + base64,								
-					doctor: this.state.viewState.familyDoctor
+					doctor: this.state.viewState.document.doctorInfo.doctorName
 				}
 				userService.sendMail(email).then(res => {
 					NotificationManager.success("Es gibt keine Pflegeordner, die optionale Dienste anbieten.");
-						this.setState(prevState => {
+					this.setState(prevState => {
 						const documents = [...prevState.documents];
-						documents[documents.indexOf(oldData)].send_date = res;									
+						documents[documents.indexOf(oldData)].send_date = res;
 						return { ...prevState, documents };
 					});
 				}, error => {
@@ -142,16 +233,44 @@ class Documents extends Component {
 	editDocument(oldData) {
 		this.setState({ oldData });
 		let content = JSON.parse(oldData.content);
-		this.editorDialog.current.setState({ ...content, isEdit: true, id: oldData.id });
+		this.editorDialog.current.setState({
+			document: { ...content }, type: { ...JSON.parse(oldData.type) },
+			from: new Date(oldData.from),
+			to: new Date(oldData.to), isEdit: true, id: oldData.id
+		});
 		this.editorDialog.current.openDialog();
 	}
 	onSubmit(popupResponse) {
-		//	this.downloadPdf();
 		if (popupResponse) {
 			userService.addVerordnung({ ...popupResponse, instance_id: this.instance_id }).then(res => {
-				if (res) {
-					window.location.reload();
-				}
+				this.setState(prevState => {
+					const documents = [...prevState.documents];
+					documents.push(res);
+					return { ...prevState, documents };
+				});
+
+				this.editorDialog.current.setState({
+					document: {
+						instanceInfo: instanceData,
+						doctorInfo: { doctorName: '' },
+						patientInfo: {},
+						selectedServices: [],
+					},
+					type: {
+						type1: false,
+						type2: false,
+						type3: false
+					},
+					from: new Date(),
+					to: new Date(),
+
+
+				})
+
+				NotificationManager.success("Sie haben erfolgreich Verordnung erstellt.");
+
+			}, error => {
+				NotificationManager.error("Die Verordnung konnte nicht erstellt werden.");
 			})
 		}
 	}
@@ -160,19 +279,35 @@ class Documents extends Component {
 		if (popupResponse) {
 
 			userService.editVerordnung({ ...popupResponse, instance_id: this.instance_id }).then(res => {
-				if (res) {
-					// this.setState(prevState => {
-					// 	const documents = [...prevState.documents];
-					// 	documents[documents.indexOf(this.state.oldData)] =popupResponse;
-					// 	let oldData = {};						
-					// 	return { ...prevState, documents, oldData };
-					// });
-					// this.editorDialog.current.setState({ })	
-					window.location.reload();
-				}
 
+				this.setState(prevState => {
+					const documents = [...prevState.documents];
+					documents[documents.indexOf(this.state.oldData)] = popupResponse;
+					let oldData = {};
+					return { ...prevState, documents, oldData };
+				});
+				this.editorDialog.current.setState({
+					document: {
+						instanceInfo: instanceData,
+						doctorInfo: { doctorName: '' },
+						patientInfo: {},
+						selectedServices: [],
+					},
+					type: {
+						type1: false,
+						type2: false,
+						type3: false
+					},
+					from: new Date(),
+					to: new Date(),
 
+				})
+				NotificationManager.success("Sie haben erfolgreich Verordnung erstellt.");
+			}, error => {
+				NotificationManager.error("Die Verordnung konnte nicht erstellt werden.");
 			})
+
+
 		}
 	}
 	ondeleteContact(oldData) {
@@ -206,18 +341,26 @@ class Documents extends Component {
 	componentWillMount() {
 
 		let user = JSON.parse(localStorage.getItem('user'));
+		console.log('user', user);
 		this.instance_id = user.instance_id;
 
 		userService.showVerordnung({ instance_id: this.instance_id }).then(res => {
-			
-			this.setState({ documents: res.verordnungs });  
-			if(res.instance.length)instanceData =  res.instance[0];
-			console.log('instanceData' , res.instance[0]);
-			this.editorDialog.current.setState({ patientsList: res.patients ,doctorList : res.doctors,  instanceName :  instanceData.instanceName , phone : instanceData.phone , fax : instanceData.fax });
+
+
+			if (res.instance.length) instanceData = res.instance[0];
+			let document = { patientInfo: {}, doctorInfo: {}, instanceInfo: { ...instanceData }, selectedServices: [] };
+
+			this.editorDialog.current.setState({ patientsList: res.patients, services: res.services, doctorList: res.doctors, document: { ...document } });
+			let checked = [];
+			res.verordnungs.forEach(element => {
+				checked[element.id] = element.status;
+			});
+			this.setState({ documents: res.verordnungs, checked: checked });
 		})
 	}
 
 	render() {
+		console.log('documents', this.state.documents);
 		return (
 			<div className="tables-wrapper">
 				<SmallTitleBar
@@ -231,6 +374,10 @@ class Documents extends Component {
 							title={<IntlMessages id="sidebar.verordnungs" />}
 							columns={this.state.columns}
 							data={this.state.documents}
+							options={{
+								search: true,
+								filtering: true
+							}}
 							actions={[
 								{
 									icon: "note_add_outlined",
@@ -258,7 +405,7 @@ class Documents extends Component {
 
 				<ViewDialog
 					content={this.state.viewState}
-				
+
 				/>
 				<DeleteDialog
 					ref={this.deleteDialog}

@@ -48,6 +48,9 @@ class Instances extends Component {
 				{ title: 'Email', field: 'email' },
 				{ title: 'Phone', field: 'phone' },
 				{ title: 'Fax', field: 'fax' },
+				{ title: 'Street nr', field: 'streetNr' },			
+				{ title: 'Zip', field: 'zip' },
+				{ title: 'City', field: 'city' },
 				{ title: 'Password', field: 'password' },
 				{ title: 'Role', field: 'role', lookup: rolesList },
 				{

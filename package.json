@@ -26,6 +26,7 @@
 		"@progress/kendo-react-pdf": "^3.17.0",
 		"@react-pdf/renderer": "^1.6.11",
 		"@syncfusion/ej2-react-dropdowns": "^18.2.57",
+		"@telerik/kendo-pack-fonts": "^0.6.0",
 		"ag-grid-community": "^22.1.1",
 		"ag-grid-enterprise": "^22.1.1",
 		"ag-grid-react": "^22.1.1",

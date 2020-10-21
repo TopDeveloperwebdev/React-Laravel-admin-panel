@@ -6,7 +6,8 @@ import MaterialTable from 'material-table';
 import * as ReactDOM from 'react-dom';
 import { PDFExport, savePDF } from '@progress/kendo-react-pdf';
 import { Container, Box, Switch, FormControl, InputLabel, TextField } from '@material-ui/core';
-import { AutoComplete, MultiSelect } from '@progress/kendo-react-dropdowns';
+
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import { userService } from '../../../_services';
 //Components
 import { SmallTitleBar } from 'components/GlobalComponents';
@@ -27,6 +28,7 @@ let servicesList = [];
 let usersList = [];
 let instances = {};
 let instanceNames = [];
+
 class PatientsTable extends Component {
    constructor(props) {
       super(props)
@@ -108,10 +110,22 @@ class PatientsTable extends Component {
                   }
 
                   return (
-                     <MultiSelect
-                        data={resourcesList}
-                        value={this.state.selected}
+
+                     <Autocomplete
+                        multiple
+                        id="tags-standard"
+                        options={resourcesList}
+                        getOptionLabel={(option) => option.resources}
+                        defaultValue={[resourcesList[0]]}
                         onChange={this.onChangeResources}
+                        renderInput={(params) => (
+                           <TextField
+                              {...params}
+                              variant="standard"
+                              label="Multiple values"
+                              placeholder="Favorites"
+                           />
+                        )}
                      />
                   )
 
@@ -121,7 +135,23 @@ class PatientsTable extends Component {
 
             {
                title: '*Insurance', field: 'insurance', editComponent: rowData => {
-                  return (<AutoComplete data={insuranceList} placeholder="Select Insurance" onChange={this.onChangeInsurance} />)
+
+                  return (<Autocomplete
+
+                     options={insuranceList}
+                     getOptionLabel={(option) => option.insurances}
+                     id="auto-complete"
+                     autoComplete
+                     includeInputInList
+                     onChange={this.onChangeInsurance}
+                     renderInput={(params) => <TextField
+                        id="input-with-icon-textfield"
+                        label="Select Insurance"
+                        {...params}
+                        margin="normal"
+
+                     />}
+                  />)
                }
             },
             {
@@ -164,10 +194,22 @@ class PatientsTable extends Component {
                      }
                   }
                   return (
-                     <MultiSelect
-                        data={servicesList}
-                        value={this.state.selectedservice}
+
+                     <Autocomplete
+                        multiple
+                        id="tags-standard"
+                        options={servicesList}
+                        getOptionLabel={(option) => option.services}
+                        defaultValue={[servicesList[0]]}
                         onChange={this.onChangeServices}
+                        renderInput={(params) => (
+                           <TextField
+                              {...params}
+                              variant="standard"
+                              label="Multiple values"
+                              placeholder="Favorites"
+                           />
+                        )}
                      />
                   )
 
@@ -175,7 +217,21 @@ class PatientsTable extends Component {
             },
             {
                title: '*Family Doctor', field: 'familyDoctor', editComponent: rowData => {
-                  return (<AutoComplete data={family_doctorsList} placeholder="Select Family doctor" onChange={this.onChangeDoctor} />)
+                  return (<Autocomplete
+                     options={family_doctorsList}
+                     getOptionLabel={(option) => option.doctorName}
+                     id="auto-complete"
+                     autoComplete
+                     includeInputInList
+                     onChange={this.onChangeDoctor}
+                     renderInput={(params) => <TextField
+                        id="input-with-icon-textfield"
+                        label="Select Family doctor"
+                        {...params}
+                        margin="normal"
+
+                     />}
+                  />)
                }
             },
             { title: 'Key number', field: 'keyNumber', type: 'numeric' },
@@ -185,13 +241,27 @@ class PatientsTable extends Component {
             },
             {
                title: '*Pharmacy', field: 'pharmacy', editComponent: rowData => {
-                  return (<AutoComplete data={pharmaciesList} placeholder="Select Pharmacy" onChange={this.onChangePharmacies} />)
+                  return (<Autocomplete
+                     options={pharmaciesList}
+                     getOptionLabel={(option) => option.pharmacyName}
+                     id="auto-complete"
+                     autoComplete
+                     includeInputInList
+                     onChange={this.onChangePharmacies}
+                     renderInput={(params) => <TextField
+                        id="input-with-icon-textfield"
+                        label="Select Pharmacy"
+                        {...params}
+                        margin="normal"
+
+                     />}
+                  />)
                }
             },
             {
-               title: 'Instance', field: 'instance_id', hidden : false, render: rowData => {
+               title: 'Instance', field: 'instance_id', hidden: false, render: rowData => {
                   let temp = null;
-                  temp = instanceNames.find((x,i) =>  i == rowData.instance_id);
+                  temp = instanceNames.find((x, i) => i == rowData.instance_id);
                   if (temp) {
                      return (<div>
                         {instanceNames[rowData.instance_id]}
@@ -201,7 +271,7 @@ class PatientsTable extends Component {
 
                }, editComponent: rowData => {
                   let temp = null;
-                  temp = instanceNames.find((x,i) =>  i == rowData.rowData.instance_id);
+                  temp = instanceNames.find((x, i) => i == rowData.rowData.instance_id);
                   if (temp) {
                      return (<div>
                         {instanceNames[rowData.rowData.instance_id]}
@@ -211,7 +281,7 @@ class PatientsTable extends Component {
                      return <div></div>;
                   }
                },
-               
+
             },
             {
                title: 'Related Users', field: 'userGroup', render: props => {
@@ -247,10 +317,22 @@ class PatientsTable extends Component {
                   }
 
                   return (
-                     <MultiSelect
-                        data={usersList}
-                        value={this.state.selectedUsers}
+
+                     <Autocomplete
+                        multiple
+                        id="tags-standard"
+                        options={usersList}
+                        getOptionLabel={(option) => option.name}
+                        defaultValue={[usersList[0]]}
                         onChange={this.onChangeUsers}
+                        renderInput={(params) => (
+                           <TextField
+                              {...params}
+                              variant="standard"
+                              label="Multiple values"
+                              placeholder="Favorites"
+                           />
+                        )}
                      />
                   )
 
@@ -281,7 +363,7 @@ class PatientsTable extends Component {
                }
             },
          ],
-         
+
          data: [],
          selected: [],
          selectedservice: [],
@@ -297,7 +379,7 @@ class PatientsTable extends Component {
          documentsList: [],
          folders: [],
          downloadDocs: [],
-      
+
       };
 
       this.preViewDialog = React.createRef();
@@ -325,7 +407,7 @@ class PatientsTable extends Component {
             let folderDocs = JSON.parse(folder.documents);
             folderDocs.map(element => {
                relationDocs.push(element);
-            })          
+            })
          }
       });
 
@@ -384,94 +466,83 @@ class PatientsTable extends Component {
    handleChangeDate = (event) => {
       this.setState({ birthday: event.target.value });
    }
-   onChangeDoctor = (event) => {
-      this.setState({ familyDoctor: event.target.value })
-   }
-   onChangePharmacies = (event) => {
-      this.setState({ pharmacy: event.target.value })
+   onChangeDoctor = (event, doctor) => {
+      if (!doctor) doctor = {};
+      this.setState({ familyDoctor: doctor.doctorName });
+
    }
 
-   onChangeInsurance = (event) => {
-      this.setState({ insurance: event.target.value });
+   onChangePharmacies = (event, pharmacy) => {
+      if (!pharmacy) pharmacy = {};
+      this.setState({ pharmacy: pharmacy.pharmacyName });
    }
-   onChangeResources = (event) => {
+   onChangeInsurance = (event, insurance) => {
+
+      if (!insurance) insurance = {};
+      this.setState({ insurance: insurance.insurances });
+   }
+   onChangeResources = (event, Resources) => {
+      let resources = Resources.map(element => element.resources);
       this.setState({
-         selected: [...event.target.value]
+         selected: [...resources]
       });
    }
-   onChangeUsers = (event) => {
-      let selectedUsers = [...event.target.value];
-      if(selectedUsers.length == usersList.length - 1 || selectedUsers.indexOf('all') > -1)selectedUsers = ['all'];     
+
+   onChangeResources = (event, SelectedUsers) => {
+
+      let selectedUsers = SelectedUsers.map(element => element.name);
+      if (selectedUsers.length == usersList.length - 1 || selectedUsers.indexOf('all') > -1) selectedUsers = ['all'];
       this.setState({
-         selectedUsers: selectedUsers
+         selectedUsers: [...selectedUsers]
       });
    }
-   onChangeServices = (event) => {
+   onChangeServices = (event, Services) => {
+      let services = Services.map(element => element.services);
 
       this.setState({
-         selectedservice: [...event.target.value]
+         selectedservice: [...services]
       });
-      console.log('selectedservices', this.state.selectedservice, [...event.target.value]);
    }
    componentWillMount() {
       this.defaultUrl = "http://base.mastermedi-1.vautronserver.de/backend_latest/file_storage/1602322608icon-patient-kl.png";
       let user = JSON.parse(localStorage.getItem('user'));
       this.instance_id = user.instance_id;
-    
+
       userService.showPatients({ instance_id: this.instance_id, pagination: 1 }).then(res => {
-        
+
          this.setState(state => {
             let columns = state.columns;
-            state.columns[20].hidden = (this.instance_id ? true : false);       
+            state.columns[20].hidden = (this.instance_id ? true : false);
             return {
                columns
             };
          })
-       
-         resourcesList = [];
+
+
          servicesList = [];
-         servicesList = res.services.map(ele => {
-            return ele.services
-         });
+         servicesList = res.services
 
-         resourcesList = res.resources.map(ele => {
-            return ele.resources;
-         })
-         usersList = res.users.map(ele => {
-            return ele.name;
-         })
-         usersList.push("all");
-         family_doctorsList = res.family_doctors.map(ele => {
-            return ele.doctorName;
-         })
+         resourcesList = res.resources;
+         usersList = res.users;
+          usersList.push({name : 'app'});
+         family_doctorsList = res.family_doctors;
 
 
-         insuranceList = res.insurances.map(ele => {
-            return ele.insurances;
-         })
-         pharmaciesList = res.pharmacies.map(ele => {
-            return ele.pharmacyName;
-         })
+         insuranceList = res.insurances;
+         pharmaciesList = res.pharmacies;
+
          if (res.instances.length) {
             instances = res.instances[0];
 
          }
          instanceNames = [];
          res.instanceNames.map(ele => {
-           
-           instanceNames[ele.id] = ele.instanceName;
+
+            instanceNames[ele.id] = ele.instanceName;
          })
          console.log('resinstanceName', instanceNames)
 
-         // res.insurances.map(ele => {
-         //    insuranceList[ele.insurances] = ele.insurances;
-         // })
 
-
-         // res.pharmacies.map(ele => {
-         //    pharmaciesList[ele.pharmacyName] = ele.pharmacyName;
-         // })
-         // console.log('this.insta' , this.insurances);  
 
 
          this.setState(prevState => {
@@ -486,6 +557,8 @@ class PatientsTable extends Component {
    }
 
    render() {
+
+
       let editableComponent = this.instance_id ? {
          onRowAdd: newData =>
             new Promise(resolve => {
