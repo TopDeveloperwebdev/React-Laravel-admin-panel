@@ -29,19 +29,19 @@ class Documents extends Component {
 			patients : [],
 			columns: [
 				{
-					title: 'Files', field: 'action', render: row => <div>
+					title: 'Dokument', field: 'action', render: row => <div>
 						<InsertDriveFileOutlinedIcon className="pointerIcon" onClick={() => this.viewDocument(row.content, row.email, row.instanceLogo, row.instanceName, row.title)} />
 					</div>
 				},
-				{ title: 'Title', field: 'title' },
-				{ title: 'Created_At', field: 'created_at',render: rowdata => {
+				{ title: 'Titel', field: 'title' },
+				{ title: 'Erstellt am', field: 'created_at',render: rowdata => {
 					return (<div>
 						{this.formate_date(rowdata.created_at)}
 					</div>)
 				}
 				}, 
 				{
-					title: 'Actions', field: 'actions', render: row => <div>
+					title: 'Funktionen', field: 'actions', render: row => <div>
 						<EditOutlinedIcon className="pointerIcon" onClick={() => this.editDocument(row)} />
 						<DeleteOutlineOutlinedIcon className="pointerIcon" onClick={() => this.ondeleteContact(row)} />
 					</div>

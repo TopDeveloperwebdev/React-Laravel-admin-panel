@@ -17,7 +17,7 @@ import { userService } from '../../../_services';
 import { NotificationManager } from 'react-notifications';
 
 let usersList = ['Family doctors', 'Pharmacies', 'Patients', 'Related Users'];
-const types = ['Every year on birthdays', 'User create an Order'];
+const types = ['Jedes Jahr an Geburtstagen', 'Benutzer erzeugt eine Bestellung'];
 
 const styles = theme => ({
 	root: {
@@ -65,7 +65,7 @@ class EmailTrigers extends Component {
 		},
 		selectedRowForStyle: null,
 		selectedUsers: [],
-		selectedType: 'Every year on birthdays',
+		selectedType: 'Jedes Jahr an Geburtstagen',
 		TemplateAllList: [],
 		TemplateList: [],
 		isEditBirthday: false,
@@ -125,7 +125,7 @@ class EmailTrigers extends Component {
 				triggers: [...res.triggers]
 
 			})
-			this.handleRowClick('User create an Order');
+			this.handleRowClick('Benutzer erzeugt eine Bestellung');
 		})
 	}
 
@@ -162,20 +162,20 @@ class EmailTrigers extends Component {
 					<Box px={{ xs: '12px', lg: 0 }} className="page-space">
 						<Grid container spacing={0} className="res-custom-table">
 							<Grid item xs={12} sm={12} md={5}>
-								<CustomCard title="Avaiable Triggers" showDivider={true}>
+								<CustomCard title="Verfügbare Abläufe" showDivider={true}>
 									<ul className="top-hits" mt={10}>
 
-										<li onClick={() => this.handleRowClick('User create an Order')}>
+										<li onClick={() => this.handleRowClick('Benutzer erzeugt eine Bestellung')}>
 											<div className="top-product">
 												<div className="top-product-detail">
 													<div className="top-product-thumb">
 														<ShoppingCartOutlinedIcon />
 													</div>
 													<Box>
-														<Typography className="top-product-title">When user create an Order</Typography>
+														<Typography className="top-product-title">Wenn der Benutzer eine Bestellung tätigt</Typography>
 														<Box display="flex">
 															<Box display="flex" alignItems="center" className="top-product-meta" mr={1}>
-																<Typography>Workflow triggered when user created a order</Typography>
+																<Typography>Workflow wird ausgelöst, wenn ein Benutzer eine Bestellung tätigt</Typography>
 															</Box>
 														</Box>
 													</Box>
@@ -183,17 +183,17 @@ class EmailTrigers extends Component {
 											</div>
 										</li>
 
-										<li onClick={() => this.handleRowClick('Every year on birthdays')}>
+										<li onClick={() => this.handleRowClick('Jedes Jahr an Geburtstagen')}>
 											<div className="top-product">
 												<div className="top-product-detail">
 													<div className="top-product-thumb">
 														<EventAvailableOutlinedIcon />
 													</div>
 													<Box>
-														<Typography className="top-product-title">The anniversary of a date</Typography>
+														<Typography className="top-product-title">Der Jahrestag eines Datums</Typography>
 														<Box display="flex">
 															<Box display="flex" alignItems="center" className="top-product-meta" mr={1}>
-																<Typography>Workflow triggered every year on specific dates (greate for birthdays, wedding anniversary, etc)</Typography>
+																<Typography>Workflow, der jedes Jahr an bestimmten Datum ausgelöst wird (z.B. Geburtstag)</Typography>
 															</Box>
 														</Box>
 													</Box>
@@ -216,11 +216,11 @@ class EmailTrigers extends Component {
 										<CustomCard mb={20} textAlign="center">
 
 											<Box className="flowItem">
-												<h5>UserGroup :</h5>
+												<h5>Benutzergruppe:</h5>
 												<Box>
 													<MultiSelect
-														placeholder="Select User Group"
-														data={usersList}
+														placeholder="Benutzergruppe auswählen"
+														data={usersList} 
 														value={this.state.selectedUsers}
 														onChange={this.onChangeUsers}
 													/>
@@ -232,9 +232,9 @@ class EmailTrigers extends Component {
 										<CustomCard mb={20}>
 
 											<Box className="flowItem">
-												<h5>Select E-Mail Template :</h5>
+												<h5>E-Mail Vorlage auswählen:</h5>
 												<Box>
-													<AutoComplete data={this.state.TemplateList} value={this.state.Template} placeholder="Select Template" onChange={this.onChangeTemplate} />
+													<AutoComplete data={this.state.TemplateList} value={this.state.Template} placeholder="E-Mail Vorlage auswählen" onChange={this.onChangeTemplate} />
 												</Box>
 											</Box>
 

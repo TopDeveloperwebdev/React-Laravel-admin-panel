@@ -74,7 +74,7 @@ export default {
   "sidebar.document": "Dokument-Editor",
   "sidebar.instances": "Instanzen",
   "sidebar.users": "Nutzer",
-  "sidebar.order": "Bestellung",
+  "sidebar.order": "Bestellungen",
   "sidebar.manageOrders": "Aufträge verwalten",
   "sidebar.medication": "Medikamente",
   "sidebar.pharmacies": "Apotheken",

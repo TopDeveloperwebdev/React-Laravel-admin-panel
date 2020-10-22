@@ -11,7 +11,7 @@ import IntlMessages from 'util/IntlMessages';
 import { userService } from '../../../../_services';
 import { Link } from 'react-router-dom';
 import $ from 'jquery'
-const types = ['Every year on birthdays', 'User create an Order'];
+const types = ['Jedes Jahr an Geburtstagen', 'Benutzer erzeugt eine Bestellung'];
 import 'react-quill/dist/quill.snow.css';
 import ReactQuill from 'react-quill';
 import PropTypes from 'prop-types';
@@ -31,7 +31,7 @@ class EditorDialog extends React.Component {
 		isEdit: false,
 		id: null,
 
-		selectedType: 'Every year on birthdays'
+		selectedType: 'Jedes Jahr an Geburtstagen'
 	};
 
 	//Define function for open confirmation dialog box

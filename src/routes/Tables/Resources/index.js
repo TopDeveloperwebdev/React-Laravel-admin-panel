@@ -57,6 +57,11 @@ class Resources extends Component {
 							title={<IntlMessages id="sidebar.Resources" />}
 							columns={this.state.columns}
 							data={this.state.data}
+							localization={{								
+								header: {
+									actions: 'Funktionen'
+								},								
+							}}
 							editable={this.instance_id ? {} : {
 								onRowAdd: newData =>
 									new Promise(resolve => {

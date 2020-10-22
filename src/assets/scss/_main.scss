@@ -6,6 +6,7 @@
 main{
     overflow-y: auto;
 }
+
 /*
     The example loads the DejaVu Sans from the Kendo UI CDN.
     Other fonts have to be hosted from your application.
@@ -415,8 +416,22 @@ html{
     }
 }
 .document,#downloadArea {    
-    div , p , span , label , h1,h2, h3, h4,h5,h6{
-        font-family: "Arial" !important;
+    strong {
+        font-family: 'Arial' !important;
+        font-weight: 200 !important;
+        color: black !important;
+    }
+    div , p , span , label {
+        font-family: "Arial" !important;   
+        font-weight: 200 !important;
+        color: black !important;
+        font-size: 12px;
+    }
+    strong ,h1,h2, h3, h4,h5,h6 {
+        font-family: 'Arial' !important;
+        font-weight: 200 !important;
+        color: black !important;
+        
     }
     .title-content{
         flex-direction: column;
@@ -427,13 +442,11 @@ html{
         padding: 30px 10px;
         
     }
-    // h4{
-    //     font-family: Arial, Helvetica, sans-serif !important; 
-    // }
-    // p,div {
-    //     font-family: Arial, Helvetica, sans-serif  
-
-    // }
+    #footer{
+        font-family: 'Arial' !important;
+        font-weight: bold !important;
+    }
+   
 }
 .orderdetail {
     .title-fontSize {
@@ -601,22 +614,36 @@ html{
     margin: 10%;
     position: relative;
     font-family: Arial !important;
+    color: black !important;
     .MuiTypography-body1 {
         font-family: Arial;
     }
+    strong {
+        font-family: 'Arial' !important;
+        color: black !important;
+    }
     table {
-        td ,tr ,th {
-            border: 1.1px solid #00000085;
+        td ,tr ,th {           
              text-align: center;
              padding: 5px;
              font-family: Arial !important;
         }
-          th{
+        .thead{
             background-color: #00000017;
-            text-align: left;
-            width: 70%;
-          }
+            .th{                
+                text-align: left;
+                width: 70%;
+              }
+              .th2 {
+                width: 30%;
+            }
+        }
+         
     }
+    table, th, td {
+        border: 0.0001px solid #0000005c;
+        border-collapse: collapse;
+      }
     .logo {
         position: absolute;
         width: 23%;
@@ -627,21 +654,29 @@ html{
         }
     }
     .checkboxs {
+        
         h6 ,h5, label {
             margin-top: auto;
             margin-bottom: auto;
             font-size: 15px;
         }
-     
+        .title-h5 {
+            padding: 0px;
+            font-family: Arial;
+            font-weight: 200;
+        }
     }
     .datecontainer {
         h6 , p ,div {
-            margin-left: 2px;
+            margin-left: 0px;
             margin-top: auto;
             margin-bottom: auto;
         }
         .justify-around {       
             flex-wrap: unset;
+        }
+        p {
+            padding-left: 3px;
         }
         
     }
@@ -663,10 +698,15 @@ html{
             h6 {
                 line-height: 1;
                 margin: 0px;
-                font-family: Arial !important;
+                font-family: 'Arial' !important;
             }
             text-align: left;
             padding: 10px 5px;
+        }
+       
+        td , th {
+            font-family: Arial !important;
+
         }
     }
   div {
@@ -706,6 +746,8 @@ html{
         }
         h5 {
             margin-left: 10px;
+            font-family: 'Arial' !important;
+            font-size: 14px;
         }
     }
     // checkbox
@@ -767,23 +809,29 @@ html{
       
       /* Style the checkmark/indicator */
       .checkboxContainer .checkmark:after {
-        left: 2px;
-        top: 2px;
-        width: 15px;
-        height: 11px;
-        border: solid #00000087;
-        border-width: 0 3px 3px 0;
-        transform: rotate(45deg);
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;   
+        background-image: url(../Images/remove.png);
+        background-size: 100% 100%;
       }
       
       .MuiBox-root p {
           color: black;  
          font-size: 12px !important;
       }
+    //   div, label, p, h5,h6 {
+    //       font-family: 'DejaVu Sans' !important;
+    //   }
+}
+.red {
+    color: red;
 }
 @media (max-width: 768px){
     #editArea .justify-center {
         justify-content: left;
+        
     }
 }
 .attachPdf {
@@ -792,7 +840,18 @@ html{
     right: -980px;
     font-family: Arial !important;
     #editArea {
-
+        padding-top: 30px;
+        .logo {          
+            top: 0px;
+        }
+      .checkboxContainer .checkmark:after {
+            left: 3px;
+            top: 2.5px;
+            width: 50%;          
+            height: 50%;          
+            background-size: 100% 100%;
+            background: black;
+        }
         width: 470px;
         margin: 0px; 
         position: relative;
@@ -801,21 +860,32 @@ html{
             width: 13px;
           }
           .checkboxs {
+          
+            div {
+                margin: 0px !important;
+               }
             h6 ,h5, label {
                margin: 0px;
               
                 padding: 0px 5px;
-                font-size: 11px;
-                font-family: Arial !important;
-            }
-         
-
+                font-size: 10px;
+                font-family: 'Arial' !important;
+            }   
+            .title-h5 {
+                padding: 0px !important;              
+            }    
+            // h5 {
+            //     padding: 0px;
+            // }
         }
-        td ,tr ,th {
-            border: 0.8px solid #00000085;
+        td ,tr ,th {            
              text-align: center;
              padding: 5px;
         }
+        table, th, td {
+            border: 0.0001px solid #0000005c;
+            border-collapse: collapse;
+          }
         div {
             font-size: 9px;
             font-family: Arial !important;
@@ -840,15 +910,7 @@ html{
         h6{
             font-size: 10px;
         }
-   .checkboxContainer .checkmark:after {
-            left: 0px;
-            top: -2px;
-            width: 10px;
-            height: 9px;
-            border: solid #00000087;
-            border-width: 0 3px 3px 0;
-            transform: rotate(45deg);
-        }
+
       
     }
     .none-row {
@@ -857,528 +919,3 @@ html{
    
       
 }
-// #editArea {
-//     min-height: 1123px;
-//     background: #ffcbbb96;
-//     color: red;
-//     padding: 15px 20px;
- 
-//     .marginAuto {
-//         margin-top: auto;
-//         margin-bottom: auto;
-//         label {
-//            margin-bottom: 0px;
-//            font-size: 12px;
-//         }
-//     }
-//     table{
-//         td {
-//             border: 1px solid #ff6119;
-//             background-color: white;
-//             height: 30px;
-//              input , textArea {
-//                  border: none !important;
-//                  width : 100% !important;
-//              }
-//              padding: 4px;            
-//         }
-        
-//     }
-//     .justify-around {
-//         display: flex;
-//         justify-content: space-around;
-//         flex-wrap: wrap;
-//     }    
-//     .justify-between {
-//         display: flex;
-//         justify-content: space-between;
-//         flex-wrap: wrap;
-//     }
-//     .flex-column {
-//         display: flex;
-//         flex-direction: column;        
-//     }
-//     // checkbox
-//     .checkboxContainer {
-//         display: block;
-//         position: relative;
-//         padding-left: 35px;
-//         margin-bottom: 12px;
-//         cursor: pointer;
-//         font-size: 12px;
-//         -webkit-user-select: none;
-//         -moz-user-select: none;
-//         -ms-user-select: none;
-//         user-select: none;
-//       }
-      
-//       /* Hide the browser's default checkbox */
-//       .checkboxContainer input {
-//         position: absolute;
-//         opacity: 0;
-//         cursor: pointer;
-//         height: 0;
-//         width: 0;
-//       }
-      
-//       /* Create a custom checkbox */
-//       .checkmark {
-//         position: absolute;
-//         top: 0;
-//         left: 0;
-//         height: 25px;
-//         width: 25px;
-//         background-color: white;
-//         border: 1px solid #f9430e;
-//       }
-      
-//       /* On mouse-over, add a grey background color */
-//       .checkboxContainer:hover input ~ .checkmark {
-//         background-color: #ccc;
-//       }
-      
-//       /* When the checkbox is checked, add a blue background */
-//       .checkboxContainer input:checked ~ .checkmark {
-//         background-color: white;
-//       }
-      
-//       /* Create the checkmark/indicator (hidden when not checked) */
-//       .checkmark:after {
-//         content: "";
-//         position: absolute;
-//         display: none;
-//       }
-      
-//       /* Show the checkmark when checked */
-//       .checkboxContainer input:checked ~ .checkmark:after {
-//         display: block;
-//       }
-      
-//       /* Style the checkmark/indicator */
-//       .checkboxContainer .checkmark:after {
-//         left: 9px;
-//         top: 5px;
-//         width: 5px;
-//         height: 10px;
-//         border: solid #00000087;
-//         border-width: 0 3px 3px 0;
-//         -webkit-transform: rotate(45deg);
-//         -ms-transform: rotate(45deg);
-//         transform: rotate(45deg);
-//       }
-//       input {       
-//         padding: 4px;
-//         font-size: 12px;
-//     }
-//     .insurance{
-    
-//         >div {
-//             display: flex;
-//             width: 100%;      
-
-//         }
-//         textarea{
-//             width: 100%;       
-//             resize: none;    
-//         }
-//         input {
-//             width: 34%;
-//             border: 1.4px solid #ff6119;
-//             margin: -1px;
-//             padding: 5px;
-//         }
-//         label{
-//             font-size: 11px;
-//             color: #e00000;
-//             width: 100%;
-//             text-align: left !important;
-//             padding: 0px 3px;
-//         }
-//         .k-autocomplete {
-//             min-width: auto;
-//             width: 50%;
-//             font-family: 'Roboto', sans-serif;
-//             font-weight: 500;
-//         }
-//         .date-label{
-//             width: 44%;
-//             margin-top: auto;
-//             margin-bottom: 0px;
-        
-//         }
-//           td {
-//             border: 1px solid #ff6119;
-//             background-color: white;
-//             height: 30px;
-//              input , textArea {
-//                  border: none !important;
-//                  width : calc(100% - 10px) !important;
-//              }
-//         }
-//         .checkboxs {
-//             label{
-//                 width: 40%;
-//             }
-          
-//         }
-//     }
-//     .diagnostics {
-     
-//         >div {
-//             display: flex;
-//             width: 100%;
-//             margin-top: -6px;
-//             justify-content: space-between;
-
-//         }
-//         textarea{
-//             width: 100%;       
-//             resize: none;
-//             border: 1.4px solid #ff6119;
-//             margin-top: -6px;
-//             margin-bottom: 6px;
-//         }
-//         input {
-//             width: 23%;
-//             border: none;
-//             border-bottom: 1.4px solid #ff6119;
-//             margin: -1px;
-//             padding: 5px;
-//         }
-//         label {
-//             font-size: 12px;  
-          
-//         }
-//         .label-1 {
-//             font-size: 13px;   
-//             margin: 0px;    
-//             margin-top: 13px;
-
-//         }
-//         .label-2 {
-//             font-size: 11px;
-//         }
-//         .flex-column {
-//             input {
-//                 width: 100%;
-//                 margin-top: 2px;
-//             }
-//         }
-//         h6 {
-//             color: black;
-//         }
-//     }
-//     .dateContainer {
-       
-        
-//         >div{
-//             display: flex;
-//             justify-content: space-around;
-//             width: 50%;
-//             margin: 5px;
-//             margin-top: 20px;
-//         }
-//         input{
-//             width: 15%;
-//             padding: 0px;
-//             color: gray;
-//             margin: 0px;
-//             text-align: center;
-//             font-weight: bold;
-//             border: 1px solid #ff6119;
-//         }
-//         input::-webkit-outer-spin-button,
-//         input::-webkit-inner-spin-button {
-//         -webkit-appearance: none;
-//         margin: 0;
-//         }
-//         ​
-//         /* Firefox */
-//         input[type=number] {
-//         -moz-appearance: textfield;
-//         }     
-//     }
-//     .main {
-//         textarea {
-//             width: 100%;
-//         }
-//         h5 {
-//             background-color: #ff693db0;
-//             padding: 5px;
-//         }
-//         input {
-//             border: none;
-//             border-bottom: 1.4px solid #ff6119;
-//         }
-//         .justify-around {
-//             justify-content: space-between;
-//         }
-//         input {
-//             width: 100%;
-//         }
-    
-//         .button {
-//             border: 2px solid red;
-//             width: 50%;
-//             margin-top: 15px;
-//             text-align: center;
-//             padding: 5px;
-//         }
-//         .rightGrid {
-        
-//             >div {
-//                 margin-bottom: 50px;
-//                 textarea{
-// resize: none;
-// border: 1px solid #ff6119;
-//                 }
-//             }
-            
-//         }
-//     }
-//     .thead-title {
-//         td{
-//             border-bottom: none !important;
-//             font-size: 11px;
-//             font-style: italic;
-//             font-weight: bold;
-//         }
-       
-//     }
-//     .thead-cols{
-//         td{
-//             border-top: none !important;
-//         }
-      
-//     }
-
-// }
-// .emptyBox {
-//     background-color: white;
-//     border: 1.4px solid #ff6119;
-//     min-height: 80px;
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: center;   
-//     padding: 6px;
-//     label {
-//         font-size: 12px;
-//         color: black;
-
-//     }
-// }
-// .sharedDocument {
-//     max-width: 1024px !important;
-// }
-// .attachPdf { 
-//     position: fixed;
-//     right: -980px;
-
-//     #editArea {      
-//     background: #ffcbbb96;
-//     color: red;
-//     padding: 15px 10px;
-//     min-width: 570px;
-//     max-width: 570px;    
-//     width: 575px;  
-//     max-height: 830px;
-//     min-height: 830px;
-
-//     }
-//     #editArea .main .rightGrid > div {
-//         margin-bottom: 36px;
-//     }
-//     .main span{
-//         font-size: 8px;
-//     }
-    
-//     #editArea .insurance td {
-//         border: 1px solid #ff6119;
-//         background-color: white;
-//         height: auto;
-//         padding: 2px;
-//     }
-//     td {
-//         text-align: center;
-//     }
-
-
-
-//     #editArea .diagnostics .flex-column input {
-//         width: 100%;
-//         margin-top: 2px;
-//     }
-
-
-//     #editArea .insurance label {
-//         font-size: 8px;
-//         color: #e00000;
-//         margin: 0px;
-//     }
-//     #editArea .insurance input {      
-//         margin: -1px;
-//         padding: 0px;
-//     }
-  
-  
-//     #editArea .diagnostics input {
-//         width: 16%;
-//         padding: 1px;
-//     }
-//     #editArea .checkmark {
-//         position: absolute;
-//         top: 0;
-//         left: 0;
-//         height: 16px;
-//         width: 16px;
-//         background-color: white;
-//         border: 1px solid #f9430e;
-//     }
-//     #editArea .main input {
-//         width: 100%;
-//         padding: 3px;   
-//     }
-//     .dateContainer {
-//         input {
-//             width: 11px !important;
-//             height: 11px !important;
-//             padding: 1px;           
-//             font-size: 8px;
-//         }
-//     }
-//     #editArea .dateContainer > div {      
-//         margin: 5px;
-//         margin-top: 10px;
-//     }
-//     .checkboxs {
-//         label{
-//             width: 50px
-//         }
-      
-//     }
-//     .insurance{
-//      max-width: 45%;
-//      min-width: 45%;
-//     }
-//     .diagnostics {
-//         max-width: 48%;
-//         min-width: 48%;
-//     }
- 
-//     h6 {
-//         font-size: 10px;
-//        line-height : 1;
-//        margin: 0px;
-//     }
-//     .MuiGrid-grid-md-7 {
-//         flex-grow: 0;
-//         max-width: 58.333333%;
-//         flex-basis: 58.333333%;
-//         font-size: 10px;
-//     }
-//     #editArea .insurance input {
-//         margin: -1px;
-//         padding: 0px;
-//     }
-//     h3, .h3 {
-//         font-size: 12px;
-//     }
-//     #editArea .main h5 {
-//         background-color: #ff693db0;
-//         padding: 5px;
-//         font-size: 10px;
-//     }
-//     #editArea .main input {
-//         width: 100%;
-//         padding: 0px 7px;
-//     }
-//      #editArea table td {
-//         border: 1px solid #ff6119;
-//         background-color: white;
-//         height: 16px;
-//         font-size: 8px;
-//         padding: 0px;
-//     }
-//     #editArea .checkboxContainer {
-    
-//         font-size: 8px;
-//         margin-bottom: 2px;
-     
-//     }
-//     .MuiBox-root p {
-//         margin-bottom: 0px !important;
-//         font-size: 8px !important;
-//         color: black;
-//     }
-//     td {
-//         border: 1px solid #ff6119;
-//         background-color: white;
-//         height: auto;
-//         padding: 0px 3px;
-//     }
-//     #editArea .checkboxContainer .checkmark:after {
-//         left: -1px;
-//         top: -1px;
-//         width: 9px;
-//         height: 5px;
-//         border: solid #00000087;
-//         border-width: 0 3px 3px 0;
-//         transform: rotate(45deg);
-//     }
-//     #editArea .checkmark {
-//         height: 10px;
-//         width: 10px;
-        
-//         }
-//     #editArea .marginAuto label {
-//         margin-bottom: 0px;
-//         font-size: 8px;
-//     }
-//     #editArea .main input {
-//         border: none;
-//         border-bottom: 0.4px solid #ff6119;
-//     font-size : 8px
-//     }
-//     #editArea .main .button {
-//         border: 2px solid red;
-//         width: 50%;
-//         margin-top: 7px;
-//         text-align: center;
-//         padding: 3px;
-//         font-size: 8px;
-//     }
-//     #editArea .main .rightGrid > div {
-//         margin-bottom: 28px;
-//     }
-//     label {
-//         display: inline-block;
-//         margin-bottom: 4px;
-//     }
-//     #editArea .insurance > div {
-//         display: flex;
-//         width: 100%;
-//         flex-wrap: unset;
-//     }
-//     #editArea .label-1 , .label-2 {
-//         font-size: 8px;
-//         margin: 0px;
-//         margin-top: 0px;
-//     } 
-//     #editArea .diagnostics .label-2 {
-//            font-size: 8px;
-//     }
-//     #editArea .diagnostics .flex-column input {
-//         width: 100%;
-//         margin-top: 2px;
-//         font-size: 8px;
-//     }
-//     .emptyBox {
-      
-//         label {
-//             font-size: 8px;
-//         }
-//     }
-//     #editArea .checkboxContainer {      
-//         padding-left: 20px;
-//     }
-// }

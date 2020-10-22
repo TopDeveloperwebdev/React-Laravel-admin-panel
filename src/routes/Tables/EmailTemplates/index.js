@@ -37,14 +37,14 @@ class EmailTemplates extends Component {
 			oldData: {},
 			columns: [
 				{
-					title: 'Files', field: 'action', render: row => <div>
+					title: 'Inhalt', field: 'action', render: row => <div>
 						<InsertDriveFileOutlinedIcon className="pointerIcon" onClick={() => this.viewDocument(row.body, row.title)} />
 					</div>
 				},
-				{ title: 'Title', field: 'title' },
-				{ title: 'Type', field: 'type' },
+				{ title: 'Titel', field: 'title' },
+				{ title: 'Typ', field: 'type' },
 				{
-					title: 'Actions', field: 'actions', render: row => <div>
+					title: 'Funktionen', field: 'actions', render: row => <div>
 						<EditOutlinedIcon className="pointerIcon" onClick={() => this.editDocument(row)} />
 						<DeleteOutlineOutlinedIcon className="pointerIcon" onClick={() => this.ondeleteContact(row)} />
 
@@ -181,6 +181,11 @@ class EmailTemplates extends Component {
 							title={<IntlMessages id="sidebar.emailTemplates" />}
 							columns={this.state.columns}
 							data={this.state.templates}
+							localization={{								
+								header: {
+									actions: 'Funktionen'
+								},								
+							}}
 							actions={this.instance_id ? [
 								{
 									icon: "note_add_outlined",

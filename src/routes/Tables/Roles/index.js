@@ -103,6 +103,11 @@ class Roles extends Component {
 							title={<IntlMessages id="sidebar.roles" />}
 							columns={this.state.columns}
 							data={this.state.data}
+							localization={{								
+								header: {
+									actions: 'Funktionen'
+								},								
+							}}
 							editable={{
 								onRowAdd: newData =>
 									new Promise(resolve => {

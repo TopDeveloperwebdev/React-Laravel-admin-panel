@@ -16,7 +16,7 @@ import FolderOutlinedIcon from '@material-ui/icons/FolderOutlined';
 import { NotificationManager } from 'react-notifications';
 import PreViewDialog from '../Carefolders/Components/PreViewDialog';
 import PageTemplate from './Components/PageTemplates';
-
+import {  MultiSelect } from '@progress/kendo-react-dropdowns';
 let insuranceList = [];
 let pharmaciesList = [];
 let salutationList = { Herr: 'Herr', Frau: 'Frau' };
@@ -35,7 +35,7 @@ class PatientsTable extends Component {
       this.state = {
          columns: [
             {
-               title: 'Picture', field: 'picture', render: rowData => <img src={rowData.picture ? rowData.picture : this.defaultUrl} className="logo-td bdr-rad-50" />,
+               title: 'Bild', field: 'picture', render: rowData => <img src={rowData.picture ? rowData.picture : this.defaultUrl} className="logo-td bdr-rad-50" />,
                editComponent: props => {
                   return (
                      <input
@@ -46,15 +46,15 @@ class PatientsTable extends Component {
 
                }
             },
-            { title: 'Salutation', field: 'salutation', lookup: salutationList },
-            { title: '*First Name', field: 'firstName' },
-            { title: '*Last Name', field: 'lastName' },
-            { title: 'Street nr', field: 'streetNr' },
-            { title: 'zip code', field: 'zipCode' },
-            { title: 'City', field: 'city' },
+            { title: 'Anrede', field: 'salutation', lookup: salutationList },
+            { title: '*Vorname', field: 'firstName' },
+            { title: '*Nachname', field: 'lastName' },
+            { title: 'Straße', field: 'streetNr' },
+            { title: 'PLZ', field: 'zipCode' },
+            { title: 'Ort', field: 'city' },
 
             {
-               title: 'Birthday', field: 'birthday', render: rowData => {
+               title: 'Geburtstag', field: 'birthday', render: rowData => {
                   return (<div>
                      {this.formate_date(rowData.birthday)}
                   </div>)
@@ -74,12 +74,12 @@ class PatientsTable extends Component {
                      />)
                }
             },
-            { title: 'Phone 1', field: 'phone1' },
-            { title: 'Phone 2', field: 'phone2' },
+            { title: 'Telefon 1', field: 'phone1' },
+            { title: 'Telefon 2', field: 'phone2' },
             { title: 'E-Mail', field: 'email' },
 
             {
-               title: 'Resources', field: 'resources', render: props => {
+               title: 'Bereich', field: 'resources', render: props => {
                   let selectedResources = [];
                   selectedResources = JSON.parse(props.resources);
                   if (!selectedResources) {
@@ -115,15 +115,13 @@ class PatientsTable extends Component {
                         multiple
                         id="tags-standard"
                         options={resourcesList}
-                        getOptionLabel={(option) => option.resources}
-                        defaultValue={[resourcesList[0]]}
+                        getOptionLabel={(option) => option.resources}                       
                         onChange={this.onChangeResources}
                         renderInput={(params) => (
                            <TextField
                               {...params}
-                              variant="standard"
-                              label="Multiple values"
-                              placeholder="Favorites"
+                              variant="standard"                             
+                              placeholder="Bereich"
                            />
                         )}
                      />
@@ -134,7 +132,7 @@ class PatientsTable extends Component {
             },
 
             {
-               title: '*Insurance', field: 'insurance', editComponent: rowData => {
+               title: '*Versicherung', field: 'insurance', editComponent: rowData => {
 
                   return (<Autocomplete
 
@@ -145,8 +143,8 @@ class PatientsTable extends Component {
                      includeInputInList
                      onChange={this.onChangeInsurance}
                      renderInput={(params) => <TextField
-                        id="input-with-icon-textfield"
-                        label="Select Insurance"
+                        placeholder="Versicherung"
+                        id="input-with-icon-textfield"                       
                         {...params}
                         margin="normal"
 
@@ -155,10 +153,10 @@ class PatientsTable extends Component {
                }
             },
             {
-               title: '*Insurance Nr', field: 'insuranceNr'
+               title: 'Versicherten-Nr.', field: 'insuranceNr'
             },
             {
-               title: 'Services', field: 'services', render: props => {
+               title: 'Leistungen', field: 'services', render: props => {
                   let selectedServices = JSON.parse(props.services);
 
                   if (!selectedServices) {
@@ -199,15 +197,13 @@ class PatientsTable extends Component {
                         multiple
                         id="tags-standard"
                         options={servicesList}
-                        getOptionLabel={(option) => option.services}
-                        defaultValue={[servicesList[0]]}
+                        getOptionLabel={(option) => option.services}                      
                         onChange={this.onChangeServices}
                         renderInput={(params) => (
                            <TextField
                               {...params}
-                              variant="standard"
-                              label="Multiple values"
-                              placeholder="Favorites"
+                              variant="standard"                              
+                              placeholder="Leistungen"
                            />
                         )}
                      />
@@ -216,7 +212,7 @@ class PatientsTable extends Component {
                }
             },
             {
-               title: '*Family Doctor', field: 'familyDoctor', editComponent: rowData => {
+               title: '*Familiendoktor', field: 'familyDoctor', editComponent: rowData => {
                   return (<Autocomplete
                      options={family_doctorsList}
                      getOptionLabel={(option) => option.doctorName}
@@ -225,22 +221,22 @@ class PatientsTable extends Component {
                      includeInputInList
                      onChange={this.onChangeDoctor}
                      renderInput={(params) => <TextField
-                        id="input-with-icon-textfield"
-                        label="Select Family doctor"
+                        id="input-with-icon-textfield"                      
                         {...params}
                         margin="normal"
+                        placeholder="Familiendoktor"
 
                      />}
                   />)
                }
             },
-            { title: 'Key number', field: 'keyNumber', type: 'numeric' },
-            { title: 'Floor', field: 'floor', type: 'numeric' },
+            { title: 'Schlüssel-Nr.', field: 'keyNumber', type: 'numeric' },
+            { title: 'Etage', field: 'floor', type: 'numeric' },
             {
-               title: 'Degree of care', field: 'degreeCare', lookup: degreeList
+               title: 'Pflegegrad', field: 'degreeCare', lookup: degreeList
             },
             {
-               title: '*Pharmacy', field: 'pharmacy', editComponent: rowData => {
+               title: '*Apotheke', field: 'pharmacy', editComponent: rowData => {
                   return (<Autocomplete
                      options={pharmaciesList}
                      getOptionLabel={(option) => option.pharmacyName}
@@ -249,10 +245,10 @@ class PatientsTable extends Component {
                      includeInputInList
                      onChange={this.onChangePharmacies}
                      renderInput={(params) => <TextField
-                        id="input-with-icon-textfield"
-                        label="Select Pharmacy"
+                        id="input-with-icon-textfield"                      
                         {...params}
                         margin="normal"
+                        placeholder="Apotheke"
 
                      />}
                   />)
@@ -282,9 +278,9 @@ class PatientsTable extends Component {
                   }
                },
 
-            },
+            },        
             {
-               title: 'Related Users', field: 'userGroup', render: props => {
+               title: 'Nutzergruppe', field: 'userGroup', render: props => {
                   let selectedUsers = [];
                   selectedUsers = JSON.parse(props.userGroup);
 
@@ -317,22 +313,10 @@ class PatientsTable extends Component {
                   }
 
                   return (
-
-                     <Autocomplete
-                        multiple
-                        id="tags-standard"
-                        options={usersList}
-                        getOptionLabel={(option) => option.name}
-                        defaultValue={[usersList[0]]}
+                     <MultiSelect
+                        data={usersList}
+                        value={this.state.selectedUsers}
                         onChange={this.onChangeUsers}
-                        renderInput={(params) => (
-                           <TextField
-                              {...params}
-                              variant="standard"
-                              label="Multiple values"
-                              placeholder="Favorites"
-                           />
-                        )}
                      />
                   )
 
@@ -340,7 +324,7 @@ class PatientsTable extends Component {
             },
             { title: 'Status', field: 'status', lookup: statusList },
             {
-               title: 'Serviceplan', field: 'serviceplan', render: rowData => {
+               title: 'Benachrichtigungen', field: 'serviceplan', render: rowData => {
                   return (<Switch
                      size="small"
                      color="primary"
@@ -487,13 +471,11 @@ class PatientsTable extends Component {
          selected: [...resources]
       });
    }
-
-   onChangeResources = (event, SelectedUsers) => {
-
-      let selectedUsers = SelectedUsers.map(element => element.name);
-      if (selectedUsers.length == usersList.length - 1 || selectedUsers.indexOf('all') > -1) selectedUsers = ['all'];
+   onChangeUsers = (event) => {
+      let selectedUsers = [...event.target.value];
+      if(selectedUsers.length == usersList.length - 1 || selectedUsers.indexOf('all') > -1)selectedUsers = ['all'];     
       this.setState({
-         selectedUsers: [...selectedUsers]
+         selectedUsers: selectedUsers
       });
    }
    onChangeServices = (event, Services) => {
@@ -523,8 +505,10 @@ class PatientsTable extends Component {
          servicesList = res.services
 
          resourcesList = res.resources;
-         usersList = res.users;
-          usersList.push({name : 'app'});
+         usersList = res.users.map(ele => {
+            return ele.name;
+         })
+         usersList.push("all");
          family_doctorsList = res.family_doctors;
 
 
@@ -719,6 +703,11 @@ class PatientsTable extends Component {
                      title={<IntlMessages id="sidebar.patients" />}
                      columns={this.state.columns}
                      data={this.state.data}
+                     localization={{								
+								header: {
+									actions: 'Funktionen'
+								},								
+							}}
                      options={{
                         actionRowIndex: -1
                      }}

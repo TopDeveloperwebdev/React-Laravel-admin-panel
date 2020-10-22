@@ -98,6 +98,11 @@ class Pharmacies extends Component {
 							title={<IntlMessages id="sidebar.pharmacies" />}
 							columns={this.state.columns}
 							data={this.state.data}
+							localization={{								
+								header: {
+									actions: 'Funktionen'
+								},								
+							}}
 							editable={{
 								onRowAdd: newData =>
 									new Promise(resolve => {

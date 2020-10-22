@@ -56,6 +56,7 @@ class EditorDialog extends React.Component {
 		},
 		from: new Date(),
 		to: new Date(),
+		selectedPatient: null
 
 	};
 
@@ -147,18 +148,19 @@ class EditorDialog extends React.Component {
 				document.patientInfo = patient;
 				document.doctorInfo = relatedDoctor;
 				console.log('document', document);
-				return { ...prevState, document };
+				return { ...prevState, document, selectedPatient: patient };
 			});
 		}
 
 	}
 	onChangeService = (event, service) => {
-
-		this.setState(prevState => {
-			let newData = { ...prevState.newData };
-			newData.service = service.services;
-			return { ...prevState, newData };
-		});
+		if (service) {
+			this.setState(prevState => {
+				let newData = { ...prevState.newData };
+				newData.service = service.services;
+				return { ...prevState, newData };
+			});
+		}
 
 	}
 	onChangeComment = (event) => {
@@ -191,8 +193,8 @@ class EditorDialog extends React.Component {
 	}
 
 	formate_dateT(dateString) {
-		let data = '00.00.0000';		
-		if (dateString) {			
+		let data = '00.00.0000';
+		if (dateString) {
 			dateString = dateString.toISOString();
 			let date = dateString.split('T');
 			if (date.length > 1) {
@@ -213,7 +215,7 @@ class EditorDialog extends React.Component {
 	render() {
 		//const { folders, classes } = this.props;
 		const { document: { instanceInfo, doctorInfo, patientInfo, selectedServices }, patientsList, services, type } = this.state;
-		console.log('instanceInfotype2222', type);
+		console.log('instanceInfotype000', patientInfo);
 		const patientsProps = {
 			options: patientsList,
 			getOptionLabel: (option) => option.firstName + ' ' + option.lastName,
@@ -259,14 +261,14 @@ class EditorDialog extends React.Component {
 						<Grid container className="justify-between">
 							<Grid item sm={7} md={7} lg={7}>
 								<Box pt={1}>
-									<Typography><strong>{doctorInfo.fax}</strong></Typography>
+									<Typography><strong>Fax: {doctorInfo.fax}</strong></Typography>
 								</Box>
 							</Grid>
 							<Grid item sm={3} md={3} lg={3}>
 								<Box pt={1}>
-									<Typography><strong>Tel :  {instanceInfo.phone}</strong></Typography>
-									<Typography><strong>Fax :  {instanceInfo.fax}</strong></Typography>
-									<Typography><strong>E-Mail :  {instanceInfo.email}</strong></Typography>
+									<Typography><strong>Tel.:  {instanceInfo.phone}</strong></Typography>
+									<Typography><strong>Fax:  {instanceInfo.fax}</strong></Typography>
+									<Typography><strong>E-Mail:  {instanceInfo.email}</strong></Typography>
 								</Box>
 							</Grid>
 
@@ -282,6 +284,8 @@ class EditorDialog extends React.Component {
 										id="auto-complete"
 										autoComplete
 										includeInputInList
+										value={this.state.selectedPatient}
+
 										onChange={this.onChangePatient}
 										renderInput={(params) => <TextField
 											id="input-with-icon-textfield"
@@ -304,7 +308,7 @@ class EditorDialog extends React.Component {
 						<Box pt={10} >
 							<Grid container sm={12} md={12} lg={12} className="justify-between checkboxs">
 								<Grid item xs={12} sm={12} md={2} lg={2}>
-									<h5><strong>Anforderung</strong></h5>
+									<h5 className="title-h5"><strong>Anforderung</strong></h5>
 								</Grid>
 								<Grid item xs={12} sm={12} md={3} lg={3} className="justify-center">
 									<label className="checkboxContainer" >
@@ -385,21 +389,25 @@ class EditorDialog extends React.Component {
 							</Box>
 						</Box>
 						<Box pt={5} >
-							<Typography>Sehr geehrte Damen und Herren,
-							fur die Durchfuhrung von behandlungspflegerischen MaBnahmen benotigen wir eine Verordnung fur folgende Leistungen:</Typography>
+							<Box className="tableContainer" >
+								<Typography>Sehr geehrte Damen und Herren,</Typography>
+							</Box>
+							<Box className="tableContainer" pt={2}>
+								<Typography>für die Durchführung von behandlungspflegerischen Maßnahmen benötigen wir eine Verordnung für folgende Leistungen: </Typography>
+							</Box>
+
 							<Box className="tableContainer" pt={2} pb={2}>
 								<table>
-									<thead>
-										<tr>
+
+									<tbody>
+										<tr className="thead">
 											<th colSpan="1">
 												Leistung
 										</th>
 											<th colSpan="2">
-												Haufigkeit
+												Häufigkeit
 										</th>
 										</tr>
-									</thead>
-									<tbody>
 										{selectedServices.length ? selectedServices.map((elemnet, index) => (
 											<tr key={index}>
 												<td className="detail">
@@ -422,6 +430,7 @@ class EditorDialog extends React.Component {
 
 										}
 
+
 										<tr className="EditRow">
 											<td>
 												<Grid container>
@@ -434,7 +443,7 @@ class EditorDialog extends React.Component {
 															onChange={this.onChangeService}
 															renderInput={(params) => <TextField
 																id="input-with-icon-textfield"
-																label="Patienten suchen"
+																label="Leistung"
 																{...params}
 																margin="normal"
 
@@ -446,7 +455,7 @@ class EditorDialog extends React.Component {
 														<Box ml={2}>
 															<TextField
 																id="input-with-icon-textfield"
-																label="Patienten suchen"
+																label="Kommentar"
 																margin="normal"
 																name="comment"
 																onChange={this.onChangeComment}
@@ -495,26 +504,26 @@ class EditorDialog extends React.Component {
 								</table>
 
 							</Box>
-							<Box >
+							<Box textAlign="center">
 								<Button variant="contained" color="primary" onClick={this.addService} >
-									Add
+									Meue Leistung
 								</Button>
+
+
 							</Box>
 						</Box>
 						<Box pt={5}>
-							<Box>Bitte senden Sie uns die Verordung vor ab per Fax an: <strong>{instanceInfo.fax}</strong></Box>
+							<Box>Bitte senden Sie uns die Verordung vor ab per Fax an: {instanceInfo.fax}</Box>
 							<Box pt={2}>
-								Wir danken Ihnen recht herzlich fur Ihre Muhe und stehen Ihnen als zuverlassiger und professioneller
+								Wir danken Ihnen recht herzlich für Ihre Mühe und stehen Ihnen als zuverlassiger und professioneller
 								Versorger jederzeit gerne zur Seite.
 								</Box>
-							<Box pt={2}> 	Mit freundlichen GruBen
+							<Box pt={2}> 	Mit freundlichen Grüßen
 								</Box>
 							<Box>
-								Ihr <strong>{instanceInfo.instanceName}</strong>  Team
+								Ihr {instanceInfo.instanceName}  Team
 								</Box>
 						</Box>
-
-
 					</Box>
 				</DialogContent>
 				<DialogActions className="px-20 pb-20 justify-content-center">

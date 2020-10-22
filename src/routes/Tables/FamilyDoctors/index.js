@@ -22,19 +22,7 @@ class FamilyDoctors extends Component {
 				{ title: 'Phone', field: 'phone', type: 'string', required: true },
 				{ title: 'Fax', field: 'fax' },
 				{ title: 'Email', field: 'email' },
-				{ title: 'Password', field: 'password', type: 'string' },
-				// {
-				// 	title: 'Notifications', field: 'notifications', render: rowData => <Switch
-				// 		size="small"
-				// 		color="primary"
-				// 	/>,
-				// 	editComponent: rowData => <Switch
-				// 		size="small"
-				// 		color="primary"
-				// 		onChange={e => this.setState({ notifications: e.target.checked })}
-				// 		value={this.state.notifications}
-				// 	/>
-				// },
+				{ title: 'Password', field: 'password', type: 'string' },			
 				{
 					title: 'Notifications', field: 'notifications', render: rowData => {
 						return (<Switch
@@ -58,14 +46,7 @@ class FamilyDoctors extends Component {
 
 					}
 				},
-			],
-
-			// data: [
-			// 	{ practiceName: 'Mehmet', doctorName: 'Baran', streetNr: 'streetNr', zipCode: 63 ,city: 'Mehmet', phone: 'Baran', fax: 'streetNr' ,email : 'test@admin.com' ,password : 'password' ,notifications  : true  },
-			// 	{ practiceName: 'Mehmet', doctorName: 'Baran', streetNr: 'streetNr', zipCode: 63 ,city: 'Mehmet', phone: 'Baran', fax: 'streetNr' ,email : 'test@admin.com' ,password : 'password' ,notifications  : true  },
-			// 	{ practiceName: 'Mehmet', doctorName: 'Baran', streetNr: 'streetNr', zipCode: 63 ,city: 'Mehmet', phone: 'Baran', fax: 'streetNr' ,email : 'test@admin.com' ,password : 'password' ,notifications  : true  },
-			// 	{ practiceName: 'Mehmet', doctorName: 'Baran', streetNr: 'streetNr', zipCode: 63 ,city: 'Mehmet', phone: 'Baran', fax: 'streetNr' ,email : 'test@admin.com' ,password : 'password' ,notifications  : true  },
-			// ],
+			],			
 			data: [],
 			notifications : true,
 			isEditNotifications : false

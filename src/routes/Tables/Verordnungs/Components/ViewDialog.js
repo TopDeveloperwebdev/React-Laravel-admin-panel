@@ -61,7 +61,7 @@ class ViewDialog extends React.Component {
 					</Box>
 					<Box>
 						<Typography>
-							<strong>{instanceInfo.instanceName} | {instanceInfo.streetNr} | {instanceInfo.zipCode} {instanceInfo.city}</strong>
+							{instanceInfo.instanceName} | {instanceInfo.streetNr} | {instanceInfo.zipCode} {instanceInfo.city}
 						</Typography>
 					</Box>
 
@@ -69,10 +69,9 @@ class ViewDialog extends React.Component {
 						<Grid item sm={7} md={7} lg={7}>
 							<Box pt={1}>
 
-								<Typography><strong>{doctorInfo.doctorName}</strong></Typography>
+								<Typography>{doctorInfo.doctorName}</Typography>
 								<Typography>{doctorInfo.streetNr}</Typography>
-								<Typography>{doctorInfo.zipcode}</Typography>
-
+								<Typography>{doctorInfo.zipcode} {doctorInfo.city}</Typography>
 							</Box>
 						</Grid>
 						<Grid item sm={3} md={3} lg={3}>
@@ -87,14 +86,14 @@ class ViewDialog extends React.Component {
 					<Grid container className="justify-between">
 						<Grid item sm={7} md={7} lg={7}>
 							<Box pt={1}>
-								<Typography><strong>{doctorInfo.fax}</strong></Typography>
+								<Typography>Fax: {doctorInfo.fax}</Typography>
 							</Box>
 						</Grid>
 						<Grid item sm={3} md={3} lg={3}>
 							<Box pt={1}>
-								<Typography><strong>Tel :  {instanceInfo.phone}</strong></Typography>
-								<Typography><strong>Fax :  {instanceInfo.fax}</strong></Typography>
-								<Typography><strong>E-Mail :  {instanceInfo.email}</strong></Typography>
+								<Typography><span>Tel.:</span>  {instanceInfo.phone}</Typography>
+								<Typography><span>Fax:</span>  {instanceInfo.fax}</Typography>
+								<Typography><span>E-Mail:</span>  {instanceInfo.email}</Typography>
 							</Box>
 						</Grid>
 
@@ -117,31 +116,32 @@ class ViewDialog extends React.Component {
 
 					<Box pt={10} >
 						<Grid container sm={12} md={12} lg={12} className="justify-between checkboxs">
+
 							<Grid item xs={12} sm={12} md={2} lg={2}>
-								<h5><strong>Anforderung</strong></h5>
+								<h5 className="title-h5">Anforderung</h5>
 							</Grid>
 							<Grid item xs={12} sm={12} md={3} lg={3} className="justify-center">
 								<label className="checkboxContainer" >
-									<input type="radio" name="type" checked={type == 'Erstverordnung' ? true : false} />
+									<input type="checkbox" name="type1" value="Erstverordnung" checked={type.type1} />
 									<span className="checkmark"></span>
 								</label>
-								<h5><strong>Erstverordnung</strong></h5>
+								<h5>Erstverordnung</h5>
 
 							</Grid>
 							<Grid item sm={12} md={3} lg={3} className="justify-center">
 								<label className="checkboxContainer">
-									<input type="radio" name="type" checked={type == 'Folgeverordnung' ? true : false} />
+									<input type="checkbox" name="type2" value="Folgeverordnung" checked={type.type2} />
 									<span className="checkmark"></span>
 								</label>
-								<h5><strong>Folgeverordnung</strong></h5>
+								<h5>Folgeverordnung</h5>
 
 							</Grid>
 							<Grid item sm={12} md={3} lg={3} className="justify-center">
 								<label className="checkboxContainer">
-									<input type="radio" name="type" value='Medikamentenplan' checked={type == 'Medikamentenplan' ? true : false} />
+									<input type="checkbox" name="type3" checked={this.state.type3} checked={type.type3} />
 									<span className="checkmark"></span>
 								</label>
-								<h5><strong>Medikamentenplan</strong></h5>
+								<h5>Medikamentenplan</h5>
 
 							</Grid>
 
@@ -151,8 +151,8 @@ class ViewDialog extends React.Component {
 					</Box>
 					<Box pt={1} >
 						<Grid container sm={12} md={12} lg={12} className="datecontainer">
-							<h6>Zeitraum:</h6>
-							<Typography>von: {this.formate_date(from)}</Typography>
+							<h6>Zeitraum: </h6>
+							<Typography>von: {this.formate_date(from)} </Typography>
 							<Typography>bis: {this.formate_date(to)}</Typography>
 
 						</Grid>
@@ -160,43 +160,46 @@ class ViewDialog extends React.Component {
 					</Box>
 					<Box pt={1} >
 						<Box>
-							{patientInfo.firstName} {patientInfo.lastName} , geb. am {this.formate_date_birthday(patientInfo.birthday)}
+							{patientInfo.firstName} {patientInfo.lastName}, geb. am {this.formate_date_birthday(patientInfo.birthday)}
 						</Box>
 						<Box>
-							Versicherung:  {patientInfo.insurance} , Versichertennummer:  {patientInfo.insuranceNr}.
+							Versicherung:  {patientInfo.insurance}, Versichertennummer:  {patientInfo.insuranceNr}.
 							</Box>
 					</Box>
 					<Box pt={5} >
-						<Typography>Sehr geehrte Damen und Herren,
-							fur die Durchfuhrung von behandlungspflegerischen MaBnahmen benotigen wir eine Verordnung fur folgende Leistungen:</Typography>
+						<Box className="tableContainer" pt={2}>
+							<Typography>Sehr geehrte Damen und Herren,</Typography>
+						</Box>
+						<Box className="tableContainer" pt={2}>
+							<Typography>für die Durchführung von behandlungspflegerischen Maßnahmen benötigen wir eine Verordnung für folgende Leistungen: </Typography>
+						</Box>
+
 						<Box className="tableContainer" pt={2} pb={2}>
 							<table>
-								<thead>
-									<tr>
-										<th colSpan="1">
-											Leistung
-										</th>
-										<th colSpan="2">
-											Haufigkeit
-										</th>
-									</tr>
-								</thead>
-								<tbody>
 
+								<tbody>
+									<tr className="thead">
+										<td colSpan="1" className="th">
+											Leistung
+										</td>
+										<td colSpan="2" className="th2">
+											Häufigkeit
+										</td>
+									</tr>
 
 									{selectedServices.length ? selectedServices.map((elemnet, index) => (
 										<tr key={index}>
 											<td className="detail">
-												<h6><strong>{elemnet.service}</strong></h6>
+												<h6>{elemnet.service}</h6>
 												<Box>
 													{elemnet.comment}
 												</Box>
 											</td>
 											<td>
-												{elemnet.tgl}
+												{elemnet.tgl}  x  tgl.
 											</td>
 											<td>
-												{elemnet.wtl}
+												{elemnet.wtl}  x  wtl.
 											</td>
 										</tr>
 									))
@@ -217,15 +220,15 @@ class ViewDialog extends React.Component {
 
 					</Box>
 					<Box pt={2}>
-						<Box>Bitte senden Sie uns die Verordung vor ab per Fax an: <strong>{instanceInfo.fax}</strong></Box>
+						<Box>Bitte senden Sie uns die Verordung vor ab per Fax an: {instanceInfo.fax}</Box>
 						<Box pt={2}>
-							Wir danken Ihnen recht herzlich fur Ihre Muhe und stehen Ihnen als zuverlassiger und professioneller
+							Wir danken Ihnen recht herzlich für Ihre Mühe und stehen Ihnen als zuverlassiger und professioneller
 							Versorger jederzeit gerne zur Seite.
 								</Box>
-						<Box pt={2}> 	Mit freundlichen GruBen
+						<Box pt={2}> 	Mit freundlichen Grüßen
 								</Box>
 						<Box>
-							Ihr <strong>{instanceInfo.instanceName}</strong>  Team
+							Ihr {instanceInfo.instanceName}  Team
 								</Box>
 					</Box>
 

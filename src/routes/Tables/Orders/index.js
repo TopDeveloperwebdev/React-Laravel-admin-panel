@@ -19,7 +19,7 @@ class Orders extends Component {
 		this.state = {
 			columns: [
 				{
-					title: 'Order ID', field: 'orderId', render: rowData => <div>
+					title: 'Bestell-Nr.', field: 'orderId', render: rowData => <div>
 						<Link to={`/order-detail/${rowData.orderId}`} target="_blank">{rowData.orderId}</Link>
 
 					</div>,
@@ -30,7 +30,7 @@ class Orders extends Component {
 				},
 				{
 
-					title: 'Medications*', field: 'orderMedications', render: rowData => {
+					title: 'Medikamente*', field: 'orderMedications', render: rowData => {
 						let selectedMedications = JSON.parse(rowData.orderMedications);
 						return (
 							<div>
@@ -97,7 +97,7 @@ class Orders extends Component {
 					filtering: false
 				},
 				{
-					title: 'Pharmacy*', field: 'pharmacy', render: rowData => {
+					title: 'Apotheke*', field: 'pharmacy', render: rowData => {
 						return (<div>
 							{rowData.pharmacy}
 						</div>)
@@ -117,7 +117,7 @@ class Orders extends Component {
 					filtering: false
 				},
 				{
-					title: 'Family Doctor*', field: 'doctor', render: rowData => {
+					title: 'Hausarzt*', field: 'doctor', render: rowData => {
 						return (<div>
 							{rowData.doctor}
 						</div>)
@@ -138,7 +138,7 @@ class Orders extends Component {
 				},
 
 				{
-					title: 'Due Date*', field: 'date', render: rowData => {
+					title: 'Fällig*', field: 'date', render: rowData => {
 						return (<div>
 							{this.formate_date(rowData.date)}
 
@@ -165,7 +165,7 @@ class Orders extends Component {
 					filtering: false
 				},
 				{
-					title: 'Note', field: 'note', render: rowData => {
+					title: 'Notiz', field: 'note', render: rowData => {
 						return (<div>
 							{rowData.note}
 						</div>)
@@ -187,7 +187,7 @@ class Orders extends Component {
 					filtering: false
 				},
 				{
-					title: 'Delivered', field: 'status', render: rowdata => {
+					title: 'Geliefert (JA, NEIN)', field: 'status', render: rowdata => {
 
 						return (<Checkbox
 							checked={this.state.checked[rowdata.id]}
@@ -202,7 +202,7 @@ class Orders extends Component {
 							onChange={(event) => this.handleChangeCheckbox(event.target.checked, rowdata)}
 						/>)
 					},
-					lookup: { 1: 'YES', 0: 'NO' },
+					lookup: { 1: 'JA', 0: 'NEIN' },
 				}
 			],
 

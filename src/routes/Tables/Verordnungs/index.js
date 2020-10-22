@@ -64,7 +64,7 @@ class Documents extends Component {
 					title: 'patient', field: 'patient', filtering: false
 				},
 				{
-					title: 'type', field: 'type', render: row => {
+					title: 'Typ', field: 'type', render: row => {
 
 						let type = {};
 						if (row.type) type = JSON.parse(row.type);
@@ -79,13 +79,13 @@ class Documents extends Component {
 
 				},
 				{
-					title: 'from - to', field: 'from - to', render: row => <div>
+					title: 'von - bis', field: 'from - to', render: row => <div>
 						{this.formate_date(row.from)} - {this.formate_date(row.to)}
 					</div>, filtering: false
 				},
 
 				{
-					title: 'Actions', field: 'actions', render: row => <div>
+					title: 'Funktionen', field: 'actions', render: row => <div>
 						<CloudDownloadOutlinedIcon className="pointerIcon" onClick={() => this.downloadPdf(row)} />
 						<img alt="site logo" width="20" src={require(`assets/Images/fax-icon.png`)} className="pointerIcon" onClick={() => this.sendEmail(row)} />
 						{/* <EmailOutlinedIcon className="pointerIcon" onClick={() => this.sendEmail(row)} /> */}
@@ -166,8 +166,23 @@ class Documents extends Component {
 		return data;
 	}
 	addDocument() {
+		this.editorDialog.current.setState({
+			document: {
+				instanceInfo: instanceData,
+				doctorInfo: { doctorName: '' },
+				patientInfo: {},
+				selectedServices: [],
+			},
+			type: {
+				type1: false,
+				type2: false,
+				type3: false
+			},
+			from: new Date(),
+			to: new Date(),
+			selectedPatient : null
 
-		this.editorDialog.current.setState({ userInstance_id: this.instance_id });
+		})
 		this.editorDialog.current.openDialog();
 
 	}
@@ -185,7 +200,7 @@ class Documents extends Component {
 		setTimeout(() => {
 			savePDF(ReactDOM.findDOMNode(document.getElementById('editArea')), {
 				paperSize: "A4",
-				margin: { left: 60, right: 60, top: 80, bottom: 60 }
+				margin: { left: 60, right: 60, top: 50, bottom: 60 }
 			})
 		}, 10);
 
@@ -206,7 +221,7 @@ class Documents extends Component {
 			let gridElement = document.getElementById('editArea')
 			drawDOM(gridElement, {
 				paperSize: "A4",
-				margin: { left: 60, right: 60, top: 60, bottom: 60 }
+				margin: { left: 60, right: 60, top: 50, bottom: 60 }
 			}).then((group) => {
 				return exportPDF(group);
 			}).then((dataUri) => {
@@ -218,7 +233,7 @@ class Documents extends Component {
 					doctor: this.state.viewState.document.doctorInfo.doctorName
 				}
 				userService.sendMail(email).then(res => {
-					NotificationManager.success("Es gibt keine Pflegeordner, die optionale Dienste anbieten.");
+					NotificationManager.success("Der Faxversand war erfolgreich");
 					this.setState(prevState => {
 						const documents = [...prevState.documents];
 						documents[documents.indexOf(oldData)].send_date = res;
@@ -233,11 +248,15 @@ class Documents extends Component {
 	editDocument(oldData) {
 		this.setState({ oldData });
 		let content = JSON.parse(oldData.content);
+		
 		this.editorDialog.current.setState({
 			document: { ...content }, type: { ...JSON.parse(oldData.type) },
 			from: new Date(oldData.from),
-			to: new Date(oldData.to), isEdit: true, id: oldData.id
+			to: new Date(oldData.to), isEdit: true, id: oldData.id ,
+			selectedPatient : content.patientInfo,
+			
 		});
+	
 		this.editorDialog.current.openDialog();
 	}
 	onSubmit(popupResponse) {
@@ -263,7 +282,7 @@ class Documents extends Component {
 					},
 					from: new Date(),
 					to: new Date(),
-
+					selectedPatient : {}
 
 				})
 
@@ -300,6 +319,7 @@ class Documents extends Component {
 					},
 					from: new Date(),
 					to: new Date(),
+					selectedPatient : {}
 
 				})
 				NotificationManager.success("Sie haben erfolgreich Verordnung erstellt.");

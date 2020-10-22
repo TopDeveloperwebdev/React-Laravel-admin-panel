@@ -42,23 +42,23 @@ class Carefolders extends Component {
 			selectedDocumentList: [],
 			columns: [
 				{
-					title: 'Folders', field: 'action', render: row => <div>
+					title: 'Mappe', field: 'action', render: row => <div>
 						<Link className="pointerIcon" to={`/app/documents/${row.documents}`}><FolderOutlinedIcon /></Link>
 					</div>
 				},
 				{
-					title: 'Title', field: 'title'
+					title: 'Titel', field: 'title'
 				},
 				{
-					title: 'Size', field: 'size', render: row => <div>
+					title: 'Umfang', field: 'size', render: row => <div>
 						{this.getLength(row.documents)}
 					</div>
 				},
 				{
-					title: 'Created_At', field: 'created_at'
+					title: 'Erstellt am', field: 'created_at'
 				},
 				{
-					title: 'Actions', field: 'actions', render: row => <div>					
+					title: 'Funktionen', field: 'actions', render: row => <div>					
 						<EditOutlinedIcon className="pointerIcon" onClick={() => this.editDocument(row)} />
 						<DeleteOutlineOutlinedIcon className="pointerIcon" onClick={() => this.ondeleteContact(row)} />
 					</div>

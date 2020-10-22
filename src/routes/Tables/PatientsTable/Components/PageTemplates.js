@@ -3,6 +3,7 @@ import { Button, Box, Typography, Dialog, Container, DialogActions, DialogConten
 export default class PageTemplate extends React.Component {
     getUrl(logo) {
         let url = '/backend_latest/file_storage/' + logo.split('/')[5];
+        console.log('url' , url);
         //  let defaultUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSTbZrzTIuXAe01k5wgrhWGzPRPRliQygmBCA&usqp=CAU";
        // let defaultUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTpbeI4IdEQfeCLO9h67Z9SptqluMsBzJG-Ww&usqp=CAU";
        console.log('url' , url)
@@ -18,19 +19,19 @@ export default class PageTemplate extends React.Component {
                 >
                     <img src={this.getUrl(instanceInfo.instanceLogo)} height="auto" width="100px"/>
                 </div>
-                <div
+                {/* <div
                     style={{ position: "absolute", bottom: "30px", right: "30px", fontSize: "12px" }}
                     id="footer"
                 >
 
                     Seite {this.props.pageNum} von {this.props.totalPages}
-                </div>
+                </div> */}
                 <div
-                    style={{ position: "absolute", bottom: "30px", left: "60px", fontSize: "12px", color: "#b6b6b6" }}
+                    style={{ position: "absolute", bottom: "30px", left: "60px", fontSize: "12px", color: "#b6b6b6" , fontFamily : 'Arial' }}
                     id="footer"
                 >
-                    <div>{instanceInfo.instanceName}</div>
-                    Mail :  {instanceInfo.email}
+                    <div style={{fontFamily : 'Arial' }}>{instanceInfo.instanceName}</div>
+                    Mail:  {instanceInfo.email}
                 </div>
             </div>
         );

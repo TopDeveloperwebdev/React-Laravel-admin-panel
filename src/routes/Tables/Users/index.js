@@ -22,7 +22,7 @@ class Users extends Component {
 					</div>
 				},
 				{
-					title: 'User Avatar', field: 'userAvatar', render: rowData => <img src={rowData.userAvatar ? rowData.userAvatar : this.defaultUrl} className="logo-td bdr-rad-50" />,
+					title: 'Benutzer Bild', field: 'userAvatar', render: rowData => <img src={rowData.userAvatar ? rowData.userAvatar : this.defaultUrl} className="logo-td bdr-rad-50" />,
 					editComponent: props => {
 						return (
 							<input
@@ -34,10 +34,10 @@ class Users extends Component {
 					}
 				},
 				{ title: 'Instance', field: 'instance_id', lookup: instancesList },
-				{ title: 'User Name', field: 'name' },
-				{ title: 'Email', field: 'email' },
-				{ title: 'Password', field: 'password' },
-				{ title: 'Role', field: 'role', lookup: rolesList },
+				{ title: 'Benutzer Name', field: 'name' },
+				{ title: 'E-Mail', field: 'email' },
+				{ title: 'Passwort', field: 'password' },
+				{ title: 'Benutzerrolle', field: 'role', lookup: rolesList },
 				{
 					title: 'Status', field: 'status', render: rowData => {
 						return (<Switch
@@ -159,6 +159,11 @@ class Users extends Component {
 						<MaterialTable
 							title={<IntlMessages id="sidebar.users" />}
 							columns={this.state.columns}
+							localization={{								
+								header: {
+									actions: 'Funktionen'
+								},								
+							}}
 							data={this.state.data}
 							editable={{
 								onRowAdd: newData =>
