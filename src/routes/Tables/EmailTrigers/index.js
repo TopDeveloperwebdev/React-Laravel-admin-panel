@@ -16,7 +16,7 @@ import { CustomCard, SocialIcons } from 'components/GlobalComponents';
 import { userService } from '../../../_services';
 import { NotificationManager } from 'react-notifications';
 
-let usersList = ['Family doctors', 'Pharmacies', 'Patients', 'Related Users'];
+let usersList = ['Family doctors', 'Pharmacies','Care managers' ,'Patients', 'Related Users'];
 const types = ['Jedes Jahr an Geburtstagen', 'Benutzer erzeugt eine Bestellung'];
 
 const styles = theme => ({

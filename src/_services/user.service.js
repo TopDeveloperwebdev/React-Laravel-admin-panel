@@ -9,6 +9,10 @@ export const userService = {
    showFamilyDirectors,
    editFamilyDirectors,
    deleteFamilyDirectors,
+   addCaremanagers,
+   showCaremanagers,
+   editCaremanagers,
+   deleteCaremanagers,
    addPharmacies,
    showPharmacies,
    editPharmacies,
@@ -47,7 +51,7 @@ export const userService = {
    showDocuments,
    editDocuments,
    deleteDocuments,
-   
+
    addVerordnung,
    showVerordnung,
    editVerordnung,
@@ -183,6 +187,65 @@ function deleteFamilyDirectors(id) {
    };
 
    return fetch(serverUrl + 'deleteFamilyDirectors', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
+
+// familydoctors CRUD
+function addCaremanagers(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'addCaremanagers', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res;
+      });
+}
+function showCaremanagers(info) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(info)
+   };
+
+   return fetch(serverUrl + 'showCaremanagers', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
+function editCaremanagers(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'editCaremanagers', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         console.log('res', res);
+         return res
+      });
+}
+function deleteCaremanagers(id) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(id)
+   };
+
+   return fetch(serverUrl + 'deleteCaremanagers', requestOptions)
       .then(res => res.json())
       .then(res => {
          return res

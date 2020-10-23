@@ -109,12 +109,12 @@ class PatientsTable extends Component {
                         this.setState({ selected: selected, isEditResources: false })
                      }
 
-                     resourcesDatas = this.state.selected.map(selectedElement => {
-                        console.log('resource', selectedElement);
-                        return resourcesList.find(element => element.resources == selectedElement);
-                     })
-                  }
 
+                  }
+                  resourcesDatas = this.state.selected.map(selectedElement => {
+                     console.log('resource', selectedElement);
+                     return resourcesList.find(element => element.resources == selectedElement);
+                  })
                   return (
 
                      <Autocomplete
@@ -140,15 +140,15 @@ class PatientsTable extends Component {
 
             {
                title: '*Versicherung', field: 'insurance', editComponent: rowData => {
-             
+                  console.log('rowData-------', this.state.insuranceData);
                   if (rowData.rowData.id) {
                      let insurance = rowData.rowData.insurance;
                      if (this.state.isEditInsurance) {
-                       let insuranceData =  this.state.insuranceList.find(element => element.insurances == insurance);                      
-                        this.setState({isEditInsurance : false, insurance: insurance , insuranceData })
+                        let insuranceData = this.state.insuranceList.find(element => element.insurances == insurance);
+                        this.setState({ isEditInsurance: false, insurance: insurance, insuranceData })
                      }
                   }
-                 
+
                   return (<Autocomplete
                      options={this.state.insuranceList}
                      getOptionLabel={(option) => option.insurances}
@@ -206,12 +206,12 @@ class PatientsTable extends Component {
                         this.setState({ selectedservice: currentService, isEditServices: false })
                      }
 
-                     servicesDatas = this.state.selectedservice.map(selectedElement => {
-                        console.log('resource', selectedElement);
-                        return servicesList.find(element => element.services == selectedElement);
-                     })
-                  }
 
+                  }
+                  servicesDatas = this.state.selectedservice.map(selectedElement => {
+                     console.log('resource', selectedElement);
+                     return servicesList.find(element => element.services == selectedElement);
+                  })
                   return (
 
                      <Autocomplete
@@ -238,11 +238,11 @@ class PatientsTable extends Component {
                   if (rowData.rowData.id) {
                      let familyDoctor = rowData.rowData.familyDoctor;
                      if (this.state.isEditfamilyDoctor) {
-                       let familyDoctorData =  this.state.family_doctorsList.find(element => element.doctorName == familyDoctor);                      
-                        this.setState({isEditfamilyDoctor : false, familyDoctor: familyDoctor , familyDoctorData })
+                        let familyDoctorData = this.state.family_doctorsList.find(element => element.doctorName == familyDoctor);
+                        this.setState({ isEditfamilyDoctor: false, familyDoctor: familyDoctor, familyDoctorData })
                      }
                   }
-                 
+
                   return (<Autocomplete
                      options={this.state.family_doctorsList}
                      getOptionLabel={(option) => option.doctorName}
@@ -261,18 +261,46 @@ class PatientsTable extends Component {
                   />)
                }
             },
+            {
+               title: '*Ansprechpartner', field: 'ansprechpartner', editComponent: rowData => {
+                  if (rowData.rowData.id) {
+                     let caremanager = rowData.rowData.ansprechpartner;
+                     if (this.state.isEditCaremanager) {
+                        let caremanagerData = this.state.caremanagersList.find(element => element.id == caremanager);
+                        this.setState({ isEditCaremanager: false, caremanager: caremanager, caremanagerData })
+                     }
+                  }
+
+                  return (<Autocomplete
+                     options={this.state.caremanagersList}
+                     getOptionLabel={(option) => option.ansprechpartner}
+                     value={this.state.caremanagerData}
+                     id="auto-complete"
+                     autoComplete
+                     includeInputInList
+                     onChange={this.onChangeCareManager}
+                     renderInput={(params) => <TextField
+                        id="input-with-icon-textfield"
+                        {...params}
+                        margin="normal"
+                        placeholder="Familiendoktor"
+
+                     />}
+                  />)
+               }
+            },
             { title: 'Schlüssel-Nr.', field: 'keyNumber', type: 'numeric' },
             { title: 'Etage', field: 'floor', type: 'numeric' },
             {
                title: 'Pflegegrad', field: 'degreeCare', lookup: degreeList
             },
             {
-               title: '*Apotheke', field: 'pharmacy', editComponent: rowData => { 
+               title: '*Apotheke', field: 'pharmacy', editComponent: rowData => {
                   if (rowData.rowData.id) {
                      let pharmacy = rowData.rowData.pharmacy;
                      if (this.state.isEditPharmacy) {
-                       let pharmacyData = this.state.pharmaciesList.find(element => element.pharmacyName == pharmacy);                      
-                        this.setState({isEditPharmacy : false, pharmacy: pharmacy , pharmacyData })
+                        let pharmacyData = this.state.pharmaciesList.find(element => element.pharmacyName == pharmacy);
+                        this.setState({ isEditPharmacy: false, pharmacy: pharmacy, pharmacyData })
                      }
                   }
 
@@ -374,7 +402,7 @@ class PatientsTable extends Component {
 
                },
                editComponent: rowData => {
-                  console.log('rowData', rowData);
+
                   if (this.state.isEditServiceplan && rowData.rowData.id) {
                      this.setState({ serviceplan: rowData.rowData.serviceplan ? true : false, isEditServiceplan: false });
                   }
@@ -397,9 +425,9 @@ class PatientsTable extends Component {
          isEditResources: true,
          isEditUsers: true,
          isEditServiceplan: true,
-         isEditInsurance : true,
-         isEditfamilyDoctor : true,
-         isEditPharmacy : true,
+         isEditInsurance: true,
+         isEditfamilyDoctor: true,
+         isEditPharmacy: true,
          serviceplan: true,
          insurance: '',
          pharmacy: '',
@@ -407,12 +435,15 @@ class PatientsTable extends Component {
          documentsList: [],
          folders: [],
          downloadDocs: [],
-         family_doctorsList : [],
-         insuranceList : [],
-         familyDoctorData : {} ,
-         insuranceData : {},
-         pharmaciesList : [],
-         pharmacyData : [],
+         family_doctorsList: [],
+         caremanagersList: [],
+         insuranceList: [],
+         familyDoctorData: null,
+         insuranceData: null,
+         pharmaciesList: [],
+         pharmacyData: null,
+         caremanager: '',
+         caremanagerData: null
 
 
       };
@@ -501,25 +532,29 @@ class PatientsTable extends Component {
    handleChangeDate = (event) => {
       this.setState({ birthday: event.target.value });
    }
-   onChangeDoctor = (event, doctor) => {
-      if (!doctor) doctor = {};
-      this.setState({ familyDoctor: doctor.doctorName });
-
-   }
-
-   onChangePharmacies = (event, pharmacy) => {
-      if (!pharmacy) pharmacy = {};
-      this.setState({ pharmacy: pharmacy.pharmacyName });
-   }
-   onChangeInsurance = (event, insurance) => {
-      let stateInsurance = null;
-      if (insurance) {
-         stateInsurance = insurance.insurances;
+   onChangeDoctor = (event, familyDoctorData) => {
+      if (familyDoctorData) {
+         this.setState({ familyDoctor: familyDoctorData.doctorName, familyDoctorData })
       }
-     
- 
-      
-      this.setState({ insurance: stateInsurance});
+
+   }
+   onChangeCareManager = (event, caremanagerData) => {
+
+      if (caremanagerData) {
+         this.setState({ caremanager: caremanagerData.id, caremanagerData })
+      }
+
+   }
+
+   onChangePharmacies = (event, pharmacyData) => {
+      if (pharmacyData) {
+         this.setState({ pharmacy: pharmacyData.pharmacyName, pharmacyData })
+      }
+   }
+   onChangeInsurance = (event, insuranceData) => {
+      if (insuranceData) {
+         this.setState({ insurance: insuranceData.insurances, insuranceData })
+      }
    }
    onChangeResources = (event, Resources) => {
       let resources = Resources.map(element => element.resources);
@@ -550,7 +585,7 @@ class PatientsTable extends Component {
 
          this.setState(state => {
             let columns = state.columns;
-            state.columns[20].hidden = (this.instance_id ? true : false);
+            state.columns[21].hidden = (this.instance_id ? true : false);
             return {
                columns
             };
@@ -567,7 +602,7 @@ class PatientsTable extends Component {
          usersList.push("all");
 
          let family_doctorsList = res.family_doctors;
-
+         let caremanagersList = res.caremanagers;
 
          let insuranceList = res.insurances;
          let pharmaciesList = res.pharmacies;
@@ -590,7 +625,7 @@ class PatientsTable extends Component {
             const data = res.patients;
             const documentsList = res.documents;
             const folders = res.folders;
-            return { ...prevState, data, documentsList, folders ,family_doctorsList ,insuranceList ,pharmaciesList};
+            return { ...prevState, data, documentsList, folders, family_doctorsList, insuranceList, pharmaciesList, caremanagersList };
          });
 
       })
@@ -614,8 +649,10 @@ class PatientsTable extends Component {
                   newData.familyDoctor = this.state.familyDoctor;
                   newData.pharmacy = this.state.pharmacy;
                   newData.birthday = this.state.birthday;
+                  newData.caremanager = this.state.caremanager;
                   newData.serviceplan = this.state.serviceplan;
-                  if (this.state.pharmacy && this.state.familyDoctor && newData.firstName && newData.lastName) {
+                  console.log('this.state.pharmacy && this.state.familyDoctor && newData.firstName && newData.lastName', this.state.pharmacy);
+                  if (newData.pharmacy && newData.familyDoctor && newData.firstName && newData.lastName) {
                      const formData = new FormData()
                      formData.append('file', newData.picture);
                      newData.picture = '';
@@ -630,29 +667,32 @@ class PatientsTable extends Component {
                         });
 
                         this.setState({
-                            selected: selected,
-                            selectedservice: selectedservice,
-                            isEditServices: true,
-                            isEditResources: true,
-                            isEditServiceplan: true, 
-                            isEditPharmacy : true,
-                            isEditUsers: true,
-                           isEditfamilyDoctor : true,
-                           isEditInsurance : true,
-                           insurance: "", 
-                           familyDoctor: "", 
-                           pharmacy: '', 
-                           birthday: '', 
-                           selectedUsers: [] });
+                           selected: selected,
+                           selectedservice: selectedservice,
+                           isEditServices: true,
+                           isEditResources: true,
+                           isEditServiceplan: true,
+                           isEditPharmacy: true,
+                           isEditUsers: true,
+                           isEditfamilyDoctor: true,
+                           isEditInsurance: true,
+                           isEditCaremanager: true,
+                           insurance: "",
+                           familyDoctor: "",
+                           pharmacy: '',
+                           birthday: '',
+                           caremanager: '',
+                           selectedUsers: []
+                        });
+                        NotificationManager.success("Die Daten werden erfolgreich gespeichert.")
                      }).catch(error => {
-                        console.log('erro', error);
-                        alert(error.message);
+                        NotificationManager.error(error.message);
                      });
                   }
                   else {
-                     alert("Bitte füllen Sie die erforderlichen Felder aus.");
-                  }
 
+                     NotificationManager.warning("Bitte füllen Sie die erforderlichen Felder aus.")
+                  }
                }, 600);
             }),
          onRowUpdate: (newData, oldData) =>
@@ -664,7 +704,6 @@ class PatientsTable extends Component {
                      formData.append('file', newData.picture);
                      newData.picture = '';
                   }
-                  console.log('dddddddddd---', this.state.selectedservice);
                   newData.resources = JSON.stringify(this.state.selected);
                   newData.services = JSON.stringify(this.state.selectedservice);
                   newData.userGroup = JSON.stringify(this.state.selectedUsers);
@@ -673,6 +712,7 @@ class PatientsTable extends Component {
                   if (this.state.pharmacy) newData.pharmacy = this.state.pharmacy;
                   if (this.state.birthday) newData.birthday = this.state.birthday;
                   if (this.state.serviceplan) newData.serviceplan = this.state.serviceplan;
+                  if (this.state.caremanager) newData.caremanager = this.state.caremanager;
                   formData.append('data', JSON.stringify(newData));
                   if (newData.pharmacy && newData.familyDoctor && newData.firstName && newData.lastName) {
                      userService.editPatients(formData).then(res => {
@@ -684,28 +724,35 @@ class PatientsTable extends Component {
                            });
                            const selected = [];
                            const selectedservice = [];
-                           this.setState({ 
-                              selected: selected, 
-                              selectedservice: selectedservice, 
-                              isEditServices: true, 
-                              isEditResources: true, 
-                              isEditServiceplan: true, 
-                              isEditPharmacy : true,
+                           this.setState({
+                              selected: selected,
+                              selectedservice: selectedservice,
+                              isEditServices: true,
+                              isEditResources: true,
+                              isEditServiceplan: true,
+                              isEditPharmacy: true,
                               isEditUsers: true,
-                              isEditfamilyDoctor : true,  
-                              isEditInsurance : true,
-                              insurance: "", 
-                              familyDoctor: "", 
-                              pharmacy: '', 
-                              birthday: '', 
-                              selectedUsers: [], 
-                              serviceplan: true });
+                              isEditfamilyDoctor: true,
+                              isEditInsurance: true,
+                              isEditCaremanager: true,
+                              caremanager: '',
+                              insurance: "",
+                              familyDoctor: "",
+                              pharmacy: '',
+                              birthday: '',
+                              selectedUsers: [],
+                              serviceplan: true
+                           });
                         }
-                     })
-                  } else {
-                     alert("Bitte füllen Sie die erforderlichen Felder aus.");
+                        NotificationManager.success("Die Daten werden erfolgreich gespeichert.")
+                     }).catch(error => {
+                        NotificationManager.error(error.message);
+                     });
                   }
+                  else {
 
+                     NotificationManager.warning("Bitte füllen Sie die erforderlichen Felder aus.")
+                  }
                }, 600);
             }),
          onRowDelete: oldData =>
@@ -720,7 +767,9 @@ class PatientsTable extends Component {
                         data.splice(data.indexOf(oldData), 1);
                         return { ...prevState, data };
                      });
+                     NotificationManager.success("Die Daten werden erfolgreich gelöscht.")
                   })
+
                }, 600);
             }),
       } : {
@@ -754,11 +803,15 @@ class PatientsTable extends Component {
                               const selectedservice = [];
                               this.setState({ selected: selected, selectedservice: selectedservice, isEditServices: true, isEditResources: true, isEditServiceplan: true, isEditUsers: true, insurance: "", familyDoctor: "", pharmacy: '', birthday: '', selectedUsers: [], serviceplan: true });
                            }
-                        })
-                     } else {
-                        alert("Bitte füllen Sie die erforderlichen Felder aus.");
-                     }
 
+                           NotificationManager.success("Die Daten werden erfolgreich gespeichert.")
+                        }).catch(error => {
+                           NotificationManager.error(error.message);
+                        });
+                     }
+                     else {
+                        NotificationManager.warning("Bitte füllen Sie die erforderlichen Felder aus.")
+                     }
                   }, 600);
                }),
             onRowDelete: oldData =>
@@ -773,6 +826,7 @@ class PatientsTable extends Component {
                            data.splice(data.indexOf(oldData), 1);
                            return { ...prevState, data };
                         });
+                        NotificationManager.success("Die Daten werden erfolgreich gelöscht.")
                      })
                   }, 600);
                }),

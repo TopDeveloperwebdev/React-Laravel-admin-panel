@@ -14,15 +14,10 @@ class CareManagers extends Component {
 		super(props)
 		this.state = {
 			columns: [
-				{ title: 'Practice name', field: 'practiceName', filter: 'agNumberColumnFilter', },
-				{ title: 'Doctor name', field: 'doctorName' },
-				{ title: 'Street Nr', field: 'streetNr' },
-				{ title: 'zip code', field: 'zipcode', type: 'numeric' },
-				{ title: 'City', field: 'city' },
-				{ title: 'Phone', field: 'phone', type: 'string', required: true },
+				{ title: 'Ansprechpartner', field: 'ansprechpartner' },
+				{ title: 'Klinik', field: 'klinik' },
 				{ title: 'Fax', field: 'fax' },
 				{ title: 'Email', field: 'email' },
-				{ title: 'Password', field: 'password', type: 'string' },			
 				{
 					title: 'Notifications', field: 'notifications', render: rowData => {
 						return (<Switch
@@ -46,10 +41,10 @@ class CareManagers extends Component {
 
 					}
 				},
-			],			
+			],
 			data: [],
-			notifications : true,
-			isEditNotifications : false
+			notifications: true,
+			isEditNotifications: false
 
 		};
 
@@ -59,7 +54,7 @@ class CareManagers extends Component {
 		let user = JSON.parse(localStorage.getItem('user'));
 		this.instance_id = user.instance_id;
 		console.log('res', this.instance_id);
-		userService.showFamilyDirectors({ instance_id: this.instance_id, pagination: 1 }).then(res => {
+		userService.showCaremanagers().then(res => {
 
 			this.setState(prevState => {
 				const data = res;
@@ -75,13 +70,13 @@ class CareManagers extends Component {
 		return (
 			<div className="tables-wrapper search-table-wrap">
 				<SmallTitleBar
-					title={<IntlMessages id="sidebar.doctors" />}
+					title={<IntlMessages id="sidebar.caremanagers" />}
 					center
 				/>
 				<Container maxWidth="lg">
 					<Box px={{ xs: '12px', lg: 0 }} className="page-space">
 						<MaterialTable
-							title={<IntlMessages id="sidebar.doctors" />}
+							title={<IntlMessages id="sidebar.caremanagers" />}
 							columns={this.state.columns}
 							data={this.state.data}
 							editable={{
@@ -92,15 +87,15 @@ class CareManagers extends Component {
 											console.log('newData', newData);
 											newData.instance_id = this.instance_id;
 											newData.notifications = this.state.notifications;
-											userService.addFamilyDirectors(newData).then(res => {
+											userService.addCaremanagers(newData).then(res => {
 												console.log('res', res);
 												this.setState(prevState => {
 													const data = [...prevState.data];
 													data.push(res);
-													return { ...prevState, data  };
+													return { ...prevState, data };
 												});
 											});
-											this.setState({notifications : true , isEditNotifications : true})
+											this.setState({ notifications: true, isEditNotifications: true })
 
 										}, 600);
 									}),
@@ -108,9 +103,9 @@ class CareManagers extends Component {
 									new Promise(resolve => {
 										setTimeout(() => {
 											resolve();
-											
+
 											newData.notifications = this.state.notifications;
-											userService.editFamilyDirectors(newData).then(res => {
+											userService.editCaremanagers(newData).then(res => {
 												if (res) {
 													this.setState(prevState => {
 														const data = [...prevState.data];
@@ -118,7 +113,7 @@ class CareManagers extends Component {
 														return { ...prevState, data };
 													});
 												}
-												this.setState({notifications : true , isEditNotifications : true})
+												this.setState({ notifications: true, isEditNotifications: true })
 											})
 										}, 600);
 									}),
@@ -127,7 +122,7 @@ class CareManagers extends Component {
 										setTimeout(() => {
 											resolve();
 											console.log(';oldData', oldData.id);
-											userService.deleteFamilyDirectors({ id: oldData.id }).then(res => {
+											userService.deleteCaremanagers({ id: oldData.id }).then(res => {
 												console.log('res', res);
 												this.setState(prevState => {
 													const data = [...prevState.data];

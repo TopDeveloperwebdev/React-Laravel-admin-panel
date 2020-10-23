@@ -71,6 +71,7 @@ export default {
   "sidebar.emailTrigers": "E-Mail Abläufe",
   "sidebar.medications": "Medikamente",
   "sidebar.doctors": "Ärzte",
+  "sidebar.caremanagers": "Pflegemanager",
   "sidebar.document": "Dokument-Editor",
   "sidebar.instances": "Instanzen",
   "sidebar.users": "Nutzer",
