@@ -44,12 +44,7 @@ class OrderDetail extends Component {
 		this.defaultUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSTbZrzTIuXAe01k5wgrhWGzPRPRliQygmBCA&usqp=CAU";
 		this.setState({ orderId });
 		userService.getOrderDetail({ orderId: orderId }).then(res => {
-			let user = localStorage.getItem('user');
-			this.user_id = null;
-			if (user) {
-				user = JSON.parse(user);
-				this.user_id = user.id;
-			}
+		
 			orderDetail = res;
 			let title = res.order.orderId;
 			this.setState({ title });
@@ -100,8 +95,8 @@ class OrderDetail extends Component {
 		this.setState({ comment: event.target.value });
 	}
 	submitComment() {
-		console.log('{ orderId: this.state.orderId  , user_id : this.user_id , comment : this.state.comment}', this.state.orderId, this.user_id, this.state.comment)
-		userService.submitComment({ orderId: this.state.orderId, user_id: this.user_id, comment: this.state.comment }).then(res => {
+		
+		userService.submitComment({ orderId: this.state.orderId, comment: this.state.comment }).then(res => {
 			console.log('res', res);
 			let list = [...this.state.commentList];
 			list.push(res);

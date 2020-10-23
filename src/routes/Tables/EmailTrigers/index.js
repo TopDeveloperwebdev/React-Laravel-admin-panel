@@ -15,9 +15,50 @@ import { AutoComplete, MultiSelect } from '@progress/kendo-react-dropdowns';
 import { CustomCard, SocialIcons } from 'components/GlobalComponents';
 import { userService } from '../../../_services';
 import { NotificationManager } from 'react-notifications';
+import CommentOutlinedIcon from '@material-ui/icons/CommentOutlined';
+import PermIdentityOutlinedIcon from '@material-ui/icons/PermIdentityOutlined';
+import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
+import $ from 'jquery';
+let usersList = ['Family doctors', 'Pharmacies', 'Care managers', 'Patients', 'Related Users'];
+const types = ['Jedes Jahr an Geburtstagen', 'Benutzer erzeugt eine Bestellung', 'Kommentar für Bestellung', 'Neuer Patient', 'Status geändert'];
 
-let usersList = ['Family doctors', 'Pharmacies','Care managers' ,'Patients', 'Related Users'];
-const types = ['Jedes Jahr an Geburtstagen', 'Benutzer erzeugt eine Bestellung'];
+let triggers = [
+	{
+		type: 'Benutzer erzeugt eine Bestellung',
+		icon: 'order',
+		title: 'Wenn der Benutzer eine Bestellung tätigt',
+		description: 'Workflow wird ausgelöst, wenn ein Benutzer eine Bestellung tätigt'
+	},
+	{
+		type: 'Jedes Jahr an Geburtstagen',
+		icon: 'birthday',
+		title: 'Der Jahrestag eines Datums',
+		description: 'Workflow, der jedes Jahr an bestimmten Datum ausgelöst wird (z.B. Geburtstag)'
+	}
+	,
+	{
+		type: 'Kommentar für Bestellung',
+		icon: 'comment',
+		title: 'Kommentar zum Vorgang',
+		description: 'Workflow, der jedes Jahr an bestimmten Datum ausgelöst wird (z.B. Geburtstag)'
+	}
+	,
+	{
+		type: 'Neuer Patient',
+		icon: 'patient',
+		title: 'Neue Patienten wurde hinzugefügt',
+		description: 'Workflow, der jedes Jahr an bestimmten Datum ausgelöst wird (z.B. Geburtstag)'
+	}
+	,
+	{
+		type: 'Status geändert',
+		icon: 'status',
+		title: 'Neue Status des Patienten wurde geändert',
+		description: 'Workflow, der jedes Jahr an bestimmten Datum ausgelöst wird (z.B. Geburtstag)'
+	}
+]
+
+
 
 const styles = theme => ({
 	root: {
@@ -43,6 +84,8 @@ const styles = theme => ({
 
 	}
 });
+
+
 
 class EmailTrigers extends Component {
 
@@ -74,8 +117,11 @@ class EmailTrigers extends Component {
 		Template: '',
 		id: ''
 	};
-
+    
 	handleRowClick = (selectedType) => {
+		// $('.triggers li').removeClass('selected');
+		// $('#'+ selectedType).addClass('selected');
+
 		let TemplateList = [];
 		this.state.TemplateAllList.forEach(ele => {
 			if (ele.type == selectedType) {
@@ -150,8 +196,7 @@ class EmailTrigers extends Component {
 	render() {
 		const { classes } = this.props;
 		const { selectedRow } = this.state;
-		console.log('(this.state.selectedType == types[0] && this.state.isEditBirthday) || (this.state.selectedType == types[1] && this.state.isEditOrder)',
-			this.state.selectedType == types[0], this.state.isEditBirthday, (this.state.selectedType == types[1] && this.state.isEditOrder))
+
 		return (
 			<div className="tables-wrapper search-table-wrap">
 				<SmallTitleBar
@@ -163,27 +208,50 @@ class EmailTrigers extends Component {
 						<Grid container spacing={0} className="res-custom-table">
 							<Grid item xs={12} sm={12} md={5}>
 								<CustomCard title="Verfügbare Abläufe" showDivider={true}>
-									<ul className="top-hits" mt={10}>
+									<ul className="top-hits triggers" mt={10} >
+										{
+											triggers.map((element, index) => (
+												<li key={index} onClick={() => this.handleRowClick(element.type)} id={element.type}>
+													<div className="top-product">
+														<div className="top-product-detail">
+															{element.icon == 'order' && <div className="top-product-thumb">
+																<ShoppingCartOutlinedIcon />
+															</div>
+															}
+															{element.icon == 'birthday' && <div className="top-product-thumb">
+																<EventAvailableOutlinedIcon />
+															</div>
 
-										<li onClick={() => this.handleRowClick('Benutzer erzeugt eine Bestellung')}>
-											<div className="top-product">
-												<div className="top-product-detail">
-													<div className="top-product-thumb">
-														<ShoppingCartOutlinedIcon />
-													</div>
-													<Box>
-														<Typography className="top-product-title">Wenn der Benutzer eine Bestellung tätigt</Typography>
-														<Box display="flex">
-															<Box display="flex" alignItems="center" className="top-product-meta" mr={1}>
-																<Typography>Workflow wird ausgelöst, wenn ein Benutzer eine Bestellung tätigt</Typography>
+															}
+															{element.icon == 'comment' && <div className="top-product-thumb">
+																<CommentOutlinedIcon />
+															</div>
+															}
+															{element.icon == 'patient' && <div className="top-product-thumb">
+																<PermIdentityOutlinedIcon />
+															</div>
+															}
+															{element.icon == 'status' && <div className="top-product-thumb">
+																<AddCircleOutlineOutlinedIcon />
+															</div>
+															}
+
+															<Box>
+																<Typography className="top-product-title">{element.title}</Typography>
+																<Box display="flex">
+																	<Box display="flex" alignItems="center" className="top-product-meta" mr={1}>
+																		<Typography>{element.description}</Typography>
+																	</Box>
+																</Box>
 															</Box>
-														</Box>
-													</Box>
-												</div>
-											</div>
-										</li>
+														</div>
+													</div>
+												</li>
+											))
+										}
 
-										<li onClick={() => this.handleRowClick('Jedes Jahr an Geburtstagen')}>
+
+										{/* <li onClick={() => this.handleRowClick('Jedes Jahr an Geburtstagen')}>
 											<div className="top-product">
 												<div className="top-product-detail">
 													<div className="top-product-thumb">
@@ -199,7 +267,7 @@ class EmailTrigers extends Component {
 													</Box>
 												</div>
 											</div>
-										</li>
+										</li> */}
 
 									</ul>
 
@@ -220,7 +288,7 @@ class EmailTrigers extends Component {
 												<Box>
 													<MultiSelect
 														placeholder="Benutzergruppe auswählen"
-														data={usersList} 
+														data={usersList}
 														value={this.state.selectedUsers}
 														onChange={this.onChangeUsers}
 													/>

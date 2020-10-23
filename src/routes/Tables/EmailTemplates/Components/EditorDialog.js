@@ -11,7 +11,7 @@ import IntlMessages from 'util/IntlMessages';
 import { userService } from '../../../../_services';
 import { Link } from 'react-router-dom';
 import $ from 'jquery'
-const types = ['Jedes Jahr an Geburtstagen', 'Benutzer erzeugt eine Bestellung'];
+const types = ['Jedes Jahr an Geburtstagen', 'Benutzer erzeugt eine Bestellung', 'Kommentar für Bestellung', 'Neuer Patient', 'Status geändert'];
 import 'react-quill/dist/quill.snow.css';
 import ReactQuill from 'react-quill';
 import PropTypes from 'prop-types';
@@ -67,7 +67,7 @@ class EditorDialog extends React.Component {
 		if (this.state.title && this.state.content) {
 			this.setState({ open: false });
 			let { content } = this.state;
-		
+
 			this.props.onUpdate({ id: this.state.id, title: this.state.title, type: this.state.selectedType, instance_id: instance_id, body: content });
 		}
 		else {
@@ -154,23 +154,43 @@ class EditorDialog extends React.Component {
 
 					</Box>
 					<div className="text-editor">
-						{this.state.selectedType == 'Every year on birthdays' ?
-							<ReactQuill
-								theme={'snow'}
-								value={this.state.content}
-								onChange={(content) => this.onChange(content)}
-								modules={EditorDialog.modules1}
-							// placeholder={this.props.placeholder}
-							/>
-							:
-							<ReactQuill
-								theme={'snow'}
-								value={this.state.content}
-								onChange={(content) => this.onChange(content)}
-								modules={EditorDialog.modules2}
+						{this.state.selectedType == 'Jedes Jahr an Geburtstagen' && <ReactQuill
+							theme={'snow'}
+							value={this.state.content}
+							onChange={(content) => this.onChange(content)}
+							modules={EditorDialog.modules1}
+						// placeholder={this.props.placeholder}
+						/>
+						}
+						{this.state.selectedType == 'Benutzer erzeugt eine Bestellung' && <ReactQuill
+							theme={'snow'}
+							value={this.state.content}
+							onChange={(content) => this.onChange(content)}
+							modules={EditorDialog.modules2}
+						/>
+						}
+						{this.state.selectedType == 'Kommentar für Bestellung' && <ReactQuill
+							theme={'snow'}
+							value={this.state.content}
+							onChange={(content) => this.onChange(content)}
+							modules={EditorDialog.modules3}
+						/>
+						}
+						{this.state.selectedType == 'Neuer Patient' && <ReactQuill
+							theme={'snow'}
+							value={this.state.content}
+							onChange={(content) => this.onChange(content)}
+							modules={EditorDialog.modules2}
+						/>
 
-							// placeholder={this.props.placeholder}
-							/>
+						}
+						{this.state.selectedType == 'Status geändert' && <ReactQuill
+							theme={'snow'}
+							value={this.state.content}
+							onChange={(content) => this.onChange(content)}
+							modules={EditorDialog.modules2}
+						/>
+
 						}
 
 					</div>
@@ -246,7 +266,7 @@ EditorDialog.modules2 = {
 	toolbar: {
 		container:
 			[
-				[{ 'placeholder': ['[patient firstname]', '[patient lastname]', '[patient birthday]', '[patient insurance]', '[patient address]', '[patient phone]' ,'[oder_id]' ,'[order_duedate]' ,'[order_public_link]'] }], // my custom dropdown
+				[{ 'placeholder': ['[patient firstname]', '[patient lastname]', '[patient birthday]', '[patient insurance]', '[patient address]', '[patient phone]', '[oder_id]', '[order_duedate]', '[order_public_link]'] }], // my custom dropdown
 				['bold', 'italic', 'underline', 'strike'],        // toggled buttons
 				['blockquote', 'code-block'],
 				[{ 'header': 1 }, { 'header': 2 }],               // custom button values
@@ -276,7 +296,40 @@ EditorDialog.modules2 = {
 		}
 	}
 }
+EditorDialog.modules3 = {
+	toolbar: {
+		container:
+			[
+				[{ 'placeholder': ['[comment]', '[patient firstname]', '[patient lastname]', '[patient address]', '[patient phone]', '[oder_id]'] }], // my custom dropdown
+				['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+				['blockquote', 'code-block'],
+				[{ 'header': 1 }, { 'header': 2 }],               // custom button values
+				[{ 'list': 'ordered' }, { 'list': 'bullet' }],
+				[{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
+				[{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
+				[{ 'direction': 'rtl' }],                         // text direction
 
+				[{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+				[{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+				[{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+				[{ 'font': [] }],
+				[{ 'align': [] }],
+
+				['clean']                                    // remove formatting button
+
+			],
+		handlers: {
+			"placeholder": function (value) {
+				if (value) {
+					const cursorPosition = this.quill.getSelection().index;
+					this.quill.insertText(cursorPosition, value);
+					this.quill.setSelection(cursorPosition + value.length);
+				}
+			}
+		}
+	}
+}
 
 /* 
  * PropType validation

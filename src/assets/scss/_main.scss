@@ -386,6 +386,9 @@ html{
                 font-size: 40px;
             }
         }
+        li:active , li:hover , li.clicked{
+            background: #f1f1f1;
+        }
         .MuiCardContent-root {
             height: 100%;
         }
