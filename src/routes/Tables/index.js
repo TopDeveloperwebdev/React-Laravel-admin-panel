@@ -27,7 +27,8 @@ import {
 AsyncFoldersComponent,
    AsyncEmailTemplatesComponent,
    AsyncEmailTrigersComponent,
-   AsyncvVerordnungsComponent
+   AsyncvVerordnungsComponent,
+   AsyncCareManagersComponent
 } from 'components/AsyncComponent/AsyncComponent';
 
 const Tables = ({ match }) => {
@@ -178,7 +179,12 @@ const Tables = ({ match }) => {
             permission="emailtrigers_access"
             component={AsyncEmailTrigersComponent}
          />
-         
+            <RouteWithRole
+            path={`${match.url}/caremanagers`}
+            permission="caremanagers_access"
+            component={AsyncCareManagersComponent}
+         />
+        
          {/* <Route path={`${match.url}/pharmacies`} component={AsyncPharmaciesComponent}></Route> */}
          {/* <Route path={`${match.url}/medication`} component={AsyncMedicationComponent}></Route> */}
          {/* <Route path={`${match.url}/patients`} component={AsyncPatientsTableComponent}></Route> */}

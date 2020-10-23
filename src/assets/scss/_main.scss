@@ -203,6 +203,9 @@ main{
     }
 }
 .patient-container {
+    .MuiAutocomplete-hasPopupIcon.MuiAutocomplete-hasClearIcon .MuiAutocomplete-inputRoot {
+        padding-right: 33px;
+    }
     .k-autocomplete {
         width: auto !important;
         min-width: 120px;
@@ -416,6 +419,7 @@ html{
     }
 }
 .document,#downloadArea {    
+ 
     strong {
         font-family: 'Arial' !important;
         font-weight: 200 !important;

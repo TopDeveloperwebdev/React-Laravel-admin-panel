@@ -12,12 +12,12 @@ export default class PageTemplate extends React.Component {
     render() {
         let instanceInfo = JSON.parse(localStorage.getItem('instanceInfo'));
         return (
-            <div>
+            <div >
                 <div
                     style={{ position: "absolute", top: "50px", left: "60px" }}
                     id="header"
                 >
-                    <img src={this.getUrl(instanceInfo.instanceLogo)} height="auto" width="100px"/>
+                    <img src={this.getUrl(instanceInfo.instanceLogo) } style={{ maxHeight: "60px"}} height="auto" width="100px"/>
                 </div>
                 {/* <div
                     style={{ position: "absolute", bottom: "30px", right: "30px", fontSize: "12px" }}

@@ -214,6 +214,14 @@
 					"third_child_routes": null
 				},
 				{
+					"menu_title": "sidebar.caremanagers",
+					"path": "/app/caremanagers",
+					"icon": "contacts",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
+				},
+				{
 					"menu_title": "sidebar.pharmacies",
 					"path": "/app/pharmacies",
 					"icon": "contacts",

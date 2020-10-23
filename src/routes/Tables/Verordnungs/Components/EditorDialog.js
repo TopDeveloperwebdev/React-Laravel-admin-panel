@@ -4,12 +4,19 @@
 /* eslint-disable */
 import React from 'react';
 import { Grid, Button, Box, Typography, Input, InputAdornment, Dialog, DialogActions, DialogContent, TextField, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
+import moment from "moment";
 import {
-	MuiPickersUtilsProvider,
-	KeyboardTimePicker,
 	KeyboardDatePicker,
-} from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
+	MuiPickersUtilsProvider
+} from "@material-ui/pickers";
+
+import MomentUtils from "@date-io/moment";
+
+moment.updateLocale("en", {
+	week: {
+		dow: 1
+	}
+});
 import { SmallTitleBar } from '../../../../components/GlobalComponents';
 import IntlMessages from 'util/IntlMessages';
 import { userService } from '../../../../_services';
@@ -342,13 +349,14 @@ class EditorDialog extends React.Component {
 						<Box pt={1} >
 							<Grid container sm={12} md={12} lg={12} className="datecontainer">
 								<h6>Zeitraum:</h6>
-								<MuiPickersUtilsProvider utils={DateFnsUtils}>
+								<MuiPickersUtilsProvider utils={MomentUtils}>
 									<Grid mr={3} item sm={4} md={4} lg={4} className="justify-around">
 										<Typography>von:</Typography>
 										<KeyboardDatePicker
 											disableToolbar
 											variant="inline"
-											format="dd.MM.yyyy"
+											locale="ru"
+											format="DD.MM.YYYY"
 											margin="normal"
 											id="date-picker-inline"
 											value={this.state.from}
@@ -364,7 +372,7 @@ class EditorDialog extends React.Component {
 										<KeyboardDatePicker
 											disableToolbar
 											variant="inline"
-											format="dd.MM.yyyy"
+											format="DD.MM.YYYY"
 											margin="normal"
 											name='to'
 											value={this.state.to}
@@ -382,10 +390,10 @@ class EditorDialog extends React.Component {
 						</Box>
 						<Box pt={1} >
 							<Box>
-								{patientInfo.firstName} {patientInfo.lastName} , geb. am cbirthday {this.formate_date(patientInfo.birthday)}
+								{patientInfo.firstName} {patientInfo.lastName}, geb. am {this.formate_date(patientInfo.birthday)}
 							</Box>
 							<Box>
-								Versicherung:  {patientInfo.insurance} , Versichertennummer:  {patientInfo.insuranceNr}.
+								Versicherung:  {patientInfo.insurance}, Versichertennummer:  {patientInfo.insuranceNr}.
 							</Box>
 						</Box>
 						<Box pt={5} >
