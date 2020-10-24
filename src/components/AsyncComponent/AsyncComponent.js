@@ -220,6 +220,13 @@ const AsyncCareManagersComponent = Loadable({
 	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
+// AsyncMapsComponent Table
+const AsyncMapsComponent = Loadable({
+	loader: () => import("routes/Tables/Maps"),
+	loading: () => <HulkPageLoader />,
+	delay: 3000,
+});
+
 // AsyncEmailTemplatesComponent Table
 const AsyncEmailTemplatesComponent = Loadable({
 	loader: () => import("routes/Tables/EmailTemplates"),
@@ -446,5 +453,6 @@ export {
 	AsyncEmailTrigersComponent,
 	AsyncvVerordnungsComponent,
 	AsyncSharedDocumentComponent,
-	AsyncCareManagersComponent
+	AsyncCareManagersComponent,
+	AsyncMapsComponent
 };

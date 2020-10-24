@@ -243,13 +243,30 @@
 			"menu_title": "sidebar.patients",
 			"path": "/app/patients",
 			"icon": "contacts",
-			"category": "components",
+			"category": "general",
 			"isMenuOpen": false,
-			"menu": "tables",
+			"menu": "pages",
 			"fullPageMenu": false,
 			"desc": true,
 			"content": "",
-			"child_routes": null
+			"child_routes": [
+				{
+					"path": "/app/patients",
+					"menu_title": "sidebar.patients",
+					"icon": "contacts",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
+				},
+				{
+					"path": "/app/maps",
+					"menu_title": "sidebar.maps",
+					"icon": "contact_support",
+					"isMenuOpen": false,
+					"fullPageMenu": false,
+					"third_child_routes": null
+				}
+			]
 		},
 		{
 			"menu_title": "sidebar.fileManager",

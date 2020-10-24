@@ -28,7 +28,8 @@ AsyncFoldersComponent,
    AsyncEmailTemplatesComponent,
    AsyncEmailTrigersComponent,
    AsyncvVerordnungsComponent,
-   AsyncCareManagersComponent
+   AsyncCareManagersComponent,
+   AsyncMapsComponent
 } from 'components/AsyncComponent/AsyncComponent';
 
 const Tables = ({ match }) => {
@@ -184,7 +185,11 @@ const Tables = ({ match }) => {
             permission="caremanagers_access"
             component={AsyncCareManagersComponent}
          />
-        
+         <RouteWithRole
+            path={`${match.url}/maps`}
+            permission="maps_access"
+            component={AsyncMapsComponent}
+         />
          {/* <Route path={`${match.url}/pharmacies`} component={AsyncPharmaciesComponent}></Route> */}
          {/* <Route path={`${match.url}/medication`} component={AsyncMedicationComponent}></Route> */}
          {/* <Route path={`${match.url}/patients`} component={AsyncPatientsTableComponent}></Route> */}

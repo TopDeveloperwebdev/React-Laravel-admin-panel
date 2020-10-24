@@ -66,6 +66,7 @@ export default {
   "sidebar.agGrid": "AgGrid",
   "sidebar.searchTable": "Suche in der Tabelle",
   "sidebar.patients": "Patienten",
+   "sidebar.maps": "Karten",
   "sidebar.emailAutomation": "E-Mail Automatisierung",
   "sidebar.emailTemplates": "E-Mail Vorlagen",
   "sidebar.emailTrigers": "E-Mail Abläufe",
