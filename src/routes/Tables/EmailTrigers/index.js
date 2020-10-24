@@ -111,13 +111,12 @@ class EmailTrigers extends Component {
 		selectedType: 'Jedes Jahr an Geburtstagen',
 		TemplateAllList: [],
 		TemplateList: [],
-		isEditBirthday: false,
-		isEditOrder: false,
 		triggers: [],
 		Template: '',
-		id: ''
+		id: '',
+		isEditSelectedTrigger: false
 	};
-    
+
 	handleRowClick = (selectedType) => {
 		// $('.triggers li').removeClass('selected');
 		// $('#'+ selectedType).addClass('selected');
@@ -128,16 +127,12 @@ class EmailTrigers extends Component {
 				TemplateList.push(ele.title)
 			}
 		})
-		let isEditBirthday = false, isEditOrder = false, selectedUsers = [], Template, id;
+		let isEditSelectedTrigger = false, selectedUsers = [], Template, id;
 		let trigger = this.state.triggers.filter(ele => ele.type == selectedType);
 
 		if (trigger.length) {
-			if (trigger[0].type == types[0]) {
-				isEditBirthday = true;
-			}
-			else if (trigger[0].type == types[1]) {
-				isEditOrder = true;
-			}
+
+			isEditSelectedTrigger = true;
 			selectedUsers = JSON.parse(trigger[0].usergroup);
 			Template = trigger[0].template;
 			id = trigger[0].id;
@@ -146,7 +141,7 @@ class EmailTrigers extends Component {
 
 
 		this.setState(prevState => {
-			return { ...prevState, TemplateList, selectedType, selectedUsers, Template, isEditBirthday, isEditOrder, id };
+			return { ...prevState, TemplateList, selectedType, selectedUsers, Template, id, isEditSelectedTrigger };
 		});
 
 	}
@@ -176,20 +171,21 @@ class EmailTrigers extends Component {
 	}
 
 	onSubmitTrigger() {
-
 		userService.addTriggers({ instance_id: this.instance_id, type: this.state.selectedType, usergroup: JSON.stringify(this.state.selectedUsers), template: this.state.Template }).then(res => {
-
 			NotificationManager.success("Sie haben den Triggerfluss erfolgreich gespeichert'");
+		   this.setState(prevState => {
+			const triggers = [...prevState.triggers];
+			triggers.push(res);
+			return { ...prevState, triggers , isEditSelectedTrigger : true };
+		 });
 		}, error => {
 			NotificationManager.error(error);
-
 		})
 	}
 	onUpdateTrigger() {
 		userService.editTriggers({ id: this.state.id, instance_id: this.instance_id, type: this.state.selectedType, usergroup: JSON.stringify(this.state.selectedUsers), template: this.state.Template }).then(res => {
 			NotificationManager.success("Sie haben den Triggerfluss erfolgreich aktualisiert");
 		}, error => {
-
 			NotificationManager.error(error);
 		})
 	}
@@ -250,25 +246,6 @@ class EmailTrigers extends Component {
 											))
 										}
 
-
-										{/* <li onClick={() => this.handleRowClick('Jedes Jahr an Geburtstagen')}>
-											<div className="top-product">
-												<div className="top-product-detail">
-													<div className="top-product-thumb">
-														<EventAvailableOutlinedIcon />
-													</div>
-													<Box>
-														<Typography className="top-product-title">Der Jahrestag eines Datums</Typography>
-														<Box display="flex">
-															<Box display="flex" alignItems="center" className="top-product-meta" mr={1}>
-																<Typography>Workflow, der jedes Jahr an bestimmten Datum ausgelöst wird (z.B. Geburtstag)</Typography>
-															</Box>
-														</Box>
-													</Box>
-												</div>
-											</div>
-										</li> */}
-
 									</ul>
 
 								</CustomCard>
@@ -308,17 +285,16 @@ class EmailTrigers extends Component {
 
 
 										</CustomCard>
-										{
-											((this.state.selectedType == types[0] && this.state.isEditBirthday) || (this.state.selectedType == types[1] && this.state.isEditOrder)) ? <Box textAlign="center">
-												<Button variant="contained" color="primary" onClick={this.onUpdateTrigger.bind(this)}>
-													Update E-Mail Trigger
+										{(this.state.isEditSelectedTrigger) ? <Box textAlign="center">
+											<Button variant="contained" color="primary" onClick={this.onUpdateTrigger.bind(this)}>
+												Update E-Mail Trigger
 											  </Button>
-											</Box> :
-												<Box textAlign="center">
-													<Button variant="contained" color="primary" onClick={this.onSubmitTrigger.bind(this)}>
-														Create E-Mail Trigger
+										</Box> :
+											<Box textAlign="center">
+												<Button variant="contained" color="primary" onClick={this.onSubmitTrigger.bind(this)}>
+													Create E-Mail Trigger
 											   </Button>
-												</Box>
+											</Box>
 										}
 
 									</div>

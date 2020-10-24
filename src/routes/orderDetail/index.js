@@ -12,6 +12,7 @@ import ReactToPrint from 'react-to-print';
 import PrintOutlinedIcon from '@material-ui/icons/PrintOutlined';
 import Loadable from 'react-loadable';
 import { HulkPageLoader } from '../../components/GlobalComponents';
+import { NotificationManager } from 'react-notifications';
 let orderDetail = {};
 
 class OrderDetail extends Component {
@@ -31,7 +32,7 @@ class OrderDetail extends Component {
 			comment: "",
 			orderId: '',
 			commentList: [],
-			loading : false
+			loading: false
 
 		}
 		this.submitComment = this.submitComment.bind(this);
@@ -44,7 +45,7 @@ class OrderDetail extends Component {
 		this.defaultUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSTbZrzTIuXAe01k5wgrhWGzPRPRliQygmBCA&usqp=CAU";
 		this.setState({ orderId });
 		userService.getOrderDetail({ orderId: orderId }).then(res => {
-		
+
 			orderDetail = res;
 			let title = res.order.orderId;
 			this.setState({ title });
@@ -74,7 +75,7 @@ class OrderDetail extends Component {
 				lastOrder.date = this.formate_date(lastOrder.created_at);
 			}
 
-			this.setState({ order: order, lastOrder: lastOrder , loading : true });
+			this.setState({ order: order, lastOrder: lastOrder, loading: true });
 
 		})
 
@@ -95,14 +96,17 @@ class OrderDetail extends Component {
 		this.setState({ comment: event.target.value });
 	}
 	submitComment() {
-		
+
 		userService.submitComment({ orderId: this.state.orderId, comment: this.state.comment }).then(res => {
 			console.log('res', res);
 			let list = [...this.state.commentList];
 			list.push(res);
 			this.setState({ commentList: list });
+			NotificationManager.success("Der Kommentar wurde erfolgreich gespeichert.")
+		}).catch(error => {
+			NotificationManager.error(error.message);
+		});
 
-		})
 	}
 	render() {
 
