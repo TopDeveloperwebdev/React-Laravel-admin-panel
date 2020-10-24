@@ -16,6 +16,9 @@ class CareManagers extends Component {
 			columns: [
 				{ title: 'Ansprechpartner', field: 'ansprechpartner' },
 				{ title: 'Klinik', field: 'klinik' },
+				{ title: 'Anrede', field: 'salutation' },
+				{ title: 'Vorname', field: 'firstName' },
+				{ title: 'Nachname', field: 'lastName' },
 				{ title: 'Fax', field: 'fax' },
 				{ title: 'Email', field: 'email' },
 				{

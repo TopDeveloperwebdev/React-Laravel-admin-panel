@@ -11,7 +11,7 @@ import IntlMessages from 'util/IntlMessages';
 import { userService } from '../../../../_services';
 import { Link } from 'react-router-dom';
 import $ from 'jquery'
-const types = ['Jedes Jahr an Geburtstagen', 'Benutzer erzeugt eine Bestellung', 'Kommentar für Bestellung', 'Neuer Patient', 'Status geändert'];
+const types = ['Jedes Jahr an Geburtstagen', 'Benutzer erzeugt eine Bestellung', 'Kommentar für Bestellung', 'Neuer Patient'];
 import 'react-quill/dist/quill.snow.css';
 import ReactQuill from 'react-quill';
 import PropTypes from 'prop-types';
@@ -182,16 +182,8 @@ class EditorDialog extends React.Component {
 							onChange={(content) => this.onChange(content)}
 							modules={EditorDialog.modules4}
 						/>
-
 						}
-						{this.state.selectedType == 'Status geändert' && <ReactQuill
-							theme={'snow'}
-							value={this.state.content}
-							onChange={(content) => this.onChange(content)}
-							modules={EditorDialog.modules2}
-						/>
-
-						}
+						
 
 					</div>
 
@@ -300,7 +292,7 @@ EditorDialog.modules3 = {
 	toolbar: {
 		container:
 			[
-				[{ 'placeholder': ['[comment]', '[patient firstname]', '[patient lastname]', '[patient address]', '[patient phone]', '[oder_id]'] }], // my custom dropdown
+				[{ 'placeholder': ['[comment]', '[patient]', '[address]', '[phone]', '[insurance]', '[insurance nr]', '[birthday]','[family doctor]','[pharmacy]','[care manager]']  }], // my custom dropdown
 				['bold', 'italic', 'underline', 'strike'],        // toggled buttons
 				['blockquote', 'code-block'],
 				[{ 'header': 1 }, { 'header': 2 }],               // custom button values
@@ -332,9 +324,11 @@ EditorDialog.modules3 = {
 }
 EditorDialog.modules4 = {
 	toolbar: {
+		
+
 		container:
 			[
-				[{ 'placeholder': ['[patient firstname]', '[patient lastname]', '[patient birthday]', '[patient insurance]', '[patient address]', '[patient phone]'] }], // my custom dropdown
+				[{ 'placeholder': ['[patient]', '[address]', '[phone]', '[insurance]', '[insurance nr]', '[birthday]','[family doctor]','[pharmacy]','[care manager]'] }], // my custom dropdown
 				['bold', 'italic', 'underline', 'strike'],        // toggled buttons
 				['blockquote', 'code-block'],
 				[{ 'header': 1 }, { 'header': 2 }],               // custom button values
@@ -364,13 +358,7 @@ EditorDialog.modules4 = {
 		}
 	}
 }
-/* 
- * PropType validation
- */
-// EditorDialog.propTypes = {
-//     placeholder: PropTypes.string,
-//     onChange: PropTypes.func,
-//     value: PropTypes.string
-// }
+
+
 
 export default EditorDialog;

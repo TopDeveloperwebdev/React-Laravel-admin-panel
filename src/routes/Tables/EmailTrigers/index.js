@@ -49,13 +49,7 @@ let triggers = [
 		title: 'Neue Patienten wurde hinzugefügt',
 		description: 'Workflow, der jedes Jahr an bestimmten Datum ausgelöst wird (z.B. Geburtstag)'
 	}
-	,
-	{
-		type: 'Status geändert',
-		icon: 'status',
-		title: 'Neue Status des Patienten wurde geändert',
-		description: 'Workflow, der jedes Jahr an bestimmten Datum ausgelöst wird (z.B. Geburtstag)'
-	}
+	
 ]
 
 
@@ -227,11 +221,7 @@ class EmailTrigers extends Component {
 																<PermIdentityOutlinedIcon />
 															</div>
 															}
-															{element.icon == 'status' && <div className="top-product-thumb">
-																<AddCircleOutlineOutlinedIcon />
-															</div>
-															}
-
+														
 															<Box>
 																<Typography className="top-product-title">{element.title}</Typography>
 																<Box display="flex">

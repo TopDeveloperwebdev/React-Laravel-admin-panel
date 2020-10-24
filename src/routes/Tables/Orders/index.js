@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 import MaterialTable from 'material-table';
 import { Checkbox, Box, Grid, Button, Switch, Container, InputLabel, FormHelperText, NativeSelect, TextField, FormControl, Select, MenuItem } from '@material-ui/core';
 import { userService } from '../../../_services';
-
+import { NotificationManager } from 'react-notifications';
 //Components
 import { SmallTitleBar } from 'components/GlobalComponents';
 import IntlMessages from 'util/IntlMessages';
@@ -67,7 +67,7 @@ class Orders extends Component {
 					filtering: false
 				},
 				{
-					title: 'Patient*', field: 'patient', render: rowData => {						
+					title: 'Patient*', field: 'patient', render: rowData => {
 						return (<div>
 							{this.handleChangeIdToName(rowData.patient)}
 						</div>)
@@ -90,8 +90,8 @@ class Orders extends Component {
 							</Select>)
 					},
 					customFilterAndSearch: (term, rowData) => {
-					 let patientName = this.handleChangeIdToName(rowData.patient);
-					 patientName = patientName.toLowerCase();
+						let patientName = this.handleChangeIdToName(rowData.patient);
+						patientName = patientName.toLowerCase();
 						return patientName.indexOf(term.toLowerCase()) > -1;
 					},
 					filtering: false
@@ -252,10 +252,10 @@ class Orders extends Component {
 
 		return date;
 	}
-	handleChangeIdToName(id) {	
+	handleChangeIdToName(id) {
 		let patient = this.state.patients.filter((a) => a.id == id);
 		let patientName = '';
-		if(patient.length)patientName = patient[0].firstName + ' '+ patient[0].lastName;
+		if (patient.length) patientName = patient[0].firstName + ' ' + patient[0].lastName;
 		return patientName;
 	}
 
@@ -333,9 +333,13 @@ class Orders extends Component {
 								const isEditMedications = true;
 								return { ...prevState, data, selectedMedications, isEditMedications };
 							});
+							NotificationManager.success("Die Daten werden erfolgreich gespeichert.")
+						}).catch(error => {
+							NotificationManager.error(error.message);
 						});
-					} else {
-						alert("Bitte füllen Sie die erforderlichen Felder aus.");
+					}
+					else {
+						NotificationManager.warning("Bitte füllen Sie die erforderlichen Felder aus.");
 					}
 
 				}),
@@ -352,6 +356,7 @@ class Orders extends Component {
 								data.splice(data.indexOf(oldData), 1);
 								return { ...prevState, data };
 							});
+							NotificationManager.success("Die Daten werden erfolgreich gelöscht.")
 						})
 					}, 600);
 				})
@@ -368,6 +373,7 @@ class Orders extends Component {
 									data.splice(data.indexOf(oldData), 1);
 									return { ...prevState, data };
 								});
+								NotificationManager.success("Die Daten werden erfolgreich gelöscht.")
 							})
 						}, 600);
 					})
