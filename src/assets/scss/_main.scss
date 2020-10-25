@@ -926,3 +926,34 @@ html{
    
       
 }
+.mapContainer{
+    position: relative;
+    margin: 10px 0px;
+    .patientsContainer {
+        height: 60vh;
+        /* position: absolute; */
+        width: 380px;
+        top: 10vh;
+        position: absolute;
+        left: 50px;
+        z-index: 100;
+       
+        .content {
+           
+            >div{
+                overflow-y: auto;
+               height: 44vh;
+               >div {
+                border-top: 1px solid #efe8e8;
+               }
+            }
+            h6 {
+                margin: 40px 0px 20px 0px;
+            }
+            table {
+                min-width: auto;
+             
+            }
+        }
+    }
+}

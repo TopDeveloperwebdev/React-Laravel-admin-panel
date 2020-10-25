@@ -21,7 +21,7 @@ export const userService = {
    showPatients,
    editPatients,
    deletePatients,
-
+   getPatients,
    addMedications,
    showMedications,
    editMedications,
@@ -1298,7 +1298,22 @@ function deleteInstances(id) {
       });
 }
 
+
 // Patients CRUD
+function getPatients(info) {
+
+   const requestOptions = {
+      method: 'POST',
+      body: JSON.stringify(info)
+   };
+
+   return fetch(serverUrl + 'getPatients', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res;
+      });
+}
+
 function addPatients(formData) {
 
    const requestOptions = {
