@@ -25,8 +25,8 @@ class Row extends React.Component {
         }
     }
 
-    handleClick = (row , index) => {  
-      
+    handleClick = (event , row , index) => {  
+        console.log('event' , event)
         if(row.id){
             this.props.OnSelectRow({id : row.id , index: index});
         }
@@ -42,11 +42,11 @@ class Row extends React.Component {
     
         return (
             <>
-                <TableRow >
+                <TableRow onClick={(e) => this.handleClick(e,row , index)}>
                     <TableCell align="left" style={{width : '40%'}}>{row.firstName + ' ' + row.lastName}</TableCell>
                     <TableCell align="left" style={{width : '40%'}}>{row.phone1}</TableCell>
                     <TableCell align="right" style={{width : '20%'}}>
-                        <IconButton aria-label="expand row" size="small" onClick={() => this.handleClick(row , index)}>
+                        <IconButton aria-label="expand row" size="small" >
                             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                         </IconButton>
                     </TableCell>

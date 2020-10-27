@@ -120,9 +120,9 @@ class Maps extends Component {
 		userService.getPatients({ instance_id: this.instance_id, pagination: 1 }).then(res => {
 			let data = res;
 			data = data.sort(self.compareAB);
-		     console.log('res' , data);
+			console.log('res', data);
 			this.setState({ data });
-			
+
 			this.InitializePatient(data);
 		});
 	}
@@ -131,7 +131,7 @@ class Maps extends Component {
 	 * @param place
 	 */
 	onPlaceSelected = (place) => {
-		console.log('plc', place);
+		
 		const address = place.formatted_address,
 			addressArray = place.address_components,
 			city = this.getCity(addressArray),
@@ -153,13 +153,10 @@ class Maps extends Component {
 				lat: latValue,
 				lng: lngValue
 			},
-
 		})
 	};
 
 	handleClick = (props) => {
-
-		this.CustomMarker.current.setState({ selectedPatient: props.id });
 		if (this.state.patientAddress.length) {
 			let mapPosition = this.state.patientAddress.find(element => element.id == props.id);
 			let isOpen = [...this.state.isOpen];
@@ -174,6 +171,7 @@ class Maps extends Component {
 
 			})
 		}
+
 
 	}
 
@@ -294,7 +292,21 @@ class Maps extends Component {
 		}
 		return comparison;
 	}
+	comparepatientAddress(a, b) {
+		let Aname = a.name;
+		let Bname = b.name;
+		const bandA = Aname.toUpperCase();
+		const bandB = Bname.toUpperCase();
 
+		let comparison = 0;
+		if (bandA > bandB) {
+			comparison = 1;
+		} else if (bandA < bandB) {
+			comparison = -1;
+		}
+		console.log('a , b' , Aname , Bname  , comparison);
+		return comparison;
+	}
 	async InitializePatient(patients) {
 		let self = this;
 		let patientAddress = [];
@@ -306,10 +318,9 @@ class Maps extends Component {
 
 				const { lat, lng } = response.results[0].geometry.location;
 				if (lat && lng) {
-
 					patientAddress.push({ id: patient.id, lat: lat, lng: lng, name: patient.firstName + ' ' + patient.lastName, streetNr: patient.streetNr, zipCode: patient.zipCode, city: patient.city });
 					isOpen.push(false);
-
+					
 					if (patients.length - 2 < index) {
 						self.setState({ patientAddress: patientAddress, isOpen });
 					}
@@ -322,34 +333,16 @@ class Maps extends Component {
 
 
 	render() {
-		const { data, selectedPatient, patientAddress, isOpen } = this.state;
-
-		console.log('this.state isOpen', isOpen);
+		let { data, selectedPatient, patientAddress, isOpen } = this.state;
+		console.log('data' , patientAddress );
+		patientAddress = patientAddress.sort(this.comparepatientAddress);
+		 console.log('data' , data , patientAddress);
 		const AsyncMap = withScriptjs(
 			withGoogleMap(
 				props => (
 					<>
 						{/* <div className="mapContainer"> */}
-						<div className="patientsContainer">
-							<CustomCard>
 
-								<div className="content">
-
-									<div>
-										<Table aria-label="collapsible table ">
-											<TableBody>
-												{
-													this.state.data.length > 0 && this.state.data.map((element, index) => (
-														<Row ref={this.Row} key={index} open={isOpen[index]} row={element} index={index} OnSelectRow={this.handleClick} />
-													))}
-											</TableBody>
-										</Table>
-									</div>
-
-								</div>
-
-							</CustomCard>
-						</div>
 
 						<GoogleMap
 
@@ -360,7 +353,7 @@ class Maps extends Component {
 							}}
 						>
 							{patientAddress.length > 0 && patientAddress.map((patient, index) => (
-								<CustomMarker ref={this.CustomMarker} key={index} patient={patient} name={'Dolores park'} position={{ lat: patient.lat, lng: patient.lng }} />
+								<CustomMarker ref={this.CustomMarker} key={index} open={isOpen[index]} patient={patient} name={'Dolores park'} position={{ lat: patient.lat, lng: patient.lng }} />
 							))
 							}
 							<CustomMarker ref={this.CustomMarker} patient={{ id: 0, lat: this.state.markerPosition.lat, lng: this.state.markerPosition.lng, streetNr: this.state.address }} position={{ lat: this.state.markerPosition.lat, lng: this.state.markerPosition.lng }} />
@@ -372,7 +365,8 @@ class Maps extends Component {
 									marginTop: '10px',
 									marginBottom: '10px',
 									position: "absolute",
-									top: '13vh'
+									top: '13vh',
+									zIndex : 500
 								}}
 								onPlaceSelected={this.onPlaceSelected}
 								types={["address"]}
@@ -391,7 +385,26 @@ class Maps extends Component {
 
 		return (
 			<div className="tables-wrapper search-table-wrap">
+				<div className="patientsContainer">
+					<CustomCard>
 
+						<div className="content">
+
+							<div>
+								<Table aria-label="collapsible table ">
+									<TableBody>
+										{
+											this.state.data.length > 0 && this.state.data.map((element, index) => (
+												<Row ref={this.Row} key={index} open={isOpen[index]} row={element} index={index} OnSelectRow={this.handleClick} />
+											))}
+									</TableBody>
+								</Table>
+							</div>
+
+						</div>
+
+					</CustomCard>
+				</div>
 				<AsyncMap
 					googleMapURL={`https://maps.googleapis.com/maps/api/js?key=AIzaSyDMrIaIY6QY_kiOz0VSZkN36HBd4cnfkH8&libraries=places`}
 					loadingElement={

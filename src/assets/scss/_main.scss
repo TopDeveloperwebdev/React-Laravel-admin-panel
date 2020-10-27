@@ -72,6 +72,9 @@ main{
     .MuiOutlinedInput-inputMultiline {
         min-width: 180px !important;
     }
+    .td-note {
+        white-space: pre !important;
+    }
 }
 
 .logo-td {
@@ -203,6 +206,7 @@ main{
     }
 }
 .patient-container {
+ 
     .MuiAutocomplete-hasPopupIcon.MuiAutocomplete-hasClearIcon .MuiAutocomplete-inputRoot {
         padding-right: 33px;
     }
@@ -927,6 +931,10 @@ html{
       
 }
 .patients {
+   
+    .td-note {
+        white-space: pre !important;
+    }
     textarea {
         padding: 0;
         min-width: 200px !important;
@@ -934,14 +942,16 @@ html{
 }
 
     .patientsContainer {
-
+        tr {
+            width: 320px;
+        }
         height: 60vh;
         /* position: absolute; */
         width: 380px;
         top: 12vh;
         position: absolute;
         left: 50px;
-        z-index: 0;
+        z-index: 100;
         .MuiTableRow-root {
             width: 100%;
             display: flex !important;

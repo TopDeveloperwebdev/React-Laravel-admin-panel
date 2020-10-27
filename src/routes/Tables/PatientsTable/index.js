@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 import MaterialTable from 'material-table';
 import * as ReactDOM from 'react-dom';
 import { PDFExport, savePDF } from '@progress/kendo-react-pdf';
-import { Select, MenuItem, Container, Box, Switch, FormControl, InputLabel, TextField } from '@material-ui/core';
+import { Select, MenuItem, Container, Box, Switch, Typography, FormControl, InputLabel, TextField } from '@material-ui/core';
 
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { userService } from '../../../_services';
@@ -46,12 +46,12 @@ class PatientsTable extends Component {
 
                }, filtering: false
             },
-            { title: 'Anrede', field: 'salutation', lookup: salutationList , filtering: false},
-            { title: '*Vorname', field: 'firstName' , filtering: false},
-            { title: '*Nachname', field: 'lastName' , filtering: false},
-            { title: 'Straße', field: 'streetNr' , filtering: false},
-            { title: 'PLZ', field: 'zipCode' , filtering: false},
-            { title: 'Ort', field: 'city' , filtering: false},
+            { title: 'Anrede', field: 'salutation', lookup: salutationList, filtering: false },
+            { title: '*Vorname', field: 'firstName', filtering: false },
+            { title: '*Nachname', field: 'lastName', filtering: false },
+            { title: 'Straße', field: 'streetNr', filtering: false },
+            { title: 'PLZ', field: 'zipCode', filtering: false },
+            { title: 'Ort', field: 'city', filtering: false },
 
             {
                title: 'Geburtstag', field: 'birthday', render: rowData => {
@@ -75,8 +75,8 @@ class PatientsTable extends Component {
                }, filtering: false
             },
             { title: 'Telefon 1', field: 'phone1', filtering: false },
-            { title: 'Telefon 2', field: 'phone2' , filtering: false},
-            { title: 'E-Mail', field: 'email' , filtering: false},
+            { title: 'Telefon 2', field: 'phone2', filtering: false },
+            { title: 'E-Mail', field: 'email', filtering: false },
 
             {
                title: 'Bereich', field: 'resources', render: props => {
@@ -287,12 +287,12 @@ class PatientsTable extends Component {
 
                      />}
                   />)
-               } , filtering: false
+               }, filtering: false
             },
-            { title: 'Schlüssel-Nr.', field: 'keyNumber', type: 'numeric' , filtering: false},
-            { title: 'Etage', field: 'floor', type: 'numeric' , filtering: false},
+            { title: 'Schlüssel-Nr.', field: 'keyNumber', type: 'numeric', filtering: false },
+            { title: 'Etage', field: 'floor', type: 'numeric', filtering: false },
             {
-               title: 'Pflegegrad', field: 'degreeCare', lookup: degreeList , filtering: false
+               title: 'Pflegegrad', field: 'degreeCare', lookup: degreeList, filtering: false
             },
             {
                title: '*Apotheke', field: 'pharmacy', editComponent: rowData => {
@@ -396,7 +396,7 @@ class PatientsTable extends Component {
             },
             {
                title: 'Status', field: 'status', render: rowdata => {
-                  
+
                   return (<Select
                      labelId="demo-simple-select-label"
                      id="demo-simple-select"
@@ -410,16 +410,22 @@ class PatientsTable extends Component {
 
                },
                lookup: statusList,
-               
-               
+
+
             },
             {
-               title: 'Notiz', field: 'note', render: rowData => {
-                  return (<div>
-                     {rowData.note}
-                  </div>)
+               title: 'Notiz', field: 'note', render: rowData => {                  
+
+                  return (<div className="td-note">{rowData.note}</div>)
                },
                editComponent: rowData => {
+         
+                  if (rowData.rowData.id && rowData.rowData.note) { 
+                     if (this.state.isEditNote) {
+                        console.log('rowData.rowData.note' , rowData.rowData.note);
+                        this.setState({ note: rowData.rowData.note, isEditNote: false })
+                     }
+                  }
                   return (
                      <TextField
                         className="full-width"
@@ -488,7 +494,8 @@ class PatientsTable extends Component {
          caremanager: '',
          caremanagerData: null,
          statusArray: [],
-         completed: false
+         completed: false,
+         isEditNote : true
 
       };
 
@@ -514,6 +521,7 @@ class PatientsTable extends Component {
 
    }
    handleChangeNote = (event) => {
+      console.log('event' , event.target.value);
       this.setState({ note: event.target.value });
    }
    formate_date(dateString) {
@@ -746,6 +754,7 @@ class PatientsTable extends Component {
                            isEditfamilyDoctor: true,
                            isEditInsurance: true,
                            isEditCaremanager: true,
+                           isEditNote : true,
                            insurance: "",
                            familyDoctor: "",
                            pharmacy: '',
@@ -782,7 +791,7 @@ class PatientsTable extends Component {
                   if (this.state.birthday) newData.birthday = this.state.birthday;
                   if (this.state.serviceplan) newData.serviceplan = this.state.serviceplan;
                   if (this.state.caremanager) newData.caremanager = this.state.caremanager;
-                  if (this.state.note) newData.note = this.state.note;
+                    newData.note = this.state.note;
                   formData.append('data', JSON.stringify(newData));
                   if (newData.pharmacy && newData.familyDoctor && newData.firstName && newData.lastName) {
                      userService.editPatients(formData).then(res => {
@@ -805,6 +814,7 @@ class PatientsTable extends Component {
                               isEditfamilyDoctor: true,
                               isEditInsurance: true,
                               isEditCaremanager: true,
+                              isEditNote : true,
                               caremanager: '',
                               insurance: "",
                               familyDoctor: "",
@@ -922,7 +932,7 @@ class PatientsTable extends Component {
                         actionRowIndex: -1,
                         filtering: true
                      }}
-                   
+
                      editable={editableComponent}
                      actions={this.instance_id ? [
                         {

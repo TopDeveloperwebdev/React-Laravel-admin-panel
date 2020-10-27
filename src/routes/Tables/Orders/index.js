@@ -166,9 +166,8 @@ class Orders extends Component {
 				},
 				{
 					title: 'Notiz', field: 'note', render: rowData => {
-						return (<div>
-							{rowData.note}
-						</div>)
+
+						return (<div className="td-note">{rowData.note}</div>)
 					},
 					editComponent: rowData => {
 						return (
@@ -217,7 +216,7 @@ class Orders extends Component {
 			patients: [],
 			completed: false,
 			checked: [],
-			date : ''
+			date: ''
 		};
 
 	}

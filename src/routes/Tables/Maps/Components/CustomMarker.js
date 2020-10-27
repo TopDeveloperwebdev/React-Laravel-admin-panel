@@ -14,20 +14,22 @@ class CustomMarker extends Component {
         }
     }
     viewInfo = (event) => {
-        console.log('event');
+
         this.setState({ open: !this.state.open })
     };
     closeInfo = (event) => {
-        console.log('event');
+        
         this.setState({ open: false })
+       
     };
     render() {
         let { patient, position, key } = this.props;
+        console.log('props ', this.state);
 
         return (
             <>
                 {
-                    this.state.open == true && <InfoWindow
+                    (this.state.open == true || this.props.open) && <InfoWindow
 
                         position={{ lat: (patient.lat), lng: patient.lng }}
                     >
@@ -38,16 +40,16 @@ class CustomMarker extends Component {
                 }
                 {
                     patient.id ? <Marker
-                        options={patient.id == this.state.selectedPatient ? activeIcon : defaultIcon}
+                        options={this.props.open ? activeIcon : defaultIcon}
                         key={key}
                         name={'Dolores park'}
                         position={position}
-                        onMouseOver={this.viewInfo}
+                        onClick={this.viewInfo}
                     /> : <Marker
                             key={key}
                             name={'Dolores park'}
                             position={position}
-                            onMouseOver={this.viewInfo}
+                            onClick={this.viewInfo}
 
                         />
                 }
