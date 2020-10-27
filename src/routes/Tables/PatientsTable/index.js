@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 import MaterialTable from 'material-table';
 import * as ReactDOM from 'react-dom';
 import { PDFExport, savePDF } from '@progress/kendo-react-pdf';
-import { Container, Box, Switch, FormControl, InputLabel, TextField } from '@material-ui/core';
+import { Select, MenuItem, Container, Box, Switch, FormControl, InputLabel, TextField } from '@material-ui/core';
 
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { userService } from '../../../_services';
@@ -21,7 +21,7 @@ import { MultiSelect } from '@progress/kendo-react-dropdowns';
 
 let salutationList = { Herr: 'Herr', Frau: 'Frau' };
 let degreeList = { 1: 1, 2: 2, 3: 3, 4: 4, 5: 5 };
-let statusList = { Aktiv: 'Aktiv', Inaktiv: 'Inaktiv', Unvollständig: 'Unvollständig' };
+let statusList = { Aufnahme: 'Aufnahme', Aktiv: 'Aktiv', Inakktiv: 'Inakktiv' };
 
 let resourcesList = [];
 let servicesList = [];
@@ -262,7 +262,7 @@ class PatientsTable extends Component {
                }
             },
             {
-               title: '*Ansprechpartner', field: 'ansprechpartner', editComponent: rowData => {
+               title: '*Zuweiser', field: 'ansprechpartner', editComponent: rowData => {
                   if (rowData.rowData.id) {
                      let caremanager = rowData.rowData.ansprechpartner;
                      if (this.state.isEditCaremanager) {
@@ -273,7 +273,7 @@ class PatientsTable extends Component {
 
                   return (<Autocomplete
                      options={this.state.caremanagersList}
-                     getOptionLabel={(option) => option.ansprechpartner}
+                     getOptionLabel={(option) => (option.firstName + ' ' + option.lastName)}
                      value={this.state.caremanagerData}
                      id="auto-complete"
                      autoComplete
@@ -391,7 +391,45 @@ class PatientsTable extends Component {
 
                }
             },
-            { title: 'Status', field: 'status', lookup: statusList },
+            {
+               title: 'Status', field: 'status', render: rowdata => {
+                  console.log('handle', this.state.statusArray);
+                  return (<Select
+                     labelId="demo-simple-select-label"
+                     id="demo-simple-select"
+                     value={this.state.statusArray[rowdata.id]}
+                     onChange={(event) => this.handleChange(event.target.value, rowdata)}
+                  >
+                     <MenuItem value='Aufnahme'>Aufnahme</MenuItem>
+                     <MenuItem value='Aktiv'>Aktiv</MenuItem>
+                     <MenuItem value='Inakktiv'>Inakktiv</MenuItem>
+                  </Select>)
+
+               },
+               lookup: statusList
+            },
+            {
+               title: 'Notiz', field: 'note', render: rowData => {
+                  return (<div>
+                     {rowData.note}
+                  </div>)
+               },
+               editComponent: rowData => {
+                  return (
+                     <TextField
+                        className="full-width"
+                        id="outlined-multiline-static"
+                        label="Add Note"
+                        multiline
+                        rows={4}
+                        defaultValue="Default Value"
+                        variant="outlined"
+                        value={this.state.note}
+                        onChange={this.handleChangeNote}
+                     />)
+               },
+               filtering: false
+            },
             {
                title: 'Benachrichtigungen', field: 'serviceplan', render: rowData => {
                   return (<Switch
@@ -416,7 +454,7 @@ class PatientsTable extends Component {
                }
             },
          ],
-
+         note: '',
          data: [],
          selected: [],
          selectedservice: [],
@@ -443,8 +481,9 @@ class PatientsTable extends Component {
          pharmaciesList: [],
          pharmacyData: null,
          caremanager: '',
-         caremanagerData: null
-
+         caremanagerData: null,
+         statusArray: [],
+         completed: false
 
       };
 
@@ -452,6 +491,26 @@ class PatientsTable extends Component {
 
    }
 
+   handleChange(value, data) {
+      console.log('thishandle', value)
+      userService.editStatus({ id: data.id, status: value }).then(res => {
+         if (res) {
+            this.setState(prevState => {
+               const statusArray = [...prevState.statusArray];
+               statusArray[data.id] = value;
+
+               return { ...prevState, statusArray };
+            });
+         }
+         NotificationManager.success("Die Daten werden erfolgreich gespeichert.")
+      }).catch(error => {
+         NotificationManager.error('Es wurden keine Daten gespeichert');
+      });
+
+   }
+   handleChangeNote = (event) => {
+      this.setState({ note: event.target.value });
+   }
    formate_date(dateString) {
       let date = '';
       if (dateString) {
@@ -539,7 +598,7 @@ class PatientsTable extends Component {
 
    }
    onChangeCareManager = (event, caremanagerData) => {
-
+      console.log('caremanagersList', this.state.caremanagersList);
       if (caremanagerData) {
          this.setState({ caremanager: caremanagerData.id, caremanagerData })
       }
@@ -564,7 +623,7 @@ class PatientsTable extends Component {
    }
    onChangeUsers = (event) => {
       let selectedUsers = [...event.target.value];
-      if (selectedUsers.length == usersList.length - 1 || selectedUsers.indexOf('all') > -1) selectedUsers = ['all'];
+      if (selectedUsers.length == usersList.length - 1 || selectedUsers.indexOf('Alle') > -1) selectedUsers = ['Alle'];
       this.setState({
          selectedUsers: selectedUsers
       });
@@ -599,7 +658,7 @@ class PatientsTable extends Component {
          usersList = res.users.map(ele => {
             return ele.name;
          })
-         usersList.push("all");
+         usersList.push("Alle");
 
          let family_doctorsList = res.family_doctors;
          let caremanagersList = res.caremanagers;
@@ -618,14 +677,18 @@ class PatientsTable extends Component {
          })
          console.log('resinstanceName', instanceNames)
 
+         let statusArray = [];
+         res.patients.forEach(element => {
 
+            statusArray[element.id] = element.status;
+         });
 
 
          this.setState(prevState => {
             const data = res.patients;
             const documentsList = res.documents;
             const folders = res.folders;
-            return { ...prevState, data, documentsList, folders, family_doctorsList, insuranceList, pharmaciesList, caremanagersList };
+            return { ...prevState, data, documentsList, folders, family_doctorsList, insuranceList, pharmaciesList, caremanagersList, statusArray };
          });
 
       })
@@ -651,6 +714,7 @@ class PatientsTable extends Component {
                   newData.birthday = this.state.birthday;
                   newData.caremanager = this.state.caremanager;
                   newData.serviceplan = this.state.serviceplan;
+                  newData.note = this.state.note;
                   console.log('this.state.pharmacy && this.state.familyDoctor && newData.firstName && newData.lastName', this.state.pharmacy);
                   if (newData.pharmacy && newData.familyDoctor && newData.firstName && newData.lastName) {
                      const formData = new FormData()
@@ -713,6 +777,7 @@ class PatientsTable extends Component {
                   if (this.state.birthday) newData.birthday = this.state.birthday;
                   if (this.state.serviceplan) newData.serviceplan = this.state.serviceplan;
                   if (this.state.caremanager) newData.caremanager = this.state.caremanager;
+                  if (this.state.note) newData.note = this.state.note;
                   formData.append('data', JSON.stringify(newData));
                   if (newData.pharmacy && newData.familyDoctor && newData.firstName && newData.lastName) {
                      userService.editPatients(formData).then(res => {
@@ -832,7 +897,7 @@ class PatientsTable extends Component {
                }),
          };
       return (
-         <div className="tables-wrapper search-table-wrap">
+         <div className="tables-wrapper search-table-wrap patients">
             <SmallTitleBar
                title={<IntlMessages id="sidebar.patients" />}
                center
