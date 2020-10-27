@@ -44,14 +44,14 @@ class PatientsTable extends Component {
                      />
                   )
 
-               }
+               }, filtering: false
             },
-            { title: 'Anrede', field: 'salutation', lookup: salutationList },
-            { title: '*Vorname', field: 'firstName' },
-            { title: '*Nachname', field: 'lastName' },
-            { title: 'Straße', field: 'streetNr' },
-            { title: 'PLZ', field: 'zipCode' },
-            { title: 'Ort', field: 'city' },
+            { title: 'Anrede', field: 'salutation', lookup: salutationList , filtering: false},
+            { title: '*Vorname', field: 'firstName' , filtering: false},
+            { title: '*Nachname', field: 'lastName' , filtering: false},
+            { title: 'Straße', field: 'streetNr' , filtering: false},
+            { title: 'PLZ', field: 'zipCode' , filtering: false},
+            { title: 'Ort', field: 'city' , filtering: false},
 
             {
                title: 'Geburtstag', field: 'birthday', render: rowData => {
@@ -72,11 +72,11 @@ class PatientsTable extends Component {
                         value={this.state.birthday}
                         onChange={this.handleChangeDate}
                      />)
-               }
+               }, filtering: false
             },
-            { title: 'Telefon 1', field: 'phone1' },
-            { title: 'Telefon 2', field: 'phone2' },
-            { title: 'E-Mail', field: 'email' },
+            { title: 'Telefon 1', field: 'phone1', filtering: false },
+            { title: 'Telefon 2', field: 'phone2' , filtering: false},
+            { title: 'E-Mail', field: 'email' , filtering: false},
 
             {
                title: 'Bereich', field: 'resources', render: props => {
@@ -134,7 +134,7 @@ class PatientsTable extends Component {
                      />
                   )
 
-               }
+               }, filtering: false
 
             },
 
@@ -165,10 +165,10 @@ class PatientsTable extends Component {
 
                      />}
                   />)
-               }
+               }, filtering: false
             },
             {
-               title: 'Versicherten-Nr.', field: 'insuranceNr'
+               title: 'Versicherten-Nr.', field: 'insuranceNr', filtering: false
             },
             {
                title: 'Leistungen', field: 'services', render: props => {
@@ -231,7 +231,7 @@ class PatientsTable extends Component {
                      />
                   )
 
-               }
+               }, filtering: false
             },
             {
                title: '*Familiendoktor', field: 'familyDoctor', editComponent: rowData => {
@@ -259,7 +259,7 @@ class PatientsTable extends Component {
 
                      />}
                   />)
-               }
+               }, filtering: false
             },
             {
                title: '*Zuweiser', field: 'ansprechpartner', editComponent: rowData => {
@@ -287,12 +287,12 @@ class PatientsTable extends Component {
 
                      />}
                   />)
-               }
+               } , filtering: false
             },
-            { title: 'Schlüssel-Nr.', field: 'keyNumber', type: 'numeric' },
-            { title: 'Etage', field: 'floor', type: 'numeric' },
+            { title: 'Schlüssel-Nr.', field: 'keyNumber', type: 'numeric' , filtering: false},
+            { title: 'Etage', field: 'floor', type: 'numeric' , filtering: false},
             {
-               title: 'Pflegegrad', field: 'degreeCare', lookup: degreeList
+               title: 'Pflegegrad', field: 'degreeCare', lookup: degreeList , filtering: false
             },
             {
                title: '*Apotheke', field: 'pharmacy', editComponent: rowData => {
@@ -322,6 +322,7 @@ class PatientsTable extends Component {
                      />}
                   />)
                }
+               , filtering: false
             },
             {
                title: 'Instance', field: 'instance_id', hidden: false, render: rowData => {
@@ -346,6 +347,7 @@ class PatientsTable extends Component {
                      return <div></div>;
                   }
                },
+               filtering: false
 
             },
             {
@@ -390,10 +392,11 @@ class PatientsTable extends Component {
                   )
 
                }
+               , filtering: false
             },
             {
                title: 'Status', field: 'status', render: rowdata => {
-                  console.log('handle', this.state.statusArray);
+                  
                   return (<Select
                      labelId="demo-simple-select-label"
                      id="demo-simple-select"
@@ -406,7 +409,9 @@ class PatientsTable extends Component {
                   </Select>)
 
                },
-               lookup: statusList
+               lookup: statusList,
+               
+               
             },
             {
                title: 'Notiz', field: 'note', render: rowData => {
@@ -451,7 +456,7 @@ class PatientsTable extends Component {
                      onChange={e => this.setState({ serviceplan: e.target.checked })}
                   />)
 
-               }
+               }, filtering: false
             },
          ],
          note: '',
@@ -914,8 +919,10 @@ class PatientsTable extends Component {
                         },
                      }}
                      options={{
-                        actionRowIndex: -1
+                        actionRowIndex: -1,
+                        filtering: true
                      }}
+                   
                      editable={editableComponent}
                      actions={this.instance_id ? [
                         {

@@ -119,7 +119,7 @@ class EditorDialog extends React.Component {
 					<Box className="box">
 
 
-						{this.state.selectedType == 'Neuer Patient' ?  <TextField
+						{this.state.selectedType == 'Neuer Patient' ? <TextField
 							className="full-width"
 							id="datetime-local"
 							type="text"
@@ -132,18 +132,18 @@ class EditorDialog extends React.Component {
 							onChange={this.titleChanged.bind(this)}
 							defaultValue="Title..."
 						/> : <TextField
-							className="full-width"
-							id="datetime-local"
-							type="text"
-							label="Please input Template Title"
-							placeholder="Neue Bestellung [oder_id]"
-							InputLabelProps={{
-								shrink: true,
-							}}
-							value={this.state.title}
-							onChange={this.titleChanged.bind(this)}
-							defaultValue="Title..."
-						/>
+								className="full-width"
+								id="datetime-local"
+								type="text"
+								label="Please input Template Title"
+								placeholder="Neue Bestellung [oder_id]"
+								InputLabelProps={{
+									shrink: true,
+								}}
+								value={this.state.title}
+								onChange={this.titleChanged.bind(this)}
+								defaultValue="Title..."
+							/>
 						}
 
 						<FormControl pt={5} className="selection-wrap full-width" >
@@ -341,10 +341,9 @@ EditorDialog.modules3 = {
 EditorDialog.modules4 = {
 	toolbar: {
 
-
 		container:
 			[
-				[{ 'placeholder': ['[patient]', '[address]', '[phone]', '[insurance]', '[insurance nr]', '[birthday]', '[family doctor]', '[pharmacy]', '[care manager]'] }], // my custom dropdown
+				[{ 'placeholder': ['[patient]', '[address]', '[phone]', '[insurance]', '[insurance nr]', '[birthday]', '[family doctor]', '[pharmacy]', '[care manager anrede]', '[care manager firstname]', '[care manager lastname]', '[care manager phone]', '[care manager email]', '[care manager]'] }], // my custom dropdown
 				['bold', 'italic', 'underline', 'strike'],        // toggled buttons
 				['blockquote', 'code-block'],
 				[{ 'header': 1 }, { 'header': 2 }],               // custom button values
