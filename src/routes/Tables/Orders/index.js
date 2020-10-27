@@ -216,7 +216,8 @@ class Orders extends Component {
 			isEditMedications: true,
 			patients: [],
 			completed: false,
-			checked: []
+			checked: [],
+			date : ''
 		};
 
 	}

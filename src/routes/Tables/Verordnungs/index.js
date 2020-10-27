@@ -263,8 +263,10 @@ class Documents extends Component {
 		if (popupResponse) {
 			userService.addVerordnung({ ...popupResponse, instance_id: this.instance_id }).then(res => {
 				this.setState(prevState => {
-					const documents = [...prevState.documents];
+
+					let documents = [];
 					documents.push(res);
+					documents = documents.concat(prevState.documents)   ;					
 					return { ...prevState, documents };
 				});
 

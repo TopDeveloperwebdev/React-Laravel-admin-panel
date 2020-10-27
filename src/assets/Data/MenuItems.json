@@ -398,6 +398,18 @@
 			"desc": true,
 			"content": "",
 			"child_routes": null
+		},
+		{
+			"menu_title": "sidebar.ausgaben",
+			"path": "/app/ausgaben",
+			"icon": "apps",
+			"category": "components",
+			"isMenuOpen": false,
+			"menu": "tables",
+			"fullPageMenu": false,
+			"desc": true,
+			"content": "",
+			"child_routes": null
 		}
 	]
 }

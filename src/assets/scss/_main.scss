@@ -926,26 +926,39 @@ html{
    
       
 }
-.mapContainer{
-    position: relative;
-    margin: 10px 0px;
+.patients {
+    textarea {
+        padding: 0;
+        min-width: 200px !important;
+    }
+}
+
     .patientsContainer {
+
         height: 60vh;
         /* position: absolute; */
         width: 380px;
-        top: 10vh;
+        top: 12vh;
         position: absolute;
         left: 50px;
-        z-index: 100;
-       
-        .content {
+        z-index: 0;
+        .MuiTableRow-root {
+            width: 100%;
+            display: flex !important;
+            justify-content: space-between;
            
+        }
+   
+        .MuiCard-root {
+            height: 100%;
+        }
+        .content {
+            margin-top: 6vh;
             >div{
                 overflow-y: auto;
                height: 44vh;
-               >div {
-                border-top: 1px solid #efe8e8;
-               }
+               padding-top: 30px;
+             
             }
             h6 {
                 margin: 40px 0px 20px 0px;
@@ -955,5 +968,28 @@ html{
              
             }
         }
+     
+      
     }
-}
+    .pac-target-input , .pac-target-input:active {
+        border: none;
+        border-bottom: 1px solid #ccc9c9 ;
+        width: 351px !important;
+        left: 59px !important;
+    }
+    .pac-target-input:active {
+        border: none !important;
+        border-bottom: 1px solid greenyellow !important ;
+    }
+    .ausgaben {
+        .MuiAutocomplete-inputRoot .MuiAutocomplete-input {
+            width: 0;
+            min-width: 92px;
+        }
+        .linkdiv {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 200px;
+        }
+    }

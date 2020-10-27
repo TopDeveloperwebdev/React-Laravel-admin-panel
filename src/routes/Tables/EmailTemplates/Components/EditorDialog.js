@@ -118,7 +118,20 @@ class EditorDialog extends React.Component {
 					/>
 					<Box className="box">
 
-						<TextField
+
+						{this.state.selectedType == 'Neuer Patient' ?  <TextField
+							className="full-width"
+							id="datetime-local"
+							type="text"
+							label="Please input Template Title"
+							placeholder="Neue Bestellung"
+							InputLabelProps={{
+								shrink: true,
+							}}
+							value={this.state.title}
+							onChange={this.titleChanged.bind(this)}
+							defaultValue="Title..."
+						/> : <TextField
 							className="full-width"
 							id="datetime-local"
 							type="text"
@@ -131,6 +144,8 @@ class EditorDialog extends React.Component {
 							onChange={this.titleChanged.bind(this)}
 							defaultValue="Title..."
 						/>
+						}
+
 						<FormControl pt={5} className="selection-wrap full-width" >
 							<InputLabel id="page-size">Trigger Type</InputLabel>
 							<Select
@@ -153,6 +168,7 @@ class EditorDialog extends React.Component {
 						</FormControl>
 
 					</Box>
+
 					<div className="text-editor">
 						{this.state.selectedType == 'Jedes Jahr an Geburtstagen' && <ReactQuill
 							theme={'snow'}
@@ -183,7 +199,7 @@ class EditorDialog extends React.Component {
 							modules={EditorDialog.modules4}
 						/>
 						}
-						
+
 
 					</div>
 
@@ -292,7 +308,7 @@ EditorDialog.modules3 = {
 	toolbar: {
 		container:
 			[
-				[{ 'placeholder': ['[comment]', '[patient]', '[address]', '[phone]', '[insurance]', '[insurance nr]', '[birthday]','[family doctor]','[pharmacy]','[care manager]']  }], // my custom dropdown
+				[{ 'placeholder': ['[comment]', '[patient]', '[address]', '[phone]', '[insurance]', '[insurance nr]', '[birthday]', '[family doctor]', '[pharmacy]', '[care manager]', '[oder_id]', '[order_public_link]'] }], // my custom dropdown
 				['bold', 'italic', 'underline', 'strike'],        // toggled buttons
 				['blockquote', 'code-block'],
 				[{ 'header': 1 }, { 'header': 2 }],               // custom button values
@@ -324,11 +340,11 @@ EditorDialog.modules3 = {
 }
 EditorDialog.modules4 = {
 	toolbar: {
-		
+
 
 		container:
 			[
-				[{ 'placeholder': ['[patient]', '[address]', '[phone]', '[insurance]', '[insurance nr]', '[birthday]','[family doctor]','[pharmacy]','[care manager]'] }], // my custom dropdown
+				[{ 'placeholder': ['[patient]', '[address]', '[phone]', '[insurance]', '[insurance nr]', '[birthday]', '[family doctor]', '[pharmacy]', '[care manager]'] }], // my custom dropdown
 				['bold', 'italic', 'underline', 'strike'],        // toggled buttons
 				['blockquote', 'code-block'],
 				[{ 'header': 1 }, { 'header': 2 }],               // custom button values

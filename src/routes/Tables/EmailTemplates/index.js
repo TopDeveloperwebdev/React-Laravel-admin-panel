@@ -108,7 +108,8 @@ class EmailTemplates extends Component {
 				// 	templates[templates.indexOf(this.state.oldData)] = popupResponse;
 				// 	let oldData = {};
 				// 	return { ...prevState, templates, oldData };
-				// });
+				// });			
+				// 
 				window.location.reload();
 
 			})
@@ -158,9 +159,6 @@ class EmailTemplates extends Component {
 		// 			return docs.indexOf(a.id) > -1;
 		// 		})
 		// 	}
-
-
-
 		// 	console.log('elemnet' , window.patients);
 
 		// 	this.setState({ documents: res.documents, instances: res.instances });

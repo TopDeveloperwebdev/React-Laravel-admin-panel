@@ -35,6 +35,7 @@ export default {
   "sidebar.Manages": "Verwaltung",
   "sidebar.extended": "Erweitert",
   "sidebar.userSettings": "Anwender-Einstellungen",
+  "sidebar.ausgaben": "Ausgaben",
   "sidebar.pages": "Seiten",
   "sidebar.services": "Leistungen",
   "sidebar.ingredients": "Inhaltsstoffe",

@@ -27,10 +27,18 @@ const AsyncDashboard2Component = Loadable({
 });
 // Dashboard 3
 const AsyncDashboard3Component = Loadable({
-	loader: () => import("routes/Dashboard/Dashboard3"),
+	loader: () => import("routes/Tables/Ausgaben"),
 	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
+
+// AsyncAusgabenComponent
+const AsyncAusgabenComponent = Loadable({
+	loader: () => import("routes/Tables/Ausgaben"),
+	loading: () => <HulkPageLoader />,
+	delay: 3000,
+});
+
 
 // Shop Page
 const AsyncShopComponent = Loadable({
@@ -454,5 +462,6 @@ export {
 	AsyncvVerordnungsComponent,
 	AsyncSharedDocumentComponent,
 	AsyncCareManagersComponent,
-	AsyncMapsComponent
+	AsyncMapsComponent,
+	AsyncAusgabenComponent
 };

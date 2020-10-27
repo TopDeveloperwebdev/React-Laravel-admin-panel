@@ -13,6 +13,11 @@ export const userService = {
    showCaremanagers,
    editCaremanagers,
    deleteCaremanagers,
+   addAusgaben,
+   showAusgaben,
+   editAusgaben,
+   deleteAusgaben,
+   editStatus,
    addPharmacies,
    showPharmacies,
    editPharmacies,
@@ -252,6 +257,64 @@ function deleteCaremanagers(id) {
       });
 }
 
+// addAusgaben CRUD
+function addAusgaben(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'addAusgaben', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res;
+      });
+}
+function showAusgaben(info) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(info)
+   };
+
+   return fetch(serverUrl + 'showAusgaben', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
+function editAusgaben(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'editAusgaben', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         console.log('res', res);
+         return res
+      });
+}
+function deleteAusgaben(id) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(id)
+   };
+
+   return fetch(serverUrl + 'deleteAusgaben', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
 // Medications CRUD
 function addMedications(data) {
 
@@ -283,6 +346,20 @@ function relationPatients(data) {
       });
 }
 
+function editStatus(data) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+   };
+
+   return fetch(serverUrl + 'editStatus', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res;
+      });
+}
 function showMedications(info) {
 
    const requestOptions = {

@@ -24,14 +24,15 @@ import {
    AsyncUsersComponent,
    AsyncManageOrdersComponent,
    AsyncDocumentsComponent,
-AsyncFoldersComponent,
+   AsyncFoldersComponent,
    AsyncEmailTemplatesComponent,
    AsyncEmailTrigersComponent,
    AsyncvVerordnungsComponent,
    AsyncCareManagersComponent,
-   AsyncMapsComponent
+   AsyncMapsComponent,
+   AsyncAusgabenComponent
 } from 'components/AsyncComponent/AsyncComponent';
-
+// 
 const Tables = ({ match }) => {
    // if (match.url === "/") {
    //    if (user === null) {
@@ -125,17 +126,17 @@ const Tables = ({ match }) => {
             permission="roles_access"
             component={AsyncRolesComponent}
          />
-           <RouteWithRole
+         <RouteWithRole
             path={`${match.url}/insurances`}
             permission="insurances_access"
             component={AsyncInsurancesComponent}
          />
-           <RouteWithRole
+         <RouteWithRole
             path={`${match.url}/services`}
             permission="services_access"
             component={AsyncServicesComponent}
          />
-           <RouteWithRole
+         <RouteWithRole
             path={`${match.url}/Ingredients`}
             permission="ingredients_access"
             component={AsyncIngredientsComponent}
@@ -150,7 +151,7 @@ const Tables = ({ match }) => {
             permission="order_access"
             component={AsyncOrderComponent}
          />
-          <RouteWithRole
+         <RouteWithRole
             path={`${match.url}/manage-orders`}
             permission="manageOrders_access"
             component={AsyncManageOrdersComponent}
@@ -160,27 +161,27 @@ const Tables = ({ match }) => {
             permission="documents_access"
             component={AsyncDocumentsComponent}
          />
-             <RouteWithRole
+         <RouteWithRole
             path={`${match.url}/carefolders`}
             permission="carefolders_access"
             component={AsyncFoldersComponent}
          />
-          <RouteWithRole
+         <RouteWithRole
             path={`${match.url}/verordnungen`}
             permission="verordnungs_access"
             component={AsyncvVerordnungsComponent}
          />
-          <RouteWithRole
+         <RouteWithRole
             path={`${match.url}/email-templtes`}
             permission="emailtemplates_access"
             component={AsyncEmailTemplatesComponent}
          />
-           <RouteWithRole
+         <RouteWithRole
             path={`${match.url}/email-trigers`}
             permission="emailtrigers_access"
             component={AsyncEmailTrigersComponent}
          />
-            <RouteWithRole
+         <RouteWithRole
             path={`${match.url}/caremanagers`}
             permission="caremanagers_access"
             component={AsyncCareManagersComponent}
@@ -190,6 +191,12 @@ const Tables = ({ match }) => {
             permission="maps_access"
             component={AsyncMapsComponent}
          />
+         <RouteWithRole
+            path={`${match.url}/ausgaben`}
+            permission="ausgaben_access"
+            component={AsyncAusgabenComponent}
+         />
+
          {/* <Route path={`${match.url}/pharmacies`} component={AsyncPharmaciesComponent}></Route> */}
          {/* <Route path={`${match.url}/medication`} component={AsyncMedicationComponent}></Route> */}
          {/* <Route path={`${match.url}/patients`} component={AsyncPatientsTableComponent}></Route> */}

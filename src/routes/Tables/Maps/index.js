@@ -5,13 +5,14 @@ import React, { Component } from 'react';
 import MaterialTable from 'material-table';
 import { Container, Box, Switch, FormControl, InputLabel, Select } from '@material-ui/core';
 import { userService } from '../../../_services';
-import MapPage from './Map';
+
 import { CustomCard } from 'components/GlobalComponents';
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 
 import Row from './Components/Row';
+import CustomMarker from './Components/CustomMarker';
 import { withGoogleMap, GoogleMap, withScriptjs, InfoWindow, Marker, Circle } from "react-google-maps";
 import Geocode from "react-geocode";
 import Autocomplete from 'react-google-autocomplete';
@@ -101,21 +102,27 @@ class Maps extends Component {
 			patients: [],
 			patientAddress: [],
 			selectedPatient: '',
+			isOpen: []
 
 		};
-		this.mapPage = React.createRef();
+		this.CustomMarker = React.createRef();
 		this.Row = React.createRef();
 		this.handleClick = this.handleClick.bind(this)
 
 	}
 
 	componentDidMount() {
+		let self
+			= this;
 		let user = JSON.parse(localStorage.getItem('user'));
 		this.instance_id = user.instance_id;
 		console.log('res', this.instance_id);
 		userService.getPatients({ instance_id: this.instance_id, pagination: 1 }).then(res => {
-			const data = res;
+			let data = res;
+			data = data.sort(self.compareAB);
+		     console.log('res' , data);
 			this.setState({ data });
+			
 			this.InitializePatient(data);
 		});
 	}
@@ -146,11 +153,28 @@ class Maps extends Component {
 				lat: latValue,
 				lng: lngValue
 			},
+
 		})
 	};
 
-	handleClick = (id) => {
-		this.setState({ selectedPatient: id });
+	handleClick = (props) => {
+
+		this.CustomMarker.current.setState({ selectedPatient: props.id });
+		if (this.state.patientAddress.length) {
+			let mapPosition = this.state.patientAddress.find(element => element.id == props.id);
+			let isOpen = [...this.state.isOpen];
+			isOpen[props.index] = !isOpen[props.index];
+			this.setState({
+				selectedPatient: props.id,
+				mapPosition: {
+					lat: mapPosition.lat,
+					lng: mapPosition.lng
+				},
+				isOpen
+
+			})
+		}
+
 	}
 
 
@@ -256,21 +280,38 @@ class Maps extends Component {
 
 	};
 
+	compareAB(a, b) {
+		let Aname = a.firstName + ' ' + a.lastName;
+		let Bname = b.firstName + ' ' + b.lastName;
+		const bandA = Aname.toUpperCase();
+		const bandB = Bname.toUpperCase();
 
+		let comparison = 0;
+		if (bandA > bandB) {
+			comparison = 1;
+		} else if (bandA < bandB) {
+			comparison = -1;
+		}
+		return comparison;
+	}
 
 	async InitializePatient(patients) {
 		let self = this;
 		let patientAddress = [];
+		let isOpen = [];
+
 		patients.map(async function (patient, index) {
 			if (patient.streetNr) {
-				let response = await Geocode.fromAddress(patient.streetNr);
+				let response = await Geocode.fromAddress(patient.streetNr + ', ' + patient.zipCode + " " + patient.city);
 
 				const { lat, lng } = response.results[0].geometry.location;
 				if (lat && lng) {
 
-					patientAddress.push({ id: patient.id, lat: lat, lng: lng });
+					patientAddress.push({ id: patient.id, lat: lat, lng: lng, name: patient.firstName + ' ' + patient.lastName, streetNr: patient.streetNr, zipCode: patient.zipCode, city: patient.city });
+					isOpen.push(false);
+
 					if (patients.length - 2 < index) {
-						self.setState({ patientAddress: patientAddress });
+						self.setState({ patientAddress: patientAddress, isOpen });
 					}
 
 				}
@@ -278,116 +319,93 @@ class Maps extends Component {
 
 		})
 	}
+
+
 	render() {
-		const { data, selectedPatient, patientAddress } = this.state;
-		console.log('this.state', this.state);
+		const { data, selectedPatient, patientAddress, isOpen } = this.state;
+
+		console.log('this.state isOpen', isOpen);
 		const AsyncMap = withScriptjs(
 			withGoogleMap(
 				props => (
 					<>
-						{/* <div className="mapContainer">
-							<div className="patientsContainer">
-								<CustomCard>
-									<Autocomplete
-										style={{
-											width: '100%',
-											height: '40px',
-											paddingLeft: '16px',
-											marginTop: '2px',
-											marginBottom: '10px'
-										}}
-										onPlaceSelected={this.onPlaceSelected}
-										types={['(regions)']}
-										componentRestrictions={{ country: "de" }}
-									/>
-									<div className="content">
-										<h6>Patient</h6>
-										<div>
-											<Table aria-label="collapsible table">
-												<TableBody>
-													{
-														this.state.data.length > 0 && this.state.data.map((element, index) => (
-															<Row ref={this.Row} key={index} row={element} OnRowclick={this.handleClick} />
-														))}
-												</TableBody>
-											</Table>
-										</div>
+						{/* <div className="mapContainer"> */}
+						<div className="patientsContainer">
+							<CustomCard>
 
+								<div className="content">
+
+									<div>
+										<Table aria-label="collapsible table ">
+											<TableBody>
+												{
+													this.state.data.length > 0 && this.state.data.map((element, index) => (
+														<Row ref={this.Row} key={index} open={isOpen[index]} row={element} index={index} OnSelectRow={this.handleClick} />
+													))}
+											</TableBody>
+										</Table>
 									</div>
 
-								</CustomCard>
-							</div>
-							{/* <div className="mapSection">
-								{data && data.length > 0 &&
-									
-								}
-							</div> */}
-						{/* 
-						</div>  */}
-						{data && data.length > 0 && <GoogleMap
-							
-							defaultZoom={12}
+								</div>
+
+							</CustomCard>
+						</div>
+
+						<GoogleMap
+
+							defaultZoom={11}
 							defaultCenter={{ lat: this.state.mapPosition.lat, lng: this.state.mapPosition.lng }}
 							defaultOptions={{
 								styles: darkstyle
 							}}
 						>
-							{
-								console.log('data', data)
+							{patientAddress.length > 0 && patientAddress.map((patient, index) => (
+								<CustomMarker ref={this.CustomMarker} key={index} patient={patient} name={'Dolores park'} position={{ lat: patient.lat, lng: patient.lng }} />
+							))
 							}
-							{/* {patientAddress.length > 0 && patientAddress.map((patient, index) => {
-								console.log('patient.streetNr == this.props.selectedPatient ', selectedPatient);
-								return (
-									<Marker
-										options={patient.id == selectedPatient ? activeIcon : defaultIcon}
-										key={index}
-										name={'Dolores park'}
-										draggable={true}
-										onDragEnd={this.onMarkerDragEnd}
-										position={{ lat: patient.lat, lng: patient.lng }}
-									/>
+							<CustomMarker ref={this.CustomMarker} patient={{ id: 0, lat: this.state.markerPosition.lat, lng: this.state.markerPosition.lng, streetNr: this.state.address }} position={{ lat: this.state.markerPosition.lat, lng: this.state.markerPosition.lng }} />
+							<Autocomplete
+								style={{
+									width: '100%',
+									height: '40px',
+									paddingLeft: '16px',
+									marginTop: '10px',
+									marginBottom: '10px',
+									position: "absolute",
+									top: '13vh'
+								}}
+								onPlaceSelected={this.onPlaceSelected}
+								types={["address"]}
+								componentRestrictions={{ country: "de" }}
 
-								)
-								})
-								}
+							/>
 
-								<InfoWindow
-								onClose={this.onInfoWindowClose}
-								position={{ lat: (this.state.markerPosition.lat + 0.0018), lng: this.state.markerPosition.lng }}
-								>
-								<div>
-									<span style={{ padding: 0, margin: 0 }}>{this.state.address}</span>
-								</div>
-								</InfoWindow>
-								<Marker
-								name={'Dolores park'}
-								draggable={true}
-								onDragEnd={this.onMarkerDragEnd}
-								position={{ lat: this.state.markerPosition.lat, lng: this.state.markerPosition.lng }}
-								/> */}
 
 						</GoogleMap>
-
-						}
-
 					</>
+
+
 				)
 			)
 		);
 
 		return (
-			<AsyncMap
-				googleMapURL={`https://maps.googleapis.com/maps/api/js?key=AIzaSyDMrIaIY6QY_kiOz0VSZkN36HBd4cnfkH8&libraries=places`}
-				loadingElement={
-					<div style={{ height: `100%` }} />
-				}
-				containerElement={
-					<div style={{ height: this.props.height }} />
-				}
-				mapElement={
-					<div style={{ height: `100%` }} />
-				}
-			/>
+			<div className="tables-wrapper search-table-wrap">
+
+				<AsyncMap
+					googleMapURL={`https://maps.googleapis.com/maps/api/js?key=AIzaSyDMrIaIY6QY_kiOz0VSZkN36HBd4cnfkH8&libraries=places`}
+					loadingElement={
+						<div style={{ height: `100%` }} />
+					}
+					containerElement={
+						<div style={{ height: '90vh', position: "relative", }} />
+					}
+					mapElement={
+						<div style={{ height: `100%` }} />
+					}
+				/>
+			</div>
+
 		);
 	}
 }

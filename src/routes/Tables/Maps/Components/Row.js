@@ -25,43 +25,42 @@ class Row extends React.Component {
         }
     }
 
-    handleClick = (row) => {  
-        let open = !this.state.open;
-   
-        this.setState({ open });
-       
-        if(row.streetNr){
-            this.props.OnRowclick(row.id);
+    handleClick = (row , index) => {  
+      
+        if(row.id){
+            this.props.OnSelectRow({id : row.id , index: index});
         }
         
     }
+    componentWillMount(){
+
+    }
     render() {
 
-        let { row } = this.props;
+        let { row , index , open } = this.props;
+        console.log('open'  , this.props.open);
+    
         return (
             <>
                 <TableRow >
-                    <TableCell align="left">{row.firstName + ' ' + row.lastName}</TableCell>
-                    <TableCell align="left">{row.phone1}</TableCell>
-                    <TableCell align="right">
-                        <IconButton aria-label="expand row" size="small" onClick={() => this.handleClick(row)}>
-                            {this.state.open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                    <TableCell align="left" style={{width : '40%'}}>{row.firstName + ' ' + row.lastName}</TableCell>
+                    <TableCell align="left" style={{width : '40%'}}>{row.phone1}</TableCell>
+                    <TableCell align="right" style={{width : '20%'}}>
+                        <IconButton aria-label="expand row" size="small" onClick={() => this.handleClick(row , index)}>
+                            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                         </IconButton>
                     </TableCell>
                 </TableRow>
-                {this.state.open ? <TableRow>
-                    <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-                        <Collapse in={this.state.open} timeout="auto" unmountOnExit>
+                {open ? <TableRow>
+                    <TableCell style={{ paddingBottom: 5, paddingTop: 5 , width : "100%" , height : 'auto'}} colSpan={6}>
+                        <Collapse in={open} timeout="auto" unmountOnExit>
                             <Box margin={1}>
                                 <Typography gutterBottom component="div">
                                     {row.streetNr}
                                 </Typography>
                                 <Typography gutterBottom component="div">
-                                    {row.zipCode}
-                                </Typography>
-                                <Typography gutterBottom component="div">
-                                    {row.city}
-                                </Typography>
+                                    {row.zipCode} {row.city}
+                                </Typography>                               
                             </Box>
                         </Collapse>
                     </TableCell>
