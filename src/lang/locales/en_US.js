@@ -94,7 +94,7 @@ export default {
   "sidebar.fivezerozero": "500",
   "sidebar.timeline": "Zeitleiste",
   "sidebar.stepper": "Stepper",
-  "sidebar.fileManager": "Dateimanager",
+  "sidebar.fileManager": "Pflegemanager",
   "sidebar.documents": "Dokumente",
   "sidebar.carefolders": "Pflegeordner",
    "sidebar.verordnungs": "Verordnung",

@@ -269,6 +269,18 @@
 			]
 		},
 		{
+			"menu_title": "sidebar.order",
+			"path": "/app/order",
+			"icon": "shopping_cart",
+			"category": "components",
+			"isMenuOpen": false,
+			"menu": "tables",
+			"fullPageMenu": false,
+			"desc": true,
+			"content": "",
+			"child_routes": null
+		},
+		{
 			"menu_title": "sidebar.fileManager",
 			"path": "/app/documents/*",
 			"icon": "folder_open",
@@ -335,9 +347,21 @@
 			]
 		},
 		{
-			"menu_title": "sidebar.order",
-			"path": "/app/order",
-			"icon": "shopping_cart",
+			"menu_title": "sidebar.ausgaben",
+			"path": "/app/ausgaben",
+			"icon": "apps",
+			"category": "components",
+			"isMenuOpen": false,
+			"menu": "tables",
+			"fullPageMenu": false,
+			"desc": true,
+			"content": "",
+			"child_routes": null
+		},
+		{
+			"menu_title": "sidebar.users",
+			"path": "/app/users",
+			"icon": "apps",
 			"category": "components",
 			"isMenuOpen": false,
 			"menu": "tables",
@@ -378,30 +402,6 @@
 		{
 			"menu_title": "sidebar.instances",
 			"path": "/app/instances",
-			"icon": "apps",
-			"category": "components",
-			"isMenuOpen": false,
-			"menu": "tables",
-			"fullPageMenu": false,
-			"desc": true,
-			"content": "",
-			"child_routes": null
-		},
-		{
-			"menu_title": "sidebar.users",
-			"path": "/app/users",
-			"icon": "apps",
-			"category": "components",
-			"isMenuOpen": false,
-			"menu": "tables",
-			"fullPageMenu": false,
-			"desc": true,
-			"content": "",
-			"child_routes": null
-		},
-		{
-			"menu_title": "sidebar.ausgaben",
-			"path": "/app/ausgaben",
 			"icon": "apps",
 			"category": "components",
 			"isMenuOpen": false,
