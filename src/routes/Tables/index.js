@@ -30,7 +30,8 @@ import {
    AsyncvVerordnungsComponent,
    AsyncCareManagersComponent,
    AsyncMapsComponent,
-   AsyncAusgabenComponent
+   AsyncAusgabenComponent,
+   AsyncOrdersManageComponent
 } from 'components/AsyncComponent/AsyncComponent';
 // 
 const Tables = ({ match }) => {
@@ -196,7 +197,11 @@ const Tables = ({ match }) => {
             permission="ausgaben_access"
             component={AsyncAusgabenComponent}
          />
-
+   <RouteWithRole
+            path={`${match.url}/ausgaben`}
+            permission="ausgaben_access"
+            component={AsyncOrdersManageComponent}
+         />
          {/* <Route path={`${match.url}/pharmacies`} component={AsyncPharmaciesComponent}></Route> */}
          {/* <Route path={`${match.url}/medication`} component={AsyncMedicationComponent}></Route> */}
          {/* <Route path={`${match.url}/patients`} component={AsyncPatientsTableComponent}></Route> */}
