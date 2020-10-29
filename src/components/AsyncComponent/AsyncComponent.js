@@ -41,7 +41,7 @@ const AsyncAusgabenComponent = Loadable({
 
 // AsyncOrdersManageComponent
 const AsyncOrdersManageComponent = Loadable({
-	loader: () => import("routes/Tables/OrdersManage"),
+	loader: () => import("routes/Tables/Chat"),
 	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });

@@ -16,7 +16,7 @@ export default {
   "sidebar.checkout": "Checkout",
   "sidebar.productdetails": "Produkteinzelheiten",
   "sidebar.invoice": "Rechnung",
-  "sidebar.chat": "Chat",
+  "sidebar.ordermanage": "Auftragsmanager",  
   "sidebar.email": "E-Mail",
   "sidebar.calendar": "Kalender",
   "sidebar.payment": "Zahlung",

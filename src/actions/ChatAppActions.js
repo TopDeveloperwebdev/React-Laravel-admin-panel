@@ -7,8 +7,9 @@ import {
     SEND_MESSAGE_TO_USER,
     UPDATE_USERS_SEARCH,
     SEARCH_USERS,
-	 GET_RECENT_CHAT_USERS,
-	 GET_DEFAULT_SELECTED_USER
+    UPDATE_USERS,
+    GET_RECENT_CHAT_USERS,
+    GET_DEFAULT_SELECTED_USER
 } from 'actions/Types';
 
 /*
@@ -16,13 +17,13 @@ import {
  * @param {*boolean} isBoxLayout 
  */
 export const chatWithSelectedUser = (user) => ({
-   type: CHAT_WITH_SELECTED_USER,
-   payload: user
+    type: CHAT_WITH_SELECTED_USER,
+    payload: user
 });
 
 export const chatConversationType = (type) => ({
-   type: CHAT_CONVERSATIONS_TYPE,
-   payload: type
+    type: CHAT_CONVERSATIONS_TYPE,
+    payload: type
 });
 
 export const sendMessageToUser = (data) => ({
@@ -36,6 +37,13 @@ export const sendMessageToUser = (data) => ({
 export const updateUsersSearch = (value) => ({
     type: UPDATE_USERS_SEARCH,
     payload: value
+});
+/**
+ * Redux Action To Update User Search
+ */
+export const updateUsers = (data) => ({
+    type: UPDATE_USERS,
+    payload: data
 });
 
 /**
@@ -57,6 +65,6 @@ export const getRecentChatUsers = () => ({
  * Get Default Selected User
  */
 export const getDefaultSelectedUsers = () => ({
-	type: GET_DEFAULT_SELECTED_USER
+    type: GET_DEFAULT_SELECTED_USER
 });
 

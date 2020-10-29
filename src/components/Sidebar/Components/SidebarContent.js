@@ -104,7 +104,7 @@ class SidebarContent extends Component {
 		});
 
 	
-		
+	
 		if(this.state.navLinks.length > 9){
 			this.props.onloadmenuwithpermission(navItems)
 			this.setState({

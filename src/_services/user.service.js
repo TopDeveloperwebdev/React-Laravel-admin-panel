@@ -99,6 +99,7 @@ export const userService = {
    editOrders,
    deleteOrders,
    getOrderDetail,
+   getOrdersByUserId,
    sendMessage,
    submitComment
 };
@@ -619,6 +620,20 @@ function showOrders(info) {
    };
 
    return fetch(serverUrl + 'showOrders', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
+function getOrdersByUserId(info) {
+
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(info)
+   };
+
+   return fetch(serverUrl + 'getOrdersByUserId', requestOptions)
       .then(res => res.json())
       .then(res => {
          return res

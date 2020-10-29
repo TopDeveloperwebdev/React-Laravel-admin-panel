@@ -35,7 +35,7 @@ class Ausgaben extends Component {
 		this.state = {
 			columns: [
 				{
-					title: 'Added date', field: 'date', render: rowData => {
+					title: 'Eingang(Datum)', field: 'date', render: rowData => {
 						return (<div>
 							{this.formate_date(rowData.date)}
 
@@ -49,6 +49,7 @@ class Ausgaben extends Component {
 								className="full-width"
 								id="datetime-local"
 								type="date"
+								placeholder="tt.mm.jjjj"
 								defaultValue={now}
 								InputLabelProps={{
 									shrink: true,
@@ -59,9 +60,9 @@ class Ausgaben extends Component {
 						)
 					}
 				},
-				{ title: 'Invoice-Nr.', field: 'invoiceNr' },
+				{ title: 'Rechungs-Nr.', field: 'invoiceNr' },
 				{
-					title: 'Reason', field: 'reason', editComponent: rowData => {
+					title: 'Grund', field: 'reason', editComponent: rowData => {
 						if (rowData.rowData.id) {
 							let reason = rowData.rowData.reason;
 							if (this.state.isEditReason) {
@@ -69,7 +70,7 @@ class Ausgaben extends Component {
 								this.setState({ isEditReason: false, reason: reason, reasonData })
 							}
 						}
-						console.log('reasonList', this.state.reasonList);
+						
 						return (<Autocomplete
 							options={this.state.reasonList}
 							getOptionLabel={(option) => option.reason}
@@ -89,9 +90,9 @@ class Ausgaben extends Component {
 					}
 				},
 				{ title: 'Type', field: 'type', lookup: typeList },
-				{ title: 'User', field: 'user', lookup: userList },
-				{ title: 'Car', field: 'car', lookup: carsList },
-				{ title: 'Amount', field: 'amount', type: 'numeric' },
+				{ title: 'Mitarbeiter', field: 'user', lookup: userList },
+				{ title: 'Auto', field: 'car', lookup: carsList },
+				{ title: 'Betrag', field: 'amount', type: 'numeric' },
 				{
 					title: 'Link', field: 'link', render: rowData => <div className="linkdiv">
 						<a  href={rowData.link} target="_blank">{rowData.link}</a>

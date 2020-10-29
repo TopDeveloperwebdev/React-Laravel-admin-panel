@@ -10,6 +10,7 @@ import {
    SEND_MESSAGE_TO_USER,
    UPDATE_USERS_SEARCH,
    SEARCH_USERS,
+   UPDATE_USERS,
 	GET_RECENT_CHAT_USERS,
 	GET_DEFAULT_SELECTED_USER,
    CHAT_CONVERSATIONS_TYPE
@@ -23,7 +24,7 @@ const INITIAL_STATE = {
    recentChatUsers: recentChat.data,
    allRecentChatUsers: recentChat.data,
    allChatUsers: recentChat.data,
-   selectedUser: '',
+   selectedUser: recentChat.data[1],
    searchUsers: '',
    isSidebarShow: true,
    conversationType:'all'
@@ -79,7 +80,9 @@ export default (state = INITIAL_STATE, action) => {
          return update(state, {
             selectedUser: { previousChats: { $splice: [[pos, 0, adminReplyData]] } }
          })
-
+      case UPDATE_USERS:
+           console.log('action.payload' , action.payload);
+         return { ...state, ...action.payload};
       // update search
       case UPDATE_USERS_SEARCH:
          return { ...state, searchUsers: action.payload };

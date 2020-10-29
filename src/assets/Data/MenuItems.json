@@ -281,6 +281,18 @@
 			"child_routes": null
 		},
 		{
+			"menu_title": "sidebar.ordermanage",
+			"path": "/app/ordermanage",
+			"icon": "question_answer",
+			"category": "modules",
+			"isMenuOpen": false,
+			"menu": "chat",
+			"fullPageMenu": false,
+			"desc": true,
+			"content": "Get connected with your friends and clients",
+			"child_routes": null
+		},
+		{
 			"menu_title": "sidebar.fileManager",
 			"path": "/app/documents/*",
 			"icon": "folder_open",
