@@ -204,12 +204,12 @@ const AsyncOrderComponent = Loadable({
 	loading: () => <HulkPageLoader />,
 	delay: 3000,
 });
-// AsyncManageOrdersComponent Table
-const AsyncManageOrdersComponent = Loadable({
-	loader: () => import("routes/Tables/manageOrders"),
-	loading: () => <HulkPageLoader />,
-	delay: 3000,
-});
+// // AsyncManageOrdersComponent Table
+// const AsyncManageOrdersComponent = Loadable({
+// 	loader: () => import("routes/Tables/manageOrders"),
+// 	loading: () => <HulkPageLoader />,
+// 	delay: 3000,
+// });
 // AsyncDocumentsComponent Table
 const AsyncDocumentsComponent = Loadable({
 	loader: () => import("routes/Tables/Documents"),
@@ -459,7 +459,7 @@ export {
 	AsyncRolesComponent,
 	AsyncOrderComponent,
 	AsyncUsersComponent,
-	AsyncManageOrdersComponent,
+
 	AsyncOrderDetailComponent,
 	AsyncDocumentsComponent,
 	AsyncFoldersComponent,

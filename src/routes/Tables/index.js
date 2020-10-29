@@ -22,7 +22,7 @@ import {
    AsyncRolesComponent,
    AsyncOrderComponent,
    AsyncUsersComponent,
-   AsyncManageOrdersComponent,
+
    AsyncDocumentsComponent,
    AsyncFoldersComponent,
    AsyncEmailTemplatesComponent,
@@ -152,11 +152,11 @@ const Tables = ({ match }) => {
             permission="order_access"
             component={AsyncOrderComponent}
          />
-         <RouteWithRole
+         {/* <RouteWithRole
             path={`${match.url}/manage-orders`}
             permission="manageOrders_access"
             component={AsyncManageOrdersComponent}
-         />
+         /> */}
          <RouteWithRole
             path={`${match.url}/documents/:id`}
             permission="documents_access"
