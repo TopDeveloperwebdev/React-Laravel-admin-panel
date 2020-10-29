@@ -102,7 +102,7 @@ export const userService = {
    sendMessage,
    submitComment
 };
-const serverUrl = '/backend_latest/api/';
+const serverUrl = 'http://localhost:8000/api/';
 function signup(data) {
    console.log('data', data);
    const requestOptions = {

@@ -102,7 +102,7 @@ class Maps extends Component {
 			patients: [],
 			patientAddress: [],
 			selectedPatient: '',
-			isOpen: []
+			isOpen: {}
 
 		};
 		this.CustomMarker = React.createRef();
@@ -159,8 +159,8 @@ class Maps extends Component {
 	handleClick = (props) => {
 		if (this.state.patientAddress.length) {
 			let mapPosition = this.state.patientAddress.find(element => element.id == props.id);
-			let isOpen = [...this.state.isOpen];
-			isOpen[props.index] = !isOpen[props.index];
+			let isOpen = {...this.state.isOpen};
+			isOpen[props.id] = !isOpen[props.id];
 			this.setState({
 				selectedPatient: props.id,
 				mapPosition: {
@@ -292,25 +292,11 @@ class Maps extends Component {
 		}
 		return comparison;
 	}
-	comparepatientAddress(a, b) {
-		let Aname = a.name;
-		let Bname = b.name;
-		const bandA = Aname.toUpperCase();
-		const bandB = Bname.toUpperCase();
 
-		let comparison = 0;
-		if (bandA > bandB) {
-			comparison = 1;
-		} else if (bandA < bandB) {
-			comparison = -1;
-		}
-		console.log('a , b' , Aname , Bname  , comparison);
-		return comparison;
-	}
 	async InitializePatient(patients) {
 		let self = this;
 		let patientAddress = [];
-		let isOpen = [];
+		let isOpen = {};
 
 		patients.map(async function (patient, index) {
 			if (patient.streetNr) {
@@ -319,9 +305,10 @@ class Maps extends Component {
 				const { lat, lng } = response.results[0].geometry.location;
 				if (lat && lng) {
 					patientAddress.push({ id: patient.id, lat: lat, lng: lng, name: patient.firstName + ' ' + patient.lastName, streetNr: patient.streetNr, zipCode: patient.zipCode, city: patient.city });
-					isOpen.push(false);
-					
+					//isOpen.push(false);
+					isOpen[patient.id] = false;
 					if (patients.length - 2 < index) {
+						console.log('isopen' , isOpen);
 						self.setState({ patientAddress: patientAddress, isOpen });
 					}
 
@@ -333,10 +320,8 @@ class Maps extends Component {
 
 
 	render() {
-		let { data, selectedPatient, patientAddress, isOpen } = this.state;
-		console.log('data' , patientAddress );
-		patientAddress = patientAddress.sort(this.comparepatientAddress);
-		 console.log('data' , data , patientAddress);
+		let { data, selectedPatient, patientAddress, isOpen } = this.state;	
+	
 		const AsyncMap = withScriptjs(
 			withGoogleMap(
 				props => (
@@ -353,10 +338,10 @@ class Maps extends Component {
 							}}
 						>
 							{patientAddress.length > 0 && patientAddress.map((patient, index) => (
-								<CustomMarker ref={this.CustomMarker} key={index} open={isOpen[index]} patient={patient} name={'Dolores park'} position={{ lat: patient.lat, lng: patient.lng }} />
+								<CustomMarker ref={this.CustomMarker} key={index} open={isOpen[patient.id]} patient={patient} name={'Dolores park'} position={{ lat: patient.lat, lng: patient.lng }} />
 							))
 							}
-							<CustomMarker ref={this.CustomMarker} patient={{ id: 0, lat: this.state.markerPosition.lat, lng: this.state.markerPosition.lng, streetNr: this.state.address }} position={{ lat: this.state.markerPosition.lat, lng: this.state.markerPosition.lng }} />
+							<CustomMarker ref={this.CustomMarker} patient ={{ id: 0, lat: this.state.markerPosition.lat,lng: this.state.markerPosition.lng,  name: '', streetNr: this.state.address , zipCode: this.state.state, city: this.state.city}} patient={{ id: 0, lat: this.state.markerPosition.lat, lng: this.state.markerPosition.lng, streetNr: this.state.address }} position={{ lat: this.state.markerPosition.lat, lng: this.state.markerPosition.lng }} />
 							<Autocomplete
 								style={{
 									width: '100%',
@@ -395,7 +380,7 @@ class Maps extends Component {
 									<TableBody>
 										{
 											this.state.data.length > 0 && this.state.data.map((element, index) => (
-												<Row ref={this.Row} key={index} open={isOpen[index]} row={element} index={index} OnSelectRow={this.handleClick} />
+												<Row ref={this.Row} key={index} open={isOpen[element.id]} row={element} index={index} OnSelectRow={this.handleClick} />
 											))}
 									</TableBody>
 								</Table>
