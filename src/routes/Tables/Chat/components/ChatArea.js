@@ -7,7 +7,7 @@ import { withStyles } from '@material-ui/styles';
 import { withRouter } from 'react-router-dom';
 import MessageBlock from './MessageBlock';
 import { Scrollbars } from 'react-custom-scrollbars';
-import { Grid, MenuItem, FormGroup, Input, Button, IconButton, Tooltip, Menu, Avatar, Box, Typography, Divider } from '@material-ui/core';
+import { Checkbox, Grid, MenuItem, FormGroup, Input, Button, IconButton, Tooltip, Menu, Avatar, Box, Typography, Divider } from '@material-ui/core';
 import { CustomCard, SocialIcons } from 'components/GlobalComponents';
 // actions
 import { sendMessageToUser, getDefaultSelectedUsers } from 'actions';
@@ -94,6 +94,7 @@ class ChatArea extends Component {
 		],
 		typing: false,
 		comment: "",
+		checked: {}
 	}
 	// componentDidMount() {
 	// 	this.props.getDefaultSelectedUsers();
@@ -140,7 +141,7 @@ class ChatArea extends Component {
 		if (this.state.message !== '') {
 			let user = JSON.parse(localStorage.getItem('user'));
 			this.user_id = user.id;
-			userService.submitComment({ orderId: this.props.selectedUser.orderId, comment: this.state.message, user_id: this.user_id }).then(res => {
+			userService.addComment({ comment: this.state.message, patient_id: this.props.selectedUser.id }).then(res => {
 				let data = {
 					user: this.props.selectedUser,
 					comment: this.state.message,
@@ -149,9 +150,11 @@ class ChatArea extends Component {
 				}
 				this.props.sendMessageToUser(data);
 				this.setState({ message: '' });
+
 			})
 		}
 	}
+
 	formate_date(dateString) {
 		let data = '';
 		if (dateString) {
@@ -180,24 +183,28 @@ class ChatArea extends Component {
 	handleChangeComment = (event) => {
 		this.setState({ message: event.target.value });
 	}
-	// submitComment() {
 
-	// 	userService.submitComment({ orderId: this.state.orderId, comment: this.state.comment }).then(res => {
-	// 		console.log('res', res);
-	// 		let list = [...this.state.commentList];
-	// 		list.push(res);
-	// 		this.setState({ commentList: list });
-	// 		NotificationManager.success("Der Kommentar wurde erfolgreich gespeichert.")
-	// 	}).catch(error => {
-	// 		NotificationManager.error(error.message);
-	// 	});
+
+
+	// handleChange(value, data) {
+	// 	console.log('v alue', value , data);
+	// 	let checked = {};
+	// 	userService.editOrders({ id: data.id, done: value }).then(res => {
+	// 		if (res) {
+	// 			 checked[data.id] = value;		
+	//             this.setState({
+	// 				checked
+	// 			});
+	// 			NotificationManager.success("Der Kommentar wurde erfolgreich gespeichert.")
+	// 		}
+	// 	})
 
 	// }
 	render() {
 		const { classes } = this.props;
 		const { selectedUser, admin_photo_url } = this.props;
 		const { chatOptions, anchorEl } = this.state;
-		console.log('selectedUser.commentList', selectedUser);
+		console.log('selectedUser.commentList', this.state.checked);
 		return (
 			<Fragment>
 				<Box className="chat-main-body" bgcolor="background.paper">
@@ -259,44 +266,60 @@ class ChatArea extends Component {
 						ref="chatScroll"
 						style={{ height: 'calc(100vh - 350px)' }}
 					>
-						<Box mt={2}>
-							<Grid container>
-								<Grid item sm={1} md={1} lg={1} className="left">
-									<Box className="flex-column">
-										<Box mb="3" className="site-logo user-logo">
-											<img src={selectedUser.userAvatar ? selectedUser.userAvatar : require('assets/Images/avatars/user-1.jpg')} alt="search" width="45" height="45" />
-										</Box>
-										<Box className="font-2 warp-row">
-											{selectedUser.user.name}
-										</Box>
+						{
+							selectedUser.orderDetails.map(order => (
+								<Box>
+									<Box mt={2}>
+										<Grid container>
+											<Grid item sm={1} md={1} lg={1} className="left">
+												<Box className="flex-column">
+													<Box mb="3" className="site-logo user-logo">
+														<img src={order.user.userAvatar ? order.user.userAvatar : require('assets/Images/avatars/user-1.jpg')} alt="search" width="45" height="45" />
+													</Box>
+													<Box className="font-2 warp-row">
+														{order.user.name}
+													</Box>
+												</Box>
+											</Grid>
+											<Grid item sm={5} md={5} lg={5} className="left">
+												<CustomCard>
+													<Box pt={2} pb={2}>
+														<Typography variant="h6" className="left">Medikamentenbestellung: {order.orderId}</Typography>
+													</Box>
+													<Box pt={2} pb={2}>
+														<ul>
+															{
+																order.Medications.length > 0 && order.Medications.map(element => (
+																	<li><Typography className="left">{element.medicationName}.</Typography></li>
+																))
+															}
+
+
+														</ul>
+
+													</Box>
+													<Box className="checkbox">
+														<Checkbox
+														
+															color="primary"
+														
+														/>
+													</Box>
+
+												</CustomCard>
+												<Box pt={1}>{this.formate_date(order.date)}</Box>
+											</Grid>
+
+										</Grid>
+
 									</Box>
-								</Grid>
-								<Grid item sm={4} md={4} lg={4} className="left">
-									<CustomCard>
-										<Box pt={2} pb={2}>
-											<Typography variant="h6" className="left">Medikamentenbestellung: {selectedUser.orderId}</Typography>
-										</Box>
-										<Box pt={2} pb={2}>
-											<ul>
-												{
-													selectedUser.Medications.length > 0 && selectedUser.Medications.map(element => (
-														<li><Typography className="left">{element.medicationName}.</Typography></li>
-													))
-												}
 
+								</Box>
+							))
+						}
 
-											</ul>
-
-										</Box>
-									</CustomCard>
-									<Box pt={1}>{this.formate_date(selectedUser.date)}</Box>
-								</Grid>
-
-							</Grid>
-
-						</Box>
 						<Box className={classes.chatBody} pt={3}>
-							{selectedUser.commentList.map((previousChat, index) => (
+							{selectedUser.commentList.length > 0 && selectedUser.commentList.map((previousChat, index) => (
 								<Box key={index}>
 									<MessageBlock
 										// even={!previousChat.isAdmin}
@@ -308,6 +331,7 @@ class ChatArea extends Component {
 								</Box>
 							))}
 						</Box>
+
 					</Scrollbars>
 					<div className={classes.chatFooter}>
 						<Divider />
@@ -330,7 +354,7 @@ class ChatArea extends Component {
 								</Box>
 								<Box style={{ width: 60 }} textAlign="right" className="send-icon">
 									<Tooltip title="Send Mail" placement="bottom">
-										<IconButton className={classes.sendBtn} onClick={(event) => this.onSubmitMessage(event)}>											
+										<IconButton className={classes.sendBtn} onClick={(event) => this.onSubmitMessage(event)}>
 											<Box component="span" fontSize="18px" mr={1} className="material-icons">send</Box>
 
 										</IconButton>

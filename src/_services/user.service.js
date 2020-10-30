@@ -101,9 +101,10 @@ export const userService = {
    getOrderDetail,
    getOrdersByUserId,
    sendMessage,
-   submitComment
+   submitComment ,
+   addComment
 };
-const serverUrl = '/backend_latest/api/';
+const serverUrl = 'http://localhost:8000/api/';
 function signup(data) {
    console.log('data', data);
    const requestOptions = {
@@ -662,6 +663,20 @@ function submitComment(info) {
    };
 
    return fetch(serverUrl + 'submitComment', requestOptions)
+      .then(res => res.json())
+      .then(res => {
+         return res
+      });
+}
+function addComment(info) {
+   console.log('info', info);
+   const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(info)
+   };
+
+   return fetch(serverUrl + 'addComment', requestOptions)
       .then(res => res.json())
       .then(res => {
          return res

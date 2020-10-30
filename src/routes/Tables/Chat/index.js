@@ -89,30 +89,11 @@ class ChatList extends Component {
 			recent: '',
 			unread: '',
 			favourite: '',
+			Offen: '',
+			Erledigt: ''
 		}
 	}
-	componentWillMount(){
-		let mentionsCount = this.props.allChatUsers.filter((user)=>{
-			return user.mentions == true
-		})
-		this.state.mentions = mentionsCount.length;
 
-		let recentCount = this.props.allChatUsers.filter((user)=>{
-			return user.recent == true
-		})
-		this.state.recent = recentCount.length;
-
-		let unreadCount = this.props.allChatUsers.filter((user)=>{
-			return user.unread == true
-		})
-		this.state.unread = unreadCount.length;
-
-		let favouriteCount = this.props.allChatUsers.filter((user)=>{
-			return user.favourite == true
-		})
-		this.state.favourite = favouriteCount.length;
-
-	}
 
 	componentWillMount() {
 		let user = JSON.parse(localStorage.getItem('user'));
@@ -131,9 +112,9 @@ class ChatList extends Component {
 				conversationType: 'all',
 				['isupdated']: true
 			};
-			console.log('isthis.dddd' , INITIAL_STATE);
+
 			if (!self.props.isupdated) {
-			
+
 				self.props.updateUsers(INITIAL_STATE);
 			}
 
@@ -147,7 +128,6 @@ class ChatList extends Component {
 	};
 
 	handleClose(type) {
-
 		this.setState({ anchorEl: null });
 		this.setState({ btnType: type });
 		this.setConverTypes(type);
@@ -159,17 +139,121 @@ class ChatList extends Component {
 		});
 	}
 
-	setConverTypes(type) {
-		this.state.btnType = type;
-		this.props.chatConversationType(type);
+	setConverTypes(btnType) {	
+	
+		this.props.chatConversationType(btnType);
+		//this.setState({btnType : btnType});
 	}
 
 	render() {
-		const { classes } = this.props;	
-		const { open, anchorEl, btnType, mentions, recent, unread, favourite } = this.state;
+		const { classes  , btnType} = this.props;
+		const { open, anchorEl,  mentions, recent, unread, favourite } = this.state;
+		
 		return (
 			<div className="hk-chat-wrap">
 				<Box className={classes.root}>
+					<Box className={classes.list}>
+						<Box p={{ xs: '5px 15px', lg: 0 }}>
+							<Hidden lgUp>
+								<Button className={classes.btn} aria-controls="fade-menu" aria-haspopup="true" onClick={this.menuClick}>
+									{btnType}
+									{anchorEl ? <ExpandLess /> : <ExpandMore />}
+								</Button>
+								<Menu
+									id="simple-menu"
+									anchorEl={anchorEl}
+									keepMounted
+									open={Boolean(anchorEl)}
+									onClose={() => this.handleClose()}
+								>
+									<MenuItem onClick={() => this.handleClose('all')}>All</MenuItem>
+									<MenuItem onClick={() => this.handleClose('mentions')}>Offen</MenuItem>
+									<MenuItem onClick={() => this.handleClose('recent')}>Erledigt</MenuItem>
+									<MenuItem onClick={() => this.handleClose('favourite')}>Favoriten</MenuItem>
+								</Menu>
+							</Hidden>
+
+
+
+
+							<Hidden mdDown>
+								<List
+									className={`nav-wrap ${classes.navWrap}`}
+									component="nav"
+									aria-labelledby="nested-list-subheader"
+								>
+									<ListItem
+										className={clsx({
+											[classes.active]: btnType == 'all' || btnType == 'Offen' || btnType == 'Erledigt',
+										}, 'chat-type')}
+										button onClick={() => this.handleClick()}>
+										<ListItemText primary="Conversations" />
+										{open ? <ExpandLess /> : <ExpandMore />}
+									</ListItem>
+									<Collapse in={open} timeout="auto" unmountOnExit>
+										<List component="div" disablePadding>
+											<ListItem
+												button
+												onClick={() => this.setConverTypes('all')}
+												className={clsx(classes.nested, {
+													[classes.activeNested]: btnType == 'all',
+												})}
+											>
+												{
+													btnType == 'all' ?
+														<Box pr={1} fontSize={18} className="icon fas fa-dot-circle"></Box>
+														:
+														<Box pr={1} fontSize={18} className="icon far fa-dot-circle"></Box>
+												}
+												<ListItemText primary="All" />
+												<Box className={classes.countBadge} bgcolor="primary.main" color="primary.contrastText">{this.props.allChatUsers.length}</Box>
+											</ListItem>
+											<ListItem
+												className={clsx(classes.nested, {
+													[classes.activeNested]: btnType == 'Offen',
+												})}
+												button onClick={() => this.setConverTypes('Offen')}
+											>
+												{
+													btnType == 'Offen' ?
+														<Box pr={1} fontSize={18} className="icon fas fa-dot-circle"></Box>
+														:
+														<Box pr={1} fontSize={18} className="icon far fa-dot-circle"></Box>
+												}
+												<ListItemText primary="Offen" />
+												<Box className={classes.countBadge} bgcolor="primary.main" color="primary.contrastText"></Box>
+											</ListItem>
+											<ListItem
+												className={clsx(classes.nested, {
+													[classes.activeNested]: btnType == 'Erledigt',
+												})}
+												button onClick={() => this.setConverTypes('Erledigt')}
+											>
+												{
+													btnType == 'Erledigt' ?
+														<Box pr={1} fontSize={18} className="icon fas fa-dot-circle"></Box>
+														:
+														<Box pr={1} fontSize={18} className="icon far fa-dot-circle"></Box>
+												}
+												<ListItemText primary="Erledigt" />
+												<Box className={classes.countBadge} bgcolor="primary.main" color="primary.contrastText"></Box>
+											</ListItem>
+										</List>
+									</Collapse>
+
+									<ListItem
+										className={clsx({
+											[classes.active]: btnType == 'Favourite',
+										})}
+										button onClick={() => this.setConverTypes('Favourite')}>
+
+										<ListItemText primary="Favourite" />
+										<Box className={classes.countBadge} bgcolor="primary.main" color="primary.contrastText"></Box>
+									</ListItem>
+								</List>
+							</Hidden>
+						</Box>
+					</Box>
 					<Box className={classes.chatLayout}>
 						<ChatLayout />
 					</Box>

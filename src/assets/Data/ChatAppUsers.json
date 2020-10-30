@@ -1,38 +1,47 @@
 {
-   "data":[
-      {
-         "Medications": [{ "id": 9, "medicationName": "FERRO SANOL duodenal mite 50 mg", "ingredients": "Eisen", "packaging": "50 St.", "orders": null }],
-         "commentList": [{ "id": 1, "orderId": "LIT-164-EJE", "user_id": "3", "comment": "asdfasdf", "created_at": "2020-10-08 04:38:17" }],
-         "doctor": {
-            "city": "Düsseldorf",
-            "created_at": "2020-10-06 19:04:48",
-            "doctorName": "Dr. Meier",
-            "email": "stratector@gmail.com",
-            "fax": "021149492",
-            "id": 2,
-            "instance_id": 2,
-            "notifications": 1,
-            "password": "123456",
-            "phone": "0211949492",
-            "practiceName": "Praxis Dr. Meier",
-            "streetNr": "Berger Str. 10",
-            "updated_at": "2020-10-06 19:04:48",
-            "zipcode": "40211"
-         },
-         "instance": {
-            "city": "qwerqwer",
-            "created_at": null,
-            "fax": "223345",
-            "id": 2,
-            "instanceLogo": "http://base.mastermedi-1.vautronserver.de/backend_latest/file_storage/1602232127germeda-logo.png",
-            "instanceName": "GERMEDA",
-            "phone": "123456",
-            "streetNr": "street sdfsdf",
-            "updated_at": "2020-10-21 01:09:19",
-            "zip": "0234"
-         },
-         "orderId": "LIT-164-EJE",
-         "orderNote": "qwerqwer",
+   "data": [
+      {  "commentList" : [],
+         "orderDetails": [
+            {
+               "Medications": [
+                  {
+                     "id": 9,
+                     "medicationName": "FERRO SANOL duodenal mite 50 mg",
+                     "ingredients": "Eisen",
+                     "packaging": "50 St.",
+                     "orders": null
+                  }
+               ],
+               "commentList": [
+                  {
+                     "id": 1,
+                     "orderId": "LIT-164-EJE",
+                     "user_id": "3",
+                     "comment": "asdfasdf",
+                     "created_at": "2020-10-08 04:38:17"
+                  }
+               ],
+               "instance": {
+                  "city": "qwerqwer",
+                  "created_at": null,
+                  "fax": "223345",
+                  "id": 2,
+                  "instanceLogo": "http://base.mastermedi-1.vautronserver.de/backend_latest/file_storage/1602232127germeda-logo.png",
+                  "instanceName": "GERMEDA",
+                  "phone": "123456",
+                  "streetNr": "street sdfsdf",
+                  "updated_at": "2020-10-21 01:09:19",
+                  "zip": "0234"
+               },
+               "orderId": "LIT-164-EJE",
+               "orderNote": "qwerqwer",
+               "user": {
+                  "id": 3,
+                  "name": "Oleg",
+                  "userAvatar": "http://base.mastermedi-1.vautronserver.de/backend_latest/file_storage/1602488335logo-blume.jpg"
+               }
+            }
+         ],
          "patient": {
             "birthday": "2020-10-28",
             "caremanager": 1,
@@ -80,12 +89,22 @@
             "updated_at": "2020-10-03 11:43:56",
             "zipcode": "40549"
          },
-         "user": {
-            "id": 3,
-            "name": "Oleg",
-            "userAvatar": "http://base.mastermedi-1.vautronserver.de/backend_latest/file_storage/1602488335logo-blume.jpg"
+         "doctor": {
+            "city": "Düsseldorf",
+            "created_at": "2020-10-06 19:04:48",
+            "doctorName": "Dr. Meier",
+            "email": "stratector@gmail.com",
+            "fax": "021149492",
+            "id": 2,
+            "instance_id": 2,
+            "notifications": 1,
+            "password": "123456",
+            "phone": "0211949492",
+            "practiceName": "Praxis Dr. Meier",
+            "streetNr": "Berger Str. 10",
+            "updated_at": "2020-10-06 19:04:48",
+            "zipcode": "40211"
          }
       }
-     
    ]
 }

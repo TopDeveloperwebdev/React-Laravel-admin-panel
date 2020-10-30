@@ -41,6 +41,15 @@ main{
     font-style: italic;
     src: url("https://kendo.cdn.telerik.com/2017.2.621/styles/fonts/DejaVu/DejaVuSans-Oblique.ttf") format("truetype");
 }
+
+@font-face {
+    font-family: "ArialBold";
+    font-weight: bold;
+    src: url("../fonts/arialbd.ttf") format("truetype");
+
+    // font-weight: 200;
+    //  src: url("../fonts/ARIAL.TTF") format("truetype");
+}
 .splash {
   position : absolute ; 
   top : calc(50vh - 250px);
@@ -425,24 +434,38 @@ html{
         }
     }
 }
+
 .document,#downloadArea {    
  
     strong {
-        font-family: 'Arial' !important;
-        font-weight: 200 !important;
+        font-family: 'ArialBold' !important;
+       // font-weight: 200 !important;
         color: black !important;
     }
     div , p , span , label {
         font-family: "Arial" !important;   
-        font-weight: 200 !important;
+        // font-weight: 200 !important;
         color: black !important;
-        font-size: 12px;
+      //  font-size: 12px;
     }
-    strong ,h1,h2, h3, h4,h5,h6 {
-        font-family: 'Arial' !important;
-        font-weight: 200 !important;
-        color: black !important;
+
+
+    strong, h1,h2, h3, h4,h5,h6 {
+       font-family: 'ArialBold' !important;
+     //   font-weight: 200 !important;
+        color: red !important;
         
+    }
+
+    .title{
+        font-family: "ArialBold" !important;   
+        color: black !important;
+
+    }
+    .name{
+        font-family: "ArialBold" !important;   
+        color: black !important;
+
     }
     .title-content{
         flex-direction: column;
@@ -458,7 +481,7 @@ html{
         font-weight: bold !important;
     }
    
-}
+} 
 .orderdetail {
     .title-fontSize {
         font-size: 32px;
@@ -1008,4 +1031,10 @@ html{
     }
     .ChatList-chatLayout-16915 {
         width: 100%;
+    }
+
+    .checkbox {
+        width: 100%;
+    display: flex;
+    justify-content: flex-end !important;
     }

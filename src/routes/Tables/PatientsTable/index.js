@@ -262,26 +262,27 @@ class PatientsTable extends Component {
                }, filtering: false
             },
             {
-               title: '*Zuweiser', field: 'caremanager',render : rowData => {
-                  let caremanager = rowData.caremanager;     
-                  let caremanagerData = {};             
-                     if (this.state.isEditCaremanager) {
-                        caremanagerData = this.state.caremanagersList.find(element => element.id == caremanager);                      
-                        
-                     }
-                  return (<div>{caremanagerData.firstName + ' ' + caremanagerData.lastName}</div>)
-                    
+               title: '*Zuweiser', field: 'caremanager', render: rowData => {
+                  let caremanager = rowData.caremanager;
+                  let caremanagerData = {};
+
+                  if (this.state.isEditCaremanager) {
+                     caremanagerData = this.state.caremanagersList.find(element => element.id == caremanager);
+                     if (caremanagerData) return (<div>{caremanagerData.firstName + ' ' + caremanagerData.lastName}</div>)
+
+                  }
+
+
                },
-                editComponent: rowData => {
+               editComponent: rowData => {
                   if (rowData.rowData.id) {
-                     let caremanager = rowData.rowData.caremanager;
-                     console.log('caremanage0000000000' , caremanager);
+                     let caremanager = rowData.rowData.caremanager;                   
                      if (this.state.isEditCaremanager) {
                         let caremanagerData = this.state.caremanagersList.find(element => element.id == caremanager);
                         this.setState({ isEditCaremanager: false, caremanager: caremanager, caremanagerData });
-                        console.log('caremanage' , caremanagerData , caremanager);
+                        console.log('caremanage', caremanagerData, caremanager);
                      }
-                   
+
                   }
 
                   return (<Autocomplete
@@ -427,15 +428,15 @@ class PatientsTable extends Component {
 
             },
             {
-               title: 'Notiz', field: 'note', render: rowData => {                  
+               title: 'Notiz', field: 'note', render: rowData => {
 
                   return (<div className="td-note">{rowData.note}</div>)
                },
                editComponent: rowData => {
-         
-                  if (rowData.rowData.id && rowData.rowData.note) { 
+
+                  if (rowData.rowData.id && rowData.rowData.note) {
                      if (this.state.isEditNote) {
-                        console.log('rowData.rowData.note' , rowData.rowData.note);
+                        console.log('rowData.rowData.note', rowData.rowData.note);
                         this.setState({ note: rowData.rowData.note, isEditNote: false })
                      }
                   }
@@ -508,8 +509,8 @@ class PatientsTable extends Component {
          caremanagerData: null,
          statusArray: [],
          completed: false,
-         isEditNote : true,
-         isEditCaremanager : true
+         isEditNote: true,
+         isEditCaremanager: true
 
       };
 
@@ -535,7 +536,7 @@ class PatientsTable extends Component {
 
    }
    handleChangeNote = (event) => {
-      console.log('event' , event.target.value);
+      console.log('event', event.target.value);
       this.setState({ note: event.target.value });
    }
    formate_date(dateString) {
@@ -768,7 +769,7 @@ class PatientsTable extends Component {
                            isEditfamilyDoctor: true,
                            isEditInsurance: true,
                            isEditCaremanager: true,
-                           isEditNote : true,
+                           isEditNote: true,
                            insurance: "",
                            familyDoctor: "",
                            pharmacy: '',
@@ -805,7 +806,7 @@ class PatientsTable extends Component {
                   if (this.state.birthday) newData.birthday = this.state.birthday;
                   if (this.state.serviceplan) newData.serviceplan = this.state.serviceplan;
                   if (this.state.caremanager) newData.caremanager = this.state.caremanager;
-                    newData.note = this.state.note;
+                  newData.note = this.state.note;
                   formData.append('data', JSON.stringify(newData));
                   if (newData.pharmacy && newData.familyDoctor && newData.firstName && newData.lastName) {
                      userService.editPatients(formData).then(res => {
@@ -828,7 +829,7 @@ class PatientsTable extends Component {
                               isEditfamilyDoctor: true,
                               isEditInsurance: true,
                               isEditCaremanager: true,
-                              isEditNote : true,
+                              isEditNote: true,
                               caremanager: '',
                               insurance: "",
                               familyDoctor: "",

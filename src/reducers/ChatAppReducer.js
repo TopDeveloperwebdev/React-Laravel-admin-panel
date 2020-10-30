@@ -37,7 +37,8 @@ const INITIAL_STATE = {
    selectedUser: recentChat.data[0],
    searchUsers: '',
    isSidebarShow: true,
-   conversationType: 'all'
+   conversationType: 'all' ,
+   btnType : 'all'
 
 }
 console.log('INITIAL_STATE', INITIAL_STATE);
@@ -73,15 +74,29 @@ export default (state = INITIAL_STATE, action) => {
 
       case CHAT_CONVERSATIONS_TYPE:
          state.isSidebarShow = true;
-         const filterdata = state.allChatUsers.filter((user) => user[action.payload]);
-         state.selectedUser = '';
-
+         const filterdata = state.allChatUsers.filter((User) => {
+                console.log('user.orderdetail' , User.orderDetails);
+            if (action.payload == 'Offen') {
+              let orderDetails = User.orderDetails.filter((user) => user.done == false);
+               return orderDetails.length;
+            }
+            else if (action.payload == 'Erledigt') {
+              let  orderDetails = User.orderDetails.filter((user) => user.done == true);
+               return orderDetails.length == state.selectedUser.orderDetails.length;
+            }
+            else if(action.payload == 'all'){
+               return true;
+            }
+         });
+      
+       
          return {
             ...state,
-            recentChatUsers: filterdata,
-            selectedUser: filterdata[0]
+            recentChatUsers: filterdata, 
+            btnType : action.payload       
+      
          };
-
+  
       case SEND_MESSAGE_TO_USER:
          let adminReplyData = {
             isAdmin: action.payload.isAdmin,

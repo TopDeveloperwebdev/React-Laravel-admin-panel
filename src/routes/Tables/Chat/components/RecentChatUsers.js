@@ -157,7 +157,7 @@ class RecentChatUsers extends Component {
 					<ListItem key={key}
 						onClick={() => this.switchChatWithUser(user)}
 						className={clsx(classes.chatList, {
-							[classes.activeList]: (selectedUser && selectedUser.orderId === user.orderId),
+							[classes.activeList]: (selectedUser && selectedUser.id === user.id),
 						})}
 					>
 						<Box className={classes.thumbWrap}>
@@ -170,7 +170,7 @@ class RecentChatUsers extends Component {
 									}}
 									variant="dot"
 								>
-									<Avatar className={classes.large} src={user.picture ? user.picture : require(`assets/Images/patient.png`)} alt="user-profile" />
+									<Avatar className={classes.large} src={user.patient.picture ? user.picture : require(`assets/Images/patient.png`)} alt="user-profile" />
 								</StyledBadge>
 
 							}
@@ -178,10 +178,9 @@ class RecentChatUsers extends Component {
 						<Box className={classes.contentWrap}>
 						
 							<Box mb="4px" display="flex" justifyContent="space-between" alignItems="center">
-								<Box fontWeight="500" fontSize="subtitle1.fontSize" color="text.primary">{user.patient.firstName}&nbsp;{user.patient.lastName}</Box>
-								<Box component="span" fontSize="body1.fontSize" color="text.secondary">{user.orderId}</Box>
+								<Box fontWeight="500" fontSize="subtitle1.fontSize" color="text.primary">{user.patient.firstName}&nbsp;{user.patient.lastName}</Box>								
 							</Box>
-							<Box component="span" fontSize="subtitle2.fontSize" color="text.secondary">{user.doctor.doctorName}</Box>
+							<Box component="span" fontSize="subtitle2.fontSize" color="text.secondary">{user.patient.familyDoctor}</Box>
 							
 						</Box>
 					</ListItem>
