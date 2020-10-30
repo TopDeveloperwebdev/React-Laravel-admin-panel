@@ -343,7 +343,7 @@ EditorDialog.modules4 = {
 
 		container:
 			[
-				[{ 'placeholder': ['[patient]', '[address]', '[phone]', '[insurance]', '[insurance nr]', '[birthday]', '[family doctor]', '[pharmacy]', '[care manager anrede]', '[care manager firstname]', '[care manager lastname]', '[care manager phone]', '[care manager email]', '[care manager]'] }], // my custom dropdown
+				[{ 'placeholder': ['[patient]','[patient notes]', '[address]', '[phone]', '[insurance]', '[insurance nr]', '[birthday]', '[family doctor]', '[pharmacy]', '[care manager anrede]', '[care manager firstname]', '[care manager lastname]', '[care manager phone]', '[care manager email]', '[care manager]'] }], // my custom dropdown
 				['bold', 'italic', 'underline', 'strike'],        // toggled buttons
 				['blockquote', 'code-block'],
 				[{ 'header': 1 }, { 'header': 2 }],               // custom button values

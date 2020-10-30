@@ -245,7 +245,7 @@ class EditorDialog extends React.Component {
 						<Box mb="1" className="logo">
 							<img src={instanceInfo.instanceLogo} width="35" />
 						</Box>
-						<Typography><strong>{instanceInfo.instanceName} | {instanceInfo.streetNr} | {instanceInfo.zipCode} {instanceInfo.city}</strong></Typography>
+						<Typography><strong>{instanceInfo.instanceName} | {instanceInfo.streetNr} | {instanceInfo.zip} {instanceInfo.city}</strong></Typography>
 						<Grid container className="justify-between">
 							<Grid item sm={7} md={7} lg={7}>
 								<Box pt={1}>
@@ -514,8 +514,12 @@ class EditorDialog extends React.Component {
 							</Box>
 							<Box textAlign="center">
 								<Button variant="contained" color="primary" onClick={this.addService} >
-									Meue Leistung
+									hinzufügen
 								</Button>
+
+
+
+
 
 
 							</Box>
@@ -539,18 +543,18 @@ class EditorDialog extends React.Component {
 						!this.state.isDownload && <Box mb={2} width="100%" display="flex" justifyContent="center" p={1} >
 							{!this.state.isEdit && <Box mx={2}>
 								<Button variant="contained" color="primary" onClick={() => this.onSubmit(true)}>
-									Submit
+									Speichern
 								</Button>
 							</Box>
 							}
 							{this.state.isEdit && <Box mx={2}>
 								<Button variant="contained" color="primary" onClick={() => this.onUpdate(true)}>
-									Update
+								Aktualisieren
 								</Button>
 							</Box>
 							}
 							<Button variant="contained" color="secondary" onClick={() => this.onCloseDialog(false)} >
-								No
+								Abbrechen
 							</Button>
 						</Box>
 					}

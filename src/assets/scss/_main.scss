@@ -930,6 +930,9 @@ html{
    
       
 }
+.left {
+    text-align: left;
+}
 .patients {
    
     .td-note {
@@ -1002,4 +1005,7 @@ html{
             text-overflow: ellipsis;
             width: 200px;
         }
+    }
+    .ChatList-chatLayout-16915 {
+        width: 100%;
     }

@@ -118,11 +118,7 @@ class Ausgaben extends Component {
 					},
 				},
 			],
-			reasonList: [
-				{ reason: 'reason1' },
-				{ reason: 'reason2' },
-				{ reason: 'reason3' }
-			],
+			reasonList: [],
 			reasonData: {},
 			data: [],
 			date: '',

@@ -262,13 +262,26 @@ class PatientsTable extends Component {
                }, filtering: false
             },
             {
-               title: '*Zuweiser', field: 'ansprechpartner', editComponent: rowData => {
+               title: '*Zuweiser', field: 'caremanager',render : rowData => {
+                  let caremanager = rowData.caremanager;     
+                  let caremanagerData = {};             
+                     if (this.state.isEditCaremanager) {
+                        caremanagerData = this.state.caremanagersList.find(element => element.id == caremanager);                      
+                        
+                     }
+                  return (<div>{caremanagerData.firstName + ' ' + caremanagerData.lastName}</div>)
+                    
+               },
+                editComponent: rowData => {
                   if (rowData.rowData.id) {
-                     let caremanager = rowData.rowData.ansprechpartner;
+                     let caremanager = rowData.rowData.caremanager;
+                     console.log('caremanage0000000000' , caremanager);
                      if (this.state.isEditCaremanager) {
                         let caremanagerData = this.state.caremanagersList.find(element => element.id == caremanager);
-                        this.setState({ isEditCaremanager: false, caremanager: caremanager, caremanagerData })
+                        this.setState({ isEditCaremanager: false, caremanager: caremanager, caremanagerData });
+                        console.log('caremanage' , caremanagerData , caremanager);
                      }
+                   
                   }
 
                   return (<Autocomplete
@@ -283,7 +296,7 @@ class PatientsTable extends Component {
                         id="input-with-icon-textfield"
                         {...params}
                         margin="normal"
-                        placeholder="Familiendoktor"
+                        placeholder="Zuweiser"
 
                      />}
                   />)
@@ -495,7 +508,8 @@ class PatientsTable extends Component {
          caremanagerData: null,
          statusArray: [],
          completed: false,
-         isEditNote : true
+         isEditNote : true,
+         isEditCaremanager : true
 
       };
 

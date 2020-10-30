@@ -7,11 +7,12 @@ import { withStyles } from '@material-ui/styles';
 import { withRouter } from 'react-router-dom';
 import MessageBlock from './MessageBlock';
 import { Scrollbars } from 'react-custom-scrollbars';
-import { MenuItem, FormGroup, Input, Button, IconButton, Tooltip, Menu, Avatar, Box, Typography, Divider } from '@material-ui/core';
-
+import { Grid, MenuItem, FormGroup, Input, Button, IconButton, Tooltip, Menu, Avatar, Box, Typography, Divider } from '@material-ui/core';
+import { CustomCard, SocialIcons } from 'components/GlobalComponents';
 // actions
 import { sendMessageToUser, getDefaultSelectedUsers } from 'actions';
-
+import { userService } from '_services';
+import { NotificationManager } from 'react-notifications';
 const botMsg = [
 	"Howdy",
 	"Bye",
@@ -91,7 +92,8 @@ class ChatArea extends Component {
 			"How can I help you?",
 			"We are happy to help you"
 		],
-		typing: false
+		typing: false,
+		comment: "",
 	}
 	// componentDidMount() {
 	// 	this.props.getDefaultSelectedUsers();
@@ -136,28 +138,30 @@ class ChatArea extends Component {
 
 	onSubmitMessage(event) {
 		if (this.state.message !== '') {
-			let data = {
-				user: this.props.selectedUser,
-				message: this.state.message,
-				isAdmin: true,
-				time: 'Just Now'
-			}
-			this.props.sendMessageToUser(data);
-			this.setState({ message: '' });
-			setTimeout(() => {
-				this.refs.chatScroll.scrollToBottom();
-			}, 200);
-			setTimeout(() => {
-				this.setState({ typing: true });
-				this.refs.chatScroll.scrollToBottom();
-			}, 1000);
-			setTimeout(() => {
-				this.setState({ typing: false });
-				this.getReply();
-			}, 3000);
+			let user = JSON.parse(localStorage.getItem('user'));
+			this.user_id = user.id;
+			userService.submitComment({ orderId: this.props.selectedUser.orderId, comment: this.state.message, user_id: this.user_id }).then(res => {
+				let data = {
+					user: this.props.selectedUser,
+					comment: this.state.message,
+					isAdmin: true,
+					time: 'Just Now'
+				}
+				this.props.sendMessageToUser(data);
+				this.setState({ message: '' });
+			})
 		}
 	}
-
+	formate_date(dateString) {
+		let data = '';
+		if (dateString) {
+			let str = dateString.split(" ");
+			let date = str[0].split('-');
+			let time = str[1].split(':');
+			data = date[2] + '.' + date[1] + '.' + date[0] + "  um " + time[0] + ':' + time[1];
+		}
+		return data;
+	}
 	getReply() {
 		let randomMessage = Math.floor(
 			Math.random() * this.state.randomMessages.length
@@ -173,18 +177,55 @@ class ChatArea extends Component {
 		this.props.sendMessageToUser(reply);
 		this.refs.chatScroll.scrollToBottom();
 	}
+	handleChangeComment = (event) => {
+		this.setState({ message: event.target.value });
+	}
+	// submitComment() {
 
+	// 	userService.submitComment({ orderId: this.state.orderId, comment: this.state.comment }).then(res => {
+	// 		console.log('res', res);
+	// 		let list = [...this.state.commentList];
+	// 		list.push(res);
+	// 		this.setState({ commentList: list });
+	// 		NotificationManager.success("Der Kommentar wurde erfolgreich gespeichert.")
+	// 	}).catch(error => {
+	// 		NotificationManager.error(error.message);
+	// 	});
+
+	// }
 	render() {
 		const { classes } = this.props;
 		const { selectedUser, admin_photo_url } = this.props;
 		const { chatOptions, anchorEl } = this.state;
+		console.log('selectedUser.commentList', selectedUser);
 		return (
 			<Fragment>
 				<Box className="chat-main-body" bgcolor="background.paper">
 					<Box className={`button-wrap ${classes.chatHead}`}>
 						<Box pl={{ xs: '50px', md: 3 }} pr='5px' py={{ xs: '10px', md: '20px' }} display="flex" alignItems="center">
 							<Box style={{ width: 'calc(100% - 150px)' }} textAlign={{ xs: 'left', md: 'center' }}>
-								<Typography variant="h6">{selectedUser.first_name}&nbsp;{selectedUser.last_name}</Typography>
+								<Box pt={2} pb={2}>
+									<Typography variant="h6" className="left">{selectedUser.patient.firstName}&nbsp;{selectedUser.patient.lastName} geb.am {selectedUser.patient.birthday} {selectedUser.patient.insurance} {selectedUser.patient.insuranceNr}.</Typography>
+								</Box>
+
+								<Grid container>
+									<Grid item sm={4} md={4} lg={4} className="left">
+										<Typography >{selectedUser.patient.streetNr}</Typography>
+										<Typography >{selectedUser.patient.zipCode}&nbsp;{selectedUser.patient.city}</Typography>
+										<Typography >Tel.:&nbsp;{selectedUser.patient.phone1}</Typography>
+									</Grid>
+									<Grid item sm={4} md={4} lg={4} className="left">
+										<Typography >{selectedUser.doctor.doctorName}</Typography>
+										<Typography>{selectedUser.doctor.zipcode}&nbsp;{selectedUser.doctor.city}</Typography>
+										<Typography>Tel.: {selectedUser.doctor.phone}&nbsp; Fax: {selectedUser.doctor.fax}</Typography>
+									</Grid>
+									<Grid item sm={4} md={4} lg={4} className="left">
+										<Typography >{selectedUser.pharmacy.pharmacyName}</Typography>
+										<Typography>{selectedUser.pharmacy.streetNr}, {selectedUser.pharmacy.zipcode} ,{selectedUser.pharmacy.city}  </Typography>
+										<Typography>Tel. {selectedUser.pharmacy.phone}, Fax: {selectedUser.pharmacy.fax}</Typography>
+									</Grid>
+								</Grid>
+
 							</Box>
 							<Box className='options-btn' width={150} textAlign="right">
 								<IconButton className={classes.margin} size="small">
@@ -218,48 +259,57 @@ class ChatArea extends Component {
 						ref="chatScroll"
 						style={{ height: 'calc(100vh - 350px)' }}
 					>
+						<Box mt={2}>
+							<Grid container>
+								<Grid item sm={1} md={1} lg={1} className="left">
+									<Box className="flex-column">
+										<Box mb="3" className="site-logo user-logo">
+											<img src={selectedUser.userAvatar ? selectedUser.userAvatar : require('assets/Images/avatars/user-1.jpg')} alt="search" width="45" height="45" />
+										</Box>
+										<Box className="font-2 warp-row">
+											{selectedUser.user.name}
+										</Box>
+									</Box>
+								</Grid>
+								<Grid item sm={4} md={4} lg={4} className="left">
+									<CustomCard>
+										<Box pt={2} pb={2}>
+											<Typography variant="h6" className="left">Medikamentenbestellung: {selectedUser.orderId}</Typography>
+										</Box>
+										<Box pt={2} pb={2}>
+											<ul>
+												{
+													selectedUser.Medications.length > 0 && selectedUser.Medications.map(element => (
+														<li><Typography className="left">{element.medicationName}.</Typography></li>
+													))
+												}
+
+
+											</ul>
+
+										</Box>
+									</CustomCard>
+									<Box pt={1}>{this.formate_date(selectedUser.date)}</Box>
+								</Grid>
+
+							</Grid>
+
+						</Box>
 						<Box className={classes.chatBody} pt={3}>
-							{selectedUser.previousChats.map((previousChat, index) => (
+							{selectedUser.commentList.map((previousChat, index) => (
 								<Box key={index}>
 									<MessageBlock
-										even={!previousChat.isAdmin}
-										selectedUserPhotoUrl={selectedUser.photo_url}
+										// even={!previousChat.isAdmin}
+										selectedUserPhotoUrl={selectedUser.pharmacy.pharmacyLogo}
 										data={previousChat}
-										adminPhotoUrl={admin_photo_url}
+										adminPhotoUrl={selectedUser.pharmacy.pharmacyLogo}
 										textBlock={classes.shadow}
 									/>
 								</Box>
 							))}
-							{this.state.typing ?
-								<Box display="flex" alignItems="flex-start" p="5px  20px">
-									<Box pr={2} className="thumb-wrap">
-										<Avatar className="user-thumb" src={require(`assets/Images/avatars/${selectedUser.photo_url}`)} />
-									</Box>
-									<Box pt="5px">
-										<Box mb="5px" px={{xs:1, sm:2}} py={{xs:'4px', sm:1}} borderRadius="borderRadius" className={`admin-content ${classes.shadow}`}>
-											<Typography variant="body2">Typing...</Typography>
-										</Box>
-									</Box>
-								</Box>
-								:
-								null
-							}
 						</Box>
 					</Scrollbars>
 					<div className={classes.chatFooter}>
-						<Box p={{ xs: '10px 20px', md: '20px' }} className="bot-button">
-							<Box mb={1} fontSize="subtitle2.fontSize" color="text.primary">Bot Suggestions</Box>
-							{botMsg.map((item, index) => {
-								return (
-									<Fragment key={index}>
-										<Button size="small"
-											className={`${classes.margin} primary-bg-btn`} variant="outlined" color="primary" onClick={(event) => this.onbotmsg(item)}>
-											{item}
-										</Button>
-									</Fragment>
-								)
-							})}
-						</Box>
 						<Divider />
 						<Box p={{ xs: '10px 20px', md: '20px' }}>
 							<Box display="flex" alignItems="center" >
@@ -272,7 +322,7 @@ class ChatArea extends Component {
 												placeholder="Type your message"
 												value={this.state.message}
 												className="msg-input"
-												onChange={(event) => this.setState({ message: event.target.value, })}
+												onChange={this.handleChangeComment}
 												onKeyPress={(event) => this.sendMsgOnEnter(event)}
 											/>
 										</FormGroup>
@@ -280,8 +330,9 @@ class ChatArea extends Component {
 								</Box>
 								<Box style={{ width: 60 }} textAlign="right" className="send-icon">
 									<Tooltip title="Send Mail" placement="bottom">
-										<IconButton className={classes.sendBtn} onClick={(event) => this.onSubmitMessage(event)}>
-											<Box component="span" color="primary.main" fontSize="18px" className="fas fa-paper-plane"></Box>
+										<IconButton className={classes.sendBtn} onClick={(event) => this.onSubmitMessage(event)}>											
+											<Box component="span" fontSize="18px" mr={1} className="material-icons">send</Box>
+
 										</IconButton>
 									</Tooltip>
 								</Box>

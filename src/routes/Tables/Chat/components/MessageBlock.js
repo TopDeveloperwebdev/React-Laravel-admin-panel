@@ -9,11 +9,11 @@ const Message = ({ textBlock, even, adminPhotoUrl, data, selectedUserPhotoUrl })
 		return (
 			<Box display="flex" alignItems="flex-start" mb="5px" p="5px 20px">
 				<Box pr={2} className="thumb-wrap">
-					<Avatar className="user-thumb" alt="user-profile" src={require(`assets/Images/avatars/${selectedUserPhotoUrl}`)} />
+					<Avatar className="user-thumb" alt="user-profile"  src={selectedUserPhotoUrl ? selectedUserPhotoUrl : require(`assets/Images/patient.png`)} />
 				</Box>
 				<Box pt="5px">
 					<Box mb="5px" px={{xs:1, sm:2}} py={{xs:'4px', sm:1}} borderRadius="borderRadius" className={`admin-content ${textBlock}`}>
-						<Typography variant="body2">{data.message}</Typography>
+						<Typography variant="body2">{data.comment}</Typography>
 					</Box>
 					<Typography variant="body1">{data.sent}</Typography>
 				</Box>
@@ -27,7 +27,7 @@ const Message = ({ textBlock, even, adminPhotoUrl, data, selectedUserPhotoUrl })
 			</Box>
 			<Box pt="5px">
 				<Box mb="5px" px={{xs:1, sm:2}} py={{xs:'4px', sm:1}} bgcolor="primary.main" className={textBlock} borderRadius="borderRadius">
-					<Box fontSize="body2.fontSize" color="primary.contrastText">{data.message}</Box>
+					<Box fontSize="body2.fontSize" color="primary.contrastText">{data.comment}</Box>
 				</Box>
 				<Box display="flex" justifyContent="flex-end" alignItems="center">
 					<Typography variant="body1">{data.sent}</Typography>

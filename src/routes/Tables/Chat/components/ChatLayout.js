@@ -57,6 +57,7 @@ const useStyles = makeStyles(theme => ({
 	content: {
 		position: 'relative',
 		flexGrow: 1,
+        
 	},
 	contentWrap: {
 		position: 'relative',

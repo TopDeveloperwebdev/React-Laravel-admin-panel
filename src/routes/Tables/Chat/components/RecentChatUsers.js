@@ -20,9 +20,9 @@ const StyledBadge = withStyles(theme => ({
 		backgroundColor: theme.palette.success.main,
 		color: theme.palette.success.main,
 		boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
-		height:15,
-		minWidth:15,
-		borderRadius:'100%',
+		height: 15,
+		minWidth: 15,
+		borderRadius: '100%',
 		'&::after': {
 			position: 'absolute',
 			top: 0,
@@ -35,8 +35,8 @@ const StyledBadge = withStyles(theme => ({
 			content: '""',
 		},
 		'@media (max-width:1560px)': {
-			height:9,
-			minWidth:9,
+			height: 9,
+			minWidth: 9,
 		},
 	},
 	'@keyframes ripple': {
@@ -60,27 +60,27 @@ const styles = theme => ({
 		height: theme.spacing(9),
 		'@media (max-width:1560px)': {
 			width: theme.spacing(7),
-		height: theme.spacing(7),
+			height: theme.spacing(7),
 		},
 	},
 	badgeOffline: {
-		'& >span':{
-			height:15,
-			minWidth:15,
-			borderRadius:'100%',
+		'& >span': {
+			height: 15,
+			minWidth: 15,
+			borderRadius: '100%',
 			boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
 			'@media (max-width:1560px)': {
-				height:9,
-				minWidth:9,
+				height: 9,
+				minWidth: 9,
 			},
 		}
 	},
 	chatList: {
-		cursor:'pointer',
+		cursor: 'pointer',
 		padding: '14px 16px',
 		borderBottom: `1px solid ${theme.palette.divider}`,
-		transition:'all 0.3s ease-out',
-		'&:hover':{
+		transition: 'all 0.3s ease-out',
+		'&:hover': {
 			backgroundColor: theme.palette.background.paper,
 		},
 		'&:last-child': {
@@ -93,13 +93,13 @@ const styles = theme => ({
 	activeList: {
 		backgroundColor: theme.palette.background.paper
 	},
-	contentWrap:{
+	contentWrap: {
 		width: 'calc(100% - 90px)',
 		'@media (max-width:1560px)': {
 			width: 'calc(100% - 70px)'
 		},
 	},
-	thumbWrap:{
+	thumbWrap: {
 		width: 90,
 		'@media (max-width:1560px)': {
 			width: 70,
@@ -128,7 +128,17 @@ class RecentChatUsers extends Component {
 	switchChatWithUser(user) {
 		this.props.chatWithSelectedUser(user);
 	}
+	formate_date(dateString) {
+		let data = '';
+		if (dateString) {
+			let str = dateString.split(" ");
+			let date = str[0].split('-');
+			let time = str[1].split(':');
+			data = date[2] + '.' + date[1] + '.' + date[0] + "  um " + time[0] + ':' + time[1];
+		}
 
+		return data;
+	}
 	render() {
 		const { recentChatUsers, selectedUser } = this.props;
 		const { classes } = this.props
@@ -139,7 +149,7 @@ class RecentChatUsers extends Component {
 				</div>
 			);
 		}
-		console.log('selectuser' , recentChatUsers);
+
 		return (
 			<List className={classes.root}>
 
@@ -147,11 +157,11 @@ class RecentChatUsers extends Component {
 					<ListItem key={key}
 						onClick={() => this.switchChatWithUser(user)}
 						className={clsx(classes.chatList, {
-							[classes.activeList]: (selectedUser && selectedUser.id === user.id),
+							[classes.activeList]: (selectedUser && selectedUser.orderId === user.orderId),
 						})}
 					>
 						<Box className={classes.thumbWrap}>
-							{user.isActive ?
+							{
 								<StyledBadge
 									overlap="circle"
 									anchorOrigin={{
@@ -160,20 +170,19 @@ class RecentChatUsers extends Component {
 									}}
 									variant="dot"
 								>
-									<Avatar className={classes.large} src={require(`assets/Images/avatars/${user.photo_url}`)} alt="user-profile" />
+									<Avatar className={classes.large} src={user.picture ? user.picture : require(`assets/Images/patient.png`)} alt="user-profile" />
 								</StyledBadge>
-								:
-								<Badge color="error" className={classes.badgeOffline} overlap="circle" badgeContent=" ">
-									<Avatar className={classes.large} src={require(`assets/Images/avatars/${user.photo_url}`)} alt="user-profile" />
-								</Badge>
+
 							}
 						</Box>
 						<Box className={classes.contentWrap}>
+						
 							<Box mb="4px" display="flex" justifyContent="space-between" alignItems="center">
-								<Box fontWeight="500" fontSize="subtitle1.fontSize" color="text.primary">{user.first_name}&nbsp;{user.last_name}</Box>
-								<Box component="span" fontSize="body1.fontSize" color="text.secondary">6hrs</Box>
+								<Box fontWeight="500" fontSize="subtitle1.fontSize" color="text.primary">{user.patient.firstName}&nbsp;{user.patient.lastName}</Box>
+								<Box component="span" fontSize="body1.fontSize" color="text.secondary">{user.orderId}</Box>
 							</Box>
-							<Box component="span" fontSize="subtitle2.fontSize" color="text.secondary">{textTruncate(user.last_chat, 22)}</Box>
+							<Box component="span" fontSize="subtitle2.fontSize" color="text.secondary">{user.doctor.doctorName}</Box>
+							
 						</Box>
 					</ListItem>
 				))}
